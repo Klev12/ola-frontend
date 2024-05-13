@@ -3,6 +3,7 @@ const ROUTES = {
   SIGNUP: "/signup",
   HOME: {
     ME: "/home",
+    FORM: "/Form",
     get NOTIFICATIONS() {
       return `${this.ME}/notifications`;
     },

@@ -35,8 +35,9 @@ const Login = () => {
     <div>
       <h2>Iniciar sesión</h2>
       <form className="login-form" onSubmit={handleSubmit}>
-        <label htmlFor="username">Correo electrónico: </label>
+        <label htmlFor="username">Correo electrónico:</label>
         <InputText
+          style={{ marginTop: "-5%" }}
           id="email"
           placeholder="Correo electrónico"
           name="email"
@@ -44,23 +45,25 @@ const Login = () => {
         />
         <label htmlFor="password">Contraseña: </label>
         <Password
+          style={{ marginTop: "-5%" }}
           toggleMask
           name="password"
           placeholder="contraseña"
           required
         />
         <Button label="Iniciar sesión"></Button>
-
+        <p style={{ marginTop: "-5%" }}>¿No tienes Cuenta?</p>
         <div
           rel="noopener noreferrer"
           className="p-button font-bold"
           style={{
+            marginTop: "-7%",
             color: "white",
             display: "flex",
             justifyContent: "center",
           }}
         >
-          <Link to={ROUTES.SIGNUP}>¿No tienes cuenta?</Link>
+          <Link to={ROUTES.SIGNUP}>Crear Cuenta</Link>
         </div>
       </form>
     </div>

@@ -6,6 +6,7 @@ import ROUTES from "./consts/routes";
 import Home from "./pages/home/Home";
 import Notifications from "./pages/home/Notifications";
 import Users from "./pages/home/Users";
+import { Forms } from "./pages/Form/Form";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           ></Route>
           <Route path={ROUTES.HOME.USERS} element={<Users />}></Route>
         </Route>
+        <Route path={ROUTES.HOME.FORM} element={<Forms></Forms>}></Route>
       </Routes>
     </>
   );

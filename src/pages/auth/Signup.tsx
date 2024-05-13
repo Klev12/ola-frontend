@@ -37,6 +37,7 @@ const Signup = () => {
         <h2>Registro</h2>
         <label htmlFor="email">Correo electrónico: </label>
         <InputText
+          style={{ marginTop: "-5%" }}
           id="email"
           placeholder="Correo electrónico"
           name="email"
@@ -44,6 +45,7 @@ const Signup = () => {
         />
         <label htmlFor="fullname">Nombre completo: </label>
         <InputText
+          style={{ marginTop: "-5%" }}
           id="fullname"
           placeholder="Nombre completo"
           name="fullname"
@@ -53,7 +55,7 @@ const Signup = () => {
         <label htmlFor="area">Area: </label>
         <Dropdown
           id="area"
-          style={{ width: "100%" }}
+          style={{ width: "100%", marginTop: "-5%" }}
           value={selectedArea}
           name="area"
           options={[
@@ -68,6 +70,7 @@ const Signup = () => {
 
         <label htmlFor="password">Contraseña: </label>
         <Password
+          style={{ marginTop: "-5%" }}
           toggleMask
           name="password"
           placeholder="contraseña"
@@ -75,6 +78,7 @@ const Signup = () => {
         />
         <label htmlFor="password">Confirm password: </label>
         <Password
+          style={{ marginTop: "-5%" }}
           toggleMask
           name="confirm-password"
           placeholder="Repite tu contraseña"
