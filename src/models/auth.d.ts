@@ -9,3 +9,15 @@ export interface SignupDto {
   password: string;
   area: string;
 }
+export interface ErrorResponse {
+  message: string;
+  statusaCode: number;
+  errorCode: string;
+}
+
+export interface CustomError extends error {
+  response?: {
+    data?: ErrorResponse;
+    status?: number;
+  };
+}

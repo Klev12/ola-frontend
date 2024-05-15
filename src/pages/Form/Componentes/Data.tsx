@@ -1,29 +1,108 @@
 import { InputText } from "primereact/inputtext";
 import { FloatLabel } from "primereact/floatlabel";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+interface Field {
+  id: number;
+  label: string;
+  component: string;
+  metadata: {
+    type: string;
+  };
+}
+
+interface FormGroup {
+  id: number;
+  label: string;
+  form_id: number;
+  fields: Field[];
+}
+
+interface Form {
+  id: number;
+  label: string;
+  form_groups: FormGroup[];
+}
+
+interface BackendData {
+  forms: Form[];
+}
 
 interface Props {
   onFormSubmit?: (data: FormDataType) => void;
 }
 
 interface FormDataType {
-  fullname: string;
-  phone: string;
-  direction: string;
-  email: string;
-  ruc: string;
+  [key: string]: string;
 }
 
 const DataPerson: React.FC<Props> = ({ onFormSubmit }) => {
-  const [fullname, setFullname] = useState("");
-  const [phone, setPhone] = useState("");
-  const [direction, setDirection] = useState("");
-  const [email, setEmail] = useState("");
-  const [ruc, setRuc] = useState("");
+  const [formData, setFormData] = useState<FormDataType>({});
+  const [fieldsToShow, setFieldsToShow] = useState<Field[]>([]);
+
+  useEffect(() => {
+    // Simulando la información del backend
+    const backendData: BackendData = {
+      forms: [
+        {
+          id: 1,
+          label: "Formulario Ola",
+          form_groups: [
+            {
+              id: 1,
+              label: "Información referencial",
+              form_id: 1,
+              fields: [
+                {
+                  id: 1,
+                  label: "Ciudad",
+                  component: "input",
+                  metadata: { type: "text" },
+                  form_group_id: 1,
+                },
+                {
+                  id: 2,
+                  label: "Fecha",
+                  component: "input",
+                  metadata: { type: "date" },
+                  form_group_id: 1,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+
+    // Encontrar el formulario "Formulario Ola"
+    const formularioOla: Form | undefined = backendData.forms.find(
+      (form) => form.label === "Formulario Ola"
+    );
+    if (formularioOla) {
+      // Encontrar los campos del grupo de formulario "Información referencial"
+      const informacionReferencialGroup: FormGroup | undefined =
+        formularioOla.form_groups.find(
+          (group) => group.label === "Información referencial"
+        );
+      if (informacionReferencialGroup) {
+        setFieldsToShow(informacionReferencialGroup.fields);
+      }
+    }
+  }, []);
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    fieldId: number
+  ) => {
+    const { value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [fieldId]: value,
+    }));
+  };
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData: FormDataType = { fullname, phone, direction, email, ruc };
     if (onFormSubmit) {
       onFormSubmit(formData);
     }
@@ -32,46 +111,16 @@ const DataPerson: React.FC<Props> = ({ onFormSubmit }) => {
   return (
     <form onSubmit={handleFormSubmit}>
       <div className="card flex justify-content-center">
-        <FloatLabel>
-          <InputText
-            id="fullname"
-            value={fullname}
-            onChange={(e) => setFullname(e.target.value)}
-          />
-          <label htmlFor="fullname">Nombre Completos</label>
-        </FloatLabel>
-        <FloatLabel>
-          <InputText
-            id="phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-          <label htmlFor="phone">Teléfono</label>
-        </FloatLabel>
-        <FloatLabel>
-          <InputText
-            id="direction"
-            value={direction}
-            onChange={(e) => setDirection(e.target.value)}
-          />
-          <label htmlFor="direction">Dirección</label>
-        </FloatLabel>
-        <FloatLabel>
-          <InputText
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <label htmlFor="email">Correo Electrónico</label>
-        </FloatLabel>
-        <FloatLabel>
-          <InputText
-            id="ruc"
-            value={ruc}
-            onChange={(e) => setRuc(e.target.value)}
-          />
-          <label htmlFor="ruc">Número de Cédula</label>
-        </FloatLabel>
+        {fieldsToShow.map((field: Field) => (
+          <FloatLabel key={field.id}>
+            <InputText
+              id={`field_${field.id}`} // Usando un ID único para cada campo
+              value={formData[field.id.toString()] || ""}
+              onChange={(e) => handleInputChange(e, field.id)}
+            />
+            <label htmlFor={`field_${field.id}`}>{field.label}</label>
+          </FloatLabel>
+        ))}
         <button type="submit">Enviar</button>
       </div>
     </form>

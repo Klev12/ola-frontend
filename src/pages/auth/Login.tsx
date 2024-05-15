@@ -1,21 +1,33 @@
 import { InputText } from "primereact/inputtext";
 import "./styles/login-styles.css";
 import { Button } from "primereact/button";
-import { FormEventHandler } from "react";
+import { FormEventHandler, useState } from "react";
 import { Password } from "primereact/password";
 import ROUTES from "../../consts/routes";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { login } from "../../services/auth-service";
-import { LoginDto } from "../../models/auth";
+import { LoginDto, CustomError } from "../../models/auth"; // Importa las interfaces
+import { AxiosError } from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const { mutate: mutateLogin } = useMutation(login, {
     onSuccess: async (req) => {
       console.log(req.data);
       navigate(ROUTES.HOME.ME);
+    },
+    onError: (error: AxiosError<CustomError>) => {
+      if (error.response && error.response.status === 401) {
+        setErrorMessage("Cuenta no encontrada, Regístrate");
+      } else {
+        console.error("Error durante el inicio de sesión:", error);
+        setErrorMessage(
+          "Ocurrió un error al intentar iniciar sesión. Por favor, inténtalo de nuevo más tarde."
+        );
+      }
     },
   });
 
@@ -34,6 +46,7 @@ const Login = () => {
   return (
     <div>
       <h2>Iniciar sesión</h2>
+      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       <form className="login-form" onSubmit={handleSubmit}>
         <label htmlFor="username">Correo electrónico:</label>
         <InputText
