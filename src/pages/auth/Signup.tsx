@@ -1,21 +1,40 @@
+import React, { FormEventHandler, useState } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Link } from "react-router-dom";
 import ROUTES from "../../consts/routes";
-import { FormEventHandler, useState } from "react";
 import { Dropdown } from "primereact/dropdown";
 import { useMutation } from "react-query";
 import { signup } from "../../services/auth-service";
 import { SignupDto } from "../../models/auth";
+import { Dialog } from "primereact/dialog";
+import { Message } from "primereact/message";
 
-const Signup = () => {
-  const { mutate: mutateSignup } = useMutation(signup);
-
+const Signup: React.FC = () => {
   const [selectedArea, setSelectedArea] = useState<{
     name: string;
     value: string;
-  }>({ name: "admin", value: "admin" });
+  }>({
+    name: "admin",
+    value: "admin",
+  });
+
+  const [isPending, setIsPending] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const { mutate: mutateSignup } = useMutation(signup, {
+    onSuccess: () => {
+      setIsPending(true);
+    },
+    onError: (error: any) => {
+      if (error.response?.data?.message) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage("Error desconocido, por favor intente de nuevo.");
+      }
+    },
+  });
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
@@ -24,17 +43,36 @@ const Signup = () => {
     );
     console.log(formData);
     mutateSignup({
-      email: formData["email"],
-      fullname: formData["fullname"],
-      area: formData["area"],
-      password: formData["password"],
+      email: formData["email"] as string,
+      fullname: formData["fullname"] as string,
+      area: formData["area"] as string,
+      password: formData["password"] as string,
     } as SignupDto);
   };
 
   return (
     <div>
+      <Dialog
+        header={
+          <>
+            <i
+              style={{ marginRight: "100px" }}
+              className="pi pi-spinner pi-spin"
+            ></i>
+            Pendiente de aceptación
+          </>
+        }
+        visible={isPending}
+        modal
+        onHide={() => setIsPending(false)}
+        closable={false}
+        dismissableMask={false}
+      >
+        <p>Tu cuenta está pendiente de aceptación por un administrador.</p>
+      </Dialog>
       <form className="login-form" onSubmit={handleSubmit}>
         <h2>Registro</h2>
+        {errorMessage && <Message severity="error" text={errorMessage} />}
         <label htmlFor="email">Correo electrónico: </label>
         <InputText
           style={{ marginTop: "-5%" }}
@@ -52,7 +90,7 @@ const Signup = () => {
           required
         />
 
-        <label htmlFor="area">Area: </label>
+        <label htmlFor="area">Área: </label>
         <Dropdown
           id="area"
           style={{ width: "100%", marginTop: "-5%" }}
@@ -73,10 +111,10 @@ const Signup = () => {
           style={{ marginTop: "-5%" }}
           toggleMask
           name="password"
-          placeholder="contraseña"
+          placeholder="Contraseña"
           required
         />
-        <label htmlFor="password">Confirm password: </label>
+        <label htmlFor="password">Confirmar contraseña: </label>
         <Password
           style={{ marginTop: "-5%" }}
           toggleMask

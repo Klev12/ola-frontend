@@ -10,7 +10,7 @@ interface UserCardProps {
 }
 
 const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
-  const { value, toggle } = useToggle(user.has_access);
+  const { value } = useToggle(user.has_access);
 
   return (
     <Panel
@@ -29,18 +29,32 @@ const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
       <div>{user.area}</div>
       <div>{user.role}</div>
       {notificationMode && (
-        <ToggleButton
-          disabled={user.has_access}
-          checked={value}
-          onLabel="Yes"
-          offLabel="NOOOOOOOOOO"
-          onChange={async () => {
-            if (!value) {
-              await toggleAccessUser(true, user.id as number);
-            }
-            toggle();
-          }}
-        />
+        <>
+          {" "}
+          <ToggleButton
+            disabled={user.has_access}
+            checked={value}
+            onLabel="Si"
+            onIcon="pi pi-check"
+            onChange={async () => {
+              if (!value) {
+                await toggleAccessUser(true, user.id as number);
+              }
+            }}
+          />
+          <ToggleButton
+            disabled={user.has_access}
+            checked={value}
+            invalid
+            onIcon="pi pi-check"
+            offIcon="pi pi-times"
+            onChange={async () => {
+              if (!value) {
+                await toggleAccessUser(false, user.id as number);
+              }
+            }}
+          />
+        </>
       )}
     </Panel>
   );
