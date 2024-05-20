@@ -7,6 +7,7 @@ import Home from "./pages/home/Home";
 import Notifications from "./pages/home/Notifications";
 import Users from "./pages/home/Users";
 import { Forms } from "./pages/Form/Form";
+import { Contact } from "./pages/home/pages/Contact";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path={ROUTES.HOME.USERS} element={<Users />}></Route>
         </Route>
         <Route path={ROUTES.HOME.FORM} element={<Forms></Forms>}></Route>
+        <Route path={ROUTES.HOME.CONTACT} element={<Contact></Contact>}></Route>
       </Routes>
     </>
   );

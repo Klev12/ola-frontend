@@ -14,7 +14,7 @@ const Notifications = () => {
       {data?.data.users.map((user) => {
         console.log(user);
         return (
-          <div key={user.id}>
+          <div key={user.id} style={{ backgroundColor: "" }}>
             <UserCard user={user} notificationMode={true} />
           </div>
         );

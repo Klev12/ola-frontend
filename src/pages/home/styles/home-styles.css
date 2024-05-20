@@ -4,18 +4,18 @@
     display: grid;
     grid-template-columns: [nav-start] 200px [nav-end]  1fr [content-end] ;
     grid-template-rows: [full-height-start] 60px [height-content-start] 1fr [full-height-end];
+    
 }
 
 .global-home-grid > .nav{
     grid-row: height-content-start / full-height-end;
     grid-column: nav;
+    grid-column-start: 50%;
 }
 
 .global-home-grid > .content{
     grid-row: height-content-start / full-height-end;
     grid-column: nav-end / content-end;
+
 }
 
-.global-home-grid > .menubar{
-    grid-column: nav-start / content-end;
-}

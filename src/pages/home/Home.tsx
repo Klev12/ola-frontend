@@ -3,7 +3,7 @@ import "./styles/home-styles.css";
 import { MenuItem } from "primereact/menuitem";
 import ROUTES from "../../consts/routes";
 import { Outlet, useNavigate } from "react-router-dom";
-import TemplateDemo from "./components/Menu";
+import MenuDemo from "./components/Menu";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -23,16 +23,16 @@ const Home = () => {
         navigate(ROUTES.HOME.USERS);
       },
     },
+    {
+      label: "Cosas sobre mi",
+      icon: "pi pi-prime",
+    },
   ];
 
   return (
-    <>
-      <TemplateDemo />
+    <div>
+      <MenuDemo />
       <div className="global-home-grid">
-        <div
-          className="menubar"
-          style={{ borderBottom: "1px solid white" }}
-        ></div>
         <Menu
           className="nav"
           onChange={() => {
@@ -44,7 +44,7 @@ const Home = () => {
           <Outlet />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -20,7 +20,7 @@ const Login = () => {
       navigate(ROUTES.HOME.ME);
     },
     onError: (error: AxiosError<CustomError>) => {
-      if (error.response && error.response.status === 401) {
+      if (error.response && error.response.status === 404) {
         setErrorMessage("Cuenta no encontrada, Regístrate");
       } else {
         console.error("Error durante el inicio de sesión:", error);

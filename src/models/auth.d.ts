@@ -1,3 +1,5 @@
+import { UserGetDto } from "./user";
+
 export interface LoginDto {
   email: string;
   password: string;
@@ -20,4 +22,9 @@ export interface CustomError extends error {
     data?: ErrorResponse;
     status?: number;
   };
+}
+
+export interface LoginResponse {
+  token: string;
+  user: UserGetDto;
 }
