@@ -1,5 +1,5 @@
 import "./App.css";
-import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { Outlet, Route, Routes } from "react-router-dom";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import ROUTES from "./consts/routes";

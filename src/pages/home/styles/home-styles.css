@@ -1,21 +1,21 @@
-.global-home-grid{
+.global-home-grid {
     width: 100vw;
     height: 100vh;
     display: grid;
-    grid-template-columns: [nav-start] 200px [nav-end]  1fr [content-end] ;
-    grid-template-rows: [full-height-start] 60px [height-content-start] 1fr [full-height-end];
-    
+    grid-template-columns: [nav-start] 200px [nav-end] 1fr [content-end];
+    grid-template-rows: [full-height-start] 1px [height-content-start] 1fr [full-height-end];
+
 }
 
-.global-home-grid > .nav{
+.global-home-grid > .nav {
     grid-row: height-content-start / full-height-end;
-    grid-column: nav;
-    grid-column-start: 50%;
+    grid-column: nav-start / nav-end;
+    overflow: hidden;
+
 }
 
-.global-home-grid > .content{
+.global-home-grid > .content {
     grid-row: height-content-start / full-height-end;
     grid-column: nav-end / content-end;
-
+    overflow: hidden;
 }
-
