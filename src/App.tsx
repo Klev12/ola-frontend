@@ -8,12 +8,22 @@ import Notifications from "./pages/home/Notifications";
 import Users from "./pages/home/Users";
 import { Forms } from "./pages/Form/Form";
 import { Contact } from "./pages/home/pages/Contact";
+import Dashboard from "./pages/dashboard/Dashboard";
+import MenuDemo from "./pages/home/components/Menu";
 
 function App() {
   return (
     <>
+      <MenuDemo />
       <Routes>
         <Route path="" element={<Navigate to={"/login"}></Navigate>}></Route>
+        <Route path={ROUTES.DASHBOARD.ME} element={<Dashboard />}>
+          <Route
+            path={ROUTES.DASHBOARD.NOTIFICATIONS}
+            element={<span>notification</span>}
+          />
+          <Route path={ROUTES.DASHBOARD.USERS} element={<span>users</span>} />
+        </Route>
         <Route path={ROUTES.LOGIN} element={<Login />}></Route>
         <Route path={ROUTES.SIGNUP} element={<Signup />}></Route>
         <Route path={ROUTES.HOME.ME} element={<Home />}>

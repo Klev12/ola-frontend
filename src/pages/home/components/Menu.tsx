@@ -1,12 +1,25 @@
 import { Menubar } from "primereact/menubar";
 import { MenuItem } from "primereact/menuitem";
 import AvatarDemo from "./Avatar";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "../../../consts/routes";
 
 export default function MenuDemo() {
+  const navigate = useNavigate();
+
   const items: MenuItem[] = [
     {
       label: "Home",
       icon: "pi pi-home",
+      command: () => {
+        navigate(ROUTES.HOME.ME);
+      },
+    },
+    {
+      label: "Panel de control",
+      command: () => {
+        navigate(ROUTES.DASHBOARD.ME);
+      },
     },
     {
       label: "Formularios",
