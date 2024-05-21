@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { getAllNotifications } from "../../services/user-service";
-import UserCard from "./components/UserCard";
+import UserCard from "../home/components/UserCard";
 
 const Notifications = () => {
   const { data } = useQuery({

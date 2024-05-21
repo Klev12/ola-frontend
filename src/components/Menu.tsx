@@ -1,8 +1,8 @@
 import { Menubar } from "primereact/menubar";
 import { MenuItem } from "primereact/menuitem";
-import AvatarDemo from "./Avatar";
+import AvatarDemo from "../pages/home/components/Avatar";
 import { useNavigate } from "react-router-dom";
-import ROUTES from "../../../consts/routes";
+import ROUTES from "../consts/routes";
 
 export default function MenuDemo() {
   const navigate = useNavigate();
@@ -22,13 +22,18 @@ export default function MenuDemo() {
       },
     },
     {
-      label: "Formularios",
+      label: "Ventas",
       icon: "pi pi-star",
-      url: "/Form",
+      command: () => {
+        navigate(ROUTES.SALES.ME);
+      },
     },
     {
       label: "Blog",
       icon: "pi pi-bookmark",
+      command: () => {
+        navigate(ROUTES.BLOG.ME);
+      },
     },
     {
       label: "Projects",
@@ -61,11 +66,6 @@ export default function MenuDemo() {
           ],
         },
       ],
-    },
-    {
-      label: "Contact",
-      icon: "pi pi-envelope",
-      url: "/contact",
     },
   ];
 

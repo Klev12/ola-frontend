@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { getAllUsers } from "../../services/user-service";
 
-import UserCard from "./components/UserCard";
+import UserCard from "../home/components/UserCard";
 
 const Users = () => {
   const { data } = useQuery({ queryFn: getAllUsers, queryKey: ["users"] });

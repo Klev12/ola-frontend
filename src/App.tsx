@@ -4,12 +4,14 @@ import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import ROUTES from "./consts/routes";
 import Home from "./pages/home/Home";
-import Notifications from "./pages/home/Notifications";
-import Users from "./pages/home/Users";
-import { Forms } from "./pages/Form/Form";
-import { Contact } from "./pages/home/pages/Contact";
 import Dashboard from "./pages/dashboard/Dashboard";
-import MenuDemo from "./pages/home/components/Menu";
+import MenuDemo from "./components/Menu";
+import Blog from "./pages/blog/Blog";
+import Sales from "./pages/sales/Sales";
+import Notifications from "./pages/dashboard/Notifications";
+import Users from "./pages/dashboard/Users";
+import MyForms from "./pages/sales/MyForms";
+import DoneForms from "./pages/sales/DoneForms";
 
 function App() {
   return (
@@ -17,28 +19,23 @@ function App() {
       <MenuDemo />
       <Routes>
         <Route path="" element={<Navigate to={"/login"}></Navigate>}></Route>
+        <Route path={ROUTES.HOME.ME} element={<Home />} />
         <Route path={ROUTES.DASHBOARD.ME} element={<Dashboard />}>
           <Route
             path={ROUTES.DASHBOARD.NOTIFICATIONS}
-            element={<span>notification</span>}
+            element={<Notifications />}
           />
-          <Route path={ROUTES.DASHBOARD.USERS} element={<span>users</span>} />
+          <Route path={ROUTES.DASHBOARD.USERS} element={<Users />} />
         </Route>
+        <Route path={ROUTES.BLOG.ME} element={<Blog />} />
+
         <Route path={ROUTES.LOGIN} element={<Login />}></Route>
         <Route path={ROUTES.SIGNUP} element={<Signup />}></Route>
-        <Route path={ROUTES.HOME.ME} element={<Home />}>
-          <Route
-            path=""
-            element={<Navigate to={ROUTES.HOME.NOTIFICATIONS} />}
-          ></Route>
-          <Route
-            path={ROUTES.HOME.NOTIFICATIONS}
-            element={<Notifications />}
-          ></Route>
-          <Route path={ROUTES.HOME.USERS} element={<Users />}></Route>
+
+        <Route path={ROUTES.SALES.ME} element={<Sales />}>
+          <Route path={ROUTES.SALES.FORMS} element={<MyForms />} />
+          <Route path={ROUTES.SALES.DONE_FORMS} element={<DoneForms />} />
         </Route>
-        <Route path={ROUTES.HOME.FORM} element={<Forms></Forms>}></Route>
-        <Route path={ROUTES.HOME.CONTACT} element={<Contact></Contact>}></Route>
       </Routes>
     </>
   );
