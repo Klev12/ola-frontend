@@ -1,61 +1,61 @@
+/* styles/signup-styles.css */
 
-.login-wrapper {
+/* Contenedor principal para centrar en la pantalla */
+.signup-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh; /* Ocupa toda la altura de la ventana */
     background-color: #eef2f7; /* Fondo ligero para la página */
   }
-.login-container {
+  
+  /* Contenedor del formulario */
+  .signup-container {
     max-width: 400px;
-    margin: 0 auto;
+    width: 100%; /* Para que el contenedor responda a tamaños pequeños */
     padding: 2rem;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
   }
   
   /* Título */
-  .login-container h2 {
+  .signup-container h2 {
     text-align: center;
     margin-bottom: 1.5rem;
     color: #333;
   }
   
   /* Mensaje de error */
-  .login-container .error-message {
+  .signup-container .error-message {
     color: red;
     margin-bottom: 1rem;
     text-align: center;
   }
   
   /* Formulario */
-  .login-form {
+  .signup-form {
     display: flex;
     flex-direction: column;
   }
   
   /* Etiquetas */
-  .login-form label {
+  .signup-form label {
     margin-bottom: 0.5rem;
     color: #555;
   }
   
   /* InputText y Password */
-  .login-form .p-inputtext
-  {
+  .signup-form .p-inputtext, 
+  .signup-form .p-password, 
+  .signup-form .p-dropdown {
     width: 100%;
-    padding: 0.75rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
     box-sizing: border-box;
+    margin-bottom: 1rem;
   }
-
   
   /* Botón */
-  .login-form .p-button {
+  .signup-form .p-button {
     width: 100%;
     padding: 0.75rem;
     background-color: purple;
@@ -67,31 +67,31 @@
     transition: background-color 0.3s;
   }
   
-  .login-form .p-button:hover {
+  .signup-form .p-button:hover {
     background-color: purple;
   }
   
   /* Texto adicional */
-  .login-form p {
+  .signup-form p {
     margin-top: 1rem;
     text-align: center;
     color: #555;
   }
   
-  /* Enlace de Crear Cuenta */
-  .login-form .signup-link {
+  /* Enlace de Iniciar sesión */
+  .signup-form .login-link {
     display: flex;
     justify-content: center;
     margin-top: 1rem;
   }
   
-  .login-form .signup-link a {
-    color:purple;
+  .signup-form .login-link a {
+    color: purple;
     text-decoration: none;
     font-weight: bold;
   }
   
-  .login-form .signup-link a:hover {
+  .signup-form .login-link a:hover {
     text-decoration: underline;
   }
   

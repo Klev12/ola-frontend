@@ -44,41 +44,32 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h2>Iniciar sesión</h2>
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-      <form className="login-form" onSubmit={handleSubmit}>
-        <label htmlFor="username">Correo electrónico:</label>
-        <InputText
-          style={{ marginTop: "-5%" }}
-          id="email"
-          placeholder="Correo electrónico"
-          name="email"
-          required
-        />
-        <label htmlFor="password">Contraseña: </label>
-        <Password
-          style={{ marginTop: "-5%" }}
-          toggleMask
-          name="password"
-          placeholder="contraseña"
-          required
-        />
-        <Button label="Iniciar sesión"></Button>
-        <p style={{ marginTop: "-5%" }}>¿No tienes Cuenta?</p>
-        <div
-          rel="noopener noreferrer"
-          className="p-button font-bold"
-          style={{
-            marginTop: "-7%",
-            color: "white",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <Link to={ROUTES.SIGNUP}>Crear Cuenta</Link>
-        </div>
-      </form>
+    <div className="login-wrapper">
+      <div className="login-container">
+        <h2>Iniciar sesión</h2>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        <form className="login-form" onSubmit={handleSubmit}>
+          <label htmlFor="username">Correo electrónico:</label>
+          <InputText
+            id="email"
+            placeholder="Correo electrónico"
+            name="email"
+            required
+          />
+          <label htmlFor="password">Contraseña:</label>
+          <Password
+            toggleMask
+            name="password"
+            placeholder="Contraseña"
+            required
+          />
+          <Button label="Iniciar sesión" />
+          <p>¿No tienes Cuenta?</p>
+          <div className="signup-link">
+            <Link to={ROUTES.SIGNUP}>Crear Cuenta</Link>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

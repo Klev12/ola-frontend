@@ -10,6 +10,7 @@ import { signup } from "../../services/auth-service";
 import { SignupDto } from "../../models/auth";
 import { Dialog } from "primereact/dialog";
 import { Message } from "primereact/message";
+import "./styles/signup-styles.css";
 
 const Signup: React.FC = () => {
   const [selectedArea, setSelectedArea] = useState<{
@@ -51,92 +52,81 @@ const Signup: React.FC = () => {
   };
 
   return (
-    <div>
-      <Dialog
-        header={
-          <>
-            <i
-              style={{ marginRight: "100px" }}
-              className="pi pi-spinner pi-spin"
-            ></i>
-            Pendiente de aceptación
-          </>
-        }
-        visible={isPending}
-        modal
-        onHide={() => setIsPending(false)}
-        closable={false}
-        dismissableMask={false}
-      >
-        <p>Tu cuenta está pendiente de aceptación por un administrador.</p>
-      </Dialog>
-      <form className="login-form" onSubmit={handleSubmit}>
-        <h2>Registro</h2>
-        {errorMessage && <Message severity="error" text={errorMessage} />}
-        <label htmlFor="email">Correo electrónico: </label>
-        <InputText
-          style={{ marginTop: "-5%" }}
-          id="email"
-          placeholder="Correo electrónico"
-          name="email"
-          required
-        />
-        <label htmlFor="fullname">Nombre completo: </label>
-        <InputText
-          style={{ marginTop: "-5%" }}
-          id="fullname"
-          placeholder="Nombre completo"
-          name="fullname"
-          required
-        />
-
-        <label htmlFor="area">Área: </label>
-        <Dropdown
-          id="area"
-          style={{ width: "100%", marginTop: "-5%" }}
-          value={selectedArea}
-          name="area"
-          options={[
-            { value: "admin", name: "admin" },
-            { value: "dos", name: "secretary" },
-          ]}
-          onChange={(e) => setSelectedArea(e.value)}
-          optionLabel="name"
-          placeholder="Selecciona una área"
-          className="w-full md:w-14rem"
-        />
-
-        <label htmlFor="password">Contraseña: </label>
-        <Password
-          style={{ marginTop: "-5%" }}
-          toggleMask
-          name="password"
-          placeholder="Contraseña"
-          required
-        />
-        <label htmlFor="password">Confirmar contraseña: </label>
-        <Password
-          style={{ marginTop: "-5%" }}
-          toggleMask
-          name="confirm-password"
-          placeholder="Repite tu contraseña"
-          required
-        />
-
-        <Button label="Registrarse"></Button>
-
-        <div
-          rel="noopener noreferrer"
-          className="p-button font-bold"
-          style={{
-            color: "white",
-            display: "flex",
-            justifyContent: "center",
-          }}
+    <div className="signup-wrapper">
+      <div className="signup-container">
+        <Dialog
+          header={
+            <>
+              <i
+                style={{ marginRight: "100px" }}
+                className="pi pi-spinner pi-spin"
+              ></i>
+              Pendiente de aceptación
+            </>
+          }
+          visible={isPending}
+          modal
+          onHide={() => setIsPending(false)}
+          closable={false}
+          dismissableMask={false}
         >
-          <Link to={ROUTES.LOGIN}>¿Ya tienes cuenta?</Link>
-        </div>
-      </form>
+          <p>Tu cuenta está pendiente de aceptación por un administrador.</p>
+        </Dialog>
+        <form className="signup-form" onSubmit={handleSubmit}>
+          <h2>Registro</h2>
+          {errorMessage && <Message severity="error" text={errorMessage} />}
+          <label htmlFor="email">Correo electrónico: </label>
+          <InputText
+            id="email"
+            placeholder="Correo electrónico"
+            name="email"
+            required
+          />
+          <label htmlFor="fullname">Nombre completo: </label>
+          <InputText
+            id="fullname"
+            placeholder="Nombre completo"
+            name="fullname"
+            required
+          />
+
+          <label htmlFor="area">Área: </label>
+          <Dropdown
+            id="area"
+            value={selectedArea}
+            name="area"
+            options={[
+              { value: "admin", name: "admin" },
+              { value: "secretary", name: "secretary" },
+            ]}
+            onChange={(e) => setSelectedArea(e.value)}
+            optionLabel="name"
+            placeholder="Selecciona una área"
+            className="w-full md:w-14rem"
+          />
+
+          <label htmlFor="password">Contraseña: </label>
+          <Password
+            toggleMask
+            name="password"
+            placeholder="Contraseña"
+            required
+          />
+          <label htmlFor="confirm-password">Confirmar contraseña: </label>
+          <Password
+            toggleMask
+            name="confirm-password"
+            placeholder="Repite tu contraseña"
+            required
+          />
+
+          <Button label="Registrarse"></Button>
+
+          <div className="login-link">
+            <Link to={ROUTES.LOGIN}>¿Ya tienes cuenta?</Link>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
