@@ -18,14 +18,15 @@ export default function MenuDemo() {
     {
       label: "Panel de control",
       command: () => {
-        navigate(ROUTES.DASHBOARD.ME);
+        navigate(ROUTES.DASHBOARD.NOTIFICATIONS);
       },
     },
     {
       label: "Ventas",
       icon: "pi pi-star",
       command: () => {
-        navigate(ROUTES.SALES.ME);
+        console.log(ROUTES.SALES.FORMS);
+        navigate(ROUTES.SALES.FORMS);
       },
     },
     {
