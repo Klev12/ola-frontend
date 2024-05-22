@@ -32,6 +32,9 @@ const ROUTES = {
       return `${this.ME}/${hash}`;
     },
   },
+  USER_FORM: {
+    ME: "/user-form",
+  },
 };
 
 export default ROUTES;

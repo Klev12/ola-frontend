@@ -12,6 +12,7 @@ import Notifications from "./pages/dashboard/Notifications";
 import Users from "./pages/dashboard/Users";
 import MyForms from "./pages/sales/MyForms";
 import DoneForms from "./pages/sales/DoneForms";
+import UserForm from "./pages/user-form/UserForm";
 
 function App() {
   return (
@@ -40,7 +41,7 @@ function App() {
             <Route path={ROUTES.SALES.DONE_FORMS} element={<DoneForms />} />
           </Route>
         </Route>
-
+        <Route path={ROUTES.USER_FORM.ME} element={<UserForm />} />
         <Route path={ROUTES.LOGIN} element={<Login />}></Route>
         <Route path={ROUTES.SIGNUP} element={<Signup />}></Route>
       </Routes>
