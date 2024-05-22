@@ -3,8 +3,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Ocupa toda la altura de la ventana */
-    background-color: #eef2f7; /* Fondo ligero para la página */
+    height: 100vh; 
+    background-color: #eef2f7; 
   }
 .login-container {
     max-width: 400px;
@@ -16,33 +16,33 @@
 
   }
   
-  /* Título */
+
   .login-container h2 {
     text-align: center;
     margin-bottom: 1.5rem;
     color: #333;
   }
   
-  /* Mensaje de error */
+
   .login-container .error-message {
     color: red;
     margin-bottom: 1rem;
     text-align: center;
   }
   
-  /* Formulario */
+
   .login-form {
     display: flex;
     flex-direction: column;
   }
   
-  /* Etiquetas */
+
   .login-form label {
     margin-bottom: 0.5rem;
     color: #555;
   }
   
-  /* InputText y Password */
+ 
   .login-form .p-inputtext
   {
     width: 100%;
@@ -54,7 +54,7 @@
   }
 
   
-  /* Botón */
+
   .login-form .p-button {
     width: 100%;
     padding: 0.75rem;
@@ -71,14 +71,14 @@
     background-color: purple;
   }
   
-  /* Texto adicional */
+
   .login-form p {
     margin-top: 1rem;
     text-align: center;
     color: #555;
   }
   
-  /* Enlace de Crear Cuenta */
+
   .login-form .signup-link {
     display: flex;
     justify-content: center;

@@ -42,6 +42,13 @@ const Signup: React.FC = () => {
     const formData = Object.fromEntries(
       new FormData(e.target as HTMLFormElement)
     );
+    const password = formData["password"] as string;
+    const confirmPassword = formData["confirmPassword"] as string;
+
+    if (password === confirmPassword) {
+      setErrorMessage("La contraseña no coincide");
+      return;
+    }
     console.log(formData);
     mutateSignup({
       email: formData["email"] as string,

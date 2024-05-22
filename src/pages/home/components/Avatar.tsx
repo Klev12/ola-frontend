@@ -3,9 +3,32 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import { Button } from "primereact/button";
 import { OverlayPanel as OverlayPanelType } from "primereact/overlaypanel";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function AvatarDemo() {
   const op = useRef<OverlayPanelType>(null);
+  const navigate = useNavigate();
+
+  const handleCerrarSesion = async () => {
+    if (op.current) {
+      op.current.hide();
+    }
+
+    try {
+      const response = await axios.get("/api/logout", {
+        withCredentials: true,
+      });
+
+      if (response.status === 200) {
+        navigate("/login");
+      } else {
+        console.error("Error al cerrar sesión");
+      }
+    } catch (error) {
+      console.error("Error de red:", error);
+    }
+  };
 
   return (
     <div className="card">
@@ -22,14 +45,9 @@ export default function AvatarDemo() {
           <OverlayPanel ref={op} dismissable>
             <div className="p-3">
               <Button
-                label="Ver Perfil"
-                className="p-button-text"
-                onClick={() => console.log("Ver Perfil")}
-              />
-              <Button
                 label="Cerrar Sesión"
                 className="p-button-text"
-                onClick={() => console.log("Cerrar Sesión")}
+                onClick={handleCerrarSesion}
               />
             </div>
           </OverlayPanel>

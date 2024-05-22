@@ -1,51 +1,49 @@
-/* styles/signup-styles.css */
 
-/* Contenedor principal para centrar en la pantalla */
 .signup-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Ocupa toda la altura de la ventana */
-    background-color: #eef2f7; /* Fondo ligero para la página */
+    height: 100vh; 
+    background-color: #eef2f7; 
   }
   
-  /* Contenedor del formulario */
+
   .signup-container {
     max-width: 400px;
-    width: 100%; /* Para que el contenedor responda a tamaños pequeños */
+    width: 100%; 
     padding: 2rem;
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
-  /* Título */
+ 
   .signup-container h2 {
     text-align: center;
     margin-bottom: 1.5rem;
     color: #333;
   }
   
-  /* Mensaje de error */
+ 
   .signup-container .error-message {
     color: red;
     margin-bottom: 1rem;
     text-align: center;
   }
   
-  /* Formulario */
+
   .signup-form {
     display: flex;
     flex-direction: column;
   }
   
-  /* Etiquetas */
+
   .signup-form label {
     margin-bottom: 0.5rem;
     color: #555;
   }
   
-  /* InputText y Password */
+
   .signup-form .p-inputtext, 
   .signup-form .p-password, 
   .signup-form .p-dropdown {
@@ -54,7 +52,7 @@
     margin-bottom: 1rem;
   }
   
-  /* Botón */
+  
   .signup-form .p-button {
     width: 100%;
     padding: 0.75rem;
@@ -71,14 +69,14 @@
     background-color: purple;
   }
   
-  /* Texto adicional */
+
   .signup-form p {
     margin-top: 1rem;
     text-align: center;
     color: #555;
   }
   
-  /* Enlace de Iniciar sesión */
+
   .signup-form .login-link {
     display: flex;
     justify-content: center;
