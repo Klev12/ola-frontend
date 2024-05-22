@@ -23,4 +23,10 @@ export interface Field {
 
 export interface Metadata {
   type: string;
+  options?: OptionMetadata[];
+}
+
+export interface OptionMetadata {
+  value: string;
+  label: string;
 }
