@@ -9,14 +9,14 @@ const Sales = () => {
   const items: MenuItem[] = [
     {
       label: "Mis formularios",
-      icon: "pi pi-plus",
+      icon: "pi pi-list",
       command: () => {
         navigate(ROUTES.SALES.FORMS);
       },
     },
     {
-      label: "hechos",
-      icon: "pi pi-search",
+      label: "Hechos",
+      icon: "pi pi-check",
       command: () => {
         navigate(ROUTES.SALES.DONE_FORMS);
       },

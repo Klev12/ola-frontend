@@ -9,14 +9,14 @@ const Dashboard = () => {
   const items: MenuItem[] = [
     {
       label: "Notificationes",
-      icon: "pi pi-plus",
+      icon: "pi pi-bell",
       command: () => {
         navigate(ROUTES.DASHBOARD.NOTIFICATIONS);
       },
     },
     {
       label: "Usuarios",
-      icon: "pi pi-search",
+      icon: "pi pi-users",
       command: () => {
         navigate(ROUTES.DASHBOARD.USERS);
       },

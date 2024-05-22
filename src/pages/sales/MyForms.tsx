@@ -21,6 +21,7 @@ const MyForms = () => {
   return (
     <div>
       <Button
+        style={{ backgroundColor: "purple" }}
         icon="pi pi-plus"
         onClick={handleClick}
         loading={loading}

@@ -3,6 +3,7 @@ import { ToggleButton } from "primereact/togglebutton";
 import { UserGetDto } from "../../../models/user";
 import useToggle from "../../../hooks/useToggle";
 import { toggleAccessUser } from "../../../services/user-service";
+import { useState } from "react";
 
 interface UserCardProps {
   user: UserGetDto;
@@ -10,49 +11,48 @@ interface UserCardProps {
 }
 
 const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
-  const { value } = useToggle(user.has_access);
+  const { value, toggle } = useToggle(user.has_access);
+  const [accept, setAccept] = useState<boolean>(false);
+  const [reject, setReject] = useState<boolean>(false);
+
+  const handleAccept = async () => {
+    if (!accept) {
+      await toggleAccessUser(true, user.id as number);
+      setAccept(true);
+      setReject(false);
+    }
+  };
+
+  const handleReject = async () => {
+    if (!reject) {
+      await toggleAccessUser(false, user.id as number);
+      setAccept(false);
+      setReject(true);
+    }
+  };
 
   return (
-    <Panel
-      header={user.fullname}
-      toggleable
-      collapsed
-      icons={
-        <i
-          className="pi pi-user"
-          style={{ marginRight: "0.2em" }}
-          title="User Icon"
-        ></i>
-      }
-    >
+    <Panel header={user.fullname} toggleable collapsed>
       <div>{user.email}</div>
       <div>{user.area}</div>
       <div>{user.role}</div>
       {notificationMode && (
         <>
-          {" "}
           <ToggleButton
-            disabled={user.has_access}
-            checked={value}
-            onLabel="Si"
+            checked={accept}
+            onLabel="Aceptar"
+            offLabel="Aceptar"
             onIcon="pi pi-check"
-            onChange={async () => {
-              if (!value) {
-                await toggleAccessUser(true, user.id as number);
-              }
-            }}
+            offIcon="pi pi-check"
+            onChange={handleAccept}
           />
           <ToggleButton
-            disabled={user.has_access}
-            checked={value}
-            invalid
-            onIcon="pi pi-check"
-            offIcon="pi pi-times"
-            onChange={async () => {
-              if (!value) {
-                await toggleAccessUser(false, user.id as number);
-              }
-            }}
+            checked={reject}
+            onLabel="Rechazar"
+            offLabel="Rechazar"
+            onIcon="pi pi-ban"
+            offIcon="pi pi-ban"
+            onChange={handleReject}
           />
         </>
       )}

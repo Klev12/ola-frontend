@@ -17,13 +17,14 @@ export default function MenuDemo() {
     },
     {
       label: "Panel de control",
+      icon: "pi pi-align-justify",
       command: () => {
         navigate(ROUTES.DASHBOARD.NOTIFICATIONS);
       },
     },
     {
       label: "Ventas",
-      icon: "pi pi-star",
+      icon: "pi pi-money-bill",
       command: () => {
         console.log(ROUTES.SALES.FORMS);
         navigate(ROUTES.SALES.FORMS);

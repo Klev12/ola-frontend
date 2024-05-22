@@ -9,7 +9,6 @@ const Users = () => {
   return (
     <div>
       {data?.data.users.map((user) => {
-        console.log(user);
         return (
           <div key={user.id}>
             <UserCard user={user} notificationMode={false} />
