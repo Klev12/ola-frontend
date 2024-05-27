@@ -5,4 +5,5 @@ export interface UserGetDto {
   role: string;
   area: string;
   has_access: boolean;
+  verified: boolean;
 }
