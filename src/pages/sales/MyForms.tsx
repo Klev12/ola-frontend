@@ -15,7 +15,7 @@ const MyForms = () => {
 
   const handleClick = () => {
     setLoading(true);
-    createFormMutate({ form_scheme_id: 1 });
+    createFormMutate({ form_scheme_id: 2 });
   };
 
   return (

@@ -1,3 +1,5 @@
+import { FormScheme } from "./form-scheme";
+
 export interface FormsDto {}
 
 export interface FormPostDto {

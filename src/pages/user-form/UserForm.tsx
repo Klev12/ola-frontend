@@ -1,33 +1,68 @@
-import { useQuery } from "react-query";
-import { getFormSchemeById } from "../../services/form-scheme";
-import { useEffect, useState } from "react";
-import { FormScheme } from "../../models/form-scheme";
-import { Card } from "primereact/card";
-import { Divider } from "primereact/divider";
-import FieldList from "./components/FieldList";
+import { useMutation, useQuery } from "react-query";
+import { getUserForm } from "../../services/forms-service";
+import FormGroupList from "./components/FormGroupList";
+import { ResultPutDto } from "../../models/result";
+import { submitForm } from "../../services/result-service";
+import { ENV } from "../../consts/const";
 
 const UserForm = () => {
-  const { data: formSchemeData } = useQuery({
-    queryFn: () => getFormSchemeById(2),
+  const { data: form } = useQuery({
+    queryFn: () => getUserForm().then((res) => res.data),
   });
 
-  const [formScheme, setFormScheme] = useState<FormScheme | undefined>();
-  useEffect(() => {
-    setFormScheme(formSchemeData?.data.form_scheme);
-  }, [formSchemeData]);
+  const { mutate: submitFormMutate } = useMutation(submitForm, {
+    onSuccess: (data) => {
+      console.log(data.data);
+    },
+  });
 
   return (
     <div>
-      <h2>{formScheme?.label}</h2>
-      {formScheme?.form_groups.map((formGroup) => {
-        return (
-          <Card key={formGroup.id}>
-            {formGroup.label}
-            <Divider />
-            <FieldList fields={formGroup.fields} />
-          </Card>
-        );
-      })}
+      <button
+        onClick={() => {
+          fetch(`${ENV.BACKEND_ROUTE}/forms/verify-form`, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ id: 1 }),
+          })
+            .then((res) => res.json())
+            .then((res) => {
+              console.log(res);
+            });
+        }}
+      >
+        verify form
+      </button>
+      <h2>{form?.form_scheme?.label}</h2>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          const formData = Object.fromEntries(
+            new FormData(e.target as HTMLFormElement)
+          );
+
+          const results: ResultPutDto[] = Object.keys(formData).map((key) => {
+            return {
+              field_id: Number(key),
+              form_id: form?.user_form.id,
+              response: {
+                value: formData[key],
+              },
+            } as ResultPutDto;
+          });
+
+          submitFormMutate({
+            id: form?.user_form.id as number,
+            results,
+          });
+        }}
+      >
+        <FormGroupList formGroups={form?.form_scheme.form_groups} />
+        <button>submit</button>
+      </form>
     </div>
   );
 };

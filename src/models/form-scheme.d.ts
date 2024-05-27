@@ -1,3 +1,5 @@
+import { Result } from "./result";
+
 export interface FormScheme {
   id: number | string;
   label: string;
@@ -11,7 +13,7 @@ export interface FormGroup {
   fields: Field[];
 }
 
-export type ComponentType = "input" | "select";
+export type ComponentType = "input" | "select" | "check" | "chip";
 
 export interface Field {
   id: number | string;
@@ -19,6 +21,7 @@ export interface Field {
   component: ComponentType;
   metadata: Metadata;
   form_group_id: number | string;
+  results: Result[];
 }
 
 export interface Metadata {
