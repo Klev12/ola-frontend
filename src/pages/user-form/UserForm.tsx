@@ -4,6 +4,7 @@ import FormGroupList from "./components/FormGroupList";
 import { ResultPutDto } from "../../models/result";
 import { submitForm } from "../../services/result-service";
 import { ENV } from "../../consts/const";
+import MyData from "./components/MyData";
 
 const UserForm = () => {
   const { data: form } = useQuery({
@@ -37,6 +38,7 @@ const UserForm = () => {
         verify form
       </button>
       <h2>{form?.form_scheme?.label}</h2>
+      <MyData />
       <form
         onSubmit={(e) => {
           e.preventDefault();

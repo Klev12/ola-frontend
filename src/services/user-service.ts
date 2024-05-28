@@ -6,6 +6,10 @@ export function getAllUsers() {
   return axios.get<{ users: UserGetDto[] }>(`${ENV.BACKEND_ROUTE}/users`);
 }
 
+export function authenticate() {
+  return axios.get<{ user: UserGetDto }>(`${ENV.BACKEND_ROUTE}/me`);
+}
+
 export function getAllNotifications() {
   return axios.get<{ users: UserGetDto[] }>(
     `${ENV.BACKEND_ROUTE}/users/notifications`

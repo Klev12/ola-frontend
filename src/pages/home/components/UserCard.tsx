@@ -1,7 +1,6 @@
 import { Panel } from "primereact/panel";
 import { ToggleButton } from "primereact/togglebutton";
 import { UserGetDto } from "../../../models/user";
-import useToggle from "../../../hooks/useToggle";
 import { toggleAccessUser } from "../../../services/user-service";
 import { useState } from "react";
 
@@ -11,7 +10,6 @@ interface UserCardProps {
 }
 
 const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
-  const { value, toggle } = useToggle(user.has_access);
   const [accept, setAccept] = useState<boolean>(false);
   const [reject, setReject] = useState<boolean>(false);
 
@@ -33,9 +31,9 @@ const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
 
   return (
     <Panel header={user.fullname} toggleable collapsed>
-      <div>Correo: {user.email}</div>
-      <div>Area: {user.area}</div>
-      <div>Rol: {user.role}</div>
+      <div>{user.email}</div>
+      <div>{user.area}</div>
+      <div>{user.role}</div>
       {notificationMode && (
         <>
           <ToggleButton
