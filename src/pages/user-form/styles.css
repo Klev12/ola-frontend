@@ -1,0 +1,85 @@
+/* FieldInput.css */
+.field-input {
+    margin-bottom: 20px;
+  }
+  
+  .field-input div,
+  .field-input .p-inputtext,
+  .field-input .p-inputnumber,
+  .field-input .p-calendar,
+  .field-input .p-checkbox {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+
+  }
+  
+  .field-input label {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .field-input .p-inputtext,
+  .field-input .p-calendar {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .field-input .p-inputtext:focus,
+  .field-input .p-inputnumber:focus,
+  .field-input .p-calendar:focus {
+    border-color: #007ad9;
+    outline: none;
+  }
+  
+  .field-input .p-checkbox {
+    align-items: center;
+  }
+  
+  .field-input .p-checkbox .p-checkbox-box {
+    margin-right: 8px;
+  }
+  
+  .field-input .field-error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+
+  /* FormGroupList.css */
+  .field-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+
+  }
+  
+  .field-list-items {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .field-list-input {
+    margin-bottom: 10px;
+    width: 50%;
+  }
+  
+  .field-list .field-input {
+    margin-bottom: 0;
+  }
+  
+/*field-list*/
+
+.field-list {
+    display:flex;
+    flex-direction: column;
+}
+

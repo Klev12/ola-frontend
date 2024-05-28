@@ -119,7 +119,8 @@ const Signup: React.FC = () => {
           </div>
         </form>
         <Dialog
-          header="Header"
+          draggable={false}
+          header="Resgitrado"
           visible={visible}
           style={{ width: "50vw" }}
           onHide={() => {

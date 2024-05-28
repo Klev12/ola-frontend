@@ -1,10 +1,10 @@
-import { FloatLabel } from "primereact/floatlabel";
 import { Field } from "../../../models/form-scheme";
 import { InputText } from "primereact/inputtext";
 import { InputNumber } from "primereact/inputnumber";
 import SelectField from "./SelectField";
 import CheckBoxField from "./CheckBoxField";
 import CalendarField from "./CalendarField";
+import "../styles.css";
 
 interface FieldProps {
   field: Field;
@@ -12,17 +12,17 @@ interface FieldProps {
 
 const FieldInput = ({ field }: FieldProps) => {
   return (
-    <div>
+    <div className="field-input">
       {field.component === "input" && field.metadata.type === "string" && (
-        <FloatLabel>
+        <div>
+          <label htmlFor={`I${field.label}`}>{field.label}</label>
           <InputText
             required
             defaultValue={field.results[0]?.response?.value}
             id={`I${field.label}`}
             name={field.id as string}
           />
-          <label htmlFor={`I${field.label}`}>{field.label}</label>
-        </FloatLabel>
+        </div>
       )}
 
       {field.component === "input" && field.metadata.type === "number" && (
@@ -31,7 +31,7 @@ const FieldInput = ({ field }: FieldProps) => {
           <InputNumber
             required
             value={
-              Number(field.results?.[0]?.response?.value?.replace(/\,/g, "")) ||
+              Number(field.results?.[0]?.response?.value?.replace(/,/g, "")) ||
               0
             }
             id={`I${field.label}`}
@@ -46,17 +46,21 @@ const FieldInput = ({ field }: FieldProps) => {
 
       {field.component === "select" && <SelectField field={field} />}
       {field.component === "chip" && (
-        <FloatLabel>
+        <div>
+          <label htmlFor={`I${field.label}`}>{field.label}</label>
           <InputText
             required
             defaultValue={field.results[0]?.response?.value}
             id={`I${field.label}`}
             name={field.id as string}
           />
-          <label htmlFor={`I${field.label}`}>{field.label}</label>
-        </FloatLabel>
+        </div>
       )}
-      {field.component === "check" && <CheckBoxField field={field} />}
+      {field.component === "check" && (
+        <div className="input-group">
+          <CheckBoxField field={field} />
+        </div>
+      )}
     </div>
   );
 };

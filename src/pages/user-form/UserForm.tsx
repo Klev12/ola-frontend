@@ -19,57 +19,56 @@ const UserForm = () => {
   });
 
   return (
-    <ScrollPanel
-      style={{ width: "80%", height: "600px", scrollbarColor: "blue" }}
-      className="custombar2"
-    >
-      <button
-        onClick={() => {
-          fetch(`${ENV.BACKEND_ROUTE}/forms/verify-form`, {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ id: 1 }),
-          })
-            .then((res) => res.json())
-            .then((res) => {
-              console.log(res);
-            });
-        }}
-      >
-        verify form
-      </button>
-      <h2>{form?.form_scheme?.label}</h2>
-      <MyData />
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const formData = Object.fromEntries(
-            new FormData(e.target as HTMLFormElement)
-          );
-
-          const results: ResultPutDto[] = Object.keys(formData).map((key) => {
-            return {
-              field_id: Number(key),
-              form_id: form?.user_form.id,
-              response: {
-                value: formData[key],
+    <>
+      <ScrollPanel>
+        <button
+          onClick={() => {
+            fetch(`${ENV.BACKEND_ROUTE}/forms/verify-form`, {
+              method: "POST",
+              credentials: "include",
+              headers: {
+                "Content-Type": "application/json",
               },
-            } as ResultPutDto;
-          });
+              body: JSON.stringify({ id: 1 }),
+            })
+              .then((res) => res.json())
+              .then((res) => {
+                console.log(res);
+              });
+          }}
+        >
+          verify form
+        </button>
+        <h2>{form?.form_scheme?.label}</h2>
+        <MyData />
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            const formData = Object.fromEntries(
+              new FormData(e.target as HTMLFormElement)
+            );
 
-          submitFormMutate({
-            id: form?.user_form.id as number,
-            results,
-          });
-        }}
-      >
-        <FormGroupList formGroups={form?.form_scheme.form_groups} />
-        <button>submit</button>
-      </form>
-    </ScrollPanel>
+            const results: ResultPutDto[] = Object.keys(formData).map((key) => {
+              return {
+                field_id: Number(key),
+                form_id: form?.user_form.id,
+                response: {
+                  value: formData[key],
+                },
+              } as ResultPutDto;
+            });
+
+            submitFormMutate({
+              id: form?.user_form.id as number,
+              results,
+            });
+          }}
+        >
+          <FormGroupList formGroups={form?.form_scheme.form_groups} />
+          <button>submit</button>
+        </form>
+      </ScrollPanel>
+    </>
   );
 };
 
