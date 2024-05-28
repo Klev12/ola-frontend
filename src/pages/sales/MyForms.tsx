@@ -1,15 +1,30 @@
+import { useMutation, useQuery } from "react-query";
+import { createForm, getAllForms } from "../../services/forms-service";
 import { Button } from "primereact/button";
-import { useMutation } from "react-query";
-import { createForm } from "../../services/forms-service";
 import { useState } from "react";
 import FormList from "./components/FormList";
+import { Toast } from "primereact/toast";
+import { useRef } from "react";
 
 const MyForms = () => {
   const [loading, setLoading] = useState(false);
+  const toast = useRef<Toast>(null);
+
+  const { data: formsData, refetch } = useQuery({
+    queryFn: getAllForms,
+    queryKey: ["forms"],
+  });
 
   const { mutate: createFormMutate } = useMutation(createForm, {
     onSettled: () => {
       setLoading(false);
+      refetch();
+      toast.current?.show({
+        severity: "success",
+        summary: "Formulario creado",
+        detail: "El nuevo formulario se ha creado correctamente",
+        life: 3000,
+      });
     },
   });
 
@@ -20,6 +35,7 @@ const MyForms = () => {
 
   return (
     <div>
+      <Toast ref={toast} />
       <Button
         style={{ backgroundColor: "purple" }}
         icon="pi pi-plus"
@@ -29,7 +45,7 @@ const MyForms = () => {
         label="Crear nuevo formulario"
         raised
       />
-      <FormList />
+      <FormList forms={formsData?.data.forms || []} refetchForms={refetch} />
     </div>
   );
 };

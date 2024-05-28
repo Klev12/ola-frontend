@@ -1,25 +1,26 @@
-import { useMutation, useQuery } from "react-query";
-import {
-  generateLink,
-  getAllForms,
-  invalidateLink,
-} from "../../../services/forms-service";
+import { useMutation } from "react-query";
+import { generateLink, invalidateLink } from "../../../services/forms-service";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import { ScrollPanel } from "primereact/scrollpanel";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import useLoading from "../../../hooks/useLoading";
+import { FormGetDto } from "../../../models/forms";
 
-const FormList = () => {
+interface FormListProps {
+  forms: FormGetDto[];
+  refetchForms: () => void;
+}
+
+const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
   const { loading, setLoadingTrue, setLoadingFalse } = useLoading();
-  const { data: formsData, refetch } = useQuery({
-    queryFn: getAllForms,
-  });
+  const toast = useRef<Toast>(null);
+
   const { mutate: generateLinkMutate } = useMutation(generateLink, {
     onSettled: () => {
       setLoadingFalse();
-      refetch();
+      refetchForms();
       toast.current?.show({
         severity: "success",
         summary: "Link Generado",
@@ -28,10 +29,11 @@ const FormList = () => {
       });
     },
   });
+
   const { mutate: invalidateLinkMutate } = useMutation(invalidateLink, {
     onSettled: () => {
       setLoadingFalse();
-      refetch();
+      refetchForms();
       toast.current?.show({
         severity: "info",
         summary: "Link Invalidado",
@@ -41,8 +43,6 @@ const FormList = () => {
     },
   });
 
-  const toast = useRef<Toast>(null);
-
   return (
     <div className="p-grid p-justify-center">
       <Toast ref={toast} />
@@ -50,7 +50,7 @@ const FormList = () => {
         style={{ width: "80%", height: "600px", scrollbarColor: "blue" }}
         className="custombar2"
       >
-        {formsData?.data.forms.map((form) => {
+        {forms.map((form) => {
           return (
             <Card
               title={`Formulario N° ${form.id}`}

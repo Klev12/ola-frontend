@@ -21,13 +21,10 @@ const Signup: React.FC = () => {
     value: "admin",
   });
 
-  const [isPending, setIsPending] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [visible, setVisible] = useState<boolean>(false);
 
   const { mutate: mutateSignup } = useMutation(signup, {
-    onSuccess: () => {
-      setIsPending(true);
-    },
     onError: (error: any) => {
       if (error.response?.data?.message) {
         setErrorMessage(error.response.data.message);
@@ -37,48 +34,36 @@ const Signup: React.FC = () => {
     },
   });
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    setVisible(true);
     const formData = Object.fromEntries(
       new FormData(e.target as HTMLFormElement)
     );
     const password = formData["password"] as string;
-    const confirmPassword = formData["confirmPassword"] as string;
+    const confirmPassword = formData["confirm-password"] as string;
 
-    if (password === confirmPassword) {
+    if (password !== confirmPassword) {
       setErrorMessage("La contraseña no coincide");
+      setVisible(false);
       return;
     }
-    console.log(formData);
-    mutateSignup({
-      email: formData["email"] as string,
-      fullname: formData["fullname"] as string,
-      area: formData["area"] as string,
-      password: formData["password"] as string,
-    } as SignupDto);
+
+    try {
+      await mutateSignup({
+        email: formData["email"] as string,
+        fullname: formData["fullname"] as string,
+        area: formData["area"] as string,
+        password: formData["password"] as string,
+      } as SignupDto);
+    } catch (error) {
+      setVisible(false);
+    }
   };
 
   return (
     <div className="signup-wrapper">
       <div className="signup-container">
-        <Dialog
-          header={
-            <>
-              <i
-                style={{ marginRight: "100px" }}
-                className="pi pi-spinner pi-spin"
-              ></i>
-              Pendiente de aceptación
-            </>
-          }
-          visible={isPending}
-          modal
-          onHide={() => setIsPending(false)}
-          closable={false}
-          dismissableMask={false}
-        >
-          <p>Tu cuenta está pendiente de aceptación por un administrador.</p>
-        </Dialog>
         <form className="signup-form" onSubmit={handleSubmit}>
           <h2>Registro</h2>
           {errorMessage && <Message severity="error" text={errorMessage} />}
@@ -133,6 +118,20 @@ const Signup: React.FC = () => {
             <Link to={ROUTES.LOGIN}>¿Ya tienes cuenta?</Link>
           </div>
         </form>
+        <Dialog
+          header="Header"
+          visible={visible}
+          style={{ width: "50vw" }}
+          onHide={() => {
+            if (!visible) return;
+            setVisible(false);
+          }}
+        >
+          <p className="m-0">
+            Espera un momento por favor, tu cuenta debe ser aceptada por un
+            administrador.
+          </p>
+        </Dialog>
       </div>
     </div>
   );

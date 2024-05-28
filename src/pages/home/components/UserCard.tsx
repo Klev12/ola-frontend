@@ -33,9 +33,9 @@ const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
 
   return (
     <Panel header={user.fullname} toggleable collapsed>
-      <div>{user.email}</div>
-      <div>{user.area}</div>
-      <div>{user.role}</div>
+      <div>Correo: {user.email}</div>
+      <div>Area: {user.area}</div>
+      <div>Rol: {user.role}</div>
       {notificationMode && (
         <>
           <ToggleButton
