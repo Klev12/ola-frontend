@@ -1,5 +1,6 @@
 FROM node
 WORKDIR /home/app
+RUN mkdir src
 COPY package.json .
 RUN npm install pnpm -g
 RUN pnpm install

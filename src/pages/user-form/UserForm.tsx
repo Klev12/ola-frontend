@@ -5,6 +5,7 @@ import { ResultPutDto } from "../../models/result";
 import { submitForm } from "../../services/result-service";
 import { ENV } from "../../consts/const";
 import MyData from "./components/MyData";
+import { ScrollPanel } from "primereact/scrollpanel";
 
 const UserForm = () => {
   const { data: form } = useQuery({
@@ -18,7 +19,10 @@ const UserForm = () => {
   });
 
   return (
-    <div>
+    <ScrollPanel
+      style={{ width: "80%", height: "600px", scrollbarColor: "blue" }}
+      className="custombar2"
+    >
       <button
         onClick={() => {
           fetch(`${ENV.BACKEND_ROUTE}/forms/verify-form`, {
@@ -65,7 +69,7 @@ const UserForm = () => {
         <FormGroupList formGroups={form?.form_scheme.form_groups} />
         <button>submit</button>
       </form>
-    </div>
+    </ScrollPanel>
   );
 };
 

@@ -16,6 +16,7 @@ const FieldInput = ({ field }: FieldProps) => {
       {field.component === "input" && field.metadata.type === "string" && (
         <FloatLabel>
           <InputText
+            required
             defaultValue={field.results[0]?.response?.value}
             id={`I${field.label}`}
             name={field.id as string}
@@ -28,6 +29,7 @@ const FieldInput = ({ field }: FieldProps) => {
         <>
           <label htmlFor={`I${field.label}`}>{field.label}</label>
           <InputNumber
+            required
             value={
               Number(field.results?.[0]?.response?.value?.replace(/\,/g, "")) ||
               0
@@ -46,6 +48,7 @@ const FieldInput = ({ field }: FieldProps) => {
       {field.component === "chip" && (
         <FloatLabel>
           <InputText
+            required
             defaultValue={field.results[0]?.response?.value}
             id={`I${field.label}`}
             name={field.id as string}
