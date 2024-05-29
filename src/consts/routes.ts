@@ -34,6 +34,12 @@ const ROUTES = {
   },
   USER_FORM: {
     ME: "/user-form",
+    get DOCUMENTS() {
+      return `${this.ME}/documents`;
+    },
+    get TERMS_AND_CONDITIONS() {
+      return `${this.ME}/terms-and-conditions`;
+    },
   },
 };
 

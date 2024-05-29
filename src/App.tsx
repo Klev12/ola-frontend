@@ -13,6 +13,8 @@ import Users from "./pages/dashboard/Users";
 import MyForms from "./pages/sales/MyForms";
 import DoneForms from "./pages/sales/DoneForms";
 import UserForm from "./pages/user-form/UserForm";
+import Documents from "./pages/user-form/Documents";
+import TermsAndConditions from "./pages/user-form/TermsAndConditions";
 
 function App() {
   return (
@@ -41,7 +43,14 @@ function App() {
             <Route path={ROUTES.SALES.DONE_FORMS} element={<DoneForms />} />
           </Route>
         </Route>
-        <Route path={ROUTES.USER_FORM.ME} element={<UserForm />} />
+        <Route path={ROUTES.USER_FORM.ME}>
+          <Route path={ROUTES.USER_FORM.ME} element={<UserForm />} />
+          <Route path={ROUTES.USER_FORM.DOCUMENTS} element={<Documents />} />
+          <Route
+            path={ROUTES.USER_FORM.TERMS_AND_CONDITIONS}
+            element={<TermsAndConditions />}
+          />
+        </Route>
         <Route path={ROUTES.LOGIN} element={<Login />}></Route>
         <Route path={ROUTES.SIGNUP} element={<Signup />}></Route>
       </Routes>
