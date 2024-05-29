@@ -6,6 +6,7 @@ import { submitForm } from "../../services/result-service";
 import { ENV } from "../../consts/const";
 import MyData from "./components/MyData";
 import { ScrollPanel } from "primereact/scrollpanel";
+import { Button } from "primereact/button";
 
 const UserForm = () => {
   const { data: form } = useQuery({
@@ -65,7 +66,7 @@ const UserForm = () => {
           }}
         >
           <FormGroupList formGroups={form?.form_scheme.form_groups} />
-          <button>submit</button>
+          <Button label="Siguiente" style={{ backgroundColor: "purple" }} />
         </form>
       </ScrollPanel>
     </>
