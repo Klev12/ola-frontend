@@ -15,20 +15,14 @@ import DoneForms from "./pages/sales/DoneForms";
 import UserForm from "./pages/user-form/UserForm";
 import Documents from "./pages/user-form/Documents";
 import TermsAndConditions from "./pages/user-form/TermsAndConditions";
+import Application from "./layout/Application";
+import UserFormWrapper from "./layout/UserFormWrapper";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route
-          path=""
-          element={
-            <>
-              <MenuDemo />
-              <Outlet />
-            </>
-          }
-        >
+        <Route path="" element={<Application />}>
           <Route path={ROUTES.HOME.ME} element={<Home />} />
           <Route path={ROUTES.DASHBOARD.ME} element={<Dashboard />}>
             <Route
@@ -43,7 +37,7 @@ function App() {
             <Route path={ROUTES.SALES.DONE_FORMS} element={<DoneForms />} />
           </Route>
         </Route>
-        <Route path={ROUTES.USER_FORM.ME}>
+        <Route path={ROUTES.USER_FORM.ME} element={<UserFormWrapper />}>
           <Route path={ROUTES.USER_FORM.ME} element={<UserForm />} />
           <Route path={ROUTES.USER_FORM.DOCUMENTS} element={<Documents />} />
           <Route
