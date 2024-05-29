@@ -1,6 +1,6 @@
 import { Field } from "../../../models/form-scheme";
 import FieldInput from "./FieldInput";
-import "../styles.css";
+import "../styles/styles.css";
 
 interface FieldListProps {
   fields: Field[];

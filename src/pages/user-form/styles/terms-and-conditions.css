@@ -1,0 +1,40 @@
+/* TermsAndConditions.css */
+
+.terms-container {
+    padding: 2rem;
+  }
+  
+  .terms-card {
+    margin-bottom: 2rem;
+  }
+  
+  .terms-text {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+  
+  .checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  .checkbox-label {
+    font-size: 1rem;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .next-button {
+    background-color: purple;
+    color: white;
+    margin-top: 2rem;
+    padding: 1rem 0;
+    padding: 0.5rem 1rem; 
+  }
+  

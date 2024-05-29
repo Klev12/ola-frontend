@@ -7,8 +7,11 @@ import { ENV } from "../../consts/const";
 import MyData from "./components/MyData";
 import { ScrollPanel } from "primereact/scrollpanel";
 import { Button } from "primereact/button";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "../../consts/routes";
 
 const UserForm = () => {
+  const navigate = useNavigate();
   const { data: form } = useQuery({
     queryFn: () => getUserForm().then((res) => res.data),
   });
@@ -16,6 +19,7 @@ const UserForm = () => {
   const { mutate: submitFormMutate } = useMutation(submitForm, {
     onSuccess: (data) => {
       console.log(data.data);
+      navigate(ROUTES.USER_FORM.TERMS_AND_CONDITIONS);
     },
   });
 
@@ -66,7 +70,11 @@ const UserForm = () => {
           }}
         >
           <FormGroupList formGroups={form?.form_scheme.form_groups} />
-          <Button label="Siguiente" style={{ backgroundColor: "purple" }} />
+          <Button
+            label="Siguiente"
+            type="submit"
+            style={{ backgroundColor: "purple" }}
+          />
         </form>
       </ScrollPanel>
     </>

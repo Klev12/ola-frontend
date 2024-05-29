@@ -2,7 +2,7 @@ import { Card } from "primereact/card";
 import { FormGroup } from "../../../models/form-scheme";
 import { Divider } from "primereact/divider";
 import FieldList from "./FieldList";
-import "../styles.css";
+import "../styles/styles.css";
 
 interface FormGroupListProps {
   formGroups: FormGroup[] | undefined;

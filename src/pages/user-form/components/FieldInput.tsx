@@ -4,7 +4,7 @@ import { InputNumber } from "primereact/inputnumber";
 import SelectField from "./SelectField";
 import CheckBoxField from "./CheckBoxField";
 import CalendarField from "./CalendarField";
-import "../styles.css";
+import "../styles/styles.css";
 
 interface FieldProps {
   field: Field;
