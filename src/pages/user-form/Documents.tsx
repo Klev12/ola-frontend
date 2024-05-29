@@ -1,5 +1,6 @@
 import { FileUpload } from "primereact/fileupload";
 import { ENV } from "../../consts/const";
+import { Button } from "primereact/button";
 
 const Documents = () => {
   return (
@@ -29,6 +30,7 @@ const Documents = () => {
         withCredentials={true}
         url={`${ENV.BACKEND_ROUTE}/multimedia/video`}
       />
+      <Button label="Enviar formulario" />
     </div>
   );
 };

@@ -4,8 +4,11 @@ import { Checkbox } from "primereact/checkbox";
 import { Divider } from "primereact/divider";
 import { useState } from "react";
 import "./styles/terms-and-conditions.css";
+import { useNavigate } from "react-router";
+import ROUTES from "../../consts/routes";
 
 const TermsAndConditions = () => {
+  const navigate = useNavigate();
   const [checked, setChecked] = useState<boolean>(false);
   const [secondChecked, setSecondChecked] = useState<boolean>(false);
   return (
@@ -45,7 +48,13 @@ const TermsAndConditions = () => {
           </div>
         </p>
       </Card>
-      <Button label="Siguiente" className="next-button"></Button>
+      <Button
+        label="Siguiente"
+        className="next-button"
+        onClick={() => {
+          navigate(ROUTES.USER_FORM.DOCUMENTS);
+        }}
+      ></Button>
     </div>
   );
 };
