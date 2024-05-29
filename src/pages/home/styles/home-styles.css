@@ -19,3 +19,18 @@
     grid-column: nav-end / content-end;
     overflow: hidden;
 }
+
+/* src/styles/home-styles.css */
+.home-container {
+    background-image: url('../../../../src/assets/home.jpg');
+    background-size: cover; /* Ajusta la imagen para que cubra todo el contenedor */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; /* Color del texto para que sea visible sobre la imagen de fondo */
+  }
+  

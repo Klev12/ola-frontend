@@ -38,6 +38,13 @@ export default function MenuDemo() {
       },
     },
     {
+      label: "Reglamento Interno",
+      icon: "pi pi-book",
+      command: () => {
+        navigate(ROUTES.REGULATION.ME);
+      },
+    },
+    {
       label: "Projects",
       icon: "pi pi-search",
       items: [

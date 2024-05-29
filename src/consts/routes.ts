@@ -26,6 +26,9 @@ const ROUTES = {
   BLOG: {
     ME: "/blog",
   },
+  REGULATION: {
+    ME: "/regulation",
+  },
   GENERATE_FORM: {
     ME: "/generate-form",
     GENERATE(hash: string) {

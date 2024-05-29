@@ -2,7 +2,7 @@ import "./styles/home-styles.css";
 
 const Home = () => {
   return (
-    <div>
+    <div className="home-container">
       <h2>Home</h2>
     </div>
   );
