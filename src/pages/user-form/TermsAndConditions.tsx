@@ -29,7 +29,7 @@ const TermsAndConditions = () => {
         }}
       >
         <Card title="Términos y condiciones" className="terms-card">
-          <p className="m-0 terms-text">
+          <div className="m-0 terms-text">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
             sed consequuntur error repudiandae numquam deserunt quisquam
             repellat libero asperiores earum nam nobis, culpa ratione quam
@@ -44,11 +44,11 @@ const TermsAndConditions = () => {
                 Acepto todos los términos y condiciones que acabo de leer
               </span>
             </div>
-          </p>
+          </div>
         </Card>
         <Divider />
         <Card title="Términos y condiciones" className="terms-card">
-          <p className="m-0 terms-text">
+          <div className="m-0 terms-text">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
             sed consequuntur error repudiandae numquam deserunt quisquam
             repellat libero asperiores earum nam nobis, culpa ratione quam
@@ -63,7 +63,7 @@ const TermsAndConditions = () => {
                 Acepto todos los términos y condiciones
               </span>
             </div>
-          </p>
+          </div>
         </Card>
         <Button label="Siguiente" className="next-button"></Button>
       </form>

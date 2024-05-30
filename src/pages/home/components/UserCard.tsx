@@ -1,7 +1,7 @@
 import { Panel } from "primereact/panel";
 import { ToggleButton } from "primereact/togglebutton";
-import { UserGetDto } from "../../../models/user";
-import { toggleAccessUser } from "../../../services/user-service";
+import { Roles, UserGetDto } from "../../../models/user";
+import { changeRole, toggleAccessUser } from "../../../services/user-service";
 import { useState } from "react";
 
 interface UserCardProps {
@@ -33,7 +33,25 @@ const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
     <Panel header={user.fullname} toggleable collapsed>
       <div>{user.email}</div>
       <div>{user.area}</div>
-      <div>{user.role}</div>
+      <div>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            const formData = Object.fromEntries(
+              new FormData(e.target as HTMLFormElement)
+            );
+            changeRole(formData["role"] as Roles, user.id);
+          }}
+        >
+          <span>role: {user.role}</span>
+          <select name="role" id="">
+            {Object.values(Roles).map((role) => (
+              <option>{role}</option>
+            ))}
+          </select>
+          <button>cambiar role</button>
+        </form>
+      </div>
       {notificationMode && (
         <>
           <ToggleButton
