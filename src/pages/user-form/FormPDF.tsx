@@ -4,7 +4,6 @@ import {
   View,
   Text,
   Page,
-  Font,
   StyleSheet,
 } from "@react-pdf/renderer";
 import { useQuery } from "react-query";
