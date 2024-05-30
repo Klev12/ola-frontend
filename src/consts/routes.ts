@@ -43,6 +43,9 @@ const ROUTES = {
     get TERMS_AND_CONDITIONS() {
       return `${this.ME}/terms-and-conditions`;
     },
+    get FORM_PDF() {
+      return `${this.ME}/form-pdf`;
+    },
   },
 };
 

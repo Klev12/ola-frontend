@@ -5,20 +5,27 @@ import { Divider } from "primereact/divider";
 import { useState } from "react";
 import "./styles/terms-and-conditions.css";
 import { useNavigate } from "react-router";
+import { useMutation } from "react-query";
+import { verifyForm } from "../../services/forms-service";
+import ROUTES from "../../consts/routes";
+import useGlobalState from "../../store/store";
 
 const TermsAndConditions = () => {
   const navigate = useNavigate();
+  const userFormId = useGlobalState((state) => state.userFormId);
+  const { mutate: verifyFormMutate } = useMutation(verifyForm, {
+    onSuccess: () => {
+      navigate(ROUTES.USER_FORM.DOCUMENTS);
+    },
+  });
   const [checked, setChecked] = useState<boolean>(false);
   const [secondChecked, setSecondChecked] = useState<boolean>(false);
   return (
     <div className="terms-container">
       <form
         onSubmit={(e) => {
-          const formData = Object.fromEntries(
-            new FormData(e.target as HTMLFormElement)
-          );
-
-          console.log(formData);
+          e.preventDefault();
+          verifyFormMutate(userFormId as number);
         }}
       >
         <Card title="Términos y condiciones" className="terms-card">
@@ -29,6 +36,7 @@ const TermsAndConditions = () => {
             perferendis esse, cupiditate neque quas!
             <div className="checkbox-container">
               <Checkbox
+                required
                 onChange={(e) => setChecked(e.checked as boolean)}
                 checked={checked}
               ></Checkbox>
@@ -47,6 +55,7 @@ const TermsAndConditions = () => {
             perferendis esse, cupiditate neque quas!
             <div className="checkbox-container">
               <Checkbox
+                required
                 onChange={(e) => setSecondChecked(e.checked as boolean)}
                 checked={secondChecked}
               ></Checkbox>

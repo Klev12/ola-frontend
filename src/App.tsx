@@ -18,6 +18,7 @@ import TermsAndConditions from "./pages/user-form/TermsAndConditions";
 import Application from "./layout/Application";
 import UserFormWrapper from "./layout/UserFormWrapper";
 import Regulation from "./pages/regulation/Regulation";
+import FormPDF from "./pages/user-form/FormPDF";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
             path={ROUTES.USER_FORM.TERMS_AND_CONDITIONS}
             element={<TermsAndConditions />}
           />
+          <Route path={ROUTES.USER_FORM.FORM_PDF} element={<FormPDF />} />
         </Route>
         <Route path={ROUTES.LOGIN} element={<Login />}></Route>
         <Route path={ROUTES.SIGNUP} element={<Signup />}></Route>

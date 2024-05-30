@@ -29,24 +29,6 @@ const UserForm = () => {
   return (
     <>
       <ScrollPanel>
-        <button
-          onClick={() => {
-            fetch(`${ENV.BACKEND_ROUTE}/forms/verify-form`, {
-              method: "POST",
-              credentials: "include",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ id: form?.user_form.id }),
-            })
-              .then((res) => res.json())
-              .then((res) => {
-                console.log(res);
-              });
-          }}
-        >
-          verify form
-        </button>
         <h2>{form?.form_scheme?.label}</h2>
 
         <form
