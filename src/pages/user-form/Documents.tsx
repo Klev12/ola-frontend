@@ -1,8 +1,31 @@
 import { FileUpload } from "primereact/fileupload";
 import { ENV } from "../../consts/const";
 import { Button } from "primereact/button";
+import useGlobalState from "../../store/store";
+import { useMutation } from "react-query";
+import { verifyForm } from "../../services/forms-service";
+import { verifyUser } from "../../services/auth-service";
+import { useNavigate } from "react-router";
+import ROUTES from "../../consts/routes";
 
 const Documents = () => {
+  const navigate = useNavigate();
+  const userFormId = useGlobalState((state) => state.userFormId);
+  const { mutate: verifyUserMutate } = useMutation(verifyUser, {
+    onSuccess: () => {
+      navigate(ROUTES.HOME.ME);
+    },
+  });
+  const { mutate: verifyFormMutate } = useMutation(verifyForm, {
+    onSuccess: () => {
+      verifyUserMutate();
+    },
+  });
+
+  const submit = () => {
+    verifyFormMutate(userFormId as number);
+  };
+
   return (
     <div>
       <h2>Cédula</h2>
@@ -30,7 +53,7 @@ const Documents = () => {
         withCredentials={true}
         url={`${ENV.BACKEND_ROUTE}/multimedia/video`}
       />
-      <Button label="Enviar formulario" />
+      <Button label="Enviar formulario" onClick={submit} />
     </div>
   );
 };
