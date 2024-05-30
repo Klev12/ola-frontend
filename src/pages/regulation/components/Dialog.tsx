@@ -6,7 +6,10 @@ export default function MaximizableDemo() {
   const [visible, setVisible] = useState<boolean>(false);
 
   return (
-    <div className="card flex justify-content-center">
+    <div
+      className="card flex justify-content-center"
+      style={{ display: "flex", gap: "0.5 rem" }}
+    >
       <Button
         label="Leer Reglamento"
         icon="pi pi-external-link"
@@ -15,7 +18,7 @@ export default function MaximizableDemo() {
           backgroundColor: "purple",
           display: "flex",
           flexDirection: "column",
-          gap: "0.5 rem",
+          border: "0",
         }}
       />
       <Dialog

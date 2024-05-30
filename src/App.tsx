@@ -47,10 +47,10 @@ function App() {
             path={ROUTES.USER_FORM.TERMS_AND_CONDITIONS}
             element={<TermsAndConditions />}
           />
-          <Route path={ROUTES.USER_FORM.FORM_PDF} element={<FormPDF />} />
         </Route>
         <Route path={ROUTES.LOGIN} element={<Login />}></Route>
         <Route path={ROUTES.SIGNUP} element={<Signup />}></Route>
+        <Route path={ROUTES.USER_FORM.FORM_PDF} element={<FormPDF />} />
       </Routes>
     </>
   );
