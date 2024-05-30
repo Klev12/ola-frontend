@@ -12,7 +12,7 @@ const TermsAndConditions = () => {
   const [checked, setChecked] = useState<boolean>(false);
   const [secondChecked, setSecondChecked] = useState<boolean>(false);
   return (
-    <div className="terms-container">
+    <form className="terms-container">
       <Card title="Términos y condiciones" className="terms-card">
         <p className="m-0 terms-text">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
@@ -21,6 +21,7 @@ const TermsAndConditions = () => {
           esse, cupiditate neque quas!
           <div className="checkbox-container">
             <Checkbox
+              required
               onChange={(e) => setChecked(e.checked as boolean)}
               checked={checked}
             ></Checkbox>
@@ -39,6 +40,7 @@ const TermsAndConditions = () => {
           esse, cupiditate neque quas!
           <div className="checkbox-container">
             <Checkbox
+              required
               onChange={(e) => setSecondChecked(e.checked as boolean)}
               checked={secondChecked}
             ></Checkbox>
@@ -48,14 +50,8 @@ const TermsAndConditions = () => {
           </div>
         </p>
       </Card>
-      <Button
-        label="Siguiente"
-        className="next-button"
-        onClick={() => {
-          navigate(ROUTES.USER_FORM.DOCUMENTS);
-        }}
-      ></Button>
-    </div>
+      <Button label="Siguiente" className="next-button"></Button>
+    </form>
   );
 };
 
