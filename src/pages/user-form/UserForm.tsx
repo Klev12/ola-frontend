@@ -3,10 +3,9 @@ import { getUserForm } from "../../services/forms-service";
 import FormGroupList from "./components/FormGroupList";
 import { ResultPutDto } from "../../models/result";
 import { submitForm } from "../../services/result-service";
-import { ENV } from "../../consts/const";
 import { ScrollPanel } from "primereact/scrollpanel";
 import { Button } from "primereact/button";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import ROUTES from "../../consts/routes";
 import useGlobalState from "../../store/store";
 
@@ -17,6 +16,10 @@ const UserForm = () => {
   const { data: form } = useQuery({
     queryFn: () => getUserForm().then((res) => res.data),
   });
+
+  if (form?.user_form.done) {
+    return <Navigate to={ROUTES.USER_FORM.TERMS_AND_CONDITIONS} />;
+  }
 
   const { mutate: submitFormMutate } = useMutation(submitForm, {
     onSuccess: (data) => {

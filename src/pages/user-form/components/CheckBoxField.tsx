@@ -15,7 +15,7 @@ const CheckBoxField = ({ field }: CheckBoxFieldProps) => {
     <>
       <label htmlFor="">{field.label}</label>
       <Checkbox
-        required
+        required={field.required}
         value={checked}
         defaultValue={field.results?.[0]?.response?.value}
         name={field.id as string}

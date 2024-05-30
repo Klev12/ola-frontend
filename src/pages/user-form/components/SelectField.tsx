@@ -16,7 +16,7 @@ const SelectField = ({ field }: SelectFieldProps) => {
     <>
       <label>{field.label}</label>
       <Dropdown
-        required
+        required={field.required}
         value={selectedValue}
         onChange={(e) => setSelectedValue(e.value)}
         defaultValue={field.results?.[0]?.response?.value || ""}

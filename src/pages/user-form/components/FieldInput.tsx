@@ -17,7 +17,7 @@ const FieldInput = ({ field }: FieldProps) => {
         <div>
           <label htmlFor={`I${field.label}`}>{field.label}</label>
           <InputText
-            required
+            required={field.required}
             defaultValue={field.results[0]?.response?.value}
             id={`I${field.label}`}
             name={field.id as string}
@@ -29,7 +29,7 @@ const FieldInput = ({ field }: FieldProps) => {
         <>
           <label htmlFor={`I${field.label}`}>{field.label}</label>
           <InputNumber
-            required
+            required={field.required}
             value={
               Number(field.results?.[0]?.response?.value?.replace(/,/g, "")) ||
               0
@@ -49,7 +49,7 @@ const FieldInput = ({ field }: FieldProps) => {
         <div>
           <label htmlFor={`I${field.label}`}>{field.label}</label>
           <InputText
-            required
+            required={field.required}
             defaultValue={field.results[0]?.response?.value}
             id={`I${field.label}`}
             name={field.id as string}
