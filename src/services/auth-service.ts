@@ -17,3 +17,7 @@ export function authenticate() {
 export function verifyUser() {
   return axios.get<{ user: UserGetDto }>(`${ENV.BACKEND_ROUTE}/verify`);
 }
+
+export function logout() {
+  return axios.get(`${ENV.BACKEND_ROUTE}/logout`);
+}

@@ -21,6 +21,7 @@ export interface Field {
   component: ComponentType;
   metadata: Metadata;
   form_group_id: number | string;
+  required: boolean;
   results: Result[];
 }
 
