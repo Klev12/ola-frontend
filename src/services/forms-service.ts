@@ -22,3 +22,7 @@ export function invalidateLink(form: GenerateLinkPostDto) {
 export function getUserForm() {
   return axios.get<UserFormGetDto>(`${ENV.BACKEND_ROUTE}/forms/user-form`);
 }
+
+export function verifyForm(id: number) {
+  return axios.post(`${ENV.BACKEND_ROUTE}/forms/verify-form`, { id });
+}

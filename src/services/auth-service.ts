@@ -13,3 +13,7 @@ export function signup(user: SignupDto) {
 export function authenticate() {
   return axios.get<{ user: UserGetDto }>(`${ENV.BACKEND_ROUTE}/me`);
 }
+
+export function verifyUser() {
+  return axios.get<{ user: UserGetDto }>(`${ENV.BACKEND_ROUTE}/verify`);
+}

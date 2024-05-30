@@ -8,8 +8,11 @@ import { ScrollPanel } from "primereact/scrollpanel";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../consts/routes";
+import useGlobalState from "../../store/store";
 
 const UserForm = () => {
+  const setUserFormId = useGlobalState((state) => state.setUserFormId);
+
   const navigate = useNavigate();
   const { data: form } = useQuery({
     queryFn: () => getUserForm().then((res) => res.data),
@@ -18,6 +21,7 @@ const UserForm = () => {
   const { mutate: submitFormMutate } = useMutation(submitForm, {
     onSuccess: (data) => {
       console.log(data.data);
+      setUserFormId(form?.user_form.id as number);
       navigate(ROUTES.USER_FORM.TERMS_AND_CONDITIONS);
     },
   });

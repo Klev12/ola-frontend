@@ -13,48 +13,52 @@ const TermsAndConditions = () => {
   const [secondChecked, setSecondChecked] = useState<boolean>(false);
   return (
     <div className="terms-container">
-      <Card title="Términos y condiciones" className="terms-card">
-        <p className="m-0 terms-text">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
-          sed consequuntur error repudiandae numquam deserunt quisquam repellat
-          libero asperiores earum nam nobis, culpa ratione quam perferendis
-          esse, cupiditate neque quas!
-          <div className="checkbox-container">
-            <Checkbox
-              onChange={(e) => setChecked(e.checked as boolean)}
-              checked={checked}
-            ></Checkbox>
-            <span className="checkbox-label">
-              Acepto todos los términos y condiciones que acabo de leer
-            </span>
-          </div>
-        </p>
-      </Card>
-      <Divider />
-      <Card title="Términos y condiciones" className="terms-card">
-        <p className="m-0 terms-text">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
-          sed consequuntur error repudiandae numquam deserunt quisquam repellat
-          libero asperiores earum nam nobis, culpa ratione quam perferendis
-          esse, cupiditate neque quas!
-          <div className="checkbox-container">
-            <Checkbox
-              onChange={(e) => setSecondChecked(e.checked as boolean)}
-              checked={secondChecked}
-            ></Checkbox>
-            <span className="checkbox-label">
-              Acepto todos los términos y condiciones
-            </span>
-          </div>
-        </p>
-      </Card>
-      <Button
-        label="Siguiente"
-        className="next-button"
-        onClick={() => {
-          navigate(ROUTES.USER_FORM.DOCUMENTS);
+      <form
+        onSubmit={(e) => {
+          const formData = Object.fromEntries(
+            new FormData(e.target as HTMLFormElement)
+          );
+
+          console.log(formData);
         }}
-      ></Button>
+      >
+        <Card title="Términos y condiciones" className="terms-card">
+          <p className="m-0 terms-text">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
+            sed consequuntur error repudiandae numquam deserunt quisquam
+            repellat libero asperiores earum nam nobis, culpa ratione quam
+            perferendis esse, cupiditate neque quas!
+            <div className="checkbox-container">
+              <Checkbox
+                onChange={(e) => setChecked(e.checked as boolean)}
+                checked={checked}
+              ></Checkbox>
+              <span className="checkbox-label">
+                Acepto todos los términos y condiciones que acabo de leer
+              </span>
+            </div>
+          </p>
+        </Card>
+        <Divider />
+        <Card title="Términos y condiciones" className="terms-card">
+          <p className="m-0 terms-text">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
+            sed consequuntur error repudiandae numquam deserunt quisquam
+            repellat libero asperiores earum nam nobis, culpa ratione quam
+            perferendis esse, cupiditate neque quas!
+            <div className="checkbox-container">
+              <Checkbox
+                onChange={(e) => setSecondChecked(e.checked as boolean)}
+                checked={secondChecked}
+              ></Checkbox>
+              <span className="checkbox-label">
+                Acepto todos los términos y condiciones
+              </span>
+            </div>
+          </p>
+        </Card>
+        <Button label="Siguiente" className="next-button"></Button>
+      </form>
     </div>
   );
 };
