@@ -5,7 +5,6 @@ import { Divider } from "primereact/divider";
 import { useState } from "react";
 import "./styles/terms-and-conditions.css";
 import { useNavigate } from "react-router";
-import ROUTES from "../../consts/routes";
 
 const TermsAndConditions = () => {
   const navigate = useNavigate();
