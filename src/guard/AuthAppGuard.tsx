@@ -18,10 +18,10 @@ const AuthAppGuard = ({
 }: AuthAppGuardProps) => {
   const navigate = useNavigate();
   const setUser = useGlobalState((state) => state.setUser);
-  const { data: userData, isLoading } = useQuery({
+  const { isLoading } = useQuery({
     queryFn: () => authenticate().then((res) => res.data),
-    onSuccess: () => {
-      setUser(userData?.user as UserGetDto);
+    onSuccess: (data) => {
+      setUser(data.user as UserGetDto);
       if (successRedirectTo) {
         navigate(successRedirectTo);
       }

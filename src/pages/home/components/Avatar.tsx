@@ -7,9 +7,12 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { logout } from "../../../services/auth-service";
 import ROUTES from "../../../consts/routes";
+import { Card } from "primereact/card";
+import useGlobalState from "../../../store/store";
 
 export default function AvatarDemo() {
   const op = useRef<OverlayPanelType>(null);
+  const user = useGlobalState((state) => state.user);
   const navigate = useNavigate();
 
   const { mutate: logoutMutate } = useMutation(logout, {
@@ -36,6 +39,11 @@ export default function AvatarDemo() {
           />
           <OverlayPanel ref={op} dismissable>
             <div className="p-3">
+              <Card>
+                <div>Nombre: {user?.fullname}</div>
+                <div>Role: {user?.role}</div>
+                <div>Área: {user?.area}</div>
+              </Card>
               <Button
                 label="Cerrar Sesión"
                 className="p-button-text"

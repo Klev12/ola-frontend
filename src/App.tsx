@@ -20,6 +20,8 @@ import UserFormWrapper from "./layout/UserFormWrapper";
 import Regulation from "./pages/regulation/Regulation";
 import FormPDF from "./pages/user-form/FormPDF";
 import AuthAppGuard from "./guard/AuthAppGuard";
+import PageNotFound from "./pages/page-not-found/PageNotFound";
+import AuthUserFormGuard from "./guard/AuthUserFormGuard";
 
 function App() {
   return (
@@ -29,7 +31,9 @@ function App() {
           path=""
           element={
             <AuthAppGuard errorRedirectTo={ROUTES.LOGIN}>
-              <Application />
+              <AuthUserFormGuard noVerificationRedirectTo={ROUTES.USER_FORM.ME}>
+                <Application />
+              </AuthUserFormGuard>
             </AuthAppGuard>
           }
         >
@@ -59,6 +63,7 @@ function App() {
         <Route path={ROUTES.LOGIN} element={<Login />}></Route>
         <Route path={ROUTES.SIGNUP} element={<Signup />}></Route>
         <Route path={ROUTES.USER_FORM.FORM_PDF} element={<FormPDF />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>
   );

@@ -40,27 +40,27 @@ const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
           : "el usuario no está verificado"}
       </div>
       <div>
-        {user.role !== Roles.admin &&
-          !notificationMode &&
-          user.role !== Roles.groupAdmin && (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                const formData = Object.fromEntries(
-                  new FormData(e.target as HTMLFormElement)
-                );
-                changeRole(formData["role"] as Roles, user.id);
-              }}
-            >
-              <span>role: {user.role}</span>
-              <select name="role" defaultValue={user.role}>
-                {Object.values(Roles).map((role) => (
+        {user.role !== Roles.admin && !notificationMode && (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const formData = Object.fromEntries(
+                new FormData(e.target as HTMLFormElement)
+              );
+              changeRole(formData["role"] as Roles, user.id);
+            }}
+          >
+            <span>role: {user.role}</span>
+            <select name="role" defaultValue={user.role}>
+              {Object.values(Roles)
+                .filter((role) => role !== Roles.admin)
+                .map((role) => (
                   <option>{role}</option>
                 ))}
-              </select>
-              <button>cambiar role</button>
-            </form>
-          )}
+            </select>
+            <button>cambiar role</button>
+          </form>
+        )}
       </div>
       {notificationMode && (
         <>
