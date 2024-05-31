@@ -65,7 +65,11 @@ const TermsAndConditions = () => {
             </div>
           </div>
         </Card>
-        <Button label="Siguiente" className="next-button"></Button>
+        <Button
+          label="Siguiente"
+          className="next-button"
+          style={{ border: "0" }}
+        ></Button>
       </form>
     </div>
   );

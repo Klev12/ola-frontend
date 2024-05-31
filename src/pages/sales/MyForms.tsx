@@ -37,7 +37,7 @@ const MyForms = () => {
     <div>
       <Toast ref={toast} />
       <Button
-        style={{ backgroundColor: "purple" }}
+        style={{ backgroundColor: "purple", border: "0" }}
         icon="pi pi-plus"
         onClick={handleClick}
         loading={loading}
