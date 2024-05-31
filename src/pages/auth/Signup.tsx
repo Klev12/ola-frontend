@@ -11,6 +11,7 @@ import { SignupDto } from "../../models/auth";
 import { Dialog } from "primereact/dialog";
 import { Message } from "primereact/message";
 import "./styles/signup-styles.css";
+import { UserArea } from "../../models/user";
 
 const Signup: React.FC = () => {
   const [selectedArea, setSelectedArea] = useState<{
@@ -87,10 +88,10 @@ const Signup: React.FC = () => {
             id="area"
             value={selectedArea}
             name="area"
-            options={[
-              { value: "admin", name: "admin" },
-              { value: "secretary", name: "secretary" },
-            ]}
+            options={Object.values(UserArea).map((area) => ({
+              name: area,
+              value: area,
+            }))}
             onChange={(e) => setSelectedArea(e.value)}
             optionLabel="name"
             placeholder="Selecciona una área"

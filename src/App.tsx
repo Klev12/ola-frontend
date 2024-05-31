@@ -19,12 +19,20 @@ import Application from "./layout/Application";
 import UserFormWrapper from "./layout/UserFormWrapper";
 import Regulation from "./pages/regulation/Regulation";
 import FormPDF from "./pages/user-form/FormPDF";
+import AuthAppGuard from "./guard/AuthAppGuard";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="" element={<Application />}>
+        <Route
+          path=""
+          element={
+            <AuthAppGuard errorRedirectTo={ROUTES.LOGIN}>
+              <Application />
+            </AuthAppGuard>
+          }
+        >
           <Route path={ROUTES.HOME.ME} element={<Home />} />
           <Route path={ROUTES.DASHBOARD.ME} element={<Dashboard />}>
             <Route

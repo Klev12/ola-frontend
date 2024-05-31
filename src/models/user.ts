@@ -3,7 +3,7 @@ export interface UserGetDto {
   fullname: string;
   email: string;
   role: Roles;
-  area: string;
+  area: UserArea;
   has_access: boolean;
   verified: boolean;
 }
@@ -13,4 +13,13 @@ export enum Roles {
   user = "user",
   sales = "sales",
   groupAdmin = "group_admin",
+}
+
+export enum UserArea {
+  commercial = "asesor comercial",
+  design = "design",
+  communityManager = "community manager",
+  photograph = "fotógrafo",
+  telemarketing = "telemarketing",
+  secretary = "secretary",
 }
