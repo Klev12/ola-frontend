@@ -22,6 +22,7 @@ export default function MaximizableDemo() {
         }}
       />
       <Dialog
+        draggable={false}
         header="Header"
         visible={visible}
         maximizable

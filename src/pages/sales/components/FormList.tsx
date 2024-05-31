@@ -76,7 +76,7 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
                 </>
               ) : (
                 <Button
-                  style={{ backgroundColor: "purple" }}
+                  style={{ backgroundColor: "purple", border: "0" }}
                   label="Generar Link"
                   icon="pi pi-link"
                   loading={loading}
