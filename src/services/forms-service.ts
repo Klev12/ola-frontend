@@ -8,6 +8,10 @@ export function createForm(form: FormPostDto) {
 }
 
 export function getAllForms() {
+  return axios.get<{ forms: FormGetDto[] }>(`${ENV.BACKEND_ROUTE}/forms/all`);
+}
+
+export function getMyForms() {
   return axios.get<{ forms: FormGetDto[] }>(`${ENV.BACKEND_ROUTE}/forms`);
 }
 

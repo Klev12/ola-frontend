@@ -25,3 +25,7 @@ export function changeRole(role: Roles, userId: number | string) {
     user_id: userId,
   });
 }
+
+export function deleteUserById(id: number | string) {
+  return axios.delete(`${ENV.BACKEND_ROUTE}/users/${id}`);
+}

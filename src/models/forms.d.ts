@@ -13,6 +13,7 @@ export interface FormGetDto {
   user_id: string | number;
   form_scheme_id: string | undefined | number;
   expire_hash_time: undefined | Date;
+  label: string;
 }
 
 export interface GenerateLinkPostDto {
