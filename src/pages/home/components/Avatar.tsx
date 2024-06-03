@@ -40,8 +40,8 @@ export default function AvatarDemo() {
           <OverlayPanel ref={op} dismissable>
             <div className="p-3">
               <Card>
-                <div>Nombre: {user?.fullname}</div>
-                <div>Role: {user?.role}</div>
+                <div>Usuario: {user?.fullname}</div>
+                <div>Rol: {user?.role}</div>
                 <div>Área: {user?.area}</div>
               </Card>
               <Button

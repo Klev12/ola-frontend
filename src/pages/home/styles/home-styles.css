@@ -5,6 +5,7 @@
     grid-template-columns: [nav-start] 200px [nav-end] 1fr [content-end];
     grid-template-rows: [full-height-start] 1px [height-content-start] 1fr [full-height-end];
 
+
 }
 
 .global-home-grid > .nav {
@@ -18,14 +19,15 @@
     grid-row: height-content-start / full-height-end;
     grid-column: nav-end / content-end;
     overflow: hidden;
+    padding: 10px;
 }
 
 /* src/styles/home-styles.css */
 .home-container {
     background-image: url('../../../../src/assets/home.jpg');
-    background-size: cover; /* Ajusta la imagen para que cubra todo el contenedor */
-    background-position: center; /* Centra la imagen */
-    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat;
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -33,4 +35,4 @@
     align-items: center;
     color: white; /* Color del texto para que sea visible sobre la imagen de fondo */
   }
-  
+
