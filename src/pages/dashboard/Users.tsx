@@ -4,10 +4,14 @@ import { getAllUsers } from "../../services/user-service";
 import UserCard from "../home/components/UserCard";
 
 const Users = () => {
-  const { data } = useQuery({ queryFn: getAllUsers, queryKey: ["users"] });
+  const { data, refetch } = useQuery({
+    queryFn: getAllUsers,
+    queryKey: ["users"],
+  });
 
   return (
     <div>
+      <button onClick={() => refetch()}>recargar</button>
       {data?.data.users.map((user) => {
         return (
           <div key={user.id}>

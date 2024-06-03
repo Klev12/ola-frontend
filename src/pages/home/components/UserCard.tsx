@@ -1,7 +1,11 @@
 import { Panel } from "primereact/panel";
 import { ToggleButton } from "primereact/togglebutton";
 import { Roles, UserGetDto } from "../../../models/user";
-import { changeRole, toggleAccessUser } from "../../../services/user-service";
+import {
+  changeRole,
+  deleteUserById,
+  toggleAccessUser,
+} from "../../../services/user-service";
 import { useState } from "react";
 
 interface UserCardProps {
@@ -23,7 +27,7 @@ const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
 
   const handleReject = async () => {
     if (!reject) {
-      await toggleAccessUser(false, user.id as number);
+      await deleteUserById(user.id);
       setAccept(false);
       setReject(true);
     }

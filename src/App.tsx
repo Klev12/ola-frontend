@@ -22,6 +22,7 @@ import FormPDF from "./pages/user-form/FormPDF";
 import AuthAppGuard from "./guard/AuthAppGuard";
 import PageNotFound from "./pages/page-not-found/PageNotFound";
 import AuthUserFormGuard from "./guard/AuthUserFormGuard";
+import Forms from "./pages/forms/Forms";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
           </Route>
           <Route path={ROUTES.BLOG.ME} element={<Blog />} />
           <Route path={ROUTES.REGULATION.ME} element={<Regulation />} />
+          <Route path={ROUTES.FORMS.ME} element={<Forms />} />
           <Route path={ROUTES.SALES.ME} element={<Sales />}>
             <Route path={ROUTES.SALES.FORMS} element={<MyForms />} />
             <Route path={ROUTES.SALES.DONE_FORMS} element={<DoneForms />} />

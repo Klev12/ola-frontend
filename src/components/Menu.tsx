@@ -14,6 +14,7 @@ const roleBasedVisibility = {
     sales: true,
     blog: true,
     norms: true,
+    forms: true,
   },
   [Roles.groupAdmin]: {
     home: true,
@@ -21,6 +22,7 @@ const roleBasedVisibility = {
     sales: true,
     blog: true,
     norms: true,
+    forms: true,
   },
   [Roles.sales]: {
     home: true,
@@ -28,6 +30,7 @@ const roleBasedVisibility = {
     sales: true,
     blog: true,
     norms: true,
+    forms: true,
   },
   [Roles.user]: {
     admin: true,
@@ -35,6 +38,7 @@ const roleBasedVisibility = {
     sales: false,
     blog: true,
     norms: true,
+    forms: true,
   },
 };
 
@@ -87,6 +91,15 @@ export default function MenuDemo() {
       visible: false,
       command: () => {
         navigate(ROUTES.REGULATION.ME);
+      },
+    },
+    {
+      id: "forms",
+      label: "Formularios",
+      icon: "pi pi-book",
+      visible: false,
+      command: () => {
+        navigate(ROUTES.FORMS.ME);
       },
     },
   ];
