@@ -1,7 +1,11 @@
 import { Panel } from "primereact/panel";
 import { ToggleButton } from "primereact/togglebutton";
 import { Roles, UserGetDto } from "../../../models/user";
-import { changeRole, toggleAccessUser } from "../../../services/user-service";
+import {
+  changeRole,
+  deleteUserById,
+  toggleAccessUser,
+} from "../../../services/user-service";
 import { useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
@@ -72,7 +76,6 @@ const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
             </select>
             <Button
               label="Cambiar Rol"
-              severity="Success"
               onClick={showSuccess}
               style={{
                 display: "flex",
