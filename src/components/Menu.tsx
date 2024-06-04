@@ -100,9 +100,7 @@ export default function MenuDemo() {
       },
     },
     {
-<<<<<<< HEAD
       template: itemRenderer,
-=======
       id: "forms",
       label: "Formularios",
       icon: "pi pi-book",
@@ -110,7 +108,6 @@ export default function MenuDemo() {
       command: () => {
         navigate(ROUTES.FORMS.ME);
       },
->>>>>>> 6bfda61453bddedcdc773900dd2a3a0ee7380541
     },
   ];
 
