@@ -1,12 +1,10 @@
 import { Panel } from "primereact/panel";
 import { ToggleButton } from "primereact/togglebutton";
 import { Roles, UserGetDto } from "../../../models/user";
-import {
-  changeRole,
-  deleteUserById,
-  toggleAccessUser,
-} from "../../../services/user-service";
-import { useState } from "react";
+import { changeRole, toggleAccessUser } from "../../../services/user-service";
+import { useRef, useState } from "react";
+import { Button } from "primereact/button";
+import { Toast } from "primereact/toast";
 
 interface UserCardProps {
   user: UserGetDto;
@@ -16,6 +14,16 @@ interface UserCardProps {
 const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
   const [accept, setAccept] = useState<boolean>(false);
   const [reject, setReject] = useState<boolean>(false);
+  const toast = useRef<Toast>(null);
+
+  const showSuccess = () => {
+    toast.current?.show({
+      severity: "success",
+      summary: "Success",
+      detail: "El cambio de rol ha sido exitoso",
+      life: 3000,
+    });
+  };
 
   const handleAccept = async () => {
     if (!accept) {
@@ -35,10 +43,10 @@ const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
 
   return (
     <Panel header={user.fullname} toggleable collapsed>
-      <div>email: {user.email}</div>
-      <div>area: {user.area}</div>
-      <div>
-        verificado:
+      <div>Email: {user.email}</div>
+      <div>Area: {user.area}</div>
+      <div style={{ gap: "0.5rem" }}>
+        verificación:
         {user.verified
           ? "el usuario está verificado"
           : "el usuario no está verificado"}
@@ -55,14 +63,25 @@ const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
             }}
           >
             <span>role: {user.role}</span>
-            <select name="role" defaultValue={user.role}>
+            <select name="role" defaultValue={user.role} style={{}}>
               {Object.values(Roles)
                 .filter((role) => role !== Roles.admin)
                 .map((role) => (
                   <option>{role}</option>
                 ))}
             </select>
-            <button>cambiar role</button>
+            <Button
+              label="Cambiar Rol"
+              severity="Success"
+              onClick={showSuccess}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                backgroundColor: "purple",
+                border: "0",
+                height: "10px",
+              }}
+            />
           </form>
         )}
       </div>

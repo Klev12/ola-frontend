@@ -6,10 +6,7 @@ export default function MaximizableDemo() {
   const [visible, setVisible] = useState<boolean>(false);
 
   return (
-    <div
-      className="card flex justify-content-center"
-      style={{ display: "flex", gap: "0.5 rem" }}
-    >
+    <div className="card flex justify-content-center">
       <Button
         label="Leer Reglamento"
         icon="pi pi-external-link"
@@ -26,7 +23,7 @@ export default function MaximizableDemo() {
         header="Header"
         visible={visible}
         maximizable
-        style={{ width: "50vw", backgroundColor: "purple" }}
+        style={{ width: "50vw" }}
         onHide={() => {
           if (!visible) return;
           setVisible(false);

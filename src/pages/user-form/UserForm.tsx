@@ -62,7 +62,11 @@ const UserForm = () => {
           <Button
             label="Siguiente"
             type="submit"
-            style={{ backgroundColor: "purple" }}
+            style={{
+              backgroundColor: "purple",
+              border: "0",
+              margin: "10px",
+            }}
           />
         </form>
       </ScrollPanel>
