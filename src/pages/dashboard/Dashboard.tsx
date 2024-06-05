@@ -2,7 +2,6 @@ import { Menu } from "primereact/menu";
 import { Outlet, useNavigate } from "react-router-dom";
 import { MenuItem } from "primereact/menuitem";
 import ROUTES from "../../consts/routes";
-
 const Dashboard = () => {
   const navigate = useNavigate();
 

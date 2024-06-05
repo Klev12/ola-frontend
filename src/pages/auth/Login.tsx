@@ -23,7 +23,7 @@ const Login = () => {
       if (error.response && error.response.status === 404) {
         setErrorMessage("Cuenta no encontrada, Regístrate");
       } else {
-        console.error("Error durante el inicio de sesión:", error);
+        console.error("Su cuenta o su contraseña es incorrecta:", error);
         setErrorMessage(
           "Ocurrió un error al intentar iniciar sesión. Por favor, inténtalo de nuevo más tarde."
         );
