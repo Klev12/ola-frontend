@@ -23,6 +23,7 @@ import AuthAppGuard from "./guard/AuthAppGuard";
 import PageNotFound from "./pages/page-not-found/PageNotFound";
 import AuthUserFormGuard from "./guard/AuthUserFormGuard";
 import Forms from "./pages/forms/Forms";
+import SignatureDraw from "./pages/signature/Signature";
 import Verification from "./pages/user-form/Verification";
 
 function App() {
@@ -61,6 +62,10 @@ function App() {
           <Route
             path={ROUTES.USER_FORM.TERMS_AND_CONDITIONS}
             element={<TermsAndConditions />}
+          />
+          <Route
+            path={ROUTES.USER_FORM.SIGNATURE}
+            element={<SignatureDraw />}
           />
           <Route
             path={ROUTES.USER_FORM.VERIFICATION}
