@@ -49,6 +49,9 @@ const ROUTES = {
     get FORM_PDF() {
       return `${this.ME}/form-pdf`;
     },
+    get VERIFICATION() {
+      return `${this.ME}/verification`;
+    },
   },
 };
 

@@ -29,3 +29,7 @@ export function changeRole(role: Roles, userId: number | string) {
 export function deleteUserById(id: number | string) {
   return axios.delete(`${ENV.BACKEND_ROUTE}/users/${id}`);
 }
+
+export function verifyUserForm(userId: number | string) {
+  return axios.post(`${ENV.BACKEND_ROUTE}/users/verify-user-form`, userId);
+}
