@@ -18,8 +18,8 @@ const Forms = () => {
       {formData?.forms.map((form) => {
         return (
           <Card key={form.id}>
-            <div>{form.id}</div>
-            <div>{form.label}</div>
+            <div>Nombre: {form.fullname}</div>
+            <div>Título del formulario: {form.label}</div>
           </Card>
         );
       })}

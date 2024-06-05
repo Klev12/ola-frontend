@@ -16,6 +16,7 @@ const FieldInput = ({ field }: FieldProps) => {
       {field.component === "input" && field.metadata.type === "string" && (
         <div>
           <label htmlFor={`I${field.label}`}>{field.label}</label>
+          {Boolean(field.required) && <small>campo obligatorio*</small>}
           <InputText
             required={field.required}
             defaultValue={field.results[0]?.response?.value}
@@ -28,6 +29,8 @@ const FieldInput = ({ field }: FieldProps) => {
       {field.component === "input" && field.metadata.type === "number" && (
         <>
           <label htmlFor={`I${field.label}`}>{field.label}</label>
+          {field.required && <small>campo obligatorio*</small>}
+
           <InputNumber
             required={field.required}
             value={
@@ -41,13 +44,18 @@ const FieldInput = ({ field }: FieldProps) => {
       )}
 
       {field.component === "input" && field.metadata.type === "date" && (
-        <CalendarField field={field} />
+        <>
+          {field.required && <small>campo obligatorio*</small>}
+          <CalendarField field={field} />
+        </>
       )}
 
       {field.component === "select" && <SelectField field={field} />}
       {field.component === "chip" && (
         <div>
           <label htmlFor={`I${field.label}`}>{field.label}</label>
+          {field.required && <small>campo obligatorio*</small>}
+
           <InputText
             required={field.required}
             defaultValue={field.results[0]?.response?.value}
@@ -58,6 +66,8 @@ const FieldInput = ({ field }: FieldProps) => {
       )}
       {field.component === "check" && (
         <div className="input-group">
+          {field.required && <small>campo obligatorio*</small>}
+
           <CheckBoxField field={field} />
         </div>
       )}

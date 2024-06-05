@@ -15,6 +15,7 @@ const SelectField = ({ field }: SelectFieldProps) => {
   return (
     <>
       <label>{field.label}</label>
+      {field.required && <small>campo obligatorio*</small>}
       <Dropdown
         required={field.required}
         value={selectedValue}
