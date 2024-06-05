@@ -23,7 +23,10 @@ Font.register({
 });
 const styles = StyleSheet.create({
   page: {
-    padding: "30px",
+    paddingLeft: "20px",
+    paddingTop: "40px",
+    paddingBottom: "50px",
+    paddingRight: "50px",
     gap: "20px",
     marginLeft: "45px",
     marginRight: "200px",
@@ -42,6 +45,8 @@ const styles = StyleSheet.create({
     fontFamily: "PlayfairDisplayFamily",
   },
   result: {
+    display: "flex",
+    justifyContent: "center",
     fontSize: "12px",
     fontFamily: "InterFamily",
     marginTop: "20px",

@@ -20,6 +20,7 @@ const TermsAndConditions = () => {
   });
   const [checked, setChecked] = useState<boolean>(false);
   const [secondChecked, setSecondChecked] = useState<boolean>(false);
+  const [thirdChecked, setThirdChecked] = useState<boolean>(false);
   return (
     <div className="terms-container">
       <form
@@ -65,12 +66,20 @@ const TermsAndConditions = () => {
             </div>
           </div>
         </Card>
-        <Button
-          label="Siguiente"
-          className="next-button"
-          style={{ border: "0" }}
-        ></Button>
+        <Checkbox
+          required
+          onChange={(e) => setThirdChecked(e.checked as boolean)}
+          checked={thirdChecked}
+        ></Checkbox>
+        <span className="checkbox-label">
+          Acepto que acabo de leer los dos enunciados anteriormente.
+        </span>
       </form>
+      <Button
+        label="Siguiente"
+        className="next-button"
+        style={{ border: "0", boxShadow: "none" }}
+      ></Button>
     </div>
   );
 };
