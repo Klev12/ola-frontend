@@ -54,6 +54,7 @@ const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
         {user.verified
           ? "el usuario está verificado"
           : "el usuario no está verificado"}
+        <Button label="Verificar formulario" />
       </div>
       <div>
         {user.role !== Roles.admin && !notificationMode && (

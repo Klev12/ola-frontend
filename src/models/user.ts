@@ -6,6 +6,7 @@ export interface UserGetDto {
   area: UserArea;
   has_access: boolean;
   verified: boolean;
+  is_form_verified: boolean;
 }
 
 export enum Roles {

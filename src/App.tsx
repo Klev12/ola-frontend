@@ -24,6 +24,7 @@ import PageNotFound from "./pages/page-not-found/PageNotFound";
 import AuthUserFormGuard from "./guard/AuthUserFormGuard";
 import Forms from "./pages/forms/Forms";
 import SignatureDraw from "./pages/signature/Signature";
+import Verification from "./pages/user-form/Verification";
 
 function App() {
   return (
@@ -64,7 +65,11 @@ function App() {
           />
           <Route
             path={ROUTES.USER_FORM.SIGNATURE}
-            element={<SignatureDraw></SignatureDraw>}
+            element={<SignatureDraw />}
+          />
+          <Route
+            path={ROUTES.USER_FORM.VERIFICATION}
+            element={<Verification />}
           />
         </Route>
         <Route path={ROUTES.LOGIN} element={<Login />}></Route>

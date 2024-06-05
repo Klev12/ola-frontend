@@ -52,6 +52,9 @@ const ROUTES = {
     get SIGNATURE() {
       return `${this.ME}/signature`;
     },
+    get VERIFICATION() {
+      return `${this.ME}/verification`;
+    },
   },
 };
 

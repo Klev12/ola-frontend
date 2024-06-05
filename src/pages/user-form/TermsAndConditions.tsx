@@ -26,6 +26,7 @@ const TermsAndConditions = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          console.log("hello");
           verifyFormMutate(userFormId as number);
         }}
       >
@@ -74,12 +75,13 @@ const TermsAndConditions = () => {
         <span className="checkbox-label">
           Acepto que acabo de leer los dos enunciados anteriormente.
         </span>
+        <Button
+          type="submit"
+          label="Siguiente"
+          className="next-button"
+          style={{ border: "0", boxShadow: "none" }}
+        ></Button>
       </form>
-      <Button
-        label="Siguiente"
-        className="next-button"
-        style={{ border: "0", boxShadow: "none" }}
-      ></Button>
     </div>
   );
 };
