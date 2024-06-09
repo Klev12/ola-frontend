@@ -12,9 +12,9 @@ const Users = () => {
   return (
     <div>
       <button onClick={() => refetch()}>recargar</button>
-      {data?.data.users.map((user) => {
+      {data?.data.users.map((user, index) => {
         return (
-          <div key={user.id}>
+          <div key={index}>
             <UserCard user={user} notificationMode={false} />
           </div>
         );

@@ -7,11 +7,15 @@ interface SelectFieldProps {
 }
 
 const SelectField = ({ field }: SelectFieldProps) => {
-  const [selectedValue, setSelectedValue] = useState<OptionMetadata>({
-    label: field.results?.[0]?.response?.value as string,
-    value: field.metadata.options?.[0].value as string,
-  });
+  const [selectedValue, setSelectedValue] = useState<OptionMetadata>(() => ({
+    label: field.metadata.options?.filter(
+      (option) => option.value == field.results?.[0]?.response?.value
+    )?.[0]?.label as string,
+    value: field.results?.[0]?.response?.value as string,
+  }));
+
   console.log(selectedValue);
+
   return (
     <>
       <label>{field.label}</label>
@@ -19,8 +23,8 @@ const SelectField = ({ field }: SelectFieldProps) => {
       <Dropdown
         required={field.required}
         value={selectedValue}
+        defaultValue={selectedValue.label}
         onChange={(e) => setSelectedValue(e.value)}
-        defaultValue={field.results?.[0]?.response?.value || ""}
         options={field.metadata.options}
         optionLabel="label"
         placeholder={field.label}

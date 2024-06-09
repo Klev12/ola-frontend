@@ -12,6 +12,12 @@ const ROUTES = {
     get NOTIFICATIONS() {
       return `${this.ME}/notifications`;
     },
+    get CHECK_USER_FORM() {
+      return `${this.ME}/check-user-form/:id`;
+    },
+    CHECK_USER_FORM_ID(id: number | string) {
+      return `${this.ME}/check-user-form/${id}`;
+    },
   },
 
   SALES: {

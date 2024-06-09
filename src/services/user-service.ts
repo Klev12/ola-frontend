@@ -1,5 +1,6 @@
 import { ENV } from "../consts/const";
 import axios from "../interceptors/axios-interceptor";
+import { NotificationGetDto } from "../models/notification";
 import { Roles, UserGetDto } from "../models/user";
 
 export function getAllUsers() {
@@ -7,8 +8,8 @@ export function getAllUsers() {
 }
 
 export function getAllNotifications() {
-  return axios.get<{ users: UserGetDto[] }>(
-    `${ENV.BACKEND_ROUTE}/users/notifications`
+  return axios.get<{ notifications: NotificationGetDto[] }>(
+    `${ENV.BACKEND_ROUTE}/notifications`
   );
 }
 

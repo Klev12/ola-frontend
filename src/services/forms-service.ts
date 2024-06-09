@@ -27,6 +27,12 @@ export function getUserForm() {
   return axios.get<UserFormGetDto>(`${ENV.BACKEND_ROUTE}/forms/user-form`);
 }
 
+export function getUserFormByUserId(id: string | number) {
+  return axios.get<UserFormGetDto>(
+    `${ENV.BACKEND_ROUTE}/forms/user-form/${id}`
+  );
+}
+
 export function verifyForm(id: number) {
   return axios.post(`${ENV.BACKEND_ROUTE}/forms/verify-form`, { id });
 }

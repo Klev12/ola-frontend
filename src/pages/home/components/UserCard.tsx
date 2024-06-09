@@ -1,14 +1,11 @@
 import { Panel } from "primereact/panel";
-import { ToggleButton } from "primereact/togglebutton";
 import { Roles, UserGetDto } from "../../../models/user";
-import {
-  changeRole,
-  deleteUserById,
-  toggleAccessUser,
-} from "../../../services/user-service";
-import { useRef, useState } from "react";
+import { changeRole } from "../../../services/user-service";
+import { useRef } from "react";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
+import { Link } from "react-router-dom";
+import ROUTES from "../../../consts/routes";
 
 interface UserCardProps {
   user: UserGetDto;
@@ -16,8 +13,6 @@ interface UserCardProps {
 }
 
 const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
-  const [accept, setAccept] = useState<boolean>(false);
-  const [reject, setReject] = useState<boolean>(false);
   const toast = useRef<Toast>(null);
 
   const showSuccess = () => {
@@ -29,22 +24,6 @@ const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
     });
   };
 
-  const handleAccept = async () => {
-    if (!accept) {
-      await toggleAccessUser(true, user.id as number);
-      setAccept(true);
-      setReject(false);
-    }
-  };
-
-  const handleReject = async () => {
-    if (!reject) {
-      await deleteUserById(user.id);
-      setAccept(false);
-      setReject(true);
-    }
-  };
-
   return (
     <Panel header={user.fullname} toggleable collapsed>
       <div>Email: {user.email}</div>
@@ -54,7 +33,9 @@ const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
         {user.verified
           ? "el usuario está verificado"
           : "el usuario no está verificado"}
-        <Button label="Verificar formulario" />
+        <Link target="_blank" to={ROUTES.DASHBOARD.CHECK_USER_FORM_ID(user.id)}>
+          Revisar formulario
+        </Link>
       </div>
       <div>
         {user.role !== Roles.admin && !notificationMode && (
@@ -89,26 +70,6 @@ const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
           </form>
         )}
       </div>
-      {notificationMode && (
-        <>
-          <ToggleButton
-            checked={accept}
-            onLabel="Aceptar"
-            offLabel="Aceptar"
-            onIcon="pi pi-check"
-            offIcon="pi pi-check"
-            onChange={handleAccept}
-          />
-          <ToggleButton
-            checked={reject}
-            onLabel="Rechazar"
-            offLabel="Rechazar"
-            onIcon="pi pi-ban"
-            offIcon="pi pi-ban"
-            onChange={handleReject}
-          />
-        </>
-      )}
     </Panel>
   );
 };

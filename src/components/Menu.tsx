@@ -7,6 +7,8 @@ import { Roles } from "../models/user";
 import useGlobalState from "../store/store";
 import { useMemo } from "react";
 
+import "./styles/menu-styles.css";
+
 const roleBasedVisibility = {
   [Roles.admin]: {
     home: true,
@@ -124,7 +126,7 @@ export default function MenuDemo() {
   }, [user]);
 
   return (
-    <div className="card">
+    <div className="menu">
       <Menubar model={roleBasedItems as MenuItem[]} end={<AvatarDemo />} />
     </div>
   );

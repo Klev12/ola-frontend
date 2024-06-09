@@ -1,21 +1,22 @@
 import { useQuery } from "react-query";
 import { getAllNotifications } from "../../services/user-service";
-import UserCard from "../home/components/UserCard";
+import { Card } from "primereact/card";
+import NotificationCard from "./components/NotificationCard";
 
 const Notifications = () => {
-  const { data } = useQuery({
-    queryFn: getAllNotifications,
+  const { data: notificationsData } = useQuery({
+    queryFn: () => getAllNotifications().then((res) => res.data),
     queryKey: ["notifications"],
   });
 
   return (
     <div>
-      {" "}
-      {data?.data.users.map((user) => {
+      {notificationsData?.notifications.length === 0 && (
+        <div>No hay notificationes</div>
+      )}
+      {notificationsData?.notifications.map((notification) => {
         return (
-          <div key={user.id} style={{ backgroundColor: "" }}>
-            <UserCard user={user} notificationMode={true} />
-          </div>
+          <NotificationCard key={notification.id} notification={notification} />
         );
       })}
     </div>

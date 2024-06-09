@@ -25,6 +25,7 @@ import AuthUserFormGuard from "./guard/AuthUserFormGuard";
 import Forms from "./pages/forms/Forms";
 import SignatureDraw from "./pages/signature/Signature";
 import Verification from "./pages/user-form/Verification";
+import CheckUserForm from "./pages/dashboard/CheckUserForm";
 
 function App() {
   return (
@@ -41,6 +42,10 @@ function App() {
           }
         >
           <Route path={ROUTES.HOME.ME} element={<Home />} />
+          <Route
+            path={ROUTES.DASHBOARD.CHECK_USER_FORM}
+            element={<CheckUserForm />}
+          />
           <Route path={ROUTES.DASHBOARD.ME} element={<Dashboard />}>
             <Route
               path={ROUTES.DASHBOARD.NOTIFICATIONS}
@@ -75,6 +80,7 @@ function App() {
         <Route path={ROUTES.LOGIN} element={<Login />}></Route>
         <Route path={ROUTES.SIGNUP} element={<Signup />}></Route>
         <Route path={ROUTES.USER_FORM.FORM_PDF} element={<FormPDF />} />
+
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>
