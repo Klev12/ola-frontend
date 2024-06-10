@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { FileUpload, FileUploadHandlerEvent } from "primereact/fileupload";
 import { ENV } from "../../consts/const";
 import { Button } from "primereact/button";
@@ -7,7 +7,6 @@ import { useMutation } from "react-query";
 import { verifyForm } from "../../services/forms-service";
 import { verifyUser } from "../../services/auth-service";
 import { useNavigate } from "react-router";
-import ROUTES from "../../consts/routes";
 import { Divider } from "primereact/divider";
 import { Toast } from "primereact/toast";
 import { sendVerifyUserNotification } from "../../services/notification-service";
@@ -18,6 +17,9 @@ const Documents: React.FC = () => {
   const toast = useRef<Toast>(null);
   const fileUploadRef1 = useRef<FileUpload>(null);
   const fileUploadRef2 = useRef<FileUpload>(null);
+
+  const [imagesUploaded, setImagesUploaded] = useState(false);
+  const [videoUploaded, setVideoUploaded] = useState(false);
 
   const { mutate: sendVerifyUserNotificationMutate } = useMutation(
     sendVerifyUserNotification
@@ -41,25 +43,6 @@ const Documents: React.FC = () => {
   });
 
   const submit = () => {
-    /*   const images = fileUploadRef1.current?.getFiles();
-    const video = fileUploadRef2.current?.getFiles();
-
-    if (!images || images.length < 2) {
-      showToast("error", "Error", "Debe subir dos imágenes.");
-      return;
-    }
-
-    if (!video || video.length !== 1) {
-      showToast("error", "Error", "Debe subir un video.");
-      return;
-    }
-
-    const videoFile = video[0];
-    if (videoFile.size > 50 * 1024 * 1024) {
-      showToast("error", "Error", "El video no debe exceder los 50MB.");
-      return;
-    } */
-
     verifyUserMutate();
   };
 
@@ -84,6 +67,16 @@ const Documents: React.FC = () => {
       return false;
     }
     return true;
+  };
+
+  const onUploadSuccessImages = () => {
+    setImagesUploaded(true);
+    showToast("success", "Success", "Imágenes subidas correctamente.");
+  };
+
+  const onUploadSuccessVideo = () => {
+    setVideoUploaded(true);
+    showToast("success", "Success", "Video subido correctamente.");
   };
 
   const onUploadError = (event: any) => {
@@ -117,9 +110,7 @@ const Documents: React.FC = () => {
         cancelLabel="Cancelar"
         url={`${ENV.BACKEND_ROUTE}/multimedia/user-card`}
         beforeUpload={beforeUploadImages}
-        onUpload={() =>
-          showToast("success", "Success", "Imágenes subidas correctamente.")
-        }
+        onUpload={onUploadSuccessImages}
         onError={onUploadError}
       />
       <h2>Video</h2>
@@ -146,15 +137,14 @@ const Documents: React.FC = () => {
         withCredentials={true}
         url={`${ENV.BACKEND_ROUTE}/multimedia/video`}
         beforeUpload={beforeUploadVideo}
-        onUpload={() =>
-          showToast("success", "Success", "Video subido correctamente.")
-        }
+        onUpload={onUploadSuccessVideo}
         onError={onUploadError}
       />
       <Divider />
       <Button
         label="Enviar Notificación"
         onClick={submit}
+        disabled={!imagesUploaded || !videoUploaded}
         style={{
           backgroundColor: "purple",
           border: "0",

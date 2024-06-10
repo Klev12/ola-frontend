@@ -40,7 +40,7 @@ const UserForm = () => {
   return (
     <>
       <ScrollPanel>
-        <h2>{form?.form_scheme?.label}</h2>
+        <h2>{form?.form_scheme?.label} </h2>
 
         <form
           onSubmit={(e) => {
