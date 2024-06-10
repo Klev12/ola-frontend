@@ -6,6 +6,7 @@ import { Button } from "primereact/button";
 import { MouseEventHandler } from "react";
 import { useMutation } from "react-query";
 import { verifyUserForm } from "../services/user-service";
+import { useNavigate } from "react-router-dom";
 
 interface PrintFormProps {
   form?: UserFormGetDto;
@@ -15,10 +16,15 @@ interface PrintFormProps {
 
 const PrintForm = ({ form, onSubmit, isLoading }: PrintFormProps) => {
   const { mutate: verifyUserFormMutate } = useMutation(verifyUserForm);
+  const navigate = useNavigate();
 
   const acceptFormUser: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
     verifyUserFormMutate(form?.user_form.user_id as number);
+  };
+
+  const handleClick = () => {
+    navigate("/user-form/form-pdf");
   };
 
   return (
@@ -58,6 +64,7 @@ const PrintForm = ({ form, onSubmit, isLoading }: PrintFormProps) => {
             disabled={isLoading}
             onClick={acceptFormUser}
           />
+          <Button label="Ver PDF" onClick={handleClick} />
         </nav>
       </form>
     </ScrollPanel>
