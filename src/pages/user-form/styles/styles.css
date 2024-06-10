@@ -25,6 +25,7 @@
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    box-shadow: none;
   }
   
   .field-input .p-inputtext:focus,
@@ -40,6 +41,7 @@
   
   .field-input .p-checkbox .p-checkbox-box {
     margin-right: 8px;
+    box-shadow: purple;
   }
   
   .field-input .field-error {
@@ -55,6 +57,7 @@
     flex-direction: column;
     gap: 20px;
     margin-bottom: 20px;
+    box-shadow: purple;
 
   }
   

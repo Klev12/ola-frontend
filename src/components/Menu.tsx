@@ -43,7 +43,7 @@ const roleBasedVisibility = {
     forms: true,
   },
   [Roles.user]: {
-    admin: true,
+    home: true,
     dashboard: false,
     sales: false,
     blog: true,
