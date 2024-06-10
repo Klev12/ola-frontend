@@ -32,5 +32,11 @@ export function deleteUserById(id: number | string) {
 }
 
 export function verifyUserForm(userId: number | string) {
-  return axios.post(`${ENV.BACKEND_ROUTE}/users/verify-user-form`, userId);
+  return axios.post(`${ENV.BACKEND_ROUTE}/users/verify-user-form`, {
+    id: userId,
+  });
+}
+
+export function findUserById(id: string | number) {
+  return axios.get<{ user: UserGetDto }>(`${ENV.BACKEND_ROUTE}/users/${id}`);
 }

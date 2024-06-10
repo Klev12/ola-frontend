@@ -7,10 +7,24 @@ export interface UserGetDto {
   has_access: boolean;
   verified: boolean;
   is_form_verified: boolean;
+  multimedias: UserMultimedia[];
+}
+
+export interface UserMultimedia {
+  id: string | number;
+  type: string;
+  name: string;
+  hash: string;
+}
+
+export enum MultimediaType {
+  cardId = "card_id",
+  video = "video",
 }
 
 export enum Roles {
   admin = "admin",
+  secretary = "secretary",
   user = "user",
   sales = "sales",
   groupAdmin = "group_admin",

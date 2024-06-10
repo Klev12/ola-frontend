@@ -10,7 +10,9 @@ interface DepentFieldsProps {
 }
 
 const DepentFields = ({ formGroup }: DepentFieldsProps) => {
-  const [showFields, setShowFields] = useState<string>("true");
+  const [showFields, setShowFields] = useState<string>(() => {
+    return formGroup.fields[0].results?.[0]?.response.value || "true";
+  });
 
   return (
     <Card key={formGroup.id} className="p-card">
@@ -21,6 +23,7 @@ const DepentFields = ({ formGroup }: DepentFieldsProps) => {
         {formGroup.fields[0].required && <small>campo obligatorio*</small>}
 
         <Dropdown
+          defaultValue={formGroup.fields[0].results?.[0]?.response?.value}
           required={formGroup.fields[0].required}
           value={showFields}
           onChange={(e) => {

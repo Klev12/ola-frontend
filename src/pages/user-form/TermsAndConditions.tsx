@@ -18,6 +18,11 @@ const TermsAndConditions = () => {
       navigate(ROUTES.USER_FORM.DOCUMENTS);
     },
   });
+
+  const userFormNames = useGlobalState((state) => state.userFormNames);
+  const userFormLastNames = useGlobalState((state) => state.userFormLastNames);
+  const userIdCard = useGlobalState((state) => state.userIdCard);
+
   const [checked, setChecked] = useState<boolean>(false);
   const [secondChecked, setSecondChecked] = useState<boolean>(false);
   const [thirdChecked, setThirdChecked] = useState<boolean>(false);
@@ -73,7 +78,9 @@ const TermsAndConditions = () => {
           checked={thirdChecked}
         ></Checkbox>
         <span className="checkbox-label">
-          Acepto que acabo de leer los dos enunciados anteriormente.
+          Yo{" "}
+          {`${userFormNames} ${userFormLastNames} con la identificación ${userIdCard} `}
+          acepto que acabo de leer los dos enunciados anteriormente.
         </span>
         <Button
           type="submit"

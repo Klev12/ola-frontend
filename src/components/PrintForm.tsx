@@ -2,13 +2,25 @@ import { ScrollPanel } from "primereact/scrollpanel";
 import { UserFormGetDto } from "../models/user-form";
 import FormGroupList from "../pages/user-form/components/FormGroupList";
 import { AllResultPutDto, ResultPutDto } from "../models/result";
+import { Button } from "primereact/button";
+import { MouseEventHandler } from "react";
+import { useMutation } from "react-query";
+import { verifyUserForm } from "../services/user-service";
 
 interface PrintFormProps {
   form?: UserFormGetDto;
   onSubmit: (data: AllResultPutDto) => void;
+  isLoading?: boolean;
 }
 
-const PrintForm = ({ form, onSubmit }: PrintFormProps) => {
+const PrintForm = ({ form, onSubmit, isLoading }: PrintFormProps) => {
+  const { mutate: verifyUserFormMutate } = useMutation(verifyUserForm);
+
+  const acceptFormUser: MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.preventDefault();
+    verifyUserFormMutate(form?.user_form.user_id as number);
+  };
+
   return (
     <ScrollPanel>
       <h2>{form?.form_scheme?.label}</h2>
@@ -34,6 +46,19 @@ const PrintForm = ({ form, onSubmit }: PrintFormProps) => {
         }}
       >
         <FormGroupList formGroups={form?.form_scheme.form_groups} />
+        <nav style={{ position: "fixed", zIndex: 2, bottom: 0, right: 0 }}>
+          <Button
+            label="Subir cambios"
+            loading={isLoading}
+            disabled={isLoading}
+          />
+          <Button
+            label="Aceptar formulario de ingreso"
+            loading={isLoading}
+            disabled={isLoading}
+            onClick={acceptFormUser}
+          />
+        </nav>
       </form>
     </ScrollPanel>
   );

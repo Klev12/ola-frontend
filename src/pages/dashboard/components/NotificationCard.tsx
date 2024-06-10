@@ -11,6 +11,8 @@ import {
   toggleAccessUser,
 } from "../../../services/user-service";
 import { deleteNotificationById } from "../../../services/notification-service";
+import ROUTES from "../../../consts/routes";
+import { Link } from "react-router-dom";
 
 interface NotificationCardProps {
   notification: NotificationGetDto;
@@ -48,6 +50,18 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
 
   return (
     <Card>
+      {notification.type !== NotificationType.newUser && (
+        <Button
+          icon="pi pi-times"
+          rounded
+          severity="danger"
+          aria-label="Cancel"
+          onClick={() => {
+            deleteNotificationByIdMutate(notification.id);
+          }}
+        />
+      )}
+
       <h2>{notification.title}</h2>
       <p>{notification.description}</p>
       {notification.type === NotificationType.newUser && (
@@ -57,16 +71,28 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
             onClick={() => {
               toggleAccessUserMutate({
                 access: true,
-                userId: notification.metadata.userId,
+                userId: notification.metadata?.userId as number,
               });
             }}
           />
           <Button
             label="Denegar acceso"
             onClick={() => {
-              deleteUserByIdMutate(notification.metadata.userId);
+              deleteUserByIdMutate(notification.metadata?.userId as number);
             }}
           />
+        </>
+      )}
+      {notification.type === NotificationType.verifyUser && (
+        <>
+          <Link
+            target="_blank"
+            to={ROUTES.DASHBOARD.CHECK_USER_FORM_ID(
+              notification.metadata?.userId as number
+            )}
+          >
+            Revisar formulario
+          </Link>
         </>
       )}
     </Card>

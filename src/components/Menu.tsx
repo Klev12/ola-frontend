@@ -18,6 +18,14 @@ const roleBasedVisibility = {
     norms: true,
     forms: true,
   },
+  [Roles.secretary]: {
+    home: true,
+    dashboard: true,
+    sales: true,
+    blog: true,
+    norms: true,
+    forms: true,
+  },
   [Roles.groupAdmin]: {
     home: true,
     dashboard: true,

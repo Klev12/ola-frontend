@@ -7,9 +7,11 @@ export interface NotificationGetDto {
 }
 
 export interface NotificationMetadata {
-  userId: string | number;
+  userId?: string | number;
+  formId?: string | number;
 }
 
 export enum NotificationType {
   newUser = "new-user",
+  verifyUser = "verify-user",
 }

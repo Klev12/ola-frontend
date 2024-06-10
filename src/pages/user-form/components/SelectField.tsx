@@ -1,4 +1,3 @@
-import { Dropdown } from "primereact/dropdown";
 import { Field, OptionMetadata } from "../../../models/form-scheme";
 import { useState } from "react";
 
@@ -20,16 +19,18 @@ const SelectField = ({ field }: SelectFieldProps) => {
     <>
       <label>{field.label}</label>
       {field.required && <small>campo obligatorio*</small>}
-      <Dropdown
+      <select
         required={field.required}
-        value={selectedValue}
-        defaultValue={selectedValue.label}
-        onChange={(e) => setSelectedValue(e.value)}
-        options={field.metadata.options}
-        optionLabel="label"
-        placeholder={field.label}
         name={field.id as string}
-      />
+        value={selectedValue.value}
+        onChange={(e) => {
+          setSelectedValue({ label: "", value: e.target.value });
+        }}
+      >
+        {field.metadata.options?.map((option) => {
+          return <option value={option.value}>{option.label}</option>;
+        })}
+      </select>
     </>
   );
 };

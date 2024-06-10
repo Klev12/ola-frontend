@@ -10,7 +10,14 @@ import ROUTES from "../../consts/routes";
 import useGlobalState from "../../store/store";
 
 const UserForm = () => {
+  const setUserFormNames = useGlobalState((state) => state.setUserFormNames);
+  const setUserFormLastNames = useGlobalState(
+    (state) => state.setUserFormLastNames
+  );
+
   const setUserFormId = useGlobalState((state) => state.setUserFormId);
+
+  const setUserIdCard = useGlobalState((state) => state.setUserIdCard);
 
   const navigate = useNavigate();
   const { data: form } = useQuery({
@@ -51,6 +58,10 @@ const UserForm = () => {
                 },
               } as ResultPutDto;
             });
+
+            setUserFormNames(results[0].response.value);
+            setUserFormLastNames(results[1].response.value);
+            setUserIdCard(results[2].response.value);
 
             submitFormMutate({
               id: form?.user_form.id as number,

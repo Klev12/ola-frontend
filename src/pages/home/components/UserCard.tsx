@@ -1,11 +1,13 @@
 import { Panel } from "primereact/panel";
 import { Roles, UserGetDto } from "../../../models/user";
-import { changeRole } from "../../../services/user-service";
+import { changeRole, deleteUserById } from "../../../services/user-service";
 import { useRef } from "react";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 import { Link } from "react-router-dom";
 import ROUTES from "../../../consts/routes";
+import { useMutation, useQuery } from "react-query";
+import useGlobalState from "../../../store/store";
 
 interface UserCardProps {
   user: UserGetDto;
@@ -23,9 +25,30 @@ const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
       life: 3000,
     });
   };
+  const { refetch } = useQuery({ queryKey: ["users"] });
+  const { mutate: deleteUserByIdMutate } = useMutation(deleteUserById, {
+    onSuccess: () => {
+      refetch();
+    },
+  });
+
+  const athenticatedUser = useGlobalState((state) => state.user);
 
   return (
     <Panel header={user.fullname} toggleable collapsed>
+      {user.role !== Roles.admin &&
+        athenticatedUser?.role !== Roles.secretary && (
+          <>
+            <Button
+              rounded
+              label="Eliminar usuario"
+              onClick={() => {
+                deleteUserByIdMutate(user.id);
+              }}
+            />
+          </>
+        )}
+
       <div>Email: {user.email}</div>
       <div>Area: {user.area}</div>
       <div style={{ gap: "0.5rem" }}>

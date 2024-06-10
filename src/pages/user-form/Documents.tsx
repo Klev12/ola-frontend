@@ -10,6 +10,7 @@ import { useNavigate } from "react-router";
 import ROUTES from "../../consts/routes";
 import { Divider } from "primereact/divider";
 import { Toast } from "primereact/toast";
+import { sendVerifyUserNotification } from "../../services/notification-service";
 
 const Documents: React.FC = () => {
   const navigate = useNavigate();
@@ -18,8 +19,14 @@ const Documents: React.FC = () => {
   const fileUploadRef1 = useRef<FileUpload>(null);
   const fileUploadRef2 = useRef<FileUpload>(null);
 
+  const { mutate: sendVerifyUserNotificationMutate } = useMutation(
+    sendVerifyUserNotification
+  );
+
   const { mutate: verifyUserMutate } = useMutation(verifyUser, {
-    onSuccess: () => navigate(ROUTES.HOME.ME),
+    onSuccess: () => {
+      sendVerifyUserNotificationMutate(userFormId as string);
+    },
   });
 
   const { mutate: verifyFormMutate } = useMutation(verifyForm, {
@@ -34,7 +41,7 @@ const Documents: React.FC = () => {
   });
 
   const submit = () => {
-    const images = fileUploadRef1.current?.getFiles();
+    /*   const images = fileUploadRef1.current?.getFiles();
     const video = fileUploadRef2.current?.getFiles();
 
     if (!images || images.length < 2) {
@@ -51,9 +58,9 @@ const Documents: React.FC = () => {
     if (videoFile.size > 50 * 1024 * 1024) {
       showToast("error", "Error", "El video no debe exceder los 50MB.");
       return;
-    }
+    } */
 
-    verifyFormMutate(userFormId as number);
+    verifyUserMutate();
   };
 
   const showToast = (severity: string, summary: string, detail: string) => {
@@ -146,7 +153,7 @@ const Documents: React.FC = () => {
       />
       <Divider />
       <Button
-        label="Enviar formulario"
+        label="Enviar Notificación"
         onClick={submit}
         style={{
           backgroundColor: "purple",

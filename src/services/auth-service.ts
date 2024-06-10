@@ -21,3 +21,7 @@ export function verifyUser() {
 export function logout() {
   return axios.get(`${ENV.BACKEND_ROUTE}/logout`);
 }
+
+export function verifyByUserId(id: string | number) {
+  return axios.post(`${ENV.BACKEND_ROUTE}/verify`, { id });
+}
