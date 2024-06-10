@@ -13,7 +13,7 @@ const UserFormWrapper = () => {
     return <h1>Cargando...</h1>;
   }
 
-  if (userData?.user.verified) {
+  if (userData?.user.is_form_verified) {
     return <Navigate to={ROUTES.HOME.ME} />;
   }
 

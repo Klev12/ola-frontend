@@ -3,13 +3,14 @@ import { FileUpload, FileUploadHandlerEvent } from "primereact/fileupload";
 import { ENV } from "../../consts/const";
 import { Button } from "primereact/button";
 import useGlobalState from "../../store/store";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { verifyForm } from "../../services/forms-service";
-import { verifyUser } from "../../services/auth-service";
-import { useNavigate } from "react-router";
+import { authenticate, verifyUser } from "../../services/auth-service";
+import { Navigate, useNavigate } from "react-router";
 import { Divider } from "primereact/divider";
 import { Toast } from "primereact/toast";
 import { sendVerifyUserNotification } from "../../services/notification-service";
+import ROUTES from "../../consts/routes";
 
 const Documents: React.FC = () => {
   const navigate = useNavigate();
@@ -21,14 +22,16 @@ const Documents: React.FC = () => {
   const [imagesUploaded, setImagesUploaded] = useState(false);
   const [videoUploaded, setVideoUploaded] = useState(false);
 
+  const { data: userData } = useQuery({
+    queryFn: () => authenticate().then((res) => res.data),
+  });
+
   const { mutate: sendVerifyUserNotificationMutate } = useMutation(
     sendVerifyUserNotification
   );
 
   const { mutate: verifyUserMutate } = useMutation(verifyUser, {
-    onSuccess: () => {
-      sendVerifyUserNotificationMutate(userFormId as string);
-    },
+    onSuccess: () => {},
   });
 
   const { mutate: verifyFormMutate } = useMutation(verifyForm, {
@@ -86,6 +89,14 @@ const Documents: React.FC = () => {
     showToast("error", "Error", errorMessage);
   };
 
+  if (userData?.user?.multimedias?.length === 3) {
+    return <Navigate to={ROUTES.USER_FORM.SIGNATURE} />;
+  }
+
+  if (userData?.user?.multimedias?.length === 4) {
+    return <Navigate to={ROUTES.USER_FORM.VERIFICATION} />;
+  }
+
   return (
     <div style={{ padding: "20px" }}>
       <h2>Cédula</h2>
@@ -142,8 +153,10 @@ const Documents: React.FC = () => {
       />
       <Divider />
       <Button
-        label="Enviar Notificación"
-        onClick={submit}
+        label="Siguiente"
+        onClick={() => {
+          navigate(ROUTES.USER_FORM.SIGNATURE);
+        }}
         disabled={!imagesUploaded || !videoUploaded}
         style={{
           backgroundColor: "purple",
