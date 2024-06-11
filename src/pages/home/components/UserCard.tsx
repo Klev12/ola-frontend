@@ -1,20 +1,24 @@
+import React, { useRef } from "react";
 import { Panel } from "primereact/panel";
-import { Roles, UserGetDto } from "../../../models/user";
-import { changeRole, deleteUserById } from "../../../services/user-service";
-import { useRef } from "react";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 import { Link } from "react-router-dom";
-import ROUTES from "../../../consts/routes";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { useMutation, useQuery } from "react-query";
+import ROUTES from "../../../consts/routes";
 import useGlobalState from "../../../store/store";
+import { Roles, UserGetDto } from "../../../models/user";
+import { changeRole, deleteUserById } from "../../../services/user-service";
 
 interface UserCardProps {
   user: UserGetDto;
-  notificationMode: boolean;
+  notificationMode?: boolean;
 }
 
-const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
+const UserCard: React.FC<UserCardProps> = ({
+  user,
+  notificationMode = false,
+}) => {
   const toast = useRef<Toast>(null);
 
   const showSuccess = () => {
@@ -25,27 +29,47 @@ const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
       life: 3000,
     });
   };
+
   const { refetch } = useQuery({ queryKey: ["users"] });
   const { mutate: deleteUserByIdMutate } = useMutation(deleteUserById, {
     onSuccess: () => {
       refetch();
+      toast.current?.show({
+        severity: "success",
+        summary: "Success",
+        detail: "El usuario ha sido eliminado",
+        life: 3000,
+      });
     },
   });
 
   const athenticatedUser = useGlobalState((state) => state.user);
 
+  const confirmDelete = () => {
+    confirmDialog({
+      message: "¿Estás seguro de que quieres eliminar este usuario?",
+      header: "Confirmar eliminación",
+      icon: "pi pi-exclamation-triangle",
+      accept: () => deleteUserByIdMutate(user.id),
+      reject: () => {
+        toast.current?.show({
+          severity: "info",
+          summary: "Cancelado",
+          detail: "La eliminación del usuario ha sido cancelada",
+          life: 3000,
+        });
+      },
+    });
+  };
+
   return (
     <Panel header={user.fullname} toggleable collapsed>
+      <Toast ref={toast} />
+      <ConfirmDialog />
       {user.role !== Roles.admin &&
         athenticatedUser?.role !== Roles.secretary && (
           <>
-            <Button
-              rounded
-              label="Eliminar usuario"
-              onClick={() => {
-                deleteUserByIdMutate(user.id);
-              }}
-            />
+            <Button rounded label="Eliminar usuario" onClick={confirmDelete} />
           </>
         )}
 
@@ -76,7 +100,7 @@ const UserCard = ({ user, notificationMode = false }: UserCardProps) => {
               {Object.values(Roles)
                 .filter((role) => role !== Roles.admin)
                 .map((role) => (
-                  <option>{role}</option>
+                  <option key={role}>{role}</option>
                 ))}
             </select>
             <Button

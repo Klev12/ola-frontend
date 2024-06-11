@@ -37,10 +37,12 @@ const TermsAndConditions = () => {
       >
         <Card title="Términos y condiciones" className="terms-card">
           <div className="m-0 terms-text">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
-            sed consequuntur error repudiandae numquam deserunt quisquam
-            repellat libero asperiores earum nam nobis, culpa ratione quam
-            perferendis esse, cupiditate neque quas!
+            Yo: {""}
+            {`${userFormNames?.toLocaleUpperCase()}${userFormLastNames?.toUpperCase()}con el numero de identificacion ${userIdCard}`}{" "}
+            , consectetur adipisicing elit. Inventore sed consequuntur error
+            repudiandae numquam deserunt quisquam repellat libero asperiores
+            earum nam nobis, culpa ratione quam perferendis esse, cupiditate
+            neque quas!
             <div className="checkbox-container">
               <Checkbox
                 required
@@ -56,10 +58,12 @@ const TermsAndConditions = () => {
         <Divider />
         <Card title="Términos y condiciones" className="terms-card">
           <div className="m-0 terms-text">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
-            sed consequuntur error repudiandae numquam deserunt quisquam
-            repellat libero asperiores earum nam nobis, culpa ratione quam
-            perferendis esse, cupiditate neque quas!
+            {"Yo"}
+            {`${userFormNames?.toLocaleUpperCase()}${userFormLastNames?.toLocaleUpperCase()}con el número de identificación${userIdCard}`}
+            , consectetur adipisicing elit. Inventore sed consequuntur error
+            repudiandae numquam deserunt quisquam repellat libero asperiores
+            earum nam nobis, culpa ratione quam perferendis esse, cupiditate
+            neque quas!
             <div className="checkbox-container">
               <Checkbox
                 required
@@ -79,7 +83,7 @@ const TermsAndConditions = () => {
         ></Checkbox>
         <span className="checkbox-label">
           Yo{" "}
-          {`${userFormNames} ${userFormLastNames} con la identificación ${userIdCard} `}
+          {`${userFormNames?.toLocaleUpperCase()} ${userFormLastNames?.toLocaleUpperCase()} con la identificación ${userIdCard} `}
           acepto que acabo de leer los dos enunciados anteriormente.
         </span>
         <Button

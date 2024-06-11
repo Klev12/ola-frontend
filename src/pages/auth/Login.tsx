@@ -63,7 +63,7 @@ const Login = () => {
             placeholder="Contraseña"
             required
           />
-          <Button label="Iniciar sesión" />
+          <Button label="Iniciar sesión" style={{ border: "0" }} />
           <p>¿No tienes Cuenta?</p>
           <div className="signup-link">
             <Link to={ROUTES.SIGNUP}>Crear Cuenta</Link>
