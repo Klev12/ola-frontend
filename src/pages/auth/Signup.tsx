@@ -88,12 +88,52 @@ const Signup: React.FC = () => {
             id="area"
             value={selectedArea}
             name="area"
-            options={Object.values(UserArea).map((area) => ({
-              name: area,
-              value: area,
-            }))}
+            options={Object.values(UserArea).map((area) => {
+              switch (area) {
+                case UserArea.commercial:
+                  return {
+                    value: area,
+                    label: "Asesor comercial",
+                  };
+                case UserArea.communityManager:
+                  return {
+                    value: area,
+                    label: "Community manager",
+                  };
+                case UserArea.communication:
+                  return {
+                    value: area,
+                    label: "Comunicación",
+                  };
+                case UserArea.design:
+                  return {
+                    value: area,
+                    label: "Diseño",
+                  };
+                case UserArea.marketing:
+                  return {
+                    value: area,
+                    label: "Marketing",
+                  };
+                case UserArea.photograph:
+                  return {
+                    value: area,
+                    label: "Fotografía",
+                  };
+                case UserArea.secretary:
+                  return {
+                    value: area,
+                    label: "Secretario/a",
+                  };
+                case UserArea.telemarketing:
+                  return {
+                    value: area,
+                    label: "Telemarketing",
+                  };
+              }
+            })}
             onChange={(e) => setSelectedArea(e.value)}
-            optionLabel="name"
+            optionLabel="label"
             placeholder="Selecciona una área"
             className="w-full md:w-14rem"
           />

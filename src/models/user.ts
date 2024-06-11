@@ -20,6 +20,7 @@ export interface UserMultimedia {
 export enum MultimediaType {
   cardId = "card_id",
   video = "video",
+  signature = "signature",
 }
 
 export enum Roles {
@@ -31,10 +32,12 @@ export enum Roles {
 }
 
 export enum UserArea {
-  commercial = "asesor comercial",
+  commercial = "commercial",
   design = "design",
-  communityManager = "community manager",
-  photograph = "fotógrafo",
+  communityManager = "community-manager",
+  photograph = "photograph",
   telemarketing = "telemarketing",
   secretary = "secretary",
+  marketing = "marketing",
+  communication = "communication",
 }
