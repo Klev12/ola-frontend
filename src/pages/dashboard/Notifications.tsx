@@ -1,6 +1,5 @@
 import { useQuery } from "react-query";
 import { getAllNotifications } from "../../services/user-service";
-import { Card } from "primereact/card";
 import NotificationCard from "./components/NotificationCard";
 
 const Notifications = () => {

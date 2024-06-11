@@ -26,6 +26,14 @@ const CheckUserForm = () => {
 
   return (
     <div>
+      <PrintForm
+        form={formData}
+        isLoading={isLoading}
+        onSubmit={(data) => {
+          submitFormMutate(data);
+        }}
+      />
+
       {userData?.data.user.multimedias.map((file) => {
         if (file.type === MultimediaType.video) {
           return (
@@ -47,13 +55,6 @@ const CheckUserForm = () => {
           />
         );
       })}
-      <PrintForm
-        form={formData}
-        isLoading={isLoading}
-        onSubmit={(data) => {
-          submitFormMutate(data);
-        }}
-      />
     </div>
   );
 };
