@@ -66,6 +66,47 @@ const TermsAndConditions = () => {
             );
           })}
         </>
+        <Card title="Términos y condiciones" className="terms-card">
+          <div className="m-0 terms-text">
+            Yo: {""}
+            {`${userFormNames?.toLocaleUpperCase()} ${userFormLastNames?.toUpperCase()} con el numero de identificacion ${userIdCard}`}{" "}
+            , consectetur adipisicing elit. Inventore sed consequuntur error
+            repudiandae numquam deserunt quisquam repellat libero asperiores
+            earum nam nobis, culpa ratione quam perferendis esse, cupiditate
+            neque quas!
+            <div className="checkbox-container">
+              <Checkbox
+                required
+                onChange={(e) => setChecked(e.checked as boolean)}
+                checked={checked}
+              ></Checkbox>
+              <span className="checkbox-label">
+                Acepto todos los términos y condiciones que acabo de leer
+              </span>
+            </div>
+          </div>
+        </Card>
+        <Divider />
+        <Card title="Términos y condiciones" className="terms-card">
+          <div className="m-0 terms-text">
+            {"Yo"}
+            {`${userFormNames?.toLocaleUpperCase()} ${userFormLastNames?.toLocaleUpperCase()} con el número de identificación ${userIdCard}`}
+            , consectetur adipisicing elit. Inventore sed consequuntur error
+            repudiandae numquam deserunt quisquam repellat libero asperiores
+            earum nam nobis, culpa ratione quam perferendis esse, cupiditate
+            neque quas!
+            <div className="checkbox-container">
+              <Checkbox
+                required
+                onChange={(e) => setSecondChecked(e.checked as boolean)}
+                checked={secondChecked}
+              ></Checkbox>
+              <span className="checkbox-label">
+                Acepto todos los términos y condiciones
+              </span>
+            </div>
+          </div>
+        </Card>
         <Checkbox
           required
           onChange={(e) => setThirdChecked(e.checked as boolean)}

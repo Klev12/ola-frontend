@@ -49,7 +49,7 @@ const SignatureDraw: React.FC = () => {
           canvasWidth={700}
           canvasHeight={500}
           brushRadius={3}
-          brushColor="purple"
+          brushColor="black"
           saveData="signature"
         />
         <Button label="limpiar" onClick={handleClearCanvas} />

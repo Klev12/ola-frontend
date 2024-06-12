@@ -5,12 +5,14 @@ import SelectField from "./SelectField";
 import CheckBoxField from "./CheckBoxField";
 import CalendarField from "./CalendarField";
 import "../styles/styles.css";
+import useGlobalState from "../../../store/store";
 
 interface FieldProps {
   field: Field;
 }
 
 const FieldInput = ({ field }: FieldProps) => {
+  const isEditable = useGlobalState((state) => state.isFormEditable);
   return (
     <div className="field-input">
       {field.component === "input" && field.metadata.type === "string" && (
@@ -22,6 +24,7 @@ const FieldInput = ({ field }: FieldProps) => {
             defaultValue={field.results[0]?.response?.value}
             id={`I${field.label}`}
             name={field.id as string}
+            disabled={isEditable}
           />
         </div>
       )}
@@ -33,6 +36,7 @@ const FieldInput = ({ field }: FieldProps) => {
 
           <InputNumber
             required={field.required}
+            disabled={isEditable}
             value={
               Number(field.results?.[0]?.response?.value?.replace(/,/g, "")) ||
               0
@@ -58,6 +62,7 @@ const FieldInput = ({ field }: FieldProps) => {
 
           <InputText
             required={field.required}
+            disabled={isEditable}
             defaultValue={field.results[0]?.response?.value}
             id={`I${field.label}`}
             name={field.id as string}
@@ -66,7 +71,7 @@ const FieldInput = ({ field }: FieldProps) => {
       )}
       {field.component === "check" && (
         <div className="input-group">
-          {field.required && <small>campo obligatorio*</small>}
+          {field.required && <small> campo obligatoriodasdadads*</small>}
 
           <CheckBoxField field={field} />
         </div>

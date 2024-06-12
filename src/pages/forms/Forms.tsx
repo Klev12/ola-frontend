@@ -3,7 +3,6 @@ import { getAllForms, getMyForms } from "../../services/forms-service";
 import { Card } from "primereact/card";
 import useGlobalState from "../../store/store";
 import { Roles } from "../../models/user";
-import { Button } from "primereact/button";
 
 const Forms = () => {
   const user = useGlobalState((state) => state.user);
@@ -21,7 +20,6 @@ const Forms = () => {
           <Card key={form.id}>
             <div>Nombre:{form.fullname}</div>
             <div>Título del formulario: {form.label}</div>
-            <Button label="Ver formulario" />
           </Card>
         );
       })}

@@ -3,20 +3,26 @@ import { UserFormGetDto } from "../models/user-form";
 import FormGroupList from "../pages/user-form/components/FormGroupList";
 import { AllResultPutDto, ResultPutDto } from "../models/result";
 import { Button } from "primereact/button";
-import { MouseEventHandler } from "react";
+import { MouseEventHandler, useEffect, useRef } from "react";
 import { useMutation } from "react-query";
 import { verifyUserForm } from "../services/user-service";
 import { useNavigate } from "react-router-dom";
+import { Toast } from "primereact/toast";
+import useGlobalState from "../store/store";
 
 interface PrintFormProps {
   form?: UserFormGetDto;
   onSubmit: (data: AllResultPutDto) => void;
   isLoading?: boolean;
+  isEditable?: boolean;
 }
 
 const PrintForm = ({ form, onSubmit, isLoading }: PrintFormProps) => {
   const { mutate: verifyUserFormMutate } = useMutation(verifyUserForm);
   const navigate = useNavigate();
+  const toast = useRef<Toast>(null);
+  const isFormEditable = useGlobalState((state) => state.isFormEditable);
+  const setIsFormEditable = useGlobalState((state) => state.setIsFormEditable);
 
   const acceptFormUser: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
@@ -26,6 +32,10 @@ const PrintForm = ({ form, onSubmit, isLoading }: PrintFormProps) => {
   const handleClick = () => {
     navigate("/user-form/form-pdf");
   };
+
+  useEffect(() => {
+    setIsFormEditable(true);
+  }, [setIsFormEditable]);
 
   return (
     <ScrollPanel>
@@ -53,6 +63,7 @@ const PrintForm = ({ form, onSubmit, isLoading }: PrintFormProps) => {
       >
         <FormGroupList formGroups={form?.form_scheme.form_groups} />
         <nav style={{ position: "fixed", zIndex: 2, bottom: 0, right: 0 }}>
+          <Button label="Editar" onClick={() => setIsFormEditable(false)} />
           <Button
             label="Subir cambios"
             loading={isLoading}
@@ -64,6 +75,7 @@ const PrintForm = ({ form, onSubmit, isLoading }: PrintFormProps) => {
             disabled={isLoading}
             onClick={acceptFormUser}
           />
+          <Toast ref={toast} />
           <Button label="Ver PDF" onClick={handleClick} />
         </nav>
       </form>
