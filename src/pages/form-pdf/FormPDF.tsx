@@ -19,6 +19,10 @@ import FormPDFProvider from "./components/FormPDFContext";
 import { useState } from "react";
 import { MultimediaType } from "../../models/user";
 import { ENV } from "../../consts/const";
+import FormPDFContracts from "./components/FormPDFContracts";
+import { getTermsAndConditions } from "../../services/contract-service";
+import { ContractGetDto } from "../../models/contract";
+import CardImages from "./components/CardImages";
 
 Font.register({
   family: "PlayfairDisplayFamily",
@@ -58,6 +62,8 @@ const FormPDF = () => {
   const { id } = useParams();
 
   const [signatureLink, setSignaturelink] = useState("");
+  const [cardFrontLink, setCardFrontLink] = useState("");
+  const [cardBackLink, setCardBackLink] = useState("");
 
   const setUserFormNames = useGlobalState((state) => state.setUserFormNames);
   const setUserFormLastNames = useGlobalState(
@@ -67,12 +73,21 @@ const FormPDF = () => {
   const userFormNames = useGlobalState((state) => state.userFormNames);
   const userFormLastNames = useGlobalState((state) => state.userFormLastNames);
 
+  const { data: termsAndConditions } = useQuery({
+    queryFn: getTermsAndConditions,
+  });
+
   const { mutate: findUserByIdMutate } = useMutation(findUserById, {
     onSuccess: (userData) => {
       const signatureHash = userData.data.user.multimedias.find(
         (file) => file.type === MultimediaType.signature
       )?.hash;
+      const cardHashes = userData.data.user.multimedias.filter(
+        (file) => file.type == MultimediaType.cardId
+      );
       setSignaturelink(`${ENV.BACKEND_ROUTE}/multimedia/${signatureHash}`);
+      setCardFrontLink(`${ENV.BACKEND_ROUTE}/multimedia/${cardHashes[0].hash}`);
+      setCardBackLink(`${ENV.BACKEND_ROUTE}/multimedia/${cardHashes[1].hash}`);
     },
   });
 
@@ -107,6 +122,8 @@ const FormPDF = () => {
           lastNames={userFormLastNames as string}
           names={userFormNames as string}
           signatureLink={signatureLink}
+          cardBackLink={cardBackLink}
+          cardFrontLink={cardFrontLink}
         >
           <Page size="A4" style={styles.page}>
             <Text style={styles.firstTitle}>
@@ -120,6 +137,12 @@ const FormPDF = () => {
               );
             })}
           </Page>
+          <FormPDFContracts
+            termsAndConditions={termsAndConditions?.[0] as ContractGetDto}
+          />
+          <FormPDFContracts
+            termsAndConditions={termsAndConditions?.[1] as ContractGetDto}
+          />
         </FormPDFProvider>
       </Document>
     </PDFViewer>
