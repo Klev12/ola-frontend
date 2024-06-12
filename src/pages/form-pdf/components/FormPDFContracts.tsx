@@ -7,13 +7,9 @@ import CardImages from "./CardImages";
 
 const styles = StyleSheet.create({
   page: {
-    paddingLeft: "20px",
-    paddingTop: "40px",
-    paddingBottom: "50px",
-    paddingRight: "50px",
-    gap: "20px",
-    marginLeft: "45px",
-    marginRight: "200px",
+    paddingTop: 35,
+    paddingBottom: 65,
+    paddingHorizontal: 35,
   },
   formGroup: {
     gap: "10px",
@@ -27,6 +23,15 @@ const styles = StyleSheet.create({
     fontWeight: "black",
     fontSize: "25px",
     fontFamily: "PlayfairDisplayFamily",
+  },
+  pageNumber: {
+    position: "absolute",
+    fontSize: 12,
+    bottom: 30,
+    left: 0,
+    right: 0,
+    textAlign: "center",
+    color: "grey",
   },
 });
 
@@ -49,6 +54,11 @@ const FormPDFContracts = ({ termsAndConditions }: FormPDFContractsProps) => {
         <Signature />
       </React.Fragment>
       {termsAndConditions?.id == 2 && <CardImages />}
+      <Text
+        style={styles.pageNumber}
+        render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
+        fixed
+      />
     </Page>
   );
 };

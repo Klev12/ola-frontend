@@ -5,7 +5,7 @@ import FormPDFField from "./FormPDFField";
 const styles = StyleSheet.create({
   formGroup: {
     gap: "10px",
-    fontSize: "19px",
+    fontSize: "50px",
   },
   firstTitle: {
     padding: "20px",
