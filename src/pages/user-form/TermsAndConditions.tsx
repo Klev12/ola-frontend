@@ -38,7 +38,7 @@ const TermsAndConditions = () => {
         <Card title="Términos y condiciones" className="terms-card">
           <div className="m-0 terms-text">
             Yo: {""}
-            {`${userFormNames?.toLocaleUpperCase()}${userFormLastNames?.toUpperCase()}con el numero de identificacion ${userIdCard}`}{" "}
+            {`${userFormNames?.toLocaleUpperCase()} ${userFormLastNames?.toUpperCase()} con el numero de identificacion ${userIdCard}`}{" "}
             , consectetur adipisicing elit. Inventore sed consequuntur error
             repudiandae numquam deserunt quisquam repellat libero asperiores
             earum nam nobis, culpa ratione quam perferendis esse, cupiditate
@@ -59,7 +59,7 @@ const TermsAndConditions = () => {
         <Card title="Términos y condiciones" className="terms-card">
           <div className="m-0 terms-text">
             {"Yo"}
-            {`${userFormNames?.toLocaleUpperCase()}${userFormLastNames?.toLocaleUpperCase()}con el número de identificación${userIdCard}`}
+            {`${userFormNames?.toLocaleUpperCase()} ${userFormLastNames?.toLocaleUpperCase()} con el número de identificación ${userIdCard}`}
             , consectetur adipisicing elit. Inventore sed consequuntur error
             repudiandae numquam deserunt quisquam repellat libero asperiores
             earum nam nobis, culpa ratione quam perferendis esse, cupiditate

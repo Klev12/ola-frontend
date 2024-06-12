@@ -12,6 +12,8 @@ interface GlobalState {
   setUserFormLastNames: (lastNames: string) => void;
   userIdCard: string | undefined;
   setUserIdCard: (userIdCard: string) => void;
+  isFormEditable: boolean | undefined;
+  setIsFormEditable: (state: boolean) => void;
 }
 
 const useGlobalState = create<GlobalState>((set) => ({
@@ -20,6 +22,10 @@ const useGlobalState = create<GlobalState>((set) => ({
   userFormNames: undefined,
   userFormLastNames: undefined,
   userIdCard: undefined,
+  isFormEditable: false,
+  setIsFormEditable: (state) => {
+    set({ isFormEditable: state });
+  },
   setUserIdCard: (userIdCard) => {
     set({ userIdCard });
   },

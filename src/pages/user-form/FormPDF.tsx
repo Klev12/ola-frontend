@@ -27,13 +27,13 @@ const styles = StyleSheet.create({
     paddingTop: "40px",
     paddingBottom: "50px",
     paddingRight: "50px",
-    gap: "20px",
-    marginLeft: "45px",
+
     marginRight: "200px",
   },
   formGroup: {
     gap: "10px",
     fontSize: "19px",
+    marginLeft: 50,
   },
   firstTitle: {
     padding: "20px",
@@ -45,11 +45,20 @@ const styles = StyleSheet.create({
     fontFamily: "PlayfairDisplayFamily",
   },
   result: {
-    display: "flex",
-    justifyContent: "center",
-    fontSize: "12px",
+    margin: 12,
+    textAlign: "justify",
+    fontSize: 14,
     fontFamily: "InterFamily",
-    marginTop: "20px",
+    marginLeft: 200,
+  },
+  pageNumber: {
+    position: "absolute",
+    fontSize: 12,
+    bottom: 30,
+    left: 0,
+    right: 0,
+    textAlign: "center",
+    color: "grey",
   },
 });
 
@@ -69,32 +78,35 @@ const FormPDF = () => {
       <Document>
         <Page size="A4" style={styles.page}>
           <Text style={styles.firstTitle}>
-            {" "}
             FORMUALRIO DE INGRESO DE PERSONAL
           </Text>
-          {userFormData?.form_scheme.form_groups.map((formGroup) => {
-            return (
-              <View key={formGroup.id} style={styles.formGroup}>
+          <View style={styles.formGroup} wrap>
+            {userFormData?.form_scheme.form_groups.map((formGroup) => (
+              <View key={formGroup.id} wrap={false}>
                 <Text style={styles.title}>· {formGroup.label}</Text>
-                {formGroup?.fields.map((field) => {
-                  return (
-                    <View key={field.id}>
-                      <Text>{field.label}:</Text>
-                      {field?.results.map((result) => {
-                        return (
-                          <View key={result.id}>
-                            <Text style={styles.result}>
-                              {result.response.value}.
-                            </Text>
-                          </View>
-                        );
-                      })}
-                    </View>
-                  );
-                })}
+                {formGroup?.fields.map((field) => (
+                  <View key={field.id} wrap={false}>
+                    <Text>{field.label}:</Text>
+                    {field?.results.map((result) => (
+                      <View key={result.id} wrap={false}>
+                        <Text style={styles.result}>
+                          {result.response.value}.
+                        </Text>
+                      </View>
+                    ))}
+                  </View>
+                ))}
               </View>
-            );
-          })}
+            ))}
+          </View>
+
+          <Text
+            style={styles.pageNumber}
+            render={({ pageNumber, totalPages }) =>
+              `${pageNumber} / ${totalPages}`
+            }
+            fixed
+          />
         </Page>
       </Document>
     </PDFViewer>
