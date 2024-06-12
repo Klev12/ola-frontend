@@ -40,3 +40,7 @@ export function verifyUserForm(userId: number | string) {
 export function findUserById(id: string | number) {
   return axios.get<{ user: UserGetDto }>(`${ENV.BACKEND_ROUTE}/users/${id}`);
 }
+
+export function getCountUsers() {
+  return axios.get<{ count: number }>(`${ENV.BACKEND_ROUTE}/users/count`);
+}

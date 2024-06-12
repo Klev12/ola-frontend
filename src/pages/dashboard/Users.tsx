@@ -1,12 +1,21 @@
 import { useQuery } from "react-query";
-import { getAllUsers } from "../../services/user-service";
+import { getAllUsers, getCountUsers } from "../../services/user-service";
 
-import UserCard from "../home/components/UserCard";
+import UserCard from "./components/UserCard";
+import useGlobalState from "../../store/store";
+import { Roles } from "../../models/user";
 
 const Users = () => {
+  const authenticatedUser = useGlobalState((state) => state.user);
+
   const { data, refetch } = useQuery({
     queryFn: getAllUsers,
     queryKey: ["users"],
+  });
+
+  const { data: userCountData } = useQuery({
+    queryFn: getCountUsers,
+    queryKey: "count-users",
   });
 
   return (
@@ -15,6 +24,14 @@ const Users = () => {
       {data?.data.users.map((user, index) => {
         return (
           <div key={index}>
+            {authenticatedUser?.role === Roles.groupAdmin && (
+              <>
+                <h3>
+                  El número de usuarios dentro del area
+                  {authenticatedUser.area} es {userCountData?.data.count}
+                </h3>
+              </>
+            )}
             <UserCard user={user} notificationMode={false} />
           </div>
         );

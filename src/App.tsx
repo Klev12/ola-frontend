@@ -18,7 +18,7 @@ import TermsAndConditions from "./pages/user-form/TermsAndConditions";
 import Application from "./layout/Application";
 import UserFormWrapper from "./layout/UserFormWrapper";
 import Regulation from "./pages/regulation/Regulation";
-import FormPDF from "./pages/user-form/FormPDF";
+import FormPDF from "./pages/form-pdf/FormPDF";
 import AuthAppGuard from "./guard/AuthAppGuard";
 import PageNotFound from "./pages/page-not-found/PageNotFound";
 import AuthUserFormGuard from "./guard/AuthUserFormGuard";
@@ -84,7 +84,7 @@ function App() {
         </Route>
         <Route path={ROUTES.LOGIN} element={<Login />}></Route>
         <Route path={ROUTES.SIGNUP} element={<Signup />}></Route>
-        <Route path={ROUTES.USER_FORM.FORM_PDF} element={<FormPDF />} />
+        <Route path={ROUTES.FORM_PDF.ME} element={<FormPDF />} />
 
         <Route path="*" element={<PageNotFound />} />
       </Routes>

@@ -46,7 +46,7 @@ const FieldInput = ({ field }: FieldProps) => {
       {field.component === "input" && field.metadata.type === "date" && (
         <>
           {field.required && <small>campo obligatorio*</small>}
-          <CalendarField field={field} />
+          <CalendarField  field={field} />
         </>
       )}
 

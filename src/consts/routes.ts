@@ -52,14 +52,17 @@ const ROUTES = {
     get TERMS_AND_CONDITIONS() {
       return `${this.ME}/terms-and-conditions`;
     },
-    get FORM_PDF() {
-      return `${this.ME}/form-pdf`;
-    },
     get SIGNATURE() {
       return `${this.ME}/signature`;
     },
     get VERIFICATION() {
       return `${this.ME}/verification`;
+    },
+  },
+  FORM_PDF: {
+    ME: "/form-pdf/:id",
+    ID(id: number | string) {
+      return `${this.ME}/${id}`;
     },
   },
 };
