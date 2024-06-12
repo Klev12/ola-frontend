@@ -5,11 +5,10 @@ import Signature from "./Signature";
 
 const styles = StyleSheet.create({
   result: {
-    display: "flex",
-    justifyContent: "center",
+    margin: 12,
+    textAlign: "justify",
     fontSize: "12px",
-    fontFamily: "InterFamily",
-    marginTop: "20px",
+    fontFamily: "RobotoLightFamily",
   },
 });
 

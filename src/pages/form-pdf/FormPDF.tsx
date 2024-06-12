@@ -9,8 +9,8 @@ import {
 } from "@react-pdf/renderer";
 import { useMutation, useQuery } from "react-query";
 import { getUserFormByUserId } from "../../services/forms-service";
-import MyCustomFont from "../user-form/fonts/PlayfairDisplay-VariableFont_wght.ttf";
-import SecondFont from "../user-form/fonts/Inter-VariableFont_slnt,wght.ttf";
+import MyCustomFont from "../form-pdf/fonts/PlayfairDisplay-VariableFont_wght.ttf";
+import SecondFont from "../form-pdf/fonts/Inter-VariableFont_slnt,wght.ttf";
 import { useParams } from "react-router";
 import FormPDFGroup from "./components/FormPDFGroup";
 import useGlobalState from "../../store/store";
@@ -22,7 +22,8 @@ import { ENV } from "../../consts/const";
 import FormPDFContracts from "./components/FormPDFContracts";
 import { getTermsAndConditions } from "../../services/contract-service";
 import { ContractGetDto } from "../../models/contract";
-import CardImages from "./components/CardImages";
+import ThirdCustom from "../form-pdf/fonts/Roboto-Bold.ttf";
+import FontRobotoLight from "../form-pdf/fonts/Roboto-Light.ttf";
 
 Font.register({
   family: "PlayfairDisplayFamily",
@@ -33,16 +34,18 @@ Font.register({
   family: "InterFamily",
   src: SecondFont,
 });
+
+Font.register({
+  family: "RobotoBoldFamily",
+  src: ThirdCustom,
+});
+
+Font.register({
+  family: "RobotoLightFamily",
+  src: FontRobotoLight,
+});
 const styles = StyleSheet.create({
-  page: {
-    paddingLeft: "20px",
-    paddingTop: "40px",
-    paddingBottom: "50px",
-    paddingRight: "50px",
-    gap: "20px",
-    marginLeft: "45px",
-    marginRight: "200px",
-  },
+  page: { paddingTop: 35, paddingBottom: 65, paddingHorizontal: 35 },
   formGroup: {
     gap: "10px",
     fontSize: "19px",
@@ -54,7 +57,16 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "black",
     fontSize: "25px",
-    fontFamily: "PlayfairDisplayFamily",
+    fontFamily: "RobotoBoldFamily ",
+  },
+  pageNumber: {
+    position: "absolute",
+    fontSize: 12,
+    bottom: 30,
+    left: 0,
+    right: 0,
+    textAlign: "center",
+    color: "grey",
   },
 });
 
@@ -74,6 +86,7 @@ const FormPDF = () => {
   const userFormLastNames = useGlobalState((state) => state.userFormLastNames);
 
   const { data: termsAndConditions } = useQuery({
+    refetchOnWindowFocus: false,
     queryFn: getTermsAndConditions,
   });
 
@@ -94,6 +107,8 @@ const FormPDF = () => {
   const { data: userFormData } = useQuery({
     queryFn: () => getUserFormByUserId(id as string).then((res) => res.data),
     queryKey: ["user-form"],
+    retry: 1,
+    refetchOnWindowFocus: false,
     onSuccess: (userForm) => {
       const userFormData = userForm.form_scheme.form_groups.find(
         (formGroup) => formGroup.label === "Mis datos"
@@ -136,6 +151,13 @@ const FormPDF = () => {
                 </View>
               );
             })}
+            <Text
+              style={styles.pageNumber}
+              render={({ pageNumber, totalPages }) =>
+                `${pageNumber} / ${totalPages}`
+              }
+              fixed
+            />
           </Page>
           <FormPDFContracts
             termsAndConditions={termsAndConditions?.[0] as ContractGetDto}
