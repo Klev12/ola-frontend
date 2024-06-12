@@ -62,7 +62,7 @@ const ROUTES = {
   FORM_PDF: {
     ME: "/form-pdf/:id",
     ID(id: number | string) {
-      return `${this.ME}/${id}`;
+      return `/form-pdf/${id}`;
     },
   },
 };

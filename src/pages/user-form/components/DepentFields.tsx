@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FormGroup } from "../../../models/form-scheme";
 import { Dropdown } from "primereact/dropdown";
 import FieldList from "./FieldList";
+import useGlobalState from "../../../store/store";
 
 interface DepentFieldsProps {
   formGroup: FormGroup;
@@ -14,6 +15,8 @@ const DepentFields = ({ formGroup }: DepentFieldsProps) => {
     return formGroup.fields[0].results?.[0]?.response.value || "true";
   });
 
+  const isFormEditable = useGlobalState((state) => state.isFormEditable);
+
   return (
     <Card key={formGroup.id} className="p-card">
       <div className="p-card-title">{formGroup.label}</div>
@@ -23,6 +26,7 @@ const DepentFields = ({ formGroup }: DepentFieldsProps) => {
         {formGroup.fields[0].required && <small>campo obligatorio*</small>}
 
         <Dropdown
+          disabled={isFormEditable}
           defaultValue={formGroup.fields[0].results?.[0]?.response?.value}
           required={formGroup.fields[0].required}
           value={showFields}

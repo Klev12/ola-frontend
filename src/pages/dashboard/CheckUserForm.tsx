@@ -6,6 +6,7 @@ import { submitForm } from "../../services/result-service";
 import { findUserById } from "../../services/user-service";
 import { ENV } from "../../consts/const";
 import { MultimediaType } from "../../models/user";
+import "./styles/check-user-form-styles.css";
 
 const CheckUserForm = () => {
   const { id } = useParams();
@@ -33,28 +34,29 @@ const CheckUserForm = () => {
           submitFormMutate(data);
         }}
       />
+      <div className="images">
+        {userData?.data.user.multimedias.map((file) => {
+          if (file.type === MultimediaType.video) {
+            return (
+              <video
+                key={file.id}
+                src={`${ENV.BACKEND_ROUTE}/multimedia/${file.hash}`}
+                width={300}
+                controls={true}
+              ></video>
+            );
+          }
 
-      {userData?.data.user.multimedias.map((file) => {
-        if (file.type === MultimediaType.video) {
           return (
-            <video
+            <img
+              key={file.id}
               src={`${ENV.BACKEND_ROUTE}/multimedia/${file.hash}`}
-              width={300}
-              height={200}
-              controls={true}
-            ></video>
+              alt={file.name}
+              width={200}
+            />
           );
-        }
-
-        return (
-          <img
-            src={`${ENV.BACKEND_ROUTE}/multimedia/${file.hash}`}
-            alt={file.name}
-            width={200}
-            height={200}
-          />
-        );
-      })}
+        })}
+      </div>
     </div>
   );
 };

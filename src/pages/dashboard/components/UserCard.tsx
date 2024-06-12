@@ -99,9 +99,18 @@ const UserCard: React.FC<UserCardProps> = ({
             <select name="role" defaultValue={user.role} style={{}}>
               {Object.values(Roles)
                 .filter((role) => role !== Roles.admin)
-                .map((role) => (
-                  <option key={role}>{role}</option>
-                ))}
+                .map((role, index) => {
+                  switch (role) {
+                    case Roles.groupAdmin:
+                      return <option key={index}>Jefe de grupo</option>;
+                    case Roles.sales:
+                      return <option key={index}>Ventas</option>;
+                    case Roles.secretary:
+                      return <option key={index}>Sub admin</option>;
+                    case Roles.user:
+                      return <option key={index}>Usuario</option>;
+                  }
+                })}
             </select>
             <Button
               label="Cambiar Rol"

@@ -9,6 +9,8 @@ import { verifyUserForm } from "../services/user-service";
 import { useNavigate } from "react-router-dom";
 import { Toast } from "primereact/toast";
 import useGlobalState from "../store/store";
+import ROUTES from "../consts/routes";
+import { InputSwitch } from "primereact/inputswitch";
 
 interface PrintFormProps {
   form?: UserFormGetDto;
@@ -30,7 +32,7 @@ const PrintForm = ({ form, onSubmit, isLoading }: PrintFormProps) => {
   };
 
   const handleClick = () => {
-    navigate("/user-form/form-pdf");
+    navigate(ROUTES.FORM_PDF.ID(form?.user_form.user_id as number));
   };
 
   useEffect(() => {
@@ -63,6 +65,7 @@ const PrintForm = ({ form, onSubmit, isLoading }: PrintFormProps) => {
       >
         <FormGroupList formGroups={form?.form_scheme.form_groups} />
         <nav
+          className="nav-user-form"
           style={{
             position: "fixed",
             zIndex: 2,
@@ -70,22 +73,27 @@ const PrintForm = ({ form, onSubmit, isLoading }: PrintFormProps) => {
             right: 0,
           }}
         >
-          <Button
-            style={{ backgroundColor: "purple", border: 0, boxShadow: "none" }}
-            label="Editar"
-            onClick={() => setIsFormEditable(false)}
-          />
+          <div className="edition-menu">
+            <label htmlFor="">
+              Modo edición {isFormEditable ? "activado" : "desactivado"}
+            </label>
+            <InputSwitch
+              checked={!isFormEditable as boolean}
+              onChange={(e) => setIsFormEditable(!e.value)}
+            />
+          </div>
+
           <Button
             style={{ backgroundColor: "purple", border: 0, boxShadow: "none" }}
             label="Subir cambios"
             loading={isLoading}
-            disabled={isLoading}
+            disabled={isLoading || !isFormEditable}
           />
           <Button
             style={{ backgroundColor: "purple", border: 0, boxShadow: "none" }}
             label="Aceptar formulario de ingreso"
             loading={isLoading}
-            disabled={isLoading}
+            disabled={isLoading || !isFormEditable}
             onClick={acceptFormUser}
           />
           <Toast ref={toast} />
@@ -93,11 +101,6 @@ const PrintForm = ({ form, onSubmit, isLoading }: PrintFormProps) => {
             style={{ backgroundColor: "purple", border: 0 }}
             label="Ver PDF"
             onClick={handleClick}
-          />
-          <Button
-            style={{ backgroundColor: "purple", border: 0, boxShadow: "none" }}
-            label="Salir de modo edición"
-            onClick={() => setIsFormEditable(true)}
           />
         </nav>
       </form>

@@ -1,5 +1,6 @@
 import { Field, OptionMetadata } from "../../../models/form-scheme";
 import { useState } from "react";
+import useGlobalState from "../../../store/store";
 
 interface SelectFieldProps {
   field: Field;
@@ -13,13 +14,14 @@ const SelectField = ({ field }: SelectFieldProps) => {
     value: field.results?.[0]?.response?.value as string,
   }));
 
-  console.log(selectedValue);
+  const isFormEditable = useGlobalState((state) => state.isFormEditable);
 
   return (
     <>
       <label>{field.label}</label>
       {field.required && <small>campo obligatorio*</small>}
       <select
+        disabled={isFormEditable}
         required={field.required}
         name={field.id as string}
         value={selectedValue.value}
@@ -27,8 +29,12 @@ const SelectField = ({ field }: SelectFieldProps) => {
           setSelectedValue({ label: "", value: e.target.value });
         }}
       >
-        {field.metadata.options?.map((option) => {
-          return <option value={option.value}>{option.label}</option>;
+        {field.metadata.options?.map((option, index) => {
+          return (
+            <option key={index} value={option.value}>
+              {option.label}
+            </option>
+          );
         })}
       </select>
     </>
