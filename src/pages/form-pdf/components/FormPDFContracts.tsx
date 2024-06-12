@@ -1,6 +1,4 @@
 import { Page, StyleSheet, Text } from "@react-pdf/renderer";
-import { useQuery } from "react-query";
-import { getTermsAndConditions } from "../../../services/contract-service";
 import { ContractGetDto } from "../../../models/contract";
 import React, { useContext } from "react";
 import { FormPdfContext } from "./FormPDFContext";
