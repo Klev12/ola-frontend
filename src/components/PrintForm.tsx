@@ -14,7 +14,7 @@ interface PrintFormProps {
   form?: UserFormGetDto;
   onSubmit: (data: AllResultPutDto) => void;
   isLoading?: boolean;
-  isEditable?: boolean;
+  isFormEditable?: boolean;
 }
 
 const PrintForm = ({ form, onSubmit, isLoading }: PrintFormProps) => {
@@ -62,21 +62,43 @@ const PrintForm = ({ form, onSubmit, isLoading }: PrintFormProps) => {
         }}
       >
         <FormGroupList formGroups={form?.form_scheme.form_groups} />
-        <nav style={{ position: "fixed", zIndex: 2, bottom: 0, right: 0 }}>
-          <Button label="Editar" onClick={() => setIsFormEditable(false)} />
+        <nav
+          style={{
+            position: "fixed",
+            zIndex: 2,
+            bottom: 0,
+            right: 0,
+          }}
+        >
           <Button
+            style={{ backgroundColor: "purple", border: 0, boxShadow: "none" }}
+            label="Editar"
+            onClick={() => setIsFormEditable(false)}
+          />
+          <Button
+            style={{ backgroundColor: "purple", border: 0, boxShadow: "none" }}
             label="Subir cambios"
             loading={isLoading}
             disabled={isLoading}
           />
           <Button
+            style={{ backgroundColor: "purple", border: 0, boxShadow: "none" }}
             label="Aceptar formulario de ingreso"
             loading={isLoading}
             disabled={isLoading}
             onClick={acceptFormUser}
           />
           <Toast ref={toast} />
-          <Button label="Ver PDF" onClick={handleClick} />
+          <Button
+            style={{ backgroundColor: "purple", border: 0 }}
+            label="Ver PDF"
+            onClick={handleClick}
+          />
+          <Button
+            style={{ backgroundColor: "purple", border: 0, boxShadow: "none" }}
+            label="Salir de modo edición"
+            onClick={() => setIsFormEditable(true)}
+          />
         </nav>
       </form>
     </ScrollPanel>
