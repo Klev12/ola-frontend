@@ -27,6 +27,9 @@ const FormPDFResult = ({ result }: FormPDFResultProps) => {
         </View>
       </View>
     ),
+    ["single"]: () => {
+      return <Text style={styles.result}>Soltero</Text>;
+    },
     ["default"]: () => (
       <Text style={styles.result}>{result.response.value}.</Text>
     ),

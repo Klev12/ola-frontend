@@ -33,6 +33,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white; /* Color del texto para que sea visible sobre la imagen de fondo */
+    color: white; 
   }
 

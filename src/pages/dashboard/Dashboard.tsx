@@ -30,7 +30,10 @@ const Dashboard = () => {
               <Badge
                 value={numberOfNotifications}
                 severity="danger"
-                style={{ marginLeft: "0.5em" }}
+                style={{
+                  marginLeft: "0.5em",
+                  backgroundColor: "purple",
+                }}
               />
             )}
           </div>

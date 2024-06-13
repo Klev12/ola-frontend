@@ -8,12 +8,12 @@
   }
   
   .page-not-found-image {
-    max-width: 100%; /* Adjust as needed */
+    max-width: 30%; /* Adjust as needed */
     height: auto;
     margin-right: 20px;
   }
   
   .page-not-found-text {
-    max-width: 100%; /* Adjust as needed */
+    max-width: 50%; /* Adjust as needed */
   }
   

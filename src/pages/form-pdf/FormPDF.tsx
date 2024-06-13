@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
   firstTitle: {
     padding: "20px",
     marginLeft: "50px",
+    fontFamily: "RobotoBoldFamily",
   },
   title: {
     fontWeight: "black",
