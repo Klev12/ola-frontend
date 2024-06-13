@@ -9,8 +9,10 @@ const Users = () => {
   const authenticatedUser = useGlobalState((state) => state.user);
 
   const { data, refetch } = useQuery({
-    queryFn: getAllUsers,
-    queryKey: ["users"],
+    queryFn: () => getAllUsers(),
+    queryKey: ["users-all"],
+    refetchOnMount: true,
+    refetchInterval: 20000,
   });
 
   const { data: userCountData } = useQuery({

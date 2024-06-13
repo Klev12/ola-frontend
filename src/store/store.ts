@@ -3,6 +3,9 @@ import { UserGetDto } from "../models/user";
 
 interface GlobalState {
   user?: UserGetDto;
+  numberOfNotifications: number | undefined;
+  setNumberOfNotifications: (notifications: number) => void;
+
   setUser: (user: UserGetDto) => void;
   userFormId?: number | string;
   setUserFormId: (formId: number) => void;
@@ -23,6 +26,10 @@ const useGlobalState = create<GlobalState>((set) => ({
   userFormLastNames: undefined,
   userIdCard: undefined,
   isFormEditable: false,
+  numberOfNotifications: 0,
+  setNumberOfNotifications: (notifications) => {
+    set({ numberOfNotifications: notifications });
+  },
   setIsFormEditable: (state) => {
     set({ isFormEditable: state });
   },

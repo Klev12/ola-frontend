@@ -25,7 +25,6 @@ import AuthUserFormGuard from "./guard/AuthUserFormGuard";
 import SignatureDraw from "./pages/signature/Signature";
 import Verification from "./pages/user-form/Verification";
 import CheckUserForm from "./pages/dashboard/CheckUserForm";
-import FormDataGuard from "./guard/FormDataGuard";
 
 function App() {
   return (
@@ -65,11 +64,7 @@ function App() {
           <Route path={ROUTES.USER_FORM.DOCUMENTS} element={<Documents />} />
           <Route
             path={ROUTES.USER_FORM.TERMS_AND_CONDITIONS}
-            element={
-              <FormDataGuard>
-                <TermsAndConditions />
-              </FormDataGuard>
-            }
+            element={<TermsAndConditions />}
           />
           <Route
             path={ROUTES.USER_FORM.SIGNATURE}

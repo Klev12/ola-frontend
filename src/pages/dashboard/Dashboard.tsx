@@ -2,7 +2,12 @@ import { Menu } from "primereact/menu";
 import { Outlet, useNavigate } from "react-router-dom";
 import { MenuItem } from "primereact/menuitem";
 import ROUTES from "../../consts/routes";
+import { Badge } from "primereact/badge";
+import useGlobalState from "../../store/store";
 const Dashboard = () => {
+  const numberOfNotifications = useGlobalState(
+    (state) => state.numberOfNotifications
+  );
   const navigate = useNavigate();
 
   const items: MenuItem[] = [
@@ -11,6 +16,23 @@ const Dashboard = () => {
       icon: "pi pi-bell",
       command: () => {
         navigate(ROUTES.DASHBOARD.NOTIFICATIONS);
+      },
+      template: (item, options) => {
+        return (
+          <div
+            className={options.className}
+            onClick={options.onClick}
+            style={{ display: "flex", alignItems: "center" }}
+          >
+            <i className={`${item.icon}`} style={{ marginRight: "0.5em" }}></i>
+            {item.label}
+            <Badge
+              value={numberOfNotifications}
+              severity="danger"
+              style={{ marginLeft: "0.5em" }}
+            />
+          </div>
+        );
       },
     },
     {

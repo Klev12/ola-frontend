@@ -87,7 +87,7 @@ const PrintForm = ({ form, onSubmit, isLoading }: PrintFormProps) => {
             style={{ backgroundColor: "purple", border: 0, boxShadow: "none" }}
             label="Subir cambios"
             loading={isLoading}
-            disabled={isLoading || !isFormEditable}
+            disabled={isLoading || isFormEditable}
           />
           <Button
             style={{ backgroundColor: "purple", border: 0, boxShadow: "none" }}
