@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
   result: {
     margin: 12,
     textAlign: "justify",
-    fontSize: "12px",
+    fontSize: "18px",
     fontFamily: "RobotoLightFamily",
   },
 });

@@ -1,5 +1,5 @@
 import { Button } from "primereact/button";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import CanvasDraw from "react-canvas-draw";
 import { useMutation } from "react-query";
 import { saveSignature } from "../../services/document-service";

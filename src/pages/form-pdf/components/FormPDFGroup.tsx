@@ -5,23 +5,12 @@ import FormPDFField from "./FormPDFField";
 const styles = StyleSheet.create({
   formGroup: {
     gap: "10px",
-    fontSize: "50px",
-  },
-  firstTitle: {
-    padding: "20px",
-    marginLeft: "50px",
+    fontSize: "20px",
   },
   title: {
     fontWeight: "black",
-    fontSize: "35px",
-    fontFamily: "PlayfairDisplayFamily",
-  },
-  result: {
-    display: "flex",
-    justifyContent: "center",
-    fontSize: "12px",
-    fontFamily: "InterFamily",
-    marginTop: "20px",
+    fontSize: "20px",
+    fontFamily: "RobotoBoldFamily",
   },
 });
 

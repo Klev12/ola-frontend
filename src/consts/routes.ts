@@ -32,9 +32,7 @@ const ROUTES = {
   BLOG: {
     ME: "/blog",
   },
-  FORMS: {
-    ME: "/forms",
-  },
+
   REGULATION: {
     ME: "/regulation",
   },
