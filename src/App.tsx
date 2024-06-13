@@ -67,11 +67,7 @@ function App() {
           <Route path={ROUTES.USER_FORM.DOCUMENTS} element={<Documents />} />
           <Route
             path={ROUTES.USER_FORM.TERMS_AND_CONDITIONS}
-            element={
-              <FormDataGuard>
-                <TermsAndConditions />
-              </FormDataGuard>
-            }
+            element={<TermsAndConditions />}
           />
           <Route
             path={ROUTES.USER_FORM.SIGNATURE}

@@ -26,11 +26,12 @@ const CheckUserForm = () => {
   const { mutate: submitFormMutate, isLoading } = useMutation(submitForm);
 
   return (
-    <div>
+    <div className="user-form">
       <PrintForm
         form={formData}
         isLoading={isLoading}
         onSubmit={(data) => {
+          console.log(data);
           submitFormMutate(data);
         }}
       />
