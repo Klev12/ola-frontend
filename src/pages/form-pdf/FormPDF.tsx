@@ -46,10 +46,6 @@ Font.register({
 });
 const styles = StyleSheet.create({
   page: { paddingTop: 35, paddingBottom: 65, paddingHorizontal: 35 },
-  formGroup: {
-    gap: "10px",
-    fontSize: "19px",
-  },
   firstTitle: {
     padding: "20px",
     marginLeft: "50px",

@@ -51,12 +51,6 @@ const roleBasedVisibility = {
     forms: true,
   },
 };
-const itemRenderer = (item: MenuItem) => (
-  <a className="flex align-items-center p-menuitem-link">
-    <span className={item.icon} />
-    <span className="mx-2">{item.label}</span>
-  </a>
-);
 
 export default function MenuDemo() {
   const user = useGlobalState((state) => state.user);
@@ -107,16 +101,6 @@ export default function MenuDemo() {
       visible: false,
       command: () => {
         navigate(ROUTES.REGULATION.ME);
-      },
-    },
-    {
-      template: itemRenderer,
-      id: "forms",
-      label: "Formularios",
-      icon: "pi pi-book",
-      visible: false,
-      command: () => {
-        navigate(ROUTES.FORMS.ME);
       },
     },
   ];

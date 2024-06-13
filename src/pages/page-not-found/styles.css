@@ -1,0 +1,19 @@
+.page-not-found-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Full height of the viewport */
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .page-not-found-image {
+    max-width: 100%; /* Adjust as needed */
+    height: auto;
+    margin-right: 20px;
+  }
+  
+  .page-not-found-text {
+    max-width: 100%; /* Adjust as needed */
+  }
+  
