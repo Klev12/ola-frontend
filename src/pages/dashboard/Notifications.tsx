@@ -1,11 +1,24 @@
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { getAllNotifications } from "../../services/user-service";
 import NotificationCard from "./components/NotificationCard";
+import useGlobalState from "../../store/store";
 
 const Notifications = () => {
+  const queryClient = useQueryClient();
+
+  const setNumberOfNotification = useGlobalState(
+    (state) => state.setNumberOfNotifications
+  );
+
   const { data: notificationsData } = useQuery({
     queryFn: () => getAllNotifications().then((res) => res.data),
     queryKey: ["notifications"],
+    onSuccess: (data) => {
+      const numberOfNotifications = data.notifications.length;
+      setNumberOfNotification(numberOfNotifications);
+      queryClient.invalidateQueries("users");
+    },
+    refetchInterval: 20000,
   });
 
   return (
