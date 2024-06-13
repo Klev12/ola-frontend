@@ -26,11 +26,13 @@ const Dashboard = () => {
           >
             <i className={`${item.icon}`} style={{ marginRight: "0.5em" }}></i>
             {item.label}
-            <Badge
-              value={numberOfNotifications}
-              severity="danger"
-              style={{ marginLeft: "0.5em" }}
-            />
+            {numberOfNotifications !== 0 && (
+              <Badge
+                value={numberOfNotifications}
+                severity="danger"
+                style={{ marginLeft: "0.5em" }}
+              />
+            )}
           </div>
         );
       },

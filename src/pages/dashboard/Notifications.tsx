@@ -16,7 +16,6 @@ const Notifications = () => {
     onSuccess: (data) => {
       const numberOfNotifications = data.notifications.length;
       setNumberOfNotification(numberOfNotifications);
-      queryClient.invalidateQueries("users");
     },
     refetchInterval: 20000,
   });
