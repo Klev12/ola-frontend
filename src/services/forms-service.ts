@@ -55,3 +55,7 @@ export function generateFormByHash(hash: string) {
 export function setLinkExpirationTime(data: HashExpirationTimePostDto) {
   return axios.post(`${ENV.BACKEND_ROUTE}/forms/expire-time`, data);
 }
+
+export function deleteFormById(id: string | number) {
+  return axios.delete(`${ENV.BACKEND_ROUTE}/forms/${id}`);
+}

@@ -1,5 +1,6 @@
 import { useMutation } from "react-query";
 import {
+  deleteFormById,
   generateLink,
   invalidateLink,
   setLinkExpirationTime,
@@ -20,6 +21,12 @@ interface FormListProps {
 }
 
 const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
+  const { mutate: deleteFormByIdMutate } = useMutation(deleteFormById, {
+    onSuccess: () => {
+      refetchForms();
+    },
+  });
+
   const navigate = useNavigate();
   const { loading, setLoadingTrue, setLoadingFalse } = useLoading();
   const toast = useRef<Toast>(null);
@@ -69,7 +76,13 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
               style={{ marginBottom: "2em" }}
               key={form.id}
             >
-              <Button>X</Button>
+              <Button
+                onClick={() => {
+                  deleteFormByIdMutate(form.id);
+                }}
+              >
+                X
+              </Button>
               {form.hash ? (
                 <>
                   <h3>Link:</h3>
