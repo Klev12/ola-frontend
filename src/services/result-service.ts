@@ -9,3 +9,7 @@ export function addResult(result: ResultPutDto) {
 export function submitForm(results: AllResultPutDto) {
   return axios.put(`${ENV.BACKEND_ROUTE}/results/all`, results);
 }
+
+export function submitFormByHash(results: AllResultPutDto) {
+  return axios.put(`${ENV.BACKEND_ROUTE}/results/all/hash`, results);
+}

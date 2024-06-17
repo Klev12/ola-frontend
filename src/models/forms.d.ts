@@ -20,3 +20,8 @@ export interface FormGetDto {
 export interface GenerateLinkPostDto {
   id: string | number;
 }
+
+export interface HashExpirationTimePostDto {
+  id: string | number;
+  expire_hash_time: number;
+}

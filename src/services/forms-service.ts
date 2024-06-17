@@ -1,6 +1,11 @@
 import axios from "../interceptors/axios-interceptor";
 import { ENV } from "../consts/const";
-import { FormGetDto, FormPostDto, GenerateLinkPostDto } from "../models/forms";
+import {
+  FormGetDto,
+  FormPostDto,
+  GenerateLinkPostDto,
+  HashExpirationTimePostDto,
+} from "../models/forms";
 import { UserFormGetDto } from "../models/user-form";
 
 export function createForm(form: FormPostDto) {
@@ -13,6 +18,10 @@ export function getAllForms() {
 
 export function getMyForms() {
   return axios.get<{ forms: FormGetDto[] }>(`${ENV.BACKEND_ROUTE}/forms`);
+}
+
+export function getFormById(id: string | number) {
+  return axios.get<UserFormGetDto>(`${ENV.BACKEND_ROUTE}/forms/${id}`);
 }
 
 export function generateLink(form: GenerateLinkPostDto) {
@@ -35,4 +44,14 @@ export function getUserFormByUserId(id: string | number) {
 
 export function verifyForm(id: number) {
   return axios.post(`${ENV.BACKEND_ROUTE}/forms/verify-form`, { id });
+}
+
+export function generateFormByHash(hash: string) {
+  return axios.get<UserFormGetDto>(
+    `${ENV.BACKEND_ROUTE}/forms/generate-form/${hash}`
+  );
+}
+
+export function setLinkExpirationTime(data: HashExpirationTimePostDto) {
+  return axios.post(`${ENV.BACKEND_ROUTE}/forms/expire-time`, data);
 }

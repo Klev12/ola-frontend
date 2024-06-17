@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "react-query";
-import { createForm, getAllForms } from "../../services/forms-service";
+import { createForm, getMyForms } from "../../services/forms-service";
 import { Button } from "primereact/button";
 import { useState } from "react";
 import FormList from "./components/FormList";
@@ -11,7 +11,10 @@ const MyForms = () => {
   const toast = useRef<Toast>(null);
 
   const { data: formsData, refetch } = useQuery({
-    queryFn: getAllForms,
+    queryFn: () =>
+      getMyForms().then((res) =>
+        res.data.forms.filter((form) => form.form_scheme_id === 1)
+      ),
     queryKey: ["forms"],
   });
 
@@ -30,7 +33,7 @@ const MyForms = () => {
 
   const handleClick = () => {
     setLoading(true);
-    createFormMutate({ form_scheme_id: 2 });
+    createFormMutate({ form_scheme_id: 1 });
   };
 
   return (
@@ -45,7 +48,7 @@ const MyForms = () => {
         label="Crear nuevo formulario"
         raised
       />
-      <FormList forms={formsData?.data.forms || []} refetchForms={refetch} />
+      <FormList forms={formsData || []} refetchForms={refetch} />
     </div>
   );
 };

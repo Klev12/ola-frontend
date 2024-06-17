@@ -102,13 +102,29 @@ const UserCard: React.FC<UserCardProps> = ({
                 .map((role, index) => {
                   switch (role) {
                     case Roles.groupAdmin:
-                      return <option key={index}>Jefe de grupo</option>;
+                      return (
+                        <option key={index} value={role}>
+                          Jefe de grupo
+                        </option>
+                      );
                     case Roles.sales:
-                      return <option key={index}>Ventas</option>;
+                      return (
+                        <option key={index} value={role}>
+                          Ventas
+                        </option>
+                      );
                     case Roles.secretary:
-                      return <option key={index}>Sub admin</option>;
+                      return (
+                        <option key={index} value={role}>
+                          Sub admin
+                        </option>
+                      );
                     case Roles.user:
-                      return <option key={index}>Usuario</option>;
+                      return (
+                        <option key={index} value={role}>
+                          Usuario
+                        </option>
+                      );
                   }
                 })}
             </select>

@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "react-query";
-import { getUserFormByUserId } from "../../services/forms-service";
+import { getFormById, getUserFormByUserId } from "../../services/forms-service";
 import PrintForm from "../../components/PrintForm";
 import { useParams } from "react-router";
 import { submitForm } from "../../services/result-service";
@@ -8,18 +8,25 @@ import { ENV } from "../../consts/const";
 import { MultimediaType } from "../../models/user";
 import "./styles/check-user-form-styles.css";
 
-const CheckUserForm = () => {
+interface CheckUserFormProps {
+  normalMode?: boolean;
+}
+
+const CheckUserForm = ({ normalMode = false }: CheckUserFormProps) => {
   const { id } = useParams();
 
   const { mutate: findUserByIdMutate, data: userData } =
     useMutation(findUserById);
 
   const { data: formData } = useQuery({
-    queryFn: () => getUserFormByUserId(id as string).then((res) => res.data),
+    queryFn: () =>
+      normalMode
+        ? getFormById(id as string).then((res) => res.data)
+        : getUserFormByUserId(id as string).then((res) => res.data),
     queryKey: ["form-user", id],
     retry: 1,
     onSuccess: (data) => {
-      findUserByIdMutate(data.user_form.user_id);
+      if (!normalMode) findUserByIdMutate(data.user_form.user_id);
     },
   });
 
@@ -28,6 +35,7 @@ const CheckUserForm = () => {
   return (
     <div className="user-form">
       <PrintForm
+        normalMode={false}
         form={formData}
         isLoading={isLoading}
         onSubmit={(data) => {

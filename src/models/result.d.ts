@@ -13,5 +13,6 @@ export interface Result extends ResultPutDto {
 
 export interface AllResultPutDto {
   id: string | number;
+  hash?: string;
   results: ResultPutDto[];
 }

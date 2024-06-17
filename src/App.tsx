@@ -25,6 +25,8 @@ import AuthUserFormGuard from "./guard/AuthUserFormGuard";
 import SignatureDraw from "./pages/signature/Signature";
 import Verification from "./pages/user-form/Verification";
 import CheckUserForm from "./pages/dashboard/CheckUserForm";
+import SalesForm from "./pages/sales-form/SalesForm";
+import CheckForm from "./pages/check-form/CheckForm";
 
 function App() {
   return (
@@ -78,6 +80,8 @@ function App() {
         <Route path={ROUTES.LOGIN} element={<Login />}></Route>
         <Route path={ROUTES.SIGNUP} element={<Signup />}></Route>
         <Route path={ROUTES.FORM_PDF.ME} element={<FormPDF />} />
+        <Route path={ROUTES.GENERATE_SALES_FORM.ME} element={<SalesForm />} />
+        <Route path={ROUTES.DASHBOARD.CHECK_FORM} element={<CheckForm />} />
 
         <Route path="*" element={<PageNotFound />} />
       </Routes>

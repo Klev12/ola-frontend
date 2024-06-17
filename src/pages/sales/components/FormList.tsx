@@ -1,5 +1,9 @@
 import { useMutation } from "react-query";
-import { generateLink, invalidateLink } from "../../../services/forms-service";
+import {
+  generateLink,
+  invalidateLink,
+  setLinkExpirationTime,
+} from "../../../services/forms-service";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import { ScrollPanel } from "primereact/scrollpanel";
@@ -7,6 +11,8 @@ import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import useLoading from "../../../hooks/useLoading";
 import { FormGetDto } from "../../../models/forms";
+import ROUTES from "../../../consts/routes";
+import { useNavigate } from "react-router";
 
 interface FormListProps {
   forms: FormGetDto[];
@@ -14,8 +20,13 @@ interface FormListProps {
 }
 
 const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
+  const navigate = useNavigate();
   const { loading, setLoadingTrue, setLoadingFalse } = useLoading();
   const toast = useRef<Toast>(null);
+
+  const { mutate: setLinkExpirationTimeMutate } = useMutation(
+    setLinkExpirationTime
+  );
 
   const { mutate: generateLinkMutate } = useMutation(generateLink, {
     onSettled: () => {
@@ -58,18 +69,19 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
               style={{ marginBottom: "2em" }}
               key={form.id}
             >
+              <Button>X</Button>
               {form.hash ? (
                 <>
                   <h3>Link:</h3>
-                  <a href={`http://localhost:8000/generate-forms/${form.hash}`}>
-                    http://localhost:8000/generate-forms/{form.hash}
+                  <a href={ROUTES.GENERATE_SALES_FORM.HASH(form.hash)}>
+                    {window.location.origin}/generate-sales-form/{form.hash}
                   </a>
                   <Button
                     icon="pi pi-copy"
                     className="p-button-rounded p-button-info p-mr-2"
                     onClick={() =>
                       navigator.clipboard.writeText(
-                        `http://localhost:8000/generate-forms/${form.hash}`
+                        `${window.location.origin}/generate-sales-form/${form.hash}`
                       )
                     }
                   />
@@ -84,6 +96,10 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
                   onClick={() => {
                     setLoadingTrue();
                     generateLinkMutate({ id: form.id });
+                    setLinkExpirationTimeMutate({
+                      id: form.id,
+                      expire_hash_time: Date.now() + 30 * 60 * 1000,
+                    });
                   }}
                 />
               )}
@@ -100,6 +116,14 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
                     }}
                   />
                 )}
+                <Button
+                  label="Ver formulario"
+                  loading={loading}
+                  className="p-button-rounded p-mr-2"
+                  onClick={() => {
+                    navigate(ROUTES.DASHBOARD.CHECK_FORM_ID(form.id));
+                  }}
+                />
               </div>
             </Card>
           );

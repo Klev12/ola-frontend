@@ -17,9 +17,17 @@ interface PrintFormProps {
   onSubmit: (data: AllResultPutDto) => void;
   isLoading?: boolean;
   isFormEditable?: boolean;
+  normalMode?: boolean;
+  disableButton?: boolean;
 }
 
-const PrintForm = ({ form, onSubmit, isLoading }: PrintFormProps) => {
+const PrintForm = ({
+  form,
+  onSubmit,
+  isLoading,
+  normalMode = true,
+  disableButton = false,
+}: PrintFormProps) => {
   const { mutate: verifyUserFormMutate } = useMutation(verifyUserForm);
   const navigate = useNavigate();
   const toast = useRef<Toast>(null);
@@ -36,6 +44,10 @@ const PrintForm = ({ form, onSubmit, isLoading }: PrintFormProps) => {
   };
 
   useEffect(() => {
+    if (normalMode) {
+      setIsFormEditable(false);
+      return;
+    }
     setIsFormEditable(true);
   }, [setIsFormEditable]);
 
@@ -51,6 +63,17 @@ const PrintForm = ({ form, onSubmit, isLoading }: PrintFormProps) => {
           );
 
           const results: ResultPutDto[] = Object.keys(formData).map((key) => {
+            console.log(normalMode, form);
+            if (normalMode) {
+              return {
+                field_id: Number(key),
+                form_id: form?.form?.id,
+                response: {
+                  value: formData[key],
+                },
+              } as ResultPutDto;
+            }
+
             return {
               field_id: Number(key),
               form_id: form?.user_form.id,
@@ -59,6 +82,11 @@ const PrintForm = ({ form, onSubmit, isLoading }: PrintFormProps) => {
               },
             } as ResultPutDto;
           });
+
+          if (normalMode) {
+            onSubmit({ id: form?.form?.id as number, results });
+            return;
+          }
 
           onSubmit({ id: form?.user_form.id as number, results });
         }}
@@ -73,15 +101,17 @@ const PrintForm = ({ form, onSubmit, isLoading }: PrintFormProps) => {
             right: 0,
           }}
         >
-          <div className="edition-menu">
-            <label htmlFor="">
-              Modo edición {isFormEditable ? "activado" : "desactivado"}
-            </label>
-            <InputSwitch
-              checked={!isFormEditable as boolean}
-              onChange={(e) => setIsFormEditable(!e.value)}
-            />
-          </div>
+          {!disableButton && (
+            <div className="edition-menu">
+              <label htmlFor="">
+                Modo edición {isFormEditable ? "activado" : "desactivado"}
+              </label>
+              <InputSwitch
+                checked={!isFormEditable as boolean}
+                onChange={(e) => setIsFormEditable(!e.value)}
+              />
+            </div>
+          )}
 
           <Button
             style={{ backgroundColor: "purple", border: 0, boxShadow: "none" }}
@@ -89,19 +119,30 @@ const PrintForm = ({ form, onSubmit, isLoading }: PrintFormProps) => {
             loading={isLoading}
             disabled={isLoading || isFormEditable}
           />
-          <Button
-            style={{ backgroundColor: "purple", border: 0, boxShadow: "none" }}
-            label="Aceptar formulario de ingreso"
-            loading={isLoading}
-            disabled={isLoading || !isFormEditable}
-            onClick={acceptFormUser}
-          />
-          <Toast ref={toast} />
-          <Button
-            style={{ backgroundColor: "purple", border: 0 }}
-            label="Ver PDF"
-            onClick={handleClick}
-          />
+          {!disableButton && (
+            <Button
+              style={{
+                backgroundColor: "purple",
+                border: 0,
+                boxShadow: "none",
+              }}
+              label="Aceptar formulario de ingreso"
+              loading={isLoading}
+              disabled={isLoading || !isFormEditable}
+              onClick={acceptFormUser}
+            />
+          )}
+
+          {!disableButton && (
+            <>
+              <Toast ref={toast} />
+              <Button
+                style={{ backgroundColor: "purple", border: 0 }}
+                label="Ver PDF"
+                onClick={handleClick}
+              />
+            </>
+          )}
         </nav>
       </form>
     </ScrollPanel>

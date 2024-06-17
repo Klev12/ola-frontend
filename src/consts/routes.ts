@@ -18,6 +18,12 @@ const ROUTES = {
     CHECK_USER_FORM_ID(id: number | string) {
       return `${this.ME}/check-user-form/${id}`;
     },
+    get CHECK_FORM() {
+      return `${this.ME}/check-form/:id`;
+    },
+    CHECK_FORM_ID(id: number | string) {
+      return `${this.ME}/check-form/${id}`;
+    },
   },
 
   SALES: {
@@ -61,6 +67,12 @@ const ROUTES = {
     ME: "/form-pdf/:id",
     ID(id: number | string) {
       return `/form-pdf/${id}`;
+    },
+  },
+  GENERATE_SALES_FORM: {
+    ME: "/generate-sales-form/:hash",
+    HASH(hash: string) {
+      return `/generate-sales-form/${hash}`;
     },
   },
 };

@@ -17,6 +17,8 @@ interface GlobalState {
   setUserIdCard: (userIdCard: string) => void;
   isFormEditable: boolean | undefined;
   setIsFormEditable: (state: boolean) => void;
+  normalModeCheckForm: boolean | undefined;
+  setNormalModeCheckForm: (state: boolean) => void;
 }
 
 const useGlobalState = create<GlobalState>((set) => ({
@@ -27,6 +29,10 @@ const useGlobalState = create<GlobalState>((set) => ({
   userIdCard: undefined,
   isFormEditable: false,
   numberOfNotifications: 0,
+  normalModeCheckForm: false,
+  setNormalModeCheckForm: (normalModeCheckForm) => {
+    set({ normalModeCheckForm });
+  },
   setNumberOfNotifications: (notifications) => {
     set({ numberOfNotifications: notifications });
   },
