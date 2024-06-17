@@ -115,6 +115,7 @@ const PrintForm = ({
 
           <Button
             style={{ backgroundColor: "purple", border: 0, boxShadow: "none" }}
+            type="submit"
             label="Subir cambios"
             loading={isLoading}
             disabled={isLoading || isFormEditable}

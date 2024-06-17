@@ -73,7 +73,11 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
               {form.hash ? (
                 <>
                   <h3>Link:</h3>
-                  <a href={ROUTES.GENERATE_SALES_FORM.HASH(form.hash)}>
+                  <a
+                    href={ROUTES.GENERATE_SALES_FORM.HASH(form.hash)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     {window.location.origin}/generate-sales-form/{form.hash}
                   </a>
                   <Button
