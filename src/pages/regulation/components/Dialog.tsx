@@ -16,6 +16,7 @@ export default function MaximizableDemo() {
           display: "flex",
           flexDirection: "column",
           border: "0",
+          boxShadow: "none",
         }}
       />
       <Dialog

@@ -45,6 +45,7 @@ export default function AvatarDemo() {
                 <div>Área: {user?.area}</div>
               </Card>
               <Button
+                style={{ color: "purple" }}
                 label="Cerrar Sesión"
                 className="p-button-text"
                 onClick={handleCerrarSesion}
