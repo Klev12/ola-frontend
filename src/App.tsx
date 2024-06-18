@@ -27,6 +27,7 @@ import Verification from "./pages/user-form/Verification";
 import CheckUserForm from "./pages/dashboard/CheckUserForm";
 import SalesForm from "./pages/sales-form/SalesForm";
 import CheckForm from "./pages/check-form/CheckForm";
+import SalesFormPDF from "./pages/form-pdf/SalesFormPDF";
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
             <Route path={ROUTES.SALES.FORMS} element={<MyForms />} />
             <Route path={ROUTES.SALES.DONE_FORMS} element={<DoneForms />} />
           </Route>
+          <Route path={ROUTES.SALES.PDF} element={<SalesFormPDF />} />
         </Route>
         <Route path={ROUTES.USER_FORM.ME} element={<UserFormWrapper />}>
           <Route path={ROUTES.USER_FORM.ME} element={<UserForm />} />

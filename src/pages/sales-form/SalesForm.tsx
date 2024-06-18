@@ -46,7 +46,7 @@ const SalesForm = () => {
   return (
     <div>
       <h2>{erroMessage && erroMessage}</h2>
-      <MyTimer />
+      {!erroMessage && <MyTimer />}
       <PrintForm
         disableButton={true}
         form={formData}

@@ -7,6 +7,8 @@ import { findUserById } from "../../services/user-service";
 import { ENV } from "../../consts/const";
 import { MultimediaType } from "../../models/user";
 import "./styles/check-user-form-styles.css";
+import { useState } from "react";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 interface CheckUserFormProps {
   normalMode?: boolean;
@@ -15,10 +17,12 @@ interface CheckUserFormProps {
 const CheckUserForm = ({ normalMode = false }: CheckUserFormProps) => {
   const { id } = useParams();
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   const { mutate: findUserByIdMutate, data: userData } =
     useMutation(findUserById);
 
-  const { data: formData } = useQuery({
+  const { data: formData, isLoading: isFormLoading } = useQuery({
     queryFn: () =>
       normalMode
         ? getFormById(id as string).then((res) => res.data)
@@ -28,12 +32,17 @@ const CheckUserForm = ({ normalMode = false }: CheckUserFormProps) => {
     onSuccess: (data) => {
       if (!normalMode) findUserByIdMutate(data.user_form.user_id);
     },
+    onError: () => {
+      setErrorMessage("Formulario no encontrado");
+    },
   });
 
   const { mutate: submitFormMutate, isLoading } = useMutation(submitForm);
 
   return (
     <div className="user-form">
+      {isFormLoading && <ProgressSpinner />}
+      {errorMessage && <h2>{errorMessage}</h2>}
       <PrintForm
         normalMode={false}
         form={formData}

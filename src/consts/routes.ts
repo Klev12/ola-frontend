@@ -34,6 +34,12 @@ const ROUTES = {
     get DONE_FORMS() {
       return `${this.ME}/done`;
     },
+    get PDF() {
+      return `${this.ME}/pdf/:id`;
+    },
+    PDF_ID(id: string | number) {
+      return `${this.ME}/pdf/${id}`;
+    },
   },
   BLOG: {
     ME: "/blog",

@@ -46,6 +46,12 @@ const PrintForm = ({
   };
 
   const handleClick = () => {
+    console.log("hello");
+    if (normalMode) {
+      navigate(ROUTES.SALES.PDF_ID(form?.form?.id as number));
+
+      return;
+    }
     navigate(ROUTES.FORM_PDF.ID(form?.user_form.user_id as number));
   };
 
@@ -120,19 +126,7 @@ const PrintForm = ({
               />
             </div>
           )}
-          {!children && (
-            <Button
-              style={{
-                backgroundColor: "purple",
-                border: 0,
-                boxShadow: "none",
-              }}
-              type="submit"
-              label="Subir cambios"
-              loading={isLoading}
-              disabled={isLoading || isFormEditable}
-            />
-          )}
+
           {!disableButton && (
             <Button
               style={{
