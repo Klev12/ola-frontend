@@ -6,6 +6,7 @@ import { submitFormByHash } from "../../services/result-service";
 import { useState } from "react";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Button } from "primereact/button";
+import MyTimer from "../../components/Timer";
 
 const SalesForm = () => {
   const { hash } = useParams();
@@ -45,6 +46,7 @@ const SalesForm = () => {
   return (
     <div>
       <h2>{erroMessage && erroMessage}</h2>
+      <MyTimer />
       <PrintForm
         disableButton={true}
         form={formData}

@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@react-pdf/renderer':
         specifier: ^3.4.4
-        version: 3.4.4(react@18.3.1)
+        version: 3.4.4(react@18.2.0)
       '@types/react-canvas-draw':
         specifier: ^1.2.3
         version: 1.2.3
@@ -22,28 +22,31 @@ importers:
         version: 7.0.0
       primereact:
         specifier: ^10.6.5
-        version: 10.6.5(@types/react@18.3.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 10.6.5(@types/react@18.3.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react:
-        specifier: ^18.2.0
-        version: 18.3.1
+        specifier: 18.2.0
+        version: 18.2.0
       react-canvas-draw:
         specifier: ^1.2.1
-        version: 1.2.1(react@18.3.1)
+        version: 1.2.1(react@18.2.0)
       react-dom:
-        specifier: ^18.2.0
-        version: 18.3.1(react@18.3.1)
+        specifier: 18.2.0
+        version: 18.2.0(react@18.2.0)
       react-query:
         specifier: ^3.39.3
-        version: 3.39.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 3.39.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react-router:
         specifier: ^6.23.1
-        version: 6.23.1(react@18.3.1)
+        version: 6.23.1(react@18.2.0)
       react-router-dom:
         specifier: ^6.23.1
-        version: 6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 6.23.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      react-timer-hook:
+        specifier: ^3.0.7
+        version: 3.0.7(react@18.2.0)
       zustand:
-        specifier: ^4.5.2
-        version: 4.5.2(@types/react@18.3.1)(react@18.3.1)
+        specifier: 4.5.2
+        version: 4.5.2(@types/react@18.3.1)(react@18.2.0)
     devDependencies:
       '@types/react':
         specifier: ^18.2.66
@@ -1103,10 +1106,10 @@ packages:
     peerDependencies:
       react: 16.x || 17.x
 
-  react-dom@18.3.1:
-    resolution: {integrity: sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==}
+  react-dom@18.2.0:
+    resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
     peerDependencies:
-      react: ^18.3.1
+      react: ^18.2.0
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -1136,14 +1139,19 @@ packages:
     peerDependencies:
       react: '>=16.8'
 
+  react-timer-hook@3.0.7:
+    resolution: {integrity: sha512-ATpNcU+PQRxxfNBPVqce2+REtjGAlwmfoNQfcEBMZFxPj0r3GYdKhyPHdStvqrejejEi0QvqaJZjy2lBlFvAsA==}
+    peerDependencies:
+      react: '>=16.8.0'
+
   react-transition-group@4.4.5:
     resolution: {integrity: sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==}
     peerDependencies:
       react: '>=16.6.0'
       react-dom: '>=16.6.0'
 
-  react@18.3.1:
-    resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
+  react@18.2.0:
+    resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}
     engines: {node: '>=0.10.0'}
 
   regenerator-runtime@0.14.1:
@@ -1551,7 +1559,7 @@ snapshots:
       parse-svg-path: 0.1.2
       svg-arc-to-cubic-bezier: 3.2.0
 
-  '@react-pdf/renderer@3.4.4(react@18.3.1)':
+  '@react-pdf/renderer@3.4.4(react@18.2.0)':
     dependencies:
       '@babel/runtime': 7.24.5
       '@react-pdf/font': 2.5.1
@@ -1564,7 +1572,7 @@ snapshots:
       object-assign: 4.1.1
       prop-types: 15.8.1
       queue: 6.0.2
-      react: 18.3.1
+      react: 18.2.0
       scheduler: 0.17.0
     transitivePeerDependencies:
       - encoding
@@ -2359,12 +2367,12 @@ snapshots:
 
   primeicons@7.0.0: {}
 
-  primereact@10.6.5(@types/react@18.3.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  primereact@10.6.5(@types/react@18.3.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@types/react-transition-group': 4.4.10
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      react-transition-group: 4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-transition-group: 4.4.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
     optionalDependencies:
       '@types/react': 18.3.1
 
@@ -2384,53 +2392,57 @@ snapshots:
     dependencies:
       inherits: 2.0.4
 
-  react-canvas-draw@1.2.1(react@18.3.1):
+  react-canvas-draw@1.2.1(react@18.2.0):
     dependencies:
       catenary-curve: 1.0.1
       lazy-brush: 1.0.1
       prop-types: 15.8.1
-      react: 18.3.1
+      react: 18.2.0
       resize-observer-polyfill: 1.5.1
 
-  react-dom@18.3.1(react@18.3.1):
+  react-dom@18.2.0(react@18.2.0):
     dependencies:
       loose-envify: 1.4.0
-      react: 18.3.1
+      react: 18.2.0
       scheduler: 0.23.2
 
   react-is@16.13.1: {}
 
-  react-query@3.39.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-query@3.39.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@babel/runtime': 7.24.5
       broadcast-channel: 3.7.0
       match-sorter: 6.3.4
-      react: 18.3.1
+      react: 18.2.0
     optionalDependencies:
-      react-dom: 18.3.1(react@18.3.1)
+      react-dom: 18.2.0(react@18.2.0)
 
-  react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-router-dom@6.23.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@remix-run/router': 1.16.1
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      react-router: 6.23.1(react@18.3.1)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-router: 6.23.1(react@18.2.0)
 
-  react-router@6.23.1(react@18.3.1):
+  react-router@6.23.1(react@18.2.0):
     dependencies:
       '@remix-run/router': 1.16.1
-      react: 18.3.1
+      react: 18.2.0
 
-  react-transition-group@4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-timer-hook@3.0.7(react@18.2.0):
+    dependencies:
+      react: 18.2.0
+
+  react-transition-group@4.4.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@babel/runtime': 7.24.5
       dom-helpers: 5.2.1
       loose-envify: 1.4.0
       prop-types: 15.8.1
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
 
-  react@18.3.1:
+  react@18.2.0:
     dependencies:
       loose-envify: 1.4.0
 
@@ -2564,9 +2576,9 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  use-sync-external-store@1.2.0(react@18.3.1):
+  use-sync-external-store@1.2.0(react@18.2.0):
     dependencies:
-      react: 18.3.1
+      react: 18.2.0
 
   util-deprecate@1.0.2: {}
 
@@ -2603,9 +2615,9 @@ snapshots:
 
   yoga-layout@2.0.1: {}
 
-  zustand@4.5.2(@types/react@18.3.1)(react@18.3.1):
+  zustand@4.5.2(@types/react@18.3.1)(react@18.2.0):
     dependencies:
-      use-sync-external-store: 1.2.0(react@18.3.1)
+      use-sync-external-store: 1.2.0(react@18.2.0)
     optionalDependencies:
       '@types/react': 18.3.1
-      react: 18.3.1
+      react: 18.2.0

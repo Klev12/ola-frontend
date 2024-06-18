@@ -127,6 +127,19 @@ const PrintForm = ({
                 border: 0,
                 boxShadow: "none",
               }}
+              type="submit"
+              label="Subir cambios"
+              loading={isLoading}
+              disabled={isLoading || isFormEditable}
+            />
+          )}
+          {!disableButton && (
+            <Button
+              style={{
+                backgroundColor: "purple",
+                border: 0,
+                boxShadow: "none",
+              }}
               label="Subir cambios"
               loading={isLoading}
               disabled={isLoading || isFormEditable}
@@ -164,6 +177,7 @@ const PrintForm = ({
               <Button
                 style={{ backgroundColor: "purple", border: 0 }}
                 label="Ver PDF"
+                type="button"
                 onClick={handleClick}
               />
             </>
