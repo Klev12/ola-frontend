@@ -5,9 +5,12 @@ import PrintForm from "../../components/PrintForm";
 import { submitFormByHash } from "../../services/result-service";
 import { useState } from "react";
 import { ProgressSpinner } from "primereact/progressspinner";
+import { Button } from "primereact/button";
 
 const SalesForm = () => {
   const { hash } = useParams();
+
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
   const [erroMessage, setErrorMessage] = useState<string | undefined>(
     undefined
@@ -23,7 +26,12 @@ const SalesForm = () => {
     },
   });
 
-  const { mutate: submitFormByHashMutate } = useMutation(submitFormByHash, {});
+  const { mutate: submitFormByHashMutate, isLoading: isFormLoading } =
+    useMutation(submitFormByHash, {
+      onSuccess: () => {
+        setIsFormSubmitted(true);
+      },
+    });
 
   if (isLoading) {
     return (
@@ -41,13 +49,22 @@ const SalesForm = () => {
         disableButton={true}
         form={formData}
         onSubmit={(data) => {
+          console.log(data);
           submitFormByHashMutate({
             id: data.id,
             hash: hash,
             results: data.results,
           });
         }}
-      />
+        refetchUser={() => {}}
+      >
+        <Button
+          loading={isFormLoading}
+          disabled={!!erroMessage || isFormSubmitted}
+          label="Subir formulario"
+          type="submit"
+        />
+      </PrintForm>
     </div>
   );
 };

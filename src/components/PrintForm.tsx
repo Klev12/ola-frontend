@@ -3,7 +3,7 @@ import { UserFormGetDto } from "../models/user-form";
 import FormGroupList from "../pages/user-form/components/FormGroupList";
 import { AllResultPutDto, ResultPutDto } from "../models/result";
 import { Button } from "primereact/button";
-import { MouseEventHandler, useEffect, useRef } from "react";
+import { MouseEventHandler, ReactNode, useEffect, useRef } from "react";
 import { useMutation } from "react-query";
 import { verifyUserForm } from "../services/user-service";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,7 @@ import { Toast } from "primereact/toast";
 import useGlobalState from "../store/store";
 import ROUTES from "../consts/routes";
 import { InputSwitch } from "primereact/inputswitch";
+import { UserGetDto } from "../models/user";
 
 interface PrintFormProps {
   form?: UserFormGetDto;
@@ -19,6 +20,9 @@ interface PrintFormProps {
   isFormEditable?: boolean;
   normalMode?: boolean;
   disableButton?: boolean;
+  children?: ReactNode;
+  user?: UserGetDto;
+  refetchUser: () => void;
 }
 
 const PrintForm = ({
@@ -27,6 +31,8 @@ const PrintForm = ({
   isLoading,
   normalMode = true,
   disableButton = false,
+  children,
+  user,
 }: PrintFormProps) => {
   const { mutate: verifyUserFormMutate } = useMutation(verifyUserForm);
   const navigate = useNavigate();
@@ -53,7 +59,9 @@ const PrintForm = ({
 
   return (
     <ScrollPanel>
-      <h2>{form?.form_scheme?.label}</h2>
+      <h2>
+        {form?.form_scheme?.label} {user?.fullname} {user?.email}
+      </h2>
 
       <form
         onSubmit={(e) => {
@@ -112,25 +120,42 @@ const PrintForm = ({
               />
             </div>
           )}
-
-          <Button
-            style={{ backgroundColor: "purple", border: 0, boxShadow: "none" }}
-            label="Subir cambios"
-            loading={isLoading}
-            disabled={isLoading || isFormEditable}
-          />
-          {!disableButton && (
+          {!children && (
             <Button
               style={{
                 backgroundColor: "purple",
                 border: 0,
                 boxShadow: "none",
               }}
-              label="Aceptar formulario de ingreso"
+              label="Subir cambios"
               loading={isLoading}
-              disabled={isLoading || !isFormEditable}
-              onClick={acceptFormUser}
+              disabled={isLoading || isFormEditable}
             />
+          )}
+
+          {children && children}
+
+          {!disableButton && (
+            <>
+              <Button
+                style={{
+                  backgroundColor: "purple",
+                  border: 0,
+                  boxShadow: "none",
+                }}
+                label={
+                  user?.verified
+                    ? user?.is_form_verified
+                      ? "El usuario ya ha sido aceptado"
+                      : "Aceptar formulario de ingreso"
+                    : "El usuario no esta verificado"
+                }
+                loading={isLoading}
+                disabled={isLoading || !isFormEditable || !user?.verified}
+                onClick={acceptFormUser}
+                icon={user?.is_form_verified ? "pi pi-check" : ""}
+              />
+            </>
           )}
 
           {!disableButton && (

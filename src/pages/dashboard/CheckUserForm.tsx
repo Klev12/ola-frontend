@@ -38,9 +38,13 @@ const CheckUserForm = ({ normalMode = false }: CheckUserFormProps) => {
         normalMode={false}
         form={formData}
         isLoading={isLoading}
+        user={userData?.data.user}
         onSubmit={(data) => {
           console.log(data);
           submitFormMutate(data);
+        }}
+        refetchUser={() => {
+          findUserByIdMutate(userData?.data.user.id as number);
         }}
       />
       <div className="images">
