@@ -7,6 +7,7 @@ import {
   HashExpirationTimePostDto,
 } from "../models/forms";
 import { UserFormGetDto } from "../models/user-form";
+import { dataURLToBlob } from "./document-service";
 
 export function createForm(form: FormPostDto) {
   return axios.post(`${ENV.BACKEND_ROUTE}/forms`, form);
@@ -58,4 +59,18 @@ export function setLinkExpirationTime(data: HashExpirationTimePostDto) {
 
 export function deleteFormById(id: string | number) {
   return axios.delete(`${ENV.BACKEND_ROUTE}/forms/${id}`);
+}
+
+export function addUserSignature({
+  image,
+  hash,
+}: {
+  image: string;
+  hash: string;
+}) {
+  const blob = dataURLToBlob(image);
+  const formData = new FormData();
+  formData.append("signature", blob, "signature.png");
+
+  return axios.post(`${ENV.BACKEND_ROUTE}/forms/signature/${hash}`, formData);
 }
