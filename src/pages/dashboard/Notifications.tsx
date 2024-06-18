@@ -1,4 +1,5 @@
 import { useQuery } from "react-query";
+import { DataScroller } from "primereact/datascroller";
 import { getAllNotifications } from "../../services/user-service";
 import NotificationCard from "./components/NotificationCard";
 import useGlobalState from "../../store/store";
@@ -21,13 +22,20 @@ const Notifications = () => {
   return (
     <div>
       {notificationsData?.notifications.length === 0 && (
-        <div>No hay notificationes</div>
+        <div>No hay notificaciones</div>
       )}
-      {notificationsData?.notifications.map((notification) => {
-        return (
+      <DataScroller
+        value={notificationsData?.notifications}
+        itemTemplate={(notification) => (
           <NotificationCard key={notification.id} notification={notification} />
-        );
-      })}
+        )}
+        rows={10} // Número de notificaciones cargadas inicialmente
+        inline
+        scrollHeight="700px"
+        loader
+        buffer={0.4} // Porcentaje de desplazamiento para cargar más notificaciones
+        header="Notificaciones"
+      />
     </div>
   );
 };

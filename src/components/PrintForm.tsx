@@ -140,6 +140,7 @@ const PrintForm = ({
               <Button
                 style={{ backgroundColor: "purple", border: 0 }}
                 label="Ver PDF"
+                type="button"
                 onClick={handleClick}
               />
             </>

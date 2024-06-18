@@ -14,6 +14,7 @@ import useLoading from "../../../hooks/useLoading";
 import { FormGetDto } from "../../../models/forms";
 import ROUTES from "../../../consts/routes";
 import { useNavigate } from "react-router";
+import { confirmDialog } from "primereact/confirmdialog";
 
 interface FormListProps {
   forms: FormGetDto[];
@@ -24,8 +25,30 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
   const { mutate: deleteFormByIdMutate } = useMutation(deleteFormById, {
     onSuccess: () => {
       refetchForms();
+      toast.current?.show({
+        severity: "success",
+        summary: "Success",
+        detail: "Se ha eliminado correctamente.",
+        life: 4000,
+      });
     },
   });
+  const confirmDelete = () => {
+    confirmDialog({
+      message: "¿Estás seguro de que quieres eliminar este usuario?",
+      header: "Confirmar eliminación",
+      icon: "pi pi-exclamation-triangle",
+      accept: () => deleteFormById(forms.id),
+      reject: () => {
+        toast.current?.show({
+          severity: "info",
+          summary: "Cancelado",
+          detail: "La eliminación del usuario ha sido cancelada",
+          life: 4000,
+        });
+      },
+    });
+  };
 
   const navigate = useNavigate();
   const { loading, setLoadingTrue, setLoadingFalse } = useLoading();
@@ -43,7 +66,7 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
         severity: "success",
         summary: "Link Generado",
         detail: "El link fue creado correctamente",
-        life: 1000,
+        life: 4000,
       });
     },
   });
@@ -56,7 +79,7 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
         severity: "info",
         summary: "Link Invalidado",
         detail: "El link se ha desactivado correctamente",
-        life: 1000,
+        life: 4000,
       });
     },
   });
@@ -77,12 +100,14 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
               key={form.id}
             >
               <Button
+                style={{ backgroundColor: "purple", border: 0 }}
+                className="p-button-rounded p-button-success p-mr-2"
+                icon="pi pi-times"
+                label="Eliminar"
                 onClick={() => {
                   deleteFormByIdMutate(form.id);
                 }}
-              >
-                X
-              </Button>
+              ></Button>
               {form.hash ? (
                 <>
                   <h3>Link:</h3>
@@ -134,6 +159,7 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
                   />
                 )}
                 <Button
+                  style={{ backgroundColor: "purple", border: 0 }}
                   label="Ver formulario"
                   loading={loading}
                   className="p-button-rounded p-mr-2"
