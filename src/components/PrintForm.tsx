@@ -12,6 +12,7 @@ import useGlobalState from "../store/store";
 import ROUTES from "../consts/routes";
 import { InputSwitch } from "primereact/inputswitch";
 import { UserGetDto } from "../models/user";
+import "../components/styles/input-switch.css";
 
 interface PrintFormProps {
   form?: UserFormGetDto;
@@ -118,9 +119,10 @@ const PrintForm = ({
           {!disableButton && (
             <div className="edition-menu">
               <label htmlFor="">
-                Modo edición {isFormEditable ? "activado" : "desactivado"}
+                Modo edición {isFormEditable ? "desactivado" : "activado"}
               </label>
               <InputSwitch
+                className="custom-input-switch"
                 checked={!isFormEditable as boolean}
                 onChange={(e) => setIsFormEditable(!e.value)}
               />

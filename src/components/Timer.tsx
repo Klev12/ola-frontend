@@ -24,7 +24,7 @@ function MyTimer({ expiryTimestamp }: MyTimerProps) {
 
 export default function App() {
   const time = new Date();
-  time.setSeconds(time.getSeconds() + 60);
+  time.setSeconds(time.getSeconds() + 2700);
   return (
     <div>
       <MyTimer expiryTimestamp={time} />

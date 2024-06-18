@@ -13,12 +13,14 @@ import {
 import { deleteNotificationById } from "../../../services/notification-service";
 import ROUTES from "../../../consts/routes";
 import { Link } from "react-router-dom";
+import { Toast } from "primereact/toast";
+import { useRef } from "react";
 
 interface NotificationCardProps {
   notification: NotificationGetDto;
 }
-
 const NotificationCard = ({ notification }: NotificationCardProps) => {
+  const toast = useRef<Toast>(null);
   const { refetch } = useQuery({
     queryKey: ["notifications"],
   });
@@ -29,6 +31,12 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
     {
       onSuccess: () => {
         deleteNotificationByIdMutate(notification.id);
+        toast.current?.show({
+          severity: "success",
+          summary: "Success",
+          detail: "Usuario aceptado",
+          life: 4000,
+        });
       },
     }
   );
@@ -45,11 +53,18 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
   const { mutate: deleteUserByIdMutate } = useMutation(deleteUserById, {
     onSuccess: () => {
       deleteNotificationByIdMutate(notification.id);
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: "El usuario ha sido denegado.",
+        life: 4000,
+      });
     },
   });
 
   return (
     <Card>
+      <Toast ref={toast} />
       {notification.type !== NotificationType.newUser && (
         <Button
           icon="pi pi-times"

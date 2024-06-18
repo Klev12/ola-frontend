@@ -62,6 +62,7 @@ const SalesForm = () => {
         refetchUser={() => {}}
       >
         <Button
+          style={{ backgroundColor: "purple", border: 0, boxShadow: "none" }}
           loading={isFormLoading}
           disabled={!!erroMessage || isFormSubmitted}
           label="Subir formulario"
