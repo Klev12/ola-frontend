@@ -29,11 +29,11 @@ const Notifications = () => {
         itemTemplate={(notification) => (
           <NotificationCard key={notification.id} notification={notification} />
         )}
-        rows={10} // Número de notificaciones cargadas inicialmente
+        rows={10}
         inline
         scrollHeight="700px"
         loader
-        buffer={0.4} // Porcentaje de desplazamiento para cargar más notificaciones
+        buffer={0.4}
         header="Notificaciones"
       />
     </div>
