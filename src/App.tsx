@@ -61,7 +61,6 @@ function App() {
             <Route path={ROUTES.SALES.FORMS} element={<MyForms />} />
             <Route path={ROUTES.SALES.DONE_FORMS} element={<DoneForms />} />
           </Route>
-          <Route path={ROUTES.SALES.PDF} element={<SalesFormPDF />} />
         </Route>
         <Route path={ROUTES.USER_FORM.ME} element={<UserFormWrapper />}>
           <Route path={ROUTES.USER_FORM.ME} element={<UserForm />} />
@@ -81,6 +80,7 @@ function App() {
         </Route>
         <Route path={ROUTES.LOGIN} element={<Login />}></Route>
         <Route path={ROUTES.SIGNUP} element={<Signup />}></Route>
+        <Route path={ROUTES.SALES.PDF} element={<SalesFormPDF />} />
         <Route path={ROUTES.FORM_PDF.ME} element={<FormPDF />} />
         <Route path={ROUTES.GENERATE_SALES_FORM.ME} element={<SalesForm />} />
         <Route path={ROUTES.DASHBOARD.CHECK_FORM} element={<CheckForm />} />

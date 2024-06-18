@@ -7,6 +7,7 @@ import { useState } from "react";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Button } from "primereact/button";
 import MyTimer from "../../components/Timer";
+import ClientSignature from "./components/ClientSignature";
 
 const SalesForm = () => {
   const { hash } = useParams();
@@ -68,6 +69,7 @@ const SalesForm = () => {
           type="submit"
         />
       </PrintForm>
+      <ClientSignature hash={hash} />
     </div>
   );
 };
