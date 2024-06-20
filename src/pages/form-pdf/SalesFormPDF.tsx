@@ -44,6 +44,7 @@ Font.register({
   family: "RobotoLightFamily",
   src: FontRobotoLight,
 });
+
 const styles = StyleSheet.create({
   page: { paddingTop: 35, paddingBottom: 65, paddingHorizontal: 35 },
   firstTitle: {
@@ -55,6 +56,11 @@ const styles = StyleSheet.create({
     fontWeight: "black",
     fontSize: "25px",
     fontFamily: "RobotoBoldFamily ",
+    marginBottom: 20,
+  },
+  formGroup: {
+    paddingBottom: "50px",
+    color: "purple",
   },
   pageNumber: {
     position: "absolute",
@@ -96,8 +102,12 @@ const SalesFormPDF = () => {
         (file) => file.type == MultimediaType.cardId
       );
       setSignaturelink(`${ENV.BACKEND_ROUTE}/multimedia/${signatureHash}`);
-      setCardFrontLink(`${ENV.BACKEND_ROUTE}/multimedia/${cardHashes[0].hash}`);
-      setCardBackLink(`${ENV.BACKEND_ROUTE}/multimedia/${cardHashes[1].hash}`);
+      setCardFrontLink(
+        `${ENV.BACKEND_ROUTE}/multimedia/${cardHashes?.[0]?.hash}`
+      );
+      setCardBackLink(
+        `${ENV.BACKEND_ROUTE}/multimedia/${cardHashes?.[1]?.hash}`
+      );
     },
   });
 
@@ -118,7 +128,7 @@ const SalesFormPDF = () => {
         userFormData?.fields?.[1]?.results[0]?.response?.value as string
       );
 
-      findUserByIdMutate(userForm.form.user_id);
+      findUserByIdMutate(userForm?.form?.user_id as number);
     },
   });
 
@@ -141,7 +151,7 @@ const SalesFormPDF = () => {
             <Text style={styles.firstTitle}>FORMULARIO DE VENTAS</Text>
             {userFormData?.form_scheme.form_groups.map((formGroup) => {
               return (
-                <View key={formGroup.id} wrap={false}>
+                <View key={formGroup.id} style={styles.formGroup} wrap={false}>
                   <FormPDFGroup formGroup={formGroup} />
                 </View>
               );
@@ -154,12 +164,6 @@ const SalesFormPDF = () => {
               fixed
             />
           </Page>
-          <FormPDFContracts
-            termsAndConditions={termsAndConditions?.[0] as ContractGetDto}
-          />
-          <FormPDFContracts
-            termsAndConditions={termsAndConditions?.[1] as ContractGetDto}
-          />
         </FormPDFProvider>
       </Document>
     </PDFViewer>
