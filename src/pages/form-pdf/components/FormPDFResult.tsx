@@ -37,7 +37,7 @@ const FormPDFResult = ({ result }: FormPDFResultProps) => {
 
   return (
     <View>
-      {hashTable[result.response.value]
+      {hashTable?.[result.response.value]
         ? hashTable[result.response.value]()
         : hashTable["default"]()}
     </View>
