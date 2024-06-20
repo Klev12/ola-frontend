@@ -10,7 +10,9 @@ const FormPDFField = ({ field }: FormPDFFieldProps) => {
   return (
     <View>
       <Text>{field.label}:</Text>
-      <Text>{field.results?.[0]?.response?.value}</Text>
+      {field.results.map((result, index) => {
+        return <FormPDFResult key={index} result={result} />;
+      })}
     </View>
   );
 };

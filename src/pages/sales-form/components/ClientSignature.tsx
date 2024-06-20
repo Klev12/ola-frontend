@@ -1,22 +1,27 @@
 import CanvasDraw from "react-canvas-draw";
-import { useNavigate } from "react-router";
 import { useMutation } from "react-query";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { addUserSignature } from "../../../services/forms-service";
 
 interface ClientSignatureProps {
   hash: string;
+  beforeOnSuccess?: () => void;
 }
 
-const ClientSignature = ({ hash }: ClientSignatureProps) => {
+const ClientSignature = ({ hash, beforeOnSuccess }: ClientSignatureProps) => {
   const canvasRef = useRef<CanvasDraw>(null);
-
-  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(
+    undefined
+  );
 
   const { mutate: addUserSignatureMutate } = useMutation(addUserSignature, {
     onSuccess: () => {
       console.log("signature enviada!");
+      beforeOnSuccess && beforeOnSuccess();
+    },
+    onError: () => {
+      setErrorMessage("Error al subir la firma");
     },
   });
 
@@ -42,10 +47,14 @@ const ClientSignature = ({ hash }: ClientSignatureProps) => {
         alignItems: "center",
         padding: "30px",
         backgroundColor: "purple",
+        paddingBottom: 100,
       }}
     >
       <div>
         Firma
+        <small style={{ display: "flex" }}>
+          {errorMessage && errorMessage}
+        </small>
         <p>Por favor realizar su firma en el cuadrado de color blanco.</p>
         <CanvasDraw
           ref={canvasRef}

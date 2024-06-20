@@ -32,8 +32,11 @@ const SalesForm = () => {
     useMutation(submitFormByHash, {
       onSuccess: () => {
         setIsFormSubmitted(true);
+        window.location.reload();
       },
     });
+
+  const [isSignatureReady, setIsSignatureReady] = useState(false);
 
   if (isLoading) {
     return (
@@ -64,12 +67,19 @@ const SalesForm = () => {
         <Button
           style={{ backgroundColor: "purple", border: 0, boxShadow: "none" }}
           loading={isFormLoading}
-          disabled={!!erroMessage || isFormSubmitted}
+          disabled={!!erroMessage || isFormSubmitted || !isSignatureReady}
           label="Subir formulario"
           type="submit"
         />
       </PrintForm>
-      <ClientSignature hash={hash as string} />
+      {!erroMessage && (
+        <ClientSignature
+          hash={hash as string}
+          beforeOnSuccess={() => {
+            setIsSignatureReady(true);
+          }}
+        />
+      )}
     </div>
   );
 };
