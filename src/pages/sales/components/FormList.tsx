@@ -142,6 +142,7 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
                 onClick={() => {
                   setLoadingTrue();
                   generateLinkMutate({ id: form.id });
+                  console.log(Date.now() + 30 * 60 * 1000);
                   setLinkExpirationTimeMutate({
                     id: form.id,
                     expire_hash_time: Date.now() + 30 * 60 * 1000,
