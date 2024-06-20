@@ -150,11 +150,7 @@ const SalesFormPDF = () => {
           <Page size="A4" style={styles.page}>
             <Text style={styles.firstTitle}>FORMULARIO DE VENTAS</Text>
             {userFormData?.form_scheme.form_groups.map((formGroup) => {
-              return (
-                <View key={formGroup.id} style={styles.formGroup} wrap={false}>
-                  <FormPDFGroup formGroup={formGroup} />
-                </View>
-              );
+              return <FormPDFGroup key={formGroup.id} formGroup={formGroup} />;
             })}
             <Text
               style={styles.pageNumber}
