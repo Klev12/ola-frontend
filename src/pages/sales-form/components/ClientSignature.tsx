@@ -1,5 +1,4 @@
 import CanvasDraw from "react-canvas-draw";
-import ROUTES from "../../../consts/routes";
 import { useNavigate } from "react-router";
 import { useMutation } from "react-query";
 import { useRef } from "react";
@@ -29,7 +28,7 @@ const ClientSignature = ({ hash }: ClientSignatureProps) => {
 
   const saveImage = () => {
     if (canvasRef.current) {
-      const url = canvasRef.current.getDataURL("png");
+      const url = (canvasRef.current as any).getDataURL("png");
 
       addUserSignatureMutate({ image: url, hash });
     }

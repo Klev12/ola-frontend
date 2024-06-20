@@ -25,7 +25,7 @@ const SignatureDraw: React.FC = () => {
 
   const saveImage = () => {
     if (canvasRef.current) {
-      const url = canvasRef.current.getDataURL("png");
+      const url = (canvasRef.current as any).getDataURL("png");
 
       saveSignatureMutate(url);
     }

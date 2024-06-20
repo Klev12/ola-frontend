@@ -69,7 +69,7 @@ const SalesForm = () => {
           type="submit"
         />
       </PrintForm>
-      <ClientSignature hash={hash} />
+      <ClientSignature hash={hash as string} />
     </div>
   );
 };
