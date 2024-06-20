@@ -1,8 +1,7 @@
 import { useMutation, useQuery } from "react-query";
-import { getFormById, getUserFormByUserId } from "../../services/forms-service";
+import { getFormById } from "../../services/forms-service";
 import { ENV } from "../../consts/const";
 import { findUserById } from "../../services/user-service";
-import { getTermsAndConditions } from "../../services/contract-service";
 import useGlobalState from "../../store/store";
 import { useParams } from "react-router";
 import { useState } from "react";
@@ -10,6 +9,7 @@ import { MultimediaType } from "../../models/user";
 import {
   Document,
   Font,
+  Image,
   PDFViewer,
   Page,
   StyleSheet,
@@ -22,8 +22,6 @@ import SecondFont from "../form-pdf/fonts/Inter-VariableFont_slnt,wght.ttf";
 import ThirdCustom from "../form-pdf/fonts/Roboto-Bold.ttf";
 import FontRobotoLight from "../form-pdf/fonts/Roboto-Light.ttf";
 import FormPDFGroup from "./components/FormPDFGroup";
-import FormPDFContracts from "./components/FormPDFContracts";
-import { ContractGetDto } from "../../models/contract";
 
 Font.register({
   family: "PlayfairDisplayFamily",
@@ -71,6 +69,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "grey",
   },
+  image: {
+    width: 200,
+  },
 });
 
 const SalesFormPDF = () => {
@@ -88,20 +89,12 @@ const SalesFormPDF = () => {
   const userFormNames = useGlobalState((state) => state.userFormNames);
   const userFormLastNames = useGlobalState((state) => state.userFormLastNames);
 
-  const { data: termsAndConditions } = useQuery({
-    refetchOnWindowFocus: false,
-    queryFn: getTermsAndConditions,
-  });
-
   const { mutate: findUserByIdMutate } = useMutation(findUserById, {
     onSuccess: (userData) => {
-      const signatureHash = userData.data.user.multimedias.find(
-        (file) => file.type === MultimediaType.signature
-      )?.hash;
       const cardHashes = userData.data.user.multimedias.filter(
         (file) => file.type == MultimediaType.cardId
       );
-      setSignaturelink(`${ENV.BACKEND_ROUTE}/multimedia/${signatureHash}`);
+
       setCardFrontLink(
         `${ENV.BACKEND_ROUTE}/multimedia/${cardHashes?.[0]?.hash}`
       );
@@ -129,6 +122,12 @@ const SalesFormPDF = () => {
       );
 
       findUserByIdMutate(userForm?.form?.user_id as number);
+      console.log(
+        `${ENV.BACKEND_ROUTE}/multimedia/${userForm?.form?.signature as string}`
+      );
+      setSignaturelink(
+        `${ENV.BACKEND_ROUTE}/multimedia/${userForm?.form?.signature as string}`
+      );
     },
   });
 
@@ -159,6 +158,19 @@ const SalesFormPDF = () => {
               }
               fixed
             />
+            <View>
+              {signatureLink !== "" && (
+                <Image
+                  style={styles.image}
+                  source={{
+                    uri: signatureLink,
+                    method: "GET",
+                    headers: {},
+                    body: "",
+                  }}
+                />
+              )}
+            </View>
           </Page>
         </FormPDFProvider>
       </Document>
