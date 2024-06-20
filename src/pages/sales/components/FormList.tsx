@@ -81,121 +81,122 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
         style={{ width: "80%", height: "600px", scrollbarColor: "blue" }}
         className="custombar2"
       >
-        {forms.map((form) => (
-          <Card
-            title={`Formulario N° ${form.id}`}
-            subTitle={form.hash ? "Link Generado" : "Link no habilitado"}
-            style={{ marginBottom: "2em" }}
-            key={form.id}
-          >
-            <Button
-              style={{
-                backgroundColor: "purple",
-                border: 0,
-                boxShadow: "none",
-              }}
-              className="p-button-rounded p-button-success p-mr-2"
-              icon="pi pi-times"
-              label="Eliminar"
-              onClick={() => {
-                setFormToDelete(form);
-                setDeleteConfirmationVisible(true);
-              }}
-            ></Button>
-            {form.hash ? (
-              <>
-                <h3>Link:</h3>
-                <a
-                  href={ROUTES.GENERATE_SALES_FORM.HASH(form.hash)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {window.location.origin}/generate-sales-form/{form.hash}
-                </a>
-                <Button
-                  icon="pi pi-copy"
-                  className="p-button-rounded p-button-info p-mr-2"
-                  onClick={() => {
-                    const textToCopy = `${window.location.origin}/generate-sales-form/${form.hash}`;
-
-                    // Create a temporary textarea element
-                    const textarea = document.createElement("textarea");
-                    textarea.value = textToCopy;
-                    textarea.setAttribute("readonly", "");
-                    textarea.style.position = "absolute";
-                    textarea.style.left = "-9999px"; // Move outside the screen to make it invisible
-
-                    document.body.appendChild(textarea);
-                    textarea.select();
-
-                    // Execute copy command
-                    document.execCommand("copy");
-
-                    // Clean up - remove the textarea from the DOM
-                    document.body.removeChild(textarea);
-                    toast.current?.show({
-                      severity: "success",
-                      summary: "Link Copiado",
-                      detail: "El link ha sido copiado al portapapeles.",
-                      life: 3000,
-                    });
-                  }}
-                />
-              </>
-            ) : (
-              <Button
-                style={{
-                  backgroundColor: "purple",
-                  border: "0",
-                  boxShadow: "none",
-                }}
-                label="Generar Link"
-                icon="pi pi-link"
-                loading={loading}
-                className="p-button-rounded p-button-success p-mr-2"
-                onClick={() => {
-                  setLoadingTrue();
-                  generateLinkMutate({ id: form.id });
-                  console.log(Date.now() + 30 * 60 * 1000);
-                  setLinkExpirationTimeMutate({
-                    id: form.id,
-                    expire_hash_time: Date.now() + 30 * 60 * 1000,
-                  });
-                }}
-              />
-            )}
-            <div style={{ marginTop: "1em" }}>
-              {form.hash && (
-                <Button
-                  label="Invalidar Link"
-                  icon="pi pi-times"
-                  loading={loading}
-                  className="p-button-rounded p-button-danger p-mr-2"
-                  onClick={() => {
-                    setLoadingTrue();
-                    invalidateLinkMutate({ id: form.id });
-                  }}
-                />
-              )}
+        {forms
+          .slice()
+          .reverse()
+          .map((form, index) => (
+            <Card
+              title={`Formulario N° ${forms.length - index}`}
+              subTitle={form.hash ? "Link Generado" : "Link no habilitado"}
+              style={{ marginBottom: "2em" }}
+              key={form.id}
+            >
               <Button
                 style={{
                   backgroundColor: "purple",
                   border: 0,
                   boxShadow: "none",
                 }}
-                label="Ver formulario"
-                loading={loading}
-                className="p-button-rounded p-mr-2"
+                className="p-button-rounded p-button-success p-mr-2"
+                icon="pi pi-times"
+                label="Eliminar"
                 onClick={() => {
-                  navigate(ROUTES.DASHBOARD.CHECK_FORM_ID(form.id));
+                  setFormToDelete(form);
+                  setDeleteConfirmationVisible(true);
                 }}
-              />
-            </div>
-          </Card>
-        ))}
+              ></Button>
+              {form.hash ? (
+                <>
+                  <h3>Link:</h3>
+                  <a
+                    href={ROUTES.GENERATE_SALES_FORM.HASH(form.hash)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {window.location.origin}/generate-sales-form/{form.hash}
+                  </a>
+                  <Button
+                    icon="pi pi-copy"
+                    className="p-button-rounded p-button-info p-mr-2"
+                    onClick={() => {
+                      const textToCopy = `${window.location.origin}/generate-sales-form/${form.hash}`;
+
+                      // Create a temporary textarea element
+                      const textarea = document.createElement("textarea");
+                      textarea.value = textToCopy;
+                      textarea.setAttribute("readonly", "");
+                      textarea.style.position = "absolute";
+                      textarea.style.left = "-9999px"; // Move outside the screen to make it invisible
+
+                      document.body.appendChild(textarea);
+                      textarea.select();
+
+                      // Execute copy command
+                      document.execCommand("copy");
+
+                      // Clean up - remove the textarea from the DOM
+                      document.body.removeChild(textarea);
+                      toast.current?.show({
+                        severity: "success",
+                        summary: "Link Copiado",
+                        detail: "El link ha sido copiado al portapapeles.",
+                        life: 3000,
+                      });
+                    }}
+                  />
+                </>
+              ) : (
+                <Button
+                  style={{
+                    backgroundColor: "purple",
+                    border: "0",
+                    boxShadow: "none",
+                  }}
+                  label="Generar Link"
+                  icon="pi pi-link"
+                  loading={loading}
+                  className="p-button-rounded p-button-success p-mr-2"
+                  onClick={() => {
+                    setLoadingTrue();
+                    generateLinkMutate({ id: form.id });
+                    setLinkExpirationTimeMutate({
+                      id: form.id,
+                      expire_hash_time: Date.now() + 30 * 60 * 1000,
+                    });
+                  }}
+                />
+              )}
+              <div style={{ marginTop: "1em", display: "flex", gap: "10px" }}>
+                {form.hash && (
+                  <Button
+                    label="Invalidar Link"
+                    icon="pi pi-times"
+                    loading={loading}
+                    className="p-button-rounded p-button-danger"
+                    onClick={() => {
+                      setLoadingTrue();
+                      invalidateLinkMutate({ id: form.id });
+                    }}
+                  />
+                )}
+                <Button
+                  style={{
+                    backgroundColor: "purple",
+                    border: 0,
+                    boxShadow: "none",
+                  }}
+                  label="Ver formulario"
+                  loading={loading}
+                  className="p-button-rounded"
+                  onClick={() => {
+                    navigate(ROUTES.DASHBOARD.CHECK_FORM_ID(form.id));
+                  }}
+                />
+              </div>
+            </Card>
+          ))}
       </ScrollPanel>
 
-      {}
       <Dialog
         draggable={false}
         visible={deleteConfirmationVisible}
