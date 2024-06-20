@@ -116,9 +116,23 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
                   icon="pi pi-copy"
                   className="p-button-rounded p-button-info p-mr-2"
                   onClick={() => {
-                    navigator.clipboard.writeText(
-                      `${window.location.origin}/generate-sales-form/${form.hash}`
-                    );
+                    const textToCopy = `${window.location.origin}/generate-sales-form/${form.hash}`;
+
+                    // Create a temporary textarea element
+                    const textarea = document.createElement("textarea");
+                    textarea.value = textToCopy;
+                    textarea.setAttribute("readonly", "");
+                    textarea.style.position = "absolute";
+                    textarea.style.left = "-9999px"; // Move outside the screen to make it invisible
+
+                    document.body.appendChild(textarea);
+                    textarea.select();
+
+                    // Execute copy command
+                    document.execCommand("copy");
+
+                    // Clean up - remove the textarea from the DOM
+                    document.body.removeChild(textarea);
                     toast.current?.show({
                       severity: "success",
                       summary: "Link Copiado",
