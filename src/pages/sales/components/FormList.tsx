@@ -115,11 +115,17 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
                 <Button
                   icon="pi pi-copy"
                   className="p-button-rounded p-button-info p-mr-2"
-                  onClick={() =>
+                  onClick={() => {
                     navigator.clipboard.writeText(
                       `${window.location.origin}/generate-sales-form/${form.hash}`
-                    )
-                  }
+                    );
+                    toast.current?.show({
+                      severity: "success",
+                      summary: "Link Copiado",
+                      detail: "El link ha sido copiado al portapapeles.",
+                      life: 3000,
+                    });
+                  }}
                 />
               </>
             ) : (
