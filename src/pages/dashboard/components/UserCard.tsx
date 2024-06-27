@@ -50,6 +50,7 @@ const UserCard: React.FC<UserCardProps> = ({
       message: "¿Estás seguro de que quieres eliminar este usuario?",
       header: "Confirmar eliminación",
       icon: "pi pi-exclamation-triangle",
+      draggable: false,
       accept: () => deleteUserByIdMutate(user.id),
       reject: () => {
         toast.current?.show({
@@ -67,11 +68,7 @@ const UserCard: React.FC<UserCardProps> = ({
       <Toast ref={toast} />
       <ConfirmDialog />
       {user.role !== Roles.admin &&
-        athenticatedUser?.role !== Roles.secretary && (
-          <>
-            <Button rounded label="Eliminar usuario" onClick={confirmDelete} />
-          </>
-        )}
+        athenticatedUser?.role !== Roles.secretary && <></>}
 
       <div>Email: {user.email}</div>
       <div>Area: {user.area}</div>
@@ -128,17 +125,29 @@ const UserCard: React.FC<UserCardProps> = ({
                   }
                 })}
             </select>
-            <Button
-              label="Cambiar Rol"
-              onClick={showSuccess}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                backgroundColor: "purple",
-                border: "0",
-                height: "10px",
-              }}
-            />
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <Button
+                label="Cambiar Rol"
+                onClick={showSuccess}
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  backgroundColor: "purple",
+                  border: "0",
+                  height: "10px",
+                }}
+              />
+              <Button
+                style={{
+                  backgroundColor: "red",
+                  border: 0,
+                  boxShadow: "none",
+                }}
+                rounded
+                label="Eliminar usuario"
+                onClick={confirmDelete}
+              />
+            </div>
           </form>
         )}
       </div>
