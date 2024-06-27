@@ -8,7 +8,7 @@ const PageNotFound = () => {
   const navigate = useNavigate();
 
   const handleGoBack = () => {
-    navigate(ROUTES.HOME.ME); // Cambia '/otra-ruta' por la ruta a la que quieres navegar
+    navigate(ROUTES.HOME.ME);
   };
 
   return (

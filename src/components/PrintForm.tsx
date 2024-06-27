@@ -50,10 +50,18 @@ const PrintForm = ({
     console.log("hello");
     if (normalMode) {
       navigate(ROUTES.SALES.PDF_ID(form?.form?.id as number));
-
       return;
     }
     navigate(ROUTES.FORM_PDF.ID(form?.user_form.user_id as number));
+  };
+
+  const showNotification = () => {
+    toast.current?.show({
+      severity: "success",
+      summary: "Cambios subidos",
+      detail: "Los cambios se han subido correctamente",
+      life: 3000,
+    });
   };
 
   useEffect(() => {
@@ -66,10 +74,10 @@ const PrintForm = ({
 
   return (
     <ScrollPanel>
+      <Toast ref={toast} /> {/* Añade el Toast aquí */}
       <h2>
         {form?.form_scheme?.label} {user?.fullname} {user?.email}
       </h2>
-
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -100,10 +108,9 @@ const PrintForm = ({
 
           if (normalMode) {
             onSubmit({ id: form?.form?.id as number, results });
+            showNotification(); // Mostrar notificación al enviar el formulario
             return;
           }
-
-          onSubmit({ id: form?.user_form.id as number, results });
         }}
       >
         <FormGroupList formGroups={form?.form_scheme.form_groups} />
@@ -139,6 +146,7 @@ const PrintForm = ({
               label="Subir cambios"
               loading={isLoading}
               disabled={isLoading || isFormEditable}
+              onClick={() => showNotification()}
             />
           )}
 
