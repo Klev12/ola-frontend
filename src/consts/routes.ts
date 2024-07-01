@@ -81,6 +81,9 @@ const ROUTES = {
       return `/generate-sales-form/${hash}`;
     },
   },
+  TESTS: {
+    ME: "/tests",
+  },
 };
 
 export default ROUTES;

@@ -28,6 +28,7 @@ import CheckUserForm from "./pages/dashboard/CheckUserForm";
 import SalesForm from "./pages/sales-form/SalesForm";
 import CheckForm from "./pages/check-form/CheckForm";
 import SalesFormPDF from "./pages/form-pdf/SalesFormPDF";
+import Tests from "./pages/tests/Tests";
 
 function App() {
   return (
@@ -61,6 +62,7 @@ function App() {
             <Route path={ROUTES.SALES.FORMS} element={<MyForms />} />
             <Route path={ROUTES.SALES.DONE_FORMS} element={<DoneForms />} />
           </Route>
+          <Route path={ROUTES.TESTS.ME} element={<Tests />}></Route>
         </Route>
         <Route path={ROUTES.USER_FORM.ME} element={<UserFormWrapper />}>
           <Route path={ROUTES.USER_FORM.ME} element={<UserForm />} />

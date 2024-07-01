@@ -17,6 +17,7 @@ const roleBasedVisibility = {
     blog: true,
     norms: true,
     forms: true,
+    tests: true,
   },
   [Roles.secretary]: {
     home: true,
@@ -33,6 +34,7 @@ const roleBasedVisibility = {
     blog: true,
     norms: true,
     forms: true,
+    tests: true,
   },
   [Roles.sales]: {
     home: true,
@@ -101,6 +103,15 @@ export default function MenuDemo() {
       visible: false,
       command: () => {
         navigate(ROUTES.REGULATION.ME);
+      },
+    },
+    {
+      id: "tests",
+      label: "Pruebas",
+      icon: "pi pi-book",
+      visible: false,
+      command: () => {
+        navigate(ROUTES.TESTS.ME);
       },
     },
   ];
