@@ -19,7 +19,7 @@ const Verification = () => {
   useQuery({
     queryFn: verifyUser,
     onError: () => {
-      navigate(ROUTES.USER_FORM.ME);
+      navigate(ROUTES.HOME.ME);
     },
   });
 
@@ -50,11 +50,18 @@ const Verification = () => {
   return (
     <div>
       <Toast ref={toast} />
-      <p>
+      <p
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         El administrador debe revisar los datos del formulario, espera un
         momento...
       </p>
       <Button
+        style={{ backgroundColor: "purple", border: 0, boxShadow: "none" }}
         label="Enviar Formulario"
         loading={isLoading}
         disabled={buttonDisabled || isLoading}

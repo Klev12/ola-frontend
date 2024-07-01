@@ -1,7 +1,7 @@
 import { Menubar } from "primereact/menubar";
 import { MenuItem } from "primereact/menuitem";
 import AvatarDemo from "../pages/home/components/Avatar";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ROUTES from "../consts/routes";
 import { Roles } from "../models/user";
 import useGlobalState from "../store/store";
