@@ -25,17 +25,27 @@ export default function AvatarDemo() {
     logoutMutate();
   };
 
+  const getInitials = (fullName: string) => {
+    const names = fullName.split(" ");
+    const intials = names.map((name) => name.charAt(0).toUpperCase());
+    return intials.slice(0, 2).join("");
+  };
+
   return (
     <div className="card">
       <div className="flex flex-wrap gap-5">
         <div className="flex-auto">
           <Avatar
-            icon="pi pi-user"
+            label={user?.fullname ? getInitials(user.fullname) : ""}
             className="mr-2"
             size="normal"
             shape="circle"
             onClick={(e) => op.current?.toggle(e)}
-            style={{ cursor: "pointer" }}
+            style={{
+              cursor: "pointer",
+              backgroundColor: "#9c27b0",
+              color: "white",
+            }}
           />
           <OverlayPanel ref={op} dismissable>
             <div className="p-3">
