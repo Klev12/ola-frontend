@@ -1,13 +1,11 @@
 import { Menubar } from "primereact/menubar";
 import { MenuItem } from "primereact/menuitem";
 import AvatarDemo from "../pages/home/components/Avatar";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ROUTES from "../consts/routes";
 import { Roles } from "../models/user";
 import useGlobalState from "../store/store";
 import { useMemo } from "react";
-
-import "./styles/menu-styles.css";
 
 const roleBasedVisibility = {
   [Roles.admin]: {
@@ -16,7 +14,6 @@ const roleBasedVisibility = {
     sales: true,
     blog: true,
     norms: true,
-    forms: true,
     tests: true,
   },
   [Roles.secretary]: {
@@ -43,6 +40,7 @@ const roleBasedVisibility = {
     blog: true,
     norms: true,
     forms: true,
+    test: true,
   },
   [Roles.user]: {
     home: true,
@@ -51,6 +49,7 @@ const roleBasedVisibility = {
     blog: true,
     norms: true,
     forms: true,
+    test: true,
   },
 };
 
@@ -108,7 +107,7 @@ export default function MenuDemo() {
     {
       id: "tests",
       label: "Pruebas",
-      icon: "pi pi-book",
+      icon: "pi pi-clipboard",
       visible: false,
       command: () => {
         navigate(ROUTES.TESTS.ME);

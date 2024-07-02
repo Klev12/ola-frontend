@@ -2,13 +2,14 @@ import { Avatar } from "primereact/avatar";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { Button } from "primereact/button";
 import { OverlayPanel as OverlayPanelType } from "primereact/overlaypanel";
-import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { logout } from "../../../services/auth-service";
 import ROUTES from "../../../consts/routes";
-import { Card } from "primereact/card";
 import useGlobalState from "../../../store/store";
+import { Dialog } from "primereact/dialog";
+import { Profile } from "./Profile";
 
 export default function AvatarDemo() {
   const op = useRef<OverlayPanelType>(null);
@@ -31,6 +32,12 @@ export default function AvatarDemo() {
     return intials.slice(0, 2).join("");
   };
 
+  const [visible, setVisible] = useState(false);
+  const handleViewProfile = () => {
+    setVisible(true);
+    op.current?.hide();
+  };
+
   return (
     <div className="card">
       <div className="flex flex-wrap gap-5">
@@ -48,12 +55,10 @@ export default function AvatarDemo() {
             }}
           />
           <OverlayPanel ref={op} dismissable>
+            <Link to="#" onClick={handleViewProfile}>
+              Ver perfiil
+            </Link>
             <div className="p-3">
-              <Card>
-                <div>Usuario: {user?.fullname}</div>
-                <div>Rol: {user?.role}</div>
-                <div>Área: {user?.area}</div>
-              </Card>
               <Button
                 style={{ color: "purple" }}
                 label="Cerrar Sesión"
@@ -62,6 +67,15 @@ export default function AvatarDemo() {
               />
             </div>
           </OverlayPanel>
+          <Dialog
+            draggable={false}
+            header="Perfil de usario"
+            visible={visible}
+            style={{ width: "50vw" }}
+            onHide={() => setVisible(false)}
+          >
+            <Profile />
+          </Dialog>
         </div>
       </div>
     </div>
