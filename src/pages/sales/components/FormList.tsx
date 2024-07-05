@@ -93,12 +93,12 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
             >
               <Button
                 style={{
-                  backgroundColor: "purple",
+                  backgroundColor: "red",
                   border: 0,
                   boxShadow: "none",
                 }}
                 className="p-button-rounded p-button-success p-mr-2"
-                icon="pi pi-times"
+                icon="pi pi-trash"
                 label="Eliminar"
                 onClick={() => {
                   setFormToDelete(form);
@@ -186,6 +186,7 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
                     boxShadow: "none",
                   }}
                   label="Ver formulario"
+                  icon="pi pi-file"
                   loading={loading}
                   className="p-button-rounded"
                   onClick={() => {
