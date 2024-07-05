@@ -24,6 +24,8 @@ interface PrintFormProps {
   children?: ReactNode;
   user?: UserGetDto;
   refetchUser: () => void;
+  footer?: ReactNode;
+  onChangeNames?: (names: string[]) => void;
 }
 
 const PrintForm = ({
@@ -34,6 +36,7 @@ const PrintForm = ({
   disableButton = false,
   children,
   user,
+  footer,
 }: PrintFormProps) => {
   const { mutate: verifyUserFormMutate } = useMutation(verifyUserForm);
   const navigate = useNavigate();
@@ -188,6 +191,7 @@ const PrintForm = ({
             </>
           )}
         </nav>
+        <footer>{footer}</footer>
       </form>
     </ScrollPanel>
   );

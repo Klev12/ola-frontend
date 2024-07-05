@@ -1,4 +1,4 @@
-import { Field } from "../../../models/form-scheme";
+import { Field, FieldIdentifier } from "../../../models/form-scheme";
 import { InputText } from "primereact/inputtext";
 import { InputNumber } from "primereact/inputnumber";
 import SelectField from "./SelectField";
@@ -13,6 +13,10 @@ interface FieldProps {
 
 const FieldInput = ({ field }: FieldProps) => {
   const isEditable = useGlobalState((state) => state.isFormEditable);
+  const setUserFormLastNames = useGlobalState(
+    (state) => state.setUserFormLastNames
+  );
+  const setUserFormNames = useGlobalState((state) => state.setUserFormNames);
   return (
     <div className="field-input">
       {field.component === "input" && field.metadata.type === "string" && (
@@ -25,6 +29,15 @@ const FieldInput = ({ field }: FieldProps) => {
             id={`I${field.label}`}
             name={field.id as string}
             disabled={isEditable}
+            onChange={(e) => {
+              if (field.identifier === FieldIdentifier.names) {
+                setUserFormNames(e.target.value);
+              }
+
+              if (field.identifier === FieldIdentifier.lastNames) {
+                setUserFormLastNames(e.target.value);
+              }
+            }}
           />
         </div>
       )}
@@ -50,7 +63,7 @@ const FieldInput = ({ field }: FieldProps) => {
       {field.component === "input" && field.metadata.type === "date" && (
         <>
           {field.required && <small>campo obligatorio*</small>}
-          <CalendarField  field={field} />
+          <CalendarField field={field} />
         </>
       )}
 

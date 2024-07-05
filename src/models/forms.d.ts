@@ -1,3 +1,6 @@
+import { ContractGetDto } from "./contract";
+import { TermAndConditionsGetDto } from "./term-and-conditions";
+
 export interface FormsDto {}
 
 export interface FormPostDto {
@@ -14,6 +17,10 @@ export interface FormGetDto {
   label: string;
   fullname: string;
   signature: string;
+  contract_id: number | string;
+  term_and_conditions_id: number | string;
+  contract: ContractGetDto;
+  term_and_condition: TermAndConditionsGetDto;
 }
 
 export interface GenerateLinkPostDto {

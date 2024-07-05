@@ -1,4 +1,4 @@
-import { Field } from "../../../models/form-scheme";
+import { Field, FieldIdentifier } from "../../../models/form-scheme";
 import FieldInput from "./FieldInput";
 import "../styles/styles.css";
 

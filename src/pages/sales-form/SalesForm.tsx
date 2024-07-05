@@ -10,6 +10,9 @@ import MyTimer from "../../components/Timer";
 import ClientSignature from "./components/ClientSignature";
 import SelectContractType from "./components/SelectContractType";
 import SalesProvider, { SalesContextProps } from "./components/SalesProvider";
+import useGlobalState from "../../store/store";
+import TermsAndConditions from "./components/TermsAndConditions";
+import { TermAndConditionsGetDto } from "../../models/term-and-conditions";
 
 const SalesForm = () => {
   const { hash } = useParams();
@@ -44,6 +47,8 @@ const SalesForm = () => {
     SalesContextProps | undefined
   >(undefined);
 
+  const userFormNames = useGlobalState((state) => state.userFormNames);
+
   if (isLoading) {
     return (
       <div>
@@ -60,15 +65,30 @@ const SalesForm = () => {
           <h2>{erroMessage && erroMessage}</h2>
           {!erroMessage && <MyTimer />}
           <PrintForm
+            footer={
+              <>
+                {!erroMessage && (
+                  <>
+                    <SelectContractType formId={formData?.form?.id as number} />
+                    <TermsAndConditions
+                      termAndConditions={
+                        formData?.form
+                          ?.term_and_condition as TermAndConditionsGetDto
+                      }
+                    />
+                  </>
+                )}
+              </>
+            }
             disableButton={true}
             form={formData}
             onSubmit={(data) => {
               console.log(data.results);
-              /*   submitFormByHashMutate({
-            id: data.id,
-            hash: hash,
-            results: data.results,
-          }); */
+              submitFormByHashMutate({
+                id: data.id,
+                hash: hash,
+                results: data.results,
+              });
 
               setFormDataValues({
                 formData: {
@@ -99,9 +119,6 @@ const SalesForm = () => {
                 setIsSignatureReady(true);
               }}
             />
-          )}
-          {!erroMessage && (
-            <SelectContractType formId={formData?.form?.id as number} />
           )}
         </>
       </SalesProvider>

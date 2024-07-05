@@ -23,6 +23,13 @@ export interface Field {
   form_group_id: number | string;
   required: boolean;
   results: Result[];
+  identifier: FieldIdentifier;
+}
+
+export enum FieldIdentifier {
+  lastNames = "last-names",
+  names = "names",
+  data = "data",
 }
 
 export interface Metadata {

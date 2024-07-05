@@ -19,6 +19,8 @@ interface GlobalState {
   setIsFormEditable: (state: boolean) => void;
   normalModeCheckForm: boolean | undefined;
   setNormalModeCheckForm: (state: boolean) => void;
+  /*   onChangeLastNames: (lastNames: string) => void;
+  onChangeNames: (names: string) => void; */
 }
 
 const useGlobalState = create<GlobalState>((set) => ({
