@@ -8,6 +8,8 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { Button } from "primereact/button";
 import MyTimer from "../../components/Timer";
 import ClientSignature from "./components/ClientSignature";
+import SelectContractType from "./components/SelectContractType";
+import SalesProvider, { SalesContextProps } from "./components/SalesProvider";
 
 const SalesForm = () => {
   const { hash } = useParams();
@@ -38,6 +40,10 @@ const SalesForm = () => {
 
   const [isSignatureReady, setIsSignatureReady] = useState(false);
 
+  const [formDataValues, setFormDataValues] = useState<
+    SalesContextProps | undefined
+  >(undefined);
+
   if (isLoading) {
     return (
       <div>
@@ -49,37 +55,56 @@ const SalesForm = () => {
 
   return (
     <div>
-      <h2>{erroMessage && erroMessage}</h2>
-      {!erroMessage && <MyTimer />}
-      <PrintForm
-        disableButton={true}
-        form={formData}
-        onSubmit={(data) => {
-          console.log(data);
-          submitFormByHashMutate({
+      <SalesProvider formData={formDataValues?.formData}>
+        <>
+          <h2>{erroMessage && erroMessage}</h2>
+          {!erroMessage && <MyTimer />}
+          <PrintForm
+            disableButton={true}
+            form={formData}
+            onSubmit={(data) => {
+              console.log(data.results);
+              /*   submitFormByHashMutate({
             id: data.id,
             hash: hash,
             results: data.results,
-          });
-        }}
-        refetchUser={() => {}}
-      >
-        <Button
-          style={{ backgroundColor: "purple", border: 0, boxShadow: "none" }}
-          loading={isFormLoading}
-          disabled={!!erroMessage || isFormSubmitted || !isSignatureReady}
-          label="Subir formulario"
-          type="submit"
-        />
-      </PrintForm>
-      {!erroMessage && (
-        <ClientSignature
-          hash={hash as string}
-          beforeOnSuccess={() => {
-            setIsSignatureReady(true);
-          }}
-        />
-      )}
+          }); */
+
+              setFormDataValues({
+                formData: {
+                  id: data.id as number,
+                  hash: hash as string,
+                  results: data.results,
+                },
+              });
+            }}
+            refetchUser={() => {}}
+          >
+            <Button
+              style={{
+                backgroundColor: "purple",
+                border: 0,
+                boxShadow: "none",
+              }}
+              loading={isFormLoading}
+              disabled={!!erroMessage || isFormSubmitted || !isSignatureReady}
+              label="Siguiente"
+              type="submit"
+            />
+          </PrintForm>
+          {!erroMessage && (
+            <ClientSignature
+              hash={hash as string}
+              beforeOnSuccess={() => {
+                setIsSignatureReady(true);
+              }}
+            />
+          )}
+          {!erroMessage && (
+            <SelectContractType formId={formData?.form?.id as number} />
+          )}
+        </>
+      </SalesProvider>
     </div>
   );
 };

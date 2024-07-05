@@ -83,6 +83,15 @@ const ROUTES = {
   },
   TESTS: {
     ME: "/tests",
+    get EDIT_FORM() {
+      return `${this.ME}/edit-form/:id`;
+    },
+    EDIT_FORM_ID(id: string | number) {
+      return `${this.ME}/edit-form/${id}`;
+    },
+    CONTRACT_TYPE() {
+      return `${this.EDIT_FORM_ID}/contract-type`;
+    },
   },
 };
 

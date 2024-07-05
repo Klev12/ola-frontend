@@ -11,3 +11,9 @@ export function getTermsAndConditions() {
       )
     );
 }
+
+export function getAllContracts() {
+  return axios.get<{ contracts: ContractGetDto[] }>(
+    `${ENV.BACKEND_ROUTE}/contracts`
+  );
+}

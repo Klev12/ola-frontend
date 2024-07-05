@@ -24,3 +24,8 @@ export interface HashExpirationTimePostDto {
   id: string | number;
   expire_hash_time: number;
 }
+
+export interface FormContractUpdateDto {
+  id: string | number;
+  contract_id: string | number;
+}

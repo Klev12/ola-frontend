@@ -3,6 +3,8 @@ import { useMutation, useQuery } from "react-query";
 import { createNewTest, getAllTests } from "../../services/test-service";
 import { InputText } from "primereact/inputtext";
 import { Card } from "primereact/card";
+import { useNavigate } from "react-router";
+import ROUTES from "../../consts/routes";
 
 const Tests = () => {
   const {
@@ -19,6 +21,8 @@ const Tests = () => {
         refetch();
       },
     });
+
+  const navigate = useNavigate();
 
   return (
     <>
@@ -39,7 +43,18 @@ const Tests = () => {
       </form>
       {testsData?.tests.length === 0 && <span>No hay pruebas, crea una!</span>}
       {testsData?.tests.map((test) => {
-        return <Card title={test.title}></Card>;
+        return (
+          <Card title={test.title}>
+            <Button
+              label="Editar formulario"
+              onClick={() => {
+                navigate(
+                  ROUTES.TESTS.EDIT_FORM_ID(test.form_scheme_id as number)
+                );
+              }}
+            />
+          </Card>
+        );
       })}
     </>
   );

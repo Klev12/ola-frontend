@@ -29,6 +29,7 @@ import SalesForm from "./pages/sales-form/SalesForm";
 import CheckForm from "./pages/check-form/CheckForm";
 import SalesFormPDF from "./pages/form-pdf/SalesFormPDF";
 import Tests from "./pages/tests/Tests";
+import EditForm from "./pages/tests/EditForm";
 
 function App() {
   return (
@@ -62,7 +63,10 @@ function App() {
             <Route path={ROUTES.SALES.FORMS} element={<MyForms />} />
             <Route path={ROUTES.SALES.DONE_FORMS} element={<DoneForms />} />
           </Route>
-          <Route path={ROUTES.TESTS.ME} element={<Tests />}></Route>
+          <Route path={ROUTES.TESTS.ME}>
+            <Route path="" element={<Tests />} />
+            <Route path={ROUTES.TESTS.EDIT_FORM} element={<EditForm />} />
+          </Route>
         </Route>
         <Route path={ROUTES.USER_FORM.ME} element={<UserFormWrapper />}>
           <Route path={ROUTES.USER_FORM.ME} element={<UserForm />} />
