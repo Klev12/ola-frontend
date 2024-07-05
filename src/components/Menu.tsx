@@ -70,7 +70,7 @@ export default function MenuDemo() {
     {
       id: "dashboard",
       label: "Panel de control",
-      icon: "pi pi-align-justify",
+      icon: "pi pi-sliders-v",
       visible: false,
       command: () => {
         navigate(ROUTES.DASHBOARD.NOTIFICATIONS);
@@ -78,8 +78,8 @@ export default function MenuDemo() {
     },
     {
       id: "sales",
-      label: "Ventas",
-      icon: "pi pi-money-bill",
+      label: "Comercial",
+      icon: "pi pi-shopping-bag",
       visible: false,
       command: () => {
         console.log(ROUTES.SALES.FORMS);

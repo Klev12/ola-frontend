@@ -185,6 +185,7 @@ const PrintForm = ({
               <Button
                 style={{ backgroundColor: "purple", border: 0 }}
                 label="Ver PDF"
+                icon="pi pi-file-pdf"
                 type="button"
                 onClick={handleClick}
               />
