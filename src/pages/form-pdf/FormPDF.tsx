@@ -19,11 +19,10 @@ import FormPDFProvider from "./components/FormPDFContext";
 import { useState } from "react";
 import { MultimediaType } from "../../models/user";
 import { ENV } from "../../consts/const";
-import FormPDFContracts from "./components/FormPDFContracts";
-import { getTermsAndConditions } from "../../services/contract-service";
-import { ContractGetDto } from "../../models/contract";
 import ThirdCustom from "../form-pdf/fonts/Roboto-Bold.ttf";
 import FontRobotoLight from "../form-pdf/fonts/Roboto-Light.ttf";
+import FormPDFContract from "./components/FormPDFContract";
+import FormPDFTermAndConditions from "./components/FormPDFTermAndConditions";
 
 Font.register({
   family: "PlayfairDisplayFamily",
@@ -81,11 +80,6 @@ const FormPDF = () => {
 
   const userFormNames = useGlobalState((state) => state.userFormNames);
   const userFormLastNames = useGlobalState((state) => state.userFormLastNames);
-
-  const { data: termsAndConditions } = useQuery({
-    refetchOnWindowFocus: false,
-    queryFn: getTermsAndConditions,
-  });
 
   const { mutate: findUserByIdMutate } = useMutation(findUserById, {
     onSuccess: (userData) => {
@@ -156,11 +150,9 @@ const FormPDF = () => {
               fixed
             />
           </Page>
-          <FormPDFContracts
-            termsAndConditions={termsAndConditions?.[0] as ContractGetDto}
-          />
-          <FormPDFContracts
-            termsAndConditions={termsAndConditions?.[1] as ContractGetDto}
+          <FormPDFContract contract={userFormData?.user_form?.contract} />
+          <FormPDFTermAndConditions
+            termAndConditions={userFormData?.user_form?.term_and_condition}
           />
         </FormPDFProvider>
       </Document>

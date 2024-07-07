@@ -1,4 +1,4 @@
-import { Image, Text, View, StyleSheet } from "@react-pdf/renderer";
+import { Image, View, StyleSheet } from "@react-pdf/renderer";
 import { useContext } from "react";
 import { FormPdfContext } from "./FormPDFContext";
 
@@ -21,13 +21,10 @@ const styles = StyleSheet.create({
 });
 
 const Signature = () => {
-  const { signatureLink, lastNames, names } = useContext(FormPdfContext);
+  const { signatureLink } = useContext(FormPdfContext);
 
   return (
     <View style={styles.signatureContainer}>
-      <Text style={styles.signatureText}>
-        {`Yo ${names} ${lastNames} estoy de acuerdo con los términos y condiciones.`}
-      </Text>
       {signatureLink !== "" && (
         <Image
           style={styles.signatureImage}
