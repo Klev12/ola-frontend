@@ -1,6 +1,12 @@
 const ROUTES = {
   LOGIN: "/login",
   SIGNUP: "/signup",
+  get SIGNUP_CODE() {
+    return `${this.SIGNUP}/:code`;
+  },
+  SIGNUP_CODE_STRING(code: string) {
+    return `${this.SIGNUP}/${code}`;
+  },
   HOME: {
     ME: "/home",
   },

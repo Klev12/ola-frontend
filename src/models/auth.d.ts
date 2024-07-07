@@ -11,6 +11,11 @@ export interface SignupDto {
   password: string;
   area: string;
 }
+
+export interface SignupCollaboratorDto extends SignupDto {
+  code: string;
+}
+
 export interface ErrorResponse {
   message: string;
   statusaCode: number;

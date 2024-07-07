@@ -8,6 +8,7 @@ export interface UserGetDto {
   verified: boolean;
   is_form_verified: boolean;
   multimedias: UserMultimedia[];
+  code: string;
 }
 
 export interface UserMultimedia {

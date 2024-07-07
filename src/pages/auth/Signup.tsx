@@ -2,18 +2,20 @@ import React, { FormEventHandler, useState } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ROUTES from "../../consts/routes";
 import { Dropdown } from "primereact/dropdown";
 import { useMutation } from "react-query";
-import { signup } from "../../services/auth-service";
-import { SignupDto } from "../../models/auth";
+import { signup, signupCollaborator } from "../../services/auth-service";
+import { SignupCollaboratorDto, SignupDto } from "../../models/auth";
 import { Dialog } from "primereact/dialog";
 import { Message } from "primereact/message";
 import "./styles/signup-styles.css";
 import { UserArea } from "../../models/user";
 
 const Signup: React.FC = () => {
+  const { code } = useParams();
+
   const [selectedArea, setSelectedArea] = useState<{
     name: string;
     value: string;
@@ -26,6 +28,16 @@ const Signup: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
 
   const { mutate: mutateSignup } = useMutation(signup, {
+    onError: (error: any) => {
+      if (error.response?.data?.message) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage("Error desconocido, por favor intente de nuevo.");
+      }
+    },
+  });
+
+  const { mutate: signupCollaboratorMutate } = useMutation(signupCollaborator, {
     onError: (error: any) => {
       if (error.response?.data?.message) {
         setErrorMessage(error.response.data.message);
@@ -51,6 +63,17 @@ const Signup: React.FC = () => {
     }
 
     try {
+      if (code) {
+        signupCollaboratorMutate({
+          email: formData["email"] as string,
+          fullname: formData["fullname"] as string,
+          area: formData["area"] as string,
+          password: formData["password"] as string,
+          code,
+        } as SignupCollaboratorDto);
+        return;
+      }
+
       await mutateSignup({
         email: formData["email"] as string,
         fullname: formData["fullname"] as string,
@@ -66,7 +89,7 @@ const Signup: React.FC = () => {
     <div className="signup-wrapper">
       <div className="signup-container">
         <form className="signup-form" onSubmit={handleSubmit}>
-          <h2>Registro</h2>
+          <h2>Registro {code && `colaborador de ${code}`}</h2>
           {errorMessage && <Message severity="error" text={errorMessage} />}
           <label htmlFor="email">Correo electrónico: </label>
           <InputText

@@ -42,28 +42,38 @@ const SelectContractType = ({ formId }: SelectContractTypeProps) => {
       <label htmlFor="">Elige el tipo de contrato:</label>
 
       <Card>
-        <Checkbox checked={value} onChange={() => toggle()} required />
-        <span>
-          Yo {userFormNames?.toUpperCase()} {userFormLastNames?.toUpperCase()}{" "}
-          estoy de acuerdo con el siguiente contrato
-        </span>
-        <Dropdown
-          required
-          value={selectedContract}
-          options={contractOptions}
-          onChange={(e) => {
-            setSelectedContract(e.value);
-            patchFormContractMutate({ id: formId, contract_id: e.value });
-            setFalse();
-          }}
-        />
-        <p>
-          {
+        <Card
+          title={
             contractData?.contracts.find(
               (contract) => contract.id === selectedContract
-            )?.description
+            )?.title
           }
-        </p>
+        >
+          {selectedContract && (
+            <Checkbox checked={value} onChange={() => toggle()} required />
+          )}
+          <div>
+            Yo {userFormNames?.toUpperCase()} {userFormLastNames?.toUpperCase()}{" "}
+            estoy de acuerdo con el siguiente contrato{" "}
+          </div>
+          <Dropdown
+            required
+            value={selectedContract}
+            options={contractOptions}
+            onChange={(e) => {
+              setSelectedContract(e.value);
+              patchFormContractMutate({ id: formId, contract_id: e.value });
+              setFalse();
+            }}
+          />
+          <p>
+            {
+              contractData?.contracts.find(
+                (contract) => contract.id === selectedContract
+              )?.description
+            }
+          </p>
+        </Card>
       </Card>
     </div>
   );

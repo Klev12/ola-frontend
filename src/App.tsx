@@ -86,6 +86,8 @@ function App() {
         </Route>
         <Route path={ROUTES.LOGIN} element={<Login />}></Route>
         <Route path={ROUTES.SIGNUP} element={<Signup />}></Route>
+        <Route path={ROUTES.SIGNUP_CODE} element={<Signup />}></Route>
+
         <Route path={ROUTES.SALES.PDF} element={<SalesFormPDF />} />
         <Route path={ROUTES.FORM_PDF.ME} element={<FormPDF />} />
         <Route path={ROUTES.GENERATE_SALES_FORM.ME} element={<SalesForm />} />
