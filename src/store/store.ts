@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { UserGetDto } from "../models/user";
+import { UserFormGetDto } from "../models/user-form";
 
 interface GlobalState {
   user?: UserGetDto;
@@ -21,6 +22,8 @@ interface GlobalState {
   setNormalModeCheckForm: (state: boolean) => void;
   /*   onChangeLastNames: (lastNames: string) => void;
   onChangeNames: (names: string) => void; */
+  currentUserForm?: UserFormGetDto;
+  setCurrentUserForm: (userForm: UserFormGetDto) => void;
 }
 
 const useGlobalState = create<GlobalState>((set) => ({
@@ -32,6 +35,7 @@ const useGlobalState = create<GlobalState>((set) => ({
   isFormEditable: false,
   numberOfNotifications: 0,
   normalModeCheckForm: false,
+  currentUserForm: undefined,
   setNormalModeCheckForm: (normalModeCheckForm) => {
     set({ normalModeCheckForm });
   },
@@ -55,6 +59,9 @@ const useGlobalState = create<GlobalState>((set) => ({
   },
   setUserFormId: (id) => {
     set({ userFormId: id });
+  },
+  setCurrentUserForm: (userForm: UserFormGetDto) => {
+    set({ currentUserForm: userForm });
   },
 }));
 

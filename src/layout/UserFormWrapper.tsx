@@ -15,6 +15,9 @@ const UserFormWrapper = () => {
   const setUserFormLastNames = useGlobalState(
     (state) => state.setUserFormLastNames
   );
+  const setCurrentUserForm = useGlobalState(
+    (state) => state.setCurrentUserForm
+  );
 
   const setUserFormId = useGlobalState((state) => state.setUserFormId);
 
@@ -40,6 +43,8 @@ const UserFormWrapper = () => {
       );
 
       setUserFormId(userFormData.user_form.id as number);
+
+      setCurrentUserForm(userFormData);
     },
   });
 

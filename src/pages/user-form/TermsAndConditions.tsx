@@ -4,20 +4,17 @@ import { Divider } from "primereact/divider";
 import { useState } from "react";
 import "./styles/terms-and-conditions.css";
 import { useNavigate } from "react-router";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import { verifyForm } from "../../services/forms-service";
 import ROUTES from "../../consts/routes";
 import useGlobalState from "../../store/store";
-import { getTermsAndConditions } from "../../services/contract-service";
 import TermsAndConditionsCard from "./components/TermsAndConditionsCard";
+import ContractCard from "./components/ContractCard";
 
 const TermsAndConditions = () => {
-  const { data: termsAndConditions } = useQuery({
-    queryFn: getTermsAndConditions,
-    queryKey: ["terms-and-conditions"],
-  });
   const navigate = useNavigate();
   const userFormId = useGlobalState((state) => state.userFormId);
+
   const { mutate: verifyFormMutate } = useMutation(verifyForm, {
     onSuccess: () => {
       navigate(ROUTES.USER_FORM.DOCUMENTS);
@@ -27,8 +24,10 @@ const TermsAndConditions = () => {
   const userFormNames = useGlobalState((state) => state.userFormNames);
   const userFormLastNames = useGlobalState((state) => state.userFormLastNames);
   const userIdCard = useGlobalState((state) => state.userIdCard);
+  const currentUserForm = useGlobalState((state) => state.currentUserForm);
 
   const [thirdChecked, setThirdChecked] = useState<boolean>(false);
+
   return (
     <div className="terms-container">
       <form
@@ -39,11 +38,10 @@ const TermsAndConditions = () => {
         }}
       >
         <>
-          {termsAndConditions?.map((contract) => {
-            return (
-              <TermsAndConditionsCard key={contract.id} contract={contract} />
-            );
-          })}
+          <ContractCard contract={currentUserForm?.user_form?.contract} />
+          <TermsAndConditionsCard
+            termAndConditions={currentUserForm?.user_form?.term_and_condition}
+          />
         </>
 
         <Divider />
