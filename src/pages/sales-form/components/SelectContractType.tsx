@@ -56,7 +56,6 @@ const SelectContractType = ({ formId }: SelectContractTypeProps) => {
             patchFormContractMutate({ id: formId, contract_id: e.value });
             setFalse();
           }}
-          name="contract-type"
         />
         <p>
           {

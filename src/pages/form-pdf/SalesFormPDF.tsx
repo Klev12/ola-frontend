@@ -22,9 +22,8 @@ import SecondFont from "../form-pdf/fonts/Inter-VariableFont_slnt,wght.ttf";
 import ThirdCustom from "../form-pdf/fonts/Roboto-Bold.ttf";
 import FontRobotoLight from "../form-pdf/fonts/Roboto-Light.ttf";
 import FormPDFGroup from "./components/FormPDFGroup";
-import FormPDFContracts from "./components/FormPDFContracts";
-import { getTermsAndConditions } from "../../services/contract-service";
-import { ContractGetDto } from "../../models/contract";
+import FormPDFContract from "./components/FormPDFContract";
+import FormPDFTermAndConditions from "./components/FormPDFTermAndConditions";
 
 Font.register({
   family: "PlayfairDisplayFamily",
@@ -134,11 +133,6 @@ const SalesFormPDF = () => {
     },
   });
 
-  const { data: termsAndConditions } = useQuery({
-    refetchOnWindowFocus: false,
-    queryFn: getTermsAndConditions,
-  });
-
   return (
     <PDFViewer
       style={{
@@ -180,11 +174,9 @@ const SalesFormPDF = () => {
               )}
             </View>
           </Page>
-          <FormPDFContracts
-            termsAndConditions={termsAndConditions?.[0] as ContractGetDto}
-          />
-          <FormPDFContracts
-            termsAndConditions={termsAndConditions?.[1] as ContractGetDto}
+          <FormPDFContract contract={userFormData?.form?.contract} />
+          <FormPDFTermAndConditions
+            termAndConditions={userFormData?.form?.term_and_condition}
           />
         </FormPDFProvider>
       </Document>
