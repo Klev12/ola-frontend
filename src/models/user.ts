@@ -1,3 +1,5 @@
+import { Collaborator } from "./collaborator";
+
 export interface UserGetDto {
   id: number | string;
   fullname: string;
@@ -9,6 +11,7 @@ export interface UserGetDto {
   is_form_verified: boolean;
   multimedias: UserMultimedia[];
   code: string;
+  collaborators: Collaborator[];
 }
 
 export interface UserMultimedia {

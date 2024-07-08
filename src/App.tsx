@@ -30,6 +30,7 @@ import CheckForm from "./pages/check-form/CheckForm";
 import SalesFormPDF from "./pages/form-pdf/SalesFormPDF";
 import Tests from "./pages/tests/Tests";
 import EditForm from "./pages/tests/EditForm";
+import Collaborators from "./pages/dashboard/Collaborators";
 
 function App() {
   return (
@@ -50,12 +51,17 @@ function App() {
             path={ROUTES.DASHBOARD.CHECK_USER_FORM}
             element={<CheckUserForm />}
           />
+
           <Route path={ROUTES.DASHBOARD.ME} element={<Dashboard />}>
             <Route
               path={ROUTES.DASHBOARD.NOTIFICATIONS}
               element={<Notifications />}
             />
             <Route path={ROUTES.DASHBOARD.USERS} element={<Users />} />
+            <Route
+              path={ROUTES.DASHBOARD.COLLABORATORS}
+              element={<Collaborators />}
+            />
           </Route>
           <Route path={ROUTES.BLOG.ME} element={<Blog />} />
           <Route path={ROUTES.REGULATION.ME} element={<Regulation />} />

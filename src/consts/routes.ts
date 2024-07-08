@@ -30,6 +30,9 @@ const ROUTES = {
     CHECK_FORM_ID(id: number | string) {
       return `${this.ME}/check-form/${id}`;
     },
+    get COLLABORATORS() {
+      return `${this.ME}/collaborators`;
+    },
   },
 
   SALES: {

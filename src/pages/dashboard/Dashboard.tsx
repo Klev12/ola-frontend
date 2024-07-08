@@ -47,6 +47,13 @@ const Dashboard = () => {
         navigate(ROUTES.DASHBOARD.USERS);
       },
     },
+    {
+      label: "Colaboradores",
+      icon: "pi pi-users",
+      command: () => {
+        navigate(ROUTES.DASHBOARD.COLLABORATORS);
+      },
+    },
   ];
 
   return (
