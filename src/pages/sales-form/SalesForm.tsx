@@ -13,6 +13,7 @@ import SalesProvider, { SalesContextProps } from "./components/SalesProvider";
 import useGlobalState from "../../store/store";
 import TermsAndConditions from "./components/TermsAndConditions";
 import { TermAndConditionsGetDto } from "../../models/term-and-conditions";
+import { Camera } from "./components/Camera";
 
 const SalesForm = () => {
   const { hash } = useParams();
@@ -76,6 +77,7 @@ const SalesForm = () => {
                           ?.term_and_condition as TermAndConditionsGetDto
                       }
                     />
+                    <Camera />
                   </>
                 )}
               </>

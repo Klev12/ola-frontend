@@ -2,8 +2,15 @@ import { useRef, useState } from "react";
 
 import "primeicons/primeicons.css";
 import { Button } from "primereact/button";
+import { useMutation } from "react-query";
+import { saveFileImage } from "../../../services/file-service";
+import { useParams } from "react-router";
+import { FileType } from "../../../models/file";
 
 export const Camera = () => {
+  const { hash } = useParams();
+  const { mutate: saveFileImageMutate } = useMutation(saveFileImage);
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const photoRef = useRef<HTMLCanvasElement>(null);
   const [photo, setPhoto] = useState<string | null>(null);
@@ -29,9 +36,15 @@ export const Camera = () => {
 
         const imageUrl = photoRef.current.toDataURL("image/png");
         setPhoto(imageUrl);
+        saveFileImageMutate({
+          fileUrl: imageUrl,
+          hash: hash as string,
+          type: FileType.photo,
+        });
       }
     }
   };
+
   return (
     <div>
       <div>
@@ -39,16 +52,17 @@ export const Camera = () => {
           ref={videoRef}
           style={{ display: isCameraOn ? "block" : "none" }}
         ></video>
-        <Button label="Camara" onClick={StartCamera} />
+        <Button type="button" label="Camara" onClick={StartCamera} />
         <Button
+          type="button"
           label="Tomar foto"
           onClick={takePhoto}
           disabled={!isCameraOn}
           icon="pi pi-camera"
         />
       </div>
-      <canvas ref={photoRef} style={{ display: "none" }}></canvas>{" "}
-      {photo && <img src={photo} alt="Captured" />}{" "}
+      <canvas ref={photoRef} style={{ display: "none" }}></canvas>
+      {photo && <img src={photo} alt="Captured" />}
     </div>
   );
 };
