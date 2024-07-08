@@ -10,7 +10,6 @@ import MyTimer from "../../components/Timer";
 import ClientSignature from "./components/ClientSignature";
 import SelectContractType from "./components/SelectContractType";
 import SalesProvider, { SalesContextProps } from "./components/SalesProvider";
-import useGlobalState from "../../store/store";
 import TermsAndConditions from "./components/TermsAndConditions";
 import { TermAndConditionsGetDto } from "../../models/term-and-conditions";
 import { Camera } from "./components/Camera";
@@ -47,8 +46,6 @@ const SalesForm = () => {
   const [formDataValues, setFormDataValues] = useState<
     SalesContextProps | undefined
   >(undefined);
-
-  const userFormNames = useGlobalState((state) => state.userFormNames);
 
   if (isLoading) {
     return (
