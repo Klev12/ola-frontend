@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
@@ -161,7 +161,14 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
                     generateLinkMutate({ id: form.id });
                     setLinkExpirationTimeMutate({
                       id: form.id,
-                      expire_hash_time: Date.now() + 30 * 60 * 1000,
+                      expire_hash_time:
+                        (() => {
+                          const date = new Date();
+                          date.setMinutes(date.getUTCMinutes() + 40);
+
+                          return date;
+                        })().getTime() +
+                        46 * 60 * 36000,
                     });
                   }}
                 />
