@@ -1,5 +1,6 @@
 import { Collaborator } from "../../models/collaborator";
 import useGlobalState from "../../store/store";
+import CollaboratorButton from "../home/components/CollaboratorButton";
 import RecursiveCollaboratorList from "./components/RecursiveCollaboratorList";
 
 const Collaborators = () => {
@@ -7,6 +8,7 @@ const Collaborators = () => {
 
   return (
     <div>
+      <CollaboratorButton />
       <RecursiveCollaboratorList
         collaborator={
           {
