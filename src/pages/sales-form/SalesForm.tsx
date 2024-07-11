@@ -14,6 +14,7 @@ import TermsAndConditions from "./components/TermsAndConditions";
 import { TermAndConditionsGetDto } from "../../models/term-and-conditions";
 import { Camera } from "./components/Camera";
 import UploadCards from "./components/UploadCards";
+import Signature from "../form-pdf/components/Signature";
 
 const SalesForm = () => {
   const { hash } = useParams();
@@ -38,7 +39,6 @@ const SalesForm = () => {
     useMutation(submitFormByHash, {
       onSuccess: () => {
         setIsFormSubmitted(true);
-        window.location.reload();
       },
     });
 

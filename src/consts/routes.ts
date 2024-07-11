@@ -49,6 +49,9 @@ const ROUTES = {
     PDF_ID(id: string | number) {
       return `${this.ME}/pdf/${id}`;
     },
+    get HISTORY() {
+      return `${this.ME}/history`;
+    },
   },
   BLOG: {
     ME: "/blog",

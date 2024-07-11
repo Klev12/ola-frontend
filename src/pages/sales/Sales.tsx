@@ -21,6 +21,13 @@ const Sales = () => {
         navigate(ROUTES.SALES.DONE_FORMS);
       },
     },
+    {
+      label: "Historial",
+      icon: "pi pi-check",
+      command: () => {
+        navigate(ROUTES.SALES.HISTORY);
+      },
+    },
   ];
 
   return (
