@@ -13,6 +13,7 @@ import SalesProvider, { SalesContextProps } from "./components/SalesProvider";
 import TermsAndConditions from "./components/TermsAndConditions";
 import { TermAndConditionsGetDto } from "../../models/term-and-conditions";
 import { Camera } from "./components/Camera";
+import UploadCards from "./components/UploadCards";
 
 const SalesForm = () => {
   const { hash } = useParams();
@@ -75,6 +76,7 @@ const SalesForm = () => {
                       }
                     />
                     <Camera />
+                    <UploadCards />
                   </>
                 )}
               </>
