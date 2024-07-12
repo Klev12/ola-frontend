@@ -74,3 +74,16 @@ export function addUserSignature({
 
   return axios.post(`${ENV.BACKEND_ROUTE}/forms/signature/${hash}`, formData);
 }
+
+//for dev purpose
+export function markFormToDone({
+  formId,
+  hash,
+}: {
+  formId: number;
+  hash: string;
+}) {
+  return axios.patch(`${ENV.BACKEND_ROUTE}/forms/mark-to-done/${hash}`, {
+    formId,
+  });
+}

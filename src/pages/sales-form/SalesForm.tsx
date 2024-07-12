@@ -15,7 +15,6 @@ import { Camera } from "./components/Camera";
 import UploadCards from "./components/UploadCards";
 import ROUTES from "../../consts/routes";
 import { SalesFormContext } from "./components/WrapperSalesForm";
-import Timer from "../../components/Timer";
 
 const SalesForm = () => {
   const { hash } = useParams();

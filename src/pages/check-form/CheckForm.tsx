@@ -3,6 +3,7 @@ import { getFormById } from "../../services/forms-service";
 import PrintForm from "../../components/PrintForm";
 import { useParams } from "react-router";
 import { submitForm } from "../../services/result-service";
+import { ENV } from "../../consts/const";
 
 const CheckForm = () => {
   const { id } = useParams();
@@ -26,6 +27,20 @@ const CheckForm = () => {
           submitFormMutate(data);
         }}
       />
+      <div className="images">
+        {formData?.form?.files?.map((file) => {
+          return (
+            <img
+              width={200}
+              src={`${ENV.BACKEND_ROUTE}/multimedia/${file.hash}`}
+            ></img>
+          );
+        })}
+        <img
+          width={200}
+          src={`${ENV.BACKEND_ROUTE}/multimedia/${formData?.form?.signature}`}
+        ></img>
+      </div>
     </div>
   );
 };
