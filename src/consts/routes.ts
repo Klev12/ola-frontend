@@ -92,6 +92,12 @@ const ROUTES = {
     HASH(hash: string) {
       return `/generate-sales-form/${hash}`;
     },
+    get PAYMENT() {
+      return `${this.ME}/payment`;
+    },
+    PAYMENT_HASH(hash: string) {
+      return this.HASH(hash) + "/payment";
+    },
   },
   TESTS: {
     ME: "/tests",
