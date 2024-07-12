@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { authenticate } from "../services/auth-service";
 
 const useVerify = () => {
-  const { data, isLoading } = useQuery({
+  const { isLoading } = useQuery({
     queryFn: authenticate,
     queryKey: ["user"],
   });

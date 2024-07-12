@@ -58,12 +58,12 @@ const Login = () => {
           />
           <label htmlFor="password">Contraseña:</label>
           <Password
-            toggleMask
             name="password"
             placeholder="Contraseña"
             required
+            toggleMask
           />
-          <Button label="Iniciar sesión" style={{ border: "0" }} />
+          <Button label="Iniciar sesión" />
           <p>¿No tienes Cuenta?</p>
           <div className="signup-link">
             <Link to={ROUTES.SIGNUP}>Crear Cuenta</Link>

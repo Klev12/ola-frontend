@@ -10,6 +10,7 @@ export interface SignupDto {
   fullname: string;
   password: string;
   area: string;
+  error: string;
 }
 
 export interface SignupCollaboratorDto extends SignupDto {
