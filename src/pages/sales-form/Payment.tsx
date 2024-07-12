@@ -14,11 +14,7 @@ const Payment = () => {
     );
   }
 
-  return (
-    <div>
-      <h2>{errorMessage}</h2>
-    </div>
-  );
+  return <div>Payment</div>;
 };
 
 export default Payment;

@@ -5,7 +5,7 @@ import { submitFormByHash } from "../../services/result-service";
 import { useContext, useState } from "react";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Button } from "primereact/button";
-import MyTimer from "../../components/Timer";
+
 import ClientSignature from "./components/ClientSignature";
 import SelectContractType from "./components/SelectContractType";
 import SalesProvider, { SalesContextProps } from "./components/SalesProvider";
@@ -15,6 +15,7 @@ import { Camera } from "./components/Camera";
 import UploadCards from "./components/UploadCards";
 import ROUTES from "../../consts/routes";
 import { SalesFormContext } from "./components/WrapperSalesForm";
+import Timer from "../../components/Timer";
 
 const SalesForm = () => {
   const { hash } = useParams();
@@ -56,8 +57,6 @@ const SalesForm = () => {
     <div>
       <SalesProvider formData={formDataValues?.formData}>
         <>
-          <h2>{errorMessage && errorMessage}</h2>
-          {!errorMessage && <MyTimer />}
           <PrintForm
             footer={
               <>

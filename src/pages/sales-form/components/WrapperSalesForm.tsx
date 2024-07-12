@@ -3,6 +3,7 @@ import { Outlet, useParams } from "react-router";
 import { UserFormGetDto } from "../../../models/user-form";
 import { useQuery } from "react-query";
 import { generateFormByHash } from "../../../services/forms-service";
+import Timer from "../../../components/Timer";
 
 interface SalesFormContextProps {
   form?: UserFormGetDto;
@@ -35,6 +36,8 @@ const WrapperSalesForm = () => {
       <SalesFormContext.Provider
         value={{ form: formData, isFormLoading: isLoading, errorMessage }}
       >
+        <h2>{errorMessage && errorMessage}</h2>
+        {!errorMessage && <Timer />}
         <Outlet />
       </SalesFormContext.Provider>
     </div>

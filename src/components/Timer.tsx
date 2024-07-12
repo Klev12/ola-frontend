@@ -22,7 +22,7 @@ function MyTimer({ expiryTimestamp }: MyTimerProps) {
   );
 }
 
-export default function App() {
+export default function Timer() {
   const time = new Date();
   time.setSeconds(time.getSeconds() + 2700);
   return (
