@@ -49,6 +49,9 @@ const ROUTES = {
     PDF_ID(id: string | number) {
       return `${this.ME}/pdf/${id}`;
     },
+    get HISTORY() {
+      return `${this.ME}/history`;
+    },
   },
   BLOG: {
     ME: "/blog",
@@ -88,6 +91,12 @@ const ROUTES = {
     ME: "/generate-sales-form/:hash",
     HASH(hash: string) {
       return `/generate-sales-form/${hash}`;
+    },
+    get PAYMENT() {
+      return `${this.ME}/payment`;
+    },
+    PAYMENT_HASH(hash: string) {
+      return this.HASH(hash) + "/payment";
     },
   },
   TESTS: {

@@ -35,7 +35,7 @@ const roleBasedVisibility = {
   },
   [Roles.sales]: {
     home: true,
-    dashboard: false,
+    dashboard: true,
     sales: true,
     blog: true,
     norms: true,

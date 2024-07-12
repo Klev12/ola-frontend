@@ -1,9 +1,8 @@
-import { useMutation, useQuery } from "react-query";
-import { useParams } from "react-router";
-import { generateFormByHash } from "../../services/forms-service";
+import { useMutation } from "react-query";
+import { useNavigate, useParams } from "react-router";
 import PrintForm from "../../components/PrintForm";
 import { submitFormByHash } from "../../services/result-service";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Button } from "primereact/button";
 import MyTimer from "../../components/Timer";
@@ -14,31 +13,27 @@ import TermsAndConditions from "./components/TermsAndConditions";
 import { TermAndConditionsGetDto } from "../../models/term-and-conditions";
 import { Camera } from "./components/Camera";
 import UploadCards from "./components/UploadCards";
+import ROUTES from "../../consts/routes";
+import { SalesFormContext } from "./components/WrapperSalesForm";
 
 const SalesForm = () => {
   const { hash } = useParams();
 
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
-  const [erroMessage, setErrorMessage] = useState<string | undefined>(
-    undefined
-  );
+  const {
+    form: formData,
+    isFormLoading: isLoading,
+    errorMessage,
+  } = useContext(SalesFormContext);
 
-  const { data: formData, isLoading } = useQuery({
-    queryFn: () => generateFormByHash(hash as string).then((res) => res.data),
-    queryKey: ["sales"],
-    refetchOnWindowFocus: false,
-    retry: 1,
-    onError: () => {
-      setErrorMessage("El link ya ha sido usado, por favor usa otro.");
-    },
-  });
+  const navigate = useNavigate();
 
   const { mutate: submitFormByHashMutate, isLoading: isFormLoading } =
     useMutation(submitFormByHash, {
       onSuccess: () => {
         setIsFormSubmitted(true);
-        window.location.reload();
+        navigate(ROUTES.GENERATE_SALES_FORM.PAYMENT_HASH(hash as string));
       },
     });
 
@@ -61,12 +56,12 @@ const SalesForm = () => {
     <div>
       <SalesProvider formData={formDataValues?.formData}>
         <>
-          <h2>{erroMessage && erroMessage}</h2>
-          {!erroMessage && <MyTimer />}
+          <h2>{errorMessage && errorMessage}</h2>
+          {!errorMessage && <MyTimer />}
           <PrintForm
             footer={
               <>
-                {!erroMessage && (
+                {!errorMessage && (
                   <>
                     <SelectContractType formId={formData?.form?.id as number} />
                     <TermsAndConditions
@@ -108,12 +103,12 @@ const SalesForm = () => {
                 boxShadow: "none",
               }}
               loading={isFormLoading}
-              disabled={!!erroMessage || isFormSubmitted || !isSignatureReady}
+              disabled={!!errorMessage || isFormSubmitted || !isSignatureReady}
               label="Siguiente"
               type="submit"
             />
           </PrintForm>
-          {!erroMessage && (
+          {!errorMessage && (
             <ClientSignature
               hash={hash as string}
               beforeOnSuccess={() => {

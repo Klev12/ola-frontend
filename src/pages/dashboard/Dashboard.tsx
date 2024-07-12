@@ -4,14 +4,39 @@ import { MenuItem } from "primereact/menuitem";
 import ROUTES from "../../consts/routes";
 import { Badge } from "primereact/badge";
 import useGlobalState from "../../store/store";
+import { Roles } from "../../models/user";
+import { useEffect, useMemo } from "react";
+
+const roleBasedVisibility = {
+  [Roles.sales]: {
+    notifications: false,
+    users: false,
+    collaborators: true,
+  },
+  [Roles.admin]: {
+    notifications: true,
+    users: true,
+    collaborators: true,
+  },
+};
+
 const Dashboard = () => {
+  const user = useGlobalState((state) => state.user);
+
   const numberOfNotifications = useGlobalState(
     (state) => state.numberOfNotifications
   );
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (user?.role == Roles.sales) {
+      navigate(ROUTES.DASHBOARD.COLLABORATORS);
+    }
+  }, [user]);
+
   const items: MenuItem[] = [
     {
+      id: "notifications",
       label: "Notificationes",
       icon: "pi pi-bell",
       command: () => {
@@ -41,6 +66,7 @@ const Dashboard = () => {
       },
     },
     {
+      id: "users",
       label: "Usuarios",
       icon: "pi pi-users",
       command: () => {
@@ -48,6 +74,7 @@ const Dashboard = () => {
       },
     },
     {
+      id: "collaborators",
       label: "Colaboradores",
       icon: "pi pi-users",
       command: () => {
@@ -55,6 +82,17 @@ const Dashboard = () => {
       },
     },
   ];
+
+  const roleBasedItems = useMemo(() => {
+    const roleVisibility = roleBasedVisibility[user?.role as Roles.sales];
+    return Object.entries(roleVisibility || []).map(([key, value]) => {
+      const indexItem = items.findIndex((item) => item.id === key);
+      return {
+        ...items[indexItem],
+        visible: value,
+      };
+    });
+  }, [user]);
 
   return (
     <div>
@@ -64,7 +102,7 @@ const Dashboard = () => {
           onChange={() => {
             console.log("hasd");
           }}
-          model={items}
+          model={roleBasedItems}
         />
         <div className="content">
           <Outlet />

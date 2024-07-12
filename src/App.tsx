@@ -31,6 +31,9 @@ import SalesFormPDF from "./pages/form-pdf/SalesFormPDF";
 import Tests from "./pages/tests/Tests";
 import EditForm from "./pages/tests/EditForm";
 import Collaborators from "./pages/dashboard/Collaborators";
+import History from "./pages/sales/History";
+import Payment from "./pages/sales-form/Payment";
+import WrapperSalesForm from "./pages/sales-form/components/WrapperSalesForm";
 
 function App() {
   return (
@@ -68,6 +71,7 @@ function App() {
           <Route path={ROUTES.SALES.ME} element={<Sales />}>
             <Route path={ROUTES.SALES.FORMS} element={<MyForms />} />
             <Route path={ROUTES.SALES.DONE_FORMS} element={<DoneForms />} />
+            <Route path={ROUTES.SALES.HISTORY} element={<History />}></Route>
           </Route>
           <Route path={ROUTES.TESTS.ME}>
             <Route path="" element={<Tests />} />
@@ -96,7 +100,18 @@ function App() {
 
         <Route path={ROUTES.SALES.PDF} element={<SalesFormPDF />} />
         <Route path={ROUTES.FORM_PDF.ME} element={<FormPDF />} />
-        <Route path={ROUTES.GENERATE_SALES_FORM.ME} element={<SalesForm />} />
+
+        <Route
+          path={ROUTES.GENERATE_SALES_FORM.ME}
+          element={<WrapperSalesForm />}
+        >
+          <Route path={ROUTES.GENERATE_SALES_FORM.ME} element={<SalesForm />} />
+          <Route
+            path={ROUTES.GENERATE_SALES_FORM.PAYMENT}
+            element={<Payment />}
+          />
+        </Route>
+
         <Route path={ROUTES.DASHBOARD.CHECK_FORM} element={<CheckForm />} />
 
         <Route path="*" element={<PageNotFound />} />
