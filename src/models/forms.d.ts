@@ -1,4 +1,5 @@
 import { ContractGetDto } from "./contract";
+import { FileGetDto } from "./file";
 import { TermAndConditionsGetDto } from "./term-and-conditions";
 
 export interface FormsDto {}
@@ -21,6 +22,7 @@ export interface FormGetDto {
   term_and_conditions_id: number | string;
   contract: ContractGetDto;
   term_and_condition: TermAndConditionsGetDto;
+  files?: FileGetDto[];
 }
 
 export interface GenerateLinkPostDto {
