@@ -34,6 +34,7 @@ import Collaborators from "./pages/dashboard/Collaborators";
 import History from "./pages/sales/History";
 import Payment from "./pages/sales-form/Payment";
 import WrapperSalesForm from "./pages/sales-form/components/WrapperSalesForm";
+import PendingUsers from "./pages/dashboard/PendingUsers";
 
 function App() {
   return (
@@ -64,6 +65,10 @@ function App() {
             <Route
               path={ROUTES.DASHBOARD.COLLABORATORS}
               element={<Collaborators />}
+            />
+            <Route
+              path={ROUTES.DASHBOARD.PENDING_USERS}
+              element={<PendingUsers />}
             />
           </Route>
           <Route path={ROUTES.BLOG.ME} element={<Blog />} />
