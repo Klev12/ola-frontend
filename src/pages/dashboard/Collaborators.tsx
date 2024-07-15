@@ -16,6 +16,7 @@ const Collaborators = () => {
               code: authenticatedUser?.code,
               fullname: authenticatedUser?.fullname,
               collaborators: authenticatedUser?.collaborators,
+              level: authenticatedUser?.level,
             },
           } as Collaborator
         }

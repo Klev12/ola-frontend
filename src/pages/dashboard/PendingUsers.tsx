@@ -1,12 +1,13 @@
-import { useQuery } from "react-query";
-import useGlobalState from "../../store/store";
-import { getAllUsers, getCountUsers } from "../../services/user-service";
-import { Roles } from "../../models/user";
-import UserCard from "./components/UserCard";
+import { useMutation, useQuery } from "react-query";
+import {
+  deleteUserById,
+  getAllUsers,
+  toggleAccessUser,
+} from "../../services/user-service";
+import { Card } from "primereact/card";
+import { Button } from "primereact/button";
 
 const PendingUsers = () => {
-  const authenticatedUser = useGlobalState((state) => state.user);
-
   const { data, refetch } = useQuery({
     queryFn: () => getAllUsers(false),
     queryKey: ["peding-users"],
@@ -14,9 +15,20 @@ const PendingUsers = () => {
     refetchInterval: 20000,
   });
 
-  const { data: userCountData } = useQuery({
-    queryFn: getCountUsers,
-    queryKey: "count-users",
+  const { mutate: toggleAccessUserMutate } = useMutation(
+    ({ access, userId }: { access: boolean; userId: number }) =>
+      toggleAccessUser(access, userId),
+    {
+      onSuccess: () => {
+        refetch();
+      },
+    }
+  );
+
+  const { mutate: deleteUserByIdMutate } = useMutation(deleteUserById, {
+    onSuccess: () => {
+      refetch();
+    },
   });
 
   return (
@@ -24,17 +36,26 @@ const PendingUsers = () => {
       <button onClick={() => refetch()}>recargar</button>
       {data?.data.users.map((user, index) => {
         return (
-          <div key={index}>
-            {authenticatedUser?.role === Roles.groupAdmin && (
-              <>
-                <h3>
-                  El número de usuarios dentro del area
-                  {authenticatedUser.area} es {userCountData?.data.count}
-                </h3>
-              </>
-            )}
-            <UserCard user={user} notificationMode={false} />
-          </div>
+          <Card
+            title={`Nuevo usuario ${user.fullname} ${user.email}`}
+            key={index}
+          >
+            <Button
+              label="Aceptar"
+              onClick={() => {
+                toggleAccessUserMutate({
+                  access: true,
+                  userId: user.id as number,
+                });
+              }}
+            />
+            <Button
+              label="Denegar acceso"
+              onClick={() => {
+                deleteUserByIdMutate(user.id);
+              }}
+            />
+          </Card>
         );
       })}
     </div>

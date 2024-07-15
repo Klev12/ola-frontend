@@ -38,7 +38,11 @@ const PrintForm = ({
   user,
   footer,
 }: PrintFormProps) => {
-  const { mutate: verifyUserFormMutate } = useMutation(verifyUserForm);
+  const { mutate: verifyUserFormMutate } = useMutation(verifyUserForm, {
+    onSuccess: () => {
+      window.location.reload();
+    },
+  });
   const navigate = useNavigate();
   const toast = useRef<Toast>(null);
   const isFormEditable = useGlobalState((state) => state.isFormEditable);

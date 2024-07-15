@@ -1,3 +1,5 @@
+import { LevelGetDto } from "./level";
+
 export interface Collaborator {
   id: number;
   user_id: number;
@@ -9,4 +11,5 @@ export interface CollaboratorUser {
   fullname: string;
   code: string;
   collaborators?: Collaborator[];
+  level?: LevelGetDto;
 }

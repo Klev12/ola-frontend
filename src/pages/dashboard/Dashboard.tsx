@@ -12,7 +12,7 @@ const roleBasedVisibility = {
     notifications: false,
     users: false,
     collaborators: true,
-    pendingUsers: true,
+    pendingUsers: false,
   },
   [Roles.admin]: {
     notifications: true,
