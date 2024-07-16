@@ -33,6 +33,9 @@ const ROUTES = {
     get COLLABORATORS() {
       return `${this.ME}/collaborators`;
     },
+    get PENDING_USERS() {
+      return `${this.ME}/pending-users`;
+    },
   },
 
   SALES: {

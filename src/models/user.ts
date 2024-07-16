@@ -1,4 +1,5 @@
 import { Collaborator } from "./collaborator";
+import { LevelGetDto } from "./level";
 
 export interface UserGetDto {
   id: number | string;
@@ -12,6 +13,7 @@ export interface UserGetDto {
   multimedias: UserMultimedia[];
   code: string;
   collaborators: Collaborator[];
+  level?: LevelGetDto;
 }
 
 export interface UserMultimedia {

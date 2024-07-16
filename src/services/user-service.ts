@@ -3,8 +3,10 @@ import axios from "../interceptors/axios-interceptor";
 import { NotificationGetDto } from "../models/notification";
 import { Roles, UserGetDto } from "../models/user";
 
-export function getAllUsers() {
-  return axios.get<{ users: UserGetDto[] }>(`${ENV.BACKEND_ROUTE}/users`);
+export function getAllUsers(access: boolean = true) {
+  return axios.get<{ users: UserGetDto[] }>(
+    `${ENV.BACKEND_ROUTE}/users?access=${access}`
+  );
 }
 
 export function getAllNotifications() {

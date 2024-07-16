@@ -124,9 +124,7 @@ const SalesFormPDF = () => {
       );
 
       findUserByIdMutate(userForm?.form?.user_id as number);
-      console.log(
-        `${ENV.BACKEND_ROUTE}/multimedia/${userForm?.form?.signature as string}`
-      );
+
       setSignaturelink(
         `${ENV.BACKEND_ROUTE}/multimedia/${userForm?.form?.signature as string}`
       );

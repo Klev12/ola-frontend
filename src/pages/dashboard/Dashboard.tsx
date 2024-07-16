@@ -12,11 +12,13 @@ const roleBasedVisibility = {
     notifications: false,
     users: false,
     collaborators: true,
+    pendingUsers: false,
   },
   [Roles.admin]: {
     notifications: true,
     users: true,
     collaborators: true,
+    pendingUsers: true,
   },
 };
 
@@ -79,6 +81,14 @@ const Dashboard = () => {
       icon: "pi pi-users",
       command: () => {
         navigate(ROUTES.DASHBOARD.COLLABORATORS);
+      },
+    },
+    {
+      id: "pendingUsers",
+      label: "Usuarios pendientes",
+      icon: "pi pi-users",
+      command: () => {
+        navigate(ROUTES.DASHBOARD.PENDING_USERS);
       },
     },
   ];

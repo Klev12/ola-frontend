@@ -13,11 +13,11 @@ const RecursiveCollaboratorList = ({
   const collaboratorTreeNode = useMemo(() => {
     return RecursiveMapCollaborator.map(collaborator, (col) => ({
       key: col.id,
-      label: `${col.user.fullname} ${col.user.code}`,
+      label: `${col.user.fullname} ${col.user.code} ${col.user.level?.position}`,
       children: [],
     }));
   }, [collaborator]);
-  console.log(collaboratorTreeNode);
+
   return <Tree value={[collaboratorTreeNode]}></Tree>;
 };
 
