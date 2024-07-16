@@ -29,6 +29,8 @@ export const Camera = () => {
     if (videoRef.current && photoRef.current) {
       const width = videoRef.current.videoWidth;
       const height = videoRef.current.videoHeight;
+      photoRef.current.width = width;
+      photoRef.current.height = height;
 
       const context = photoRef.current.getContext("2d");
       if (context) {
