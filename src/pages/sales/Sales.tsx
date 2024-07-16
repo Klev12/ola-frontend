@@ -16,14 +16,14 @@ const Sales = () => {
     },
     {
       label: "Hechos",
-      icon: "pi pi-check",
+      icon: "pi pi-thumbs-up",
       command: () => {
         navigate(ROUTES.SALES.DONE_FORMS);
       },
     },
     {
       label: "Historial",
-      icon: "pi pi-check",
+      icon: "pi pi-history",
       command: () => {
         navigate(ROUTES.SALES.HISTORY);
       },
