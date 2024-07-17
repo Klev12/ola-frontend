@@ -8,13 +8,14 @@ import { useNavigate } from "react-router";
 const History = () => {
   const { data: salesData } = useQuery({
     queryFn: () => getAllSales().then((res) => res.data),
+    queryKey: ["history-data"],
   });
 
   const navigate = useNavigate();
 
   return (
     <div>
-      {salesData?.forms.length === 0 && <div>No hay ventas aún</div>}
+      {salesData?.forms?.length === 0 && <div>No hay ventas aún</div>}
       {salesData?.forms.map((form) => {
         return (
           <Card title={form?.form_scheme?.label}>

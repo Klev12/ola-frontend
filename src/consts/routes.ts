@@ -55,6 +55,15 @@ const ROUTES = {
     get HISTORY() {
       return `${this.ME}/history`;
     },
+    get TEAM() {
+      return `${this.ME}/team`;
+    },
+    get TEAM_USERS() {
+      return `${this.TEAM}/:id/users`;
+    },
+    TEAM_USERS_ID(id: string) {
+      return `${this.TEAM}/${id}/users`;
+    },
   },
   BLOG: {
     ME: "/blog",

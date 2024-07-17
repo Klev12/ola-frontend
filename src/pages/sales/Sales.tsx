@@ -8,17 +8,24 @@ const Sales = () => {
 
   const items: MenuItem[] = [
     {
-      label: "Mis formularios",
+      label: "Generar ventas",
       icon: "pi pi-list",
       command: () => {
         navigate(ROUTES.SALES.FORMS);
       },
     },
     {
-      label: "Hechos",
+      label: "Mis ventas",
       icon: "pi pi-thumbs-up",
       command: () => {
         navigate(ROUTES.SALES.DONE_FORMS);
+      },
+    },
+    {
+      label: "Equipo",
+      icon: "pi pi-thumbs-up",
+      command: () => {
+        navigate(ROUTES.SALES.TEAM);
       },
     },
     {
