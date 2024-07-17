@@ -78,7 +78,7 @@ const Dashboard = () => {
     {
       id: "collaborators",
       label: "Colaboradores",
-      icon: "pi pi-users",
+      icon: "pi pi-user-plus",
       command: () => {
         navigate(ROUTES.DASHBOARD.COLLABORATORS);
       },
@@ -86,7 +86,7 @@ const Dashboard = () => {
     {
       id: "pendingUsers",
       label: "Usuarios pendientes",
-      icon: "pi pi-users",
+      icon: "pi pi-hourglass",
       command: () => {
         navigate(ROUTES.DASHBOARD.PENDING_USERS);
       },

@@ -79,8 +79,8 @@ function App() {
             <Route path={ROUTES.SALES.HISTORY} element={<History />}></Route>
           </Route>
           <Route path={ROUTES.TESTS.ME}>
-            <Route path="" element={<Tests />} />
-            <Route path={ROUTES.TESTS.EDIT_FORM} element={<EditForm />} />
+            <Route path={ROUTES.TESTS.ME} element={<Tests />} />
+            <Route path={ROUTES.TESTS.EDIT_FORM} element={<EditForm />}></Route>
           </Route>
         </Route>
         <Route path={ROUTES.USER_FORM.ME} element={<UserFormWrapper />}>
