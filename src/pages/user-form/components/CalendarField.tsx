@@ -19,7 +19,7 @@ const CalendarField = ({ field }: CalendarFieldProps) => {
     <>
       <label htmlFor="">{field.label}</label>
       <Calendar
-        disabled={!isFormEditable}
+        disabled={isFormEditable}
         required={field.required}
         value={date}
         name={field.id as string}
