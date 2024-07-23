@@ -6,7 +6,6 @@ import CheckBoxField from "./CheckBoxField";
 import CalendarField from "./CalendarField";
 import "../styles/styles.css";
 import useGlobalState from "../../../store/store";
-import { InputTextarea } from "primereact/inputtextarea";
 import TextAreaField from "./TextAreaField";
 
 interface FieldProps {

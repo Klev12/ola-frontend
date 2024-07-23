@@ -1,7 +1,5 @@
 import { useQuery } from "react-query";
 import { getAllTeams } from "../../services/team-service";
-import { Card } from "primereact/card";
-import { Button } from "primereact/button";
 import { Menu } from "primereact/menu";
 import { MenuItem } from "primereact/menuitem";
 import { useMemo } from "react";

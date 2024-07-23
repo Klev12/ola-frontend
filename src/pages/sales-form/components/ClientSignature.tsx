@@ -5,6 +5,10 @@ import { Button } from "primereact/button";
 import { addUserSignature } from "../../../services/forms-service";
 import { SalesFormContext } from "./WrapperSalesForm";
 
+interface ExtendedCanvasDraw extends CanvasDraw {
+  getDataURL: (type: string) => string;
+}
+
 interface ClientSignatureProps {
   hash: string;
   beforeOnSuccess?: () => void;
@@ -13,18 +17,18 @@ interface ClientSignatureProps {
 const ClientSignature = ({ hash, beforeOnSuccess }: ClientSignatureProps) => {
   const { hashMode, form } = useContext(SalesFormContext);
 
-  const canvasRef = useRef<CanvasDraw>(null);
+  const canvasRef = useRef<ExtendedCanvasDraw>(null);
   const [errorMessage, setErrorMessage] = useState<string | undefined>(
     undefined
   );
 
   const { mutate: addUserSignatureMutate } = useMutation(addUserSignature, {
     onSuccess: () => {
-      console.log("signature enviada!");
+      console.log("Signature sent!");
       beforeOnSuccess && beforeOnSuccess();
     },
     onError: () => {
-      setErrorMessage("Error al subir la firma");
+      setErrorMessage("Error uploading signature");
     },
   });
 
@@ -36,7 +40,7 @@ const ClientSignature = ({ hash, beforeOnSuccess }: ClientSignatureProps) => {
 
   const saveImage = () => {
     if (canvasRef.current) {
-      const url = (canvasRef.current as any).getDataURL("png");
+      const url = canvasRef.current.getDataURL("png");
       if (hashMode) {
         addUserSignatureMutate({ image: url, hash, hashMode: true });
         return;
@@ -62,11 +66,11 @@ const ClientSignature = ({ hash, beforeOnSuccess }: ClientSignatureProps) => {
       }}
     >
       <div>
-        Firma
+        <div>Firma</div>
         <small style={{ display: "flex" }}>
           {errorMessage && errorMessage}
         </small>
-        <p>Por favor realizar su firma en el cuadrado de color blanco.</p>
+        <p>Por favor, realice su firma en el cuadrado de color blanco.</p>
         <CanvasDraw
           ref={canvasRef}
           canvasWidth={500}
@@ -75,8 +79,8 @@ const ClientSignature = ({ hash, beforeOnSuccess }: ClientSignatureProps) => {
           brushColor="black"
           saveData="signature"
         />
-        <Button label="limpiar" onClick={handleClearCanvas} />
-        <Button label="guardar" onClick={saveImage} />
+        <Button label="Limpiar" onClick={handleClearCanvas} />
+        <Button label="Guardar" onClick={saveImage} />
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ import { Column } from "primereact/column";
 const TeamUsers = () => {
   const { id } = useParams();
 
-  const { data: teamUsersData, isFetching } = useQuery({
+  const { data: teamUsersData } = useQuery({
     queryFn: () => getUsersFromTeam(Number(id)).then((res) => res.data),
     queryKey: ["team-users", id],
   });

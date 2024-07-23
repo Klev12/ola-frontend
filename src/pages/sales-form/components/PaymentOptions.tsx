@@ -29,7 +29,7 @@ const PaymentOptions = ({ payment }: PaymentOptionsProps) => {
       }
       return value;
     });
-  }, [subscriptionValue]);
+  }, [subscriptionValue, total]);
 
   useEffect(() => {
     setMonthValue(() => {

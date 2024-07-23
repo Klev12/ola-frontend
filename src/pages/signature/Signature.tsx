@@ -6,8 +6,11 @@ import { saveSignature } from "../../services/document-service";
 import { useNavigate } from "react-router";
 import ROUTES from "../../consts/routes";
 
+interface ExtendedCanvasDraw extends CanvasDraw {
+  getDataURL: (type: string) => string;
+}
 const SignatureDraw: React.FC = () => {
-  const canvasRef = useRef<CanvasDraw>(null);
+  const canvasRef = useRef<ExtendedCanvasDraw | null>(null);
 
   const navigate = useNavigate();
 
@@ -25,7 +28,7 @@ const SignatureDraw: React.FC = () => {
 
   const saveImage = () => {
     if (canvasRef.current) {
-      const url = (canvasRef.current as any).getDataURL("png");
+      const url = canvasRef.current.getDataURL("png");
 
       saveSignatureMutate(url);
     }
