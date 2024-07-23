@@ -1,8 +1,9 @@
 import CanvasDraw from "react-canvas-draw";
 import { useMutation } from "react-query";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { addUserSignature } from "../../../services/forms-service";
+import { SalesFormContext } from "./WrapperSalesForm";
 
 interface ClientSignatureProps {
   hash: string;
@@ -10,6 +11,8 @@ interface ClientSignatureProps {
 }
 
 const ClientSignature = ({ hash, beforeOnSuccess }: ClientSignatureProps) => {
+  const { hashMode, form } = useContext(SalesFormContext);
+
   const canvasRef = useRef<CanvasDraw>(null);
   const [errorMessage, setErrorMessage] = useState<string | undefined>(
     undefined
@@ -34,8 +37,16 @@ const ClientSignature = ({ hash, beforeOnSuccess }: ClientSignatureProps) => {
   const saveImage = () => {
     if (canvasRef.current) {
       const url = (canvasRef.current as any).getDataURL("png");
-
-      addUserSignatureMutate({ image: url, hash });
+      if (hashMode) {
+        addUserSignatureMutate({ image: url, hash, hashMode: true });
+        return;
+      }
+      addUserSignatureMutate({
+        image: url,
+        hashMode: false,
+        hash,
+        formId: form?.form?.id,
+      });
     }
   };
 

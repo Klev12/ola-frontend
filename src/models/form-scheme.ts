@@ -13,7 +13,7 @@ export interface FormGroup {
   fields: Field[];
 }
 
-export type ComponentType = "input" | "select" | "check" | "chip";
+export type ComponentType = "input" | "select" | "check" | "chip" | "textarea";
 
 export interface Field {
   id: number | string;

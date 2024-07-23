@@ -1,7 +1,7 @@
 import { useMutation } from "react-query";
 import { useNavigate, useParams } from "react-router";
 import PrintForm from "../../components/PrintForm";
-import { submitFormByHash } from "../../services/result-service";
+import { submitForm, submitFormByHash } from "../../services/result-service";
 import { useContext, useState } from "react";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Button } from "primereact/button";
@@ -15,6 +15,7 @@ import { Camera } from "./components/Camera";
 import UploadCards from "./components/UploadCards";
 import ROUTES from "../../consts/routes";
 import { SalesFormContext } from "./components/WrapperSalesForm";
+import PaymentOptions from "./components/PaymentOptions";
 
 const SalesForm = () => {
   const { hash } = useParams();
@@ -25,7 +26,10 @@ const SalesForm = () => {
     form: formData,
     isFormLoading: isLoading,
     errorMessage,
+    hashMode,
   } = useContext(SalesFormContext);
+
+  console.log(formData);
 
   const navigate = useNavigate();
 
@@ -36,6 +40,10 @@ const SalesForm = () => {
         navigate(ROUTES.GENERATE_SALES_FORM.PAYMENT_HASH(hash as string));
       },
     });
+
+  const { mutate: submitFormMutate } = useMutation(submitForm, {
+    onSuccess: () => {},
+  });
 
   const [isSignatureReady, setIsSignatureReady] = useState(false);
 
@@ -57,27 +65,15 @@ const SalesForm = () => {
       <SalesProvider formData={formDataValues?.formData}>
         <>
           <PrintForm
-            footer={
-              <>
-                {!errorMessage && (
-                  <>
-                    <SelectContractType formId={formData?.form?.id as number} />
-                    <TermsAndConditions
-                      termAndConditions={
-                        formData?.form
-                          ?.term_and_condition as TermAndConditionsGetDto
-                      }
-                    />
-                    <Camera />
-                    <UploadCards />
-                  </>
-                )}
-              </>
-            }
             disableButton={true}
             form={formData}
             onSubmit={(data) => {
               console.log(data.results);
+              if (!hashMode) {
+                submitFormMutate({ id: data.id, results: data.results });
+                return;
+              }
+
               submitFormByHashMutate({
                 id: data.id,
                 hash: hash,
@@ -106,14 +102,30 @@ const SalesForm = () => {
               type="submit"
             />
           </PrintForm>
-          {!errorMessage && (
-            <ClientSignature
-              hash={hash as string}
-              beforeOnSuccess={() => {
-                setIsSignatureReady(true);
-              }}
-            />
-          )}
+          <>
+            {!errorMessage && (
+              <>
+                <SelectContractType formId={formData?.form?.id as number} />
+                <PaymentOptions payment={formData?.form?.payment} />
+                {!errorMessage && (
+                  <ClientSignature
+                    hash={hash as string}
+                    beforeOnSuccess={() => {
+                      setIsSignatureReady(true);
+                    }}
+                  />
+                )}
+                <TermsAndConditions
+                  termAndConditions={
+                    formData?.form
+                      ?.term_and_condition as TermAndConditionsGetDto
+                  }
+                />
+                <Camera />
+                <UploadCards />
+              </>
+            )}
+          </>
         </>
       </SalesProvider>
     </div>

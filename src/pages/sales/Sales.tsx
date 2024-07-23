@@ -2,12 +2,38 @@ import { Menu } from "primereact/menu";
 import { Outlet, useNavigate } from "react-router-dom";
 import ROUTES from "../../consts/routes";
 import { MenuItem } from "primereact/menuitem";
+import { Roles } from "../../models/user";
+import { useMemo } from "react";
+import useGlobalState from "../../store/store";
+
+const roleBasedVisibility = {
+  [Roles.sales]: {
+    generateSales: true,
+    mySales: true,
+    team: false,
+    history: false,
+  },
+  [Roles.admin]: {
+    generateSales: true,
+    mySales: true,
+    team: false,
+    history: true,
+  },
+  [Roles.groupAdmin]: {
+    generateSales: false,
+    mySales: false,
+    team: true,
+    history: false,
+  },
+};
 
 const Sales = () => {
   const navigate = useNavigate();
+  const autheticatedUser = useGlobalState((state) => state.user);
 
   const items: MenuItem[] = [
     {
+      id: "generateSales",
       label: "Generar ventas",
       icon: "pi pi-list",
       command: () => {
@@ -15,6 +41,7 @@ const Sales = () => {
       },
     },
     {
+      id: "mySales",
       label: "Mis ventas",
       icon: "pi pi-thumbs-up",
       command: () => {
@@ -22,6 +49,7 @@ const Sales = () => {
       },
     },
     {
+      id: "team",
       label: "Equipo",
       icon: "pi pi-thumbs-up",
       command: () => {
@@ -29,6 +57,7 @@ const Sales = () => {
       },
     },
     {
+      id: "history",
       label: "Historial",
       icon: "pi pi-history",
       command: () => {
@@ -36,6 +65,18 @@ const Sales = () => {
       },
     },
   ];
+
+  const roleBasedItems = useMemo(() => {
+    const roleVisibility =
+      roleBasedVisibility[autheticatedUser?.role as Roles.sales];
+    return Object.entries(roleVisibility || []).map(([key, value]) => {
+      const indexItem = items.findIndex((item) => item.id === key);
+      return {
+        ...items[indexItem],
+        visible: value,
+      };
+    });
+  }, [autheticatedUser]);
 
   return (
     <div>
@@ -45,7 +86,7 @@ const Sales = () => {
           onChange={() => {
             console.log("hasd");
           }}
-          model={items}
+          model={roleBasedItems}
         />
         <div className="content">
           <Outlet />

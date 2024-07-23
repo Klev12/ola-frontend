@@ -64,6 +64,12 @@ const ROUTES = {
     TEAM_USERS_ID(id: string) {
       return `${this.TEAM}/${id}/users`;
     },
+    get FORM_EDITOR() {
+      return `${this.ME}/form-editor/:id`;
+    },
+    FORM_EDITOR_ID(id: number) {
+      return `${this.ME}/form-editor/${id}`;
+    },
   },
   BLOG: {
     ME: "/blog",

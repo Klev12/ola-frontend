@@ -83,6 +83,13 @@ function App() {
               <Route path={ROUTES.SALES.TEAM_USERS} element={<TeamUsers />} />
             </Route>
           </Route>
+          <Route
+            path={ROUTES.SALES.FORM_EDITOR}
+            element={<WrapperSalesForm hashMode={false} />}
+          >
+            <Route path={ROUTES.SALES.FORM_EDITOR} element={<SalesForm />} />
+          </Route>
+
           <Route path={ROUTES.TESTS.ME}>
             <Route path={ROUTES.TESTS.ME} element={<Tests />} />
             <Route path={ROUTES.TESTS.EDIT_FORM} element={<EditForm />}></Route>
