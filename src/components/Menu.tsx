@@ -3,7 +3,7 @@ import { MenuItem } from "primereact/menuitem";
 import AvatarDemo from "../pages/home/components/Avatar";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../consts/routes";
-import { Roles } from "../models/user";
+import { Roles, UserArea } from "../models/user";
 import useGlobalState from "../store/store";
 import { useMemo } from "react";
 
@@ -27,7 +27,7 @@ const roleBasedVisibility = {
   [Roles.groupAdmin]: {
     home: true,
     dashboard: true,
-    sales: true,
+    sales: false,
     blog: true,
     norms: true,
     forms: true,
@@ -120,6 +120,17 @@ export default function MenuDemo() {
 
     return Object.entries(roleVisibility || []).map(([key, value]) => {
       const indexItem = items.findIndex((item) => item.id === key);
+
+      if (
+        user?.role === Roles.groupAdmin &&
+        user.area === UserArea.commercial
+      ) {
+        return {
+          ...items[indexItem],
+          visible: true,
+        };
+      }
+
       return {
         ...items[indexItem],
         visible: value,

@@ -1,20 +1,29 @@
 import { useMutation, useQuery } from "react-query";
 import { getAllContracts } from "../../../services/contract-service";
 import { Dropdown } from "primereact/dropdown";
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { patchFormContract } from "../../../services/form-scheme";
 import { Checkbox } from "primereact/checkbox";
 import useToggle from "../../../hooks/useToggle";
 import useGlobalState from "../../../store/store";
 import { Card } from "primereact/card";
+import { SalesFormContext } from "./WrapperSalesForm";
 
 interface SelectContractTypeProps {
   formId: string | number;
 }
 
 const SelectContractType = ({ formId }: SelectContractTypeProps) => {
+  const { form } = useContext(SalesFormContext);
+  const { value, toggle, setFalse, setTrue } = useToggle();
+
   const [selectedContract, setSelectedContract] = useState<undefined | number>(
-    undefined
+    () => {
+      if (form?.form?.contract?.id as number) {
+        setTrue();
+        return form?.form?.contract.id as number;
+      }
+    }
   );
 
   const { data: contractData } = useQuery({
@@ -31,8 +40,6 @@ const SelectContractType = ({ formId }: SelectContractTypeProps) => {
   }, [contractData]);
 
   const { mutate: patchFormContractMutate } = useMutation(patchFormContract);
-
-  const { value, toggle, setFalse } = useToggle();
 
   const userFormNames = useGlobalState((state) => state.userFormNames);
   const userFormLastNames = useGlobalState((state) => state.userFormLastNames);
@@ -73,6 +80,34 @@ const SelectContractType = ({ formId }: SelectContractTypeProps) => {
               )?.description
             }
           </p>
+          {selectedContract && (
+            <Card>
+              <h3>
+                Proyecto{" "}
+                {
+                  contractData?.contracts.find(
+                    (contract) => contract.id === selectedContract
+                  )?.project
+                }
+              </h3>
+              <h3>
+                Mensualidades 9, de{" "}
+                {
+                  contractData?.contracts.find(
+                    (contract) => contract.id === selectedContract
+                  )?.monthly_payment
+                }
+              </h3>
+              <h3>
+                Subscripción{" "}
+                {
+                  contractData?.contracts.find(
+                    (contract) => contract.id === selectedContract
+                  )?.suscription
+                }
+              </h3>
+            </Card>
+          )}
         </Card>
       </Card>
     </div>

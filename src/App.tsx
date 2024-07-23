@@ -35,6 +35,8 @@ import History from "./pages/sales/History";
 import Payment from "./pages/sales-form/Payment";
 import WrapperSalesForm from "./pages/sales-form/components/WrapperSalesForm";
 import PendingUsers from "./pages/dashboard/PendingUsers";
+import Team from "./pages/sales/Team";
+import TeamUsers from "./pages/sales/TeamUsers";
 
 function App() {
   return (
@@ -77,7 +79,17 @@ function App() {
             <Route path={ROUTES.SALES.FORMS} element={<MyForms />} />
             <Route path={ROUTES.SALES.DONE_FORMS} element={<DoneForms />} />
             <Route path={ROUTES.SALES.HISTORY} element={<History />}></Route>
+            <Route path={ROUTES.SALES.TEAM} element={<Team />}>
+              <Route path={ROUTES.SALES.TEAM_USERS} element={<TeamUsers />} />
+            </Route>
           </Route>
+          <Route
+            path={ROUTES.SALES.FORM_EDITOR}
+            element={<WrapperSalesForm hashMode={false} />}
+          >
+            <Route path={ROUTES.SALES.FORM_EDITOR} element={<SalesForm />} />
+          </Route>
+
           <Route path={ROUTES.TESTS.ME}>
             <Route path={ROUTES.TESTS.ME} element={<Tests />} />
             <Route path={ROUTES.TESTS.EDIT_FORM} element={<EditForm />}></Route>

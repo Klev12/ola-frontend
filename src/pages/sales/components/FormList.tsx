@@ -17,6 +17,7 @@ import {
 } from "../../../services/forms-service";
 
 import "primeicons/primeicons.css";
+import { TotalInput } from "./TotalInput";
 
 interface FormListProps {
   forms: FormGetDto[];
@@ -197,10 +198,11 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
                   loading={loading}
                   className="p-button-rounded"
                   onClick={() => {
-                    navigate(ROUTES.DASHBOARD.CHECK_FORM_ID(form.id));
+                    navigate(ROUTES.SALES.FORM_EDITOR_ID(Number(form.id)));
                   }}
                 />
               </div>
+              <TotalInput payment={form.payment} refetchForms={refetchForms} />
             </Card>
           ))}
       </ScrollPanel>

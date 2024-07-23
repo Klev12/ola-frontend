@@ -55,6 +55,21 @@ const ROUTES = {
     get HISTORY() {
       return `${this.ME}/history`;
     },
+    get TEAM() {
+      return `${this.ME}/team`;
+    },
+    get TEAM_USERS() {
+      return `${this.TEAM}/:id/users`;
+    },
+    TEAM_USERS_ID(id: string) {
+      return `${this.TEAM}/${id}/users`;
+    },
+    get FORM_EDITOR() {
+      return `${this.ME}/form-editor/:id`;
+    },
+    FORM_EDITOR_ID(id: number) {
+      return `${this.ME}/form-editor/${id}`;
+    },
   },
   BLOG: {
     ME: "/blog",
