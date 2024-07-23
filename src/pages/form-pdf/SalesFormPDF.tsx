@@ -24,6 +24,7 @@ import FontRobotoLight from "../form-pdf/fonts/Roboto-Light.ttf";
 import FormPDFGroup from "./components/FormPDFGroup";
 import FormPDFContract from "./components/FormPDFContract";
 import FormPDFTermAndConditions from "./components/FormPDFTermAndConditions";
+import { Header } from "./components/Header";
 
 Font.register({
   family: "PlayfairDisplayFamily",
@@ -46,21 +47,16 @@ Font.register({
 });
 
 const styles = StyleSheet.create({
-  page: { paddingTop: 35, paddingBottom: 65, paddingHorizontal: 35 },
+  page: {
+    paddingTop: 35,
+    paddingBottom: 65,
+    paddingHorizontal: 35,
+  },
   firstTitle: {
     padding: "20px",
     marginLeft: "50px",
     fontFamily: "RobotoBoldFamily",
-  },
-  title: {
-    fontWeight: "black",
-    fontSize: "25px",
-    fontFamily: "RobotoBoldFamily ",
-    marginBottom: 20,
-  },
-  formGroup: {
-    paddingBottom: "50px",
-    color: "purple",
+    fontSize: "30px",
   },
   pageNumber: {
     position: "absolute",
@@ -147,10 +143,15 @@ const SalesFormPDF = () => {
           cardFrontLink={cardFrontLink}
         >
           <Page size="A4" style={styles.page}>
+            <Header />
             <Text style={styles.firstTitle}>FORMULARIO DE VENTAS</Text>
-            {userFormData?.form_scheme.form_groups.map((formGroup) => {
-              return <FormPDFGroup key={formGroup.id} formGroup={formGroup} />;
-            })}
+            <View>
+              {userFormData?.form_scheme.form_groups.map((formGroup) => {
+                return (
+                  <FormPDFGroup key={formGroup.id} formGroup={formGroup} />
+                );
+              })}
+            </View>
             <Text
               style={styles.pageNumber}
               render={({ pageNumber, totalPages }) =>
@@ -158,7 +159,13 @@ const SalesFormPDF = () => {
               }
               fixed
             />
-            <View>
+            <View
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               {signatureLink !== "" && (
                 <Image
                   style={styles.image}

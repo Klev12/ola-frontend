@@ -7,7 +7,7 @@ export default class RecursiveMapCollaborator {
   static map(collaborator: Collaborator, mapperFn: MapperFn): TreeNode {
     const newTreeNode = mapperFn(collaborator);
 
-    for (let element of collaborator.user.collaborators || []) {
+    for (const element of collaborator.user.collaborators || []) {
       newTreeNode.children?.push(this.map(element, mapperFn));
     }
 

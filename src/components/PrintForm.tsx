@@ -77,11 +77,11 @@ const PrintForm = ({
       return;
     }
     setIsFormEditable(true);
-  }, [setIsFormEditable]);
+  }, [normalMode, setIsFormEditable]);
 
   return (
     <ScrollPanel>
-      <Toast ref={toast} /> {/* Añade el Toast aquí */}
+      <Toast ref={toast} />
       <h2>
         {form?.form_scheme?.label}: {user?.fullname}.
       </h2>

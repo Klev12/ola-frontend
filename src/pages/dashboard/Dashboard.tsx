@@ -34,7 +34,7 @@ const Dashboard = () => {
     if (user?.role == Roles.sales) {
       navigate(ROUTES.DASHBOARD.COLLABORATORS);
     }
-  }, [user]);
+  }, [navigate, user]);
 
   const items: MenuItem[] = [
     {

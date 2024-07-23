@@ -23,6 +23,7 @@ import ThirdCustom from "../form-pdf/fonts/Roboto-Bold.ttf";
 import FontRobotoLight from "../form-pdf/fonts/Roboto-Light.ttf";
 import FormPDFContract from "./components/FormPDFContract";
 import FormPDFTermAndConditions from "./components/FormPDFTermAndConditions";
+import { Header } from "./components/Header";
 
 Font.register({
   family: "PlayfairDisplayFamily",
@@ -132,6 +133,7 @@ const FormPDF = () => {
           cardFrontLink={cardFrontLink}
         >
           <Page size="A4" style={styles.page}>
+            <Header />
             <Text style={styles.firstTitle}>
               FORMULARIO DE INGRESO DE PERSONAL
             </Text>

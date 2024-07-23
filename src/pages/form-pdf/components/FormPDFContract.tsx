@@ -1,8 +1,14 @@
-import { Page, StyleSheet, Text } from "@react-pdf/renderer";
+import { Font, Page, StyleSheet, Text } from "@react-pdf/renderer";
 import Signature from "./Signature";
 import { ContractGetDto } from "../../../models/contract";
 import { useContext } from "react";
 import { FormPdfContext } from "./FormPDFContext";
+import FontRobotoLight from "../fonts/Roboto-Light.ttf";
+
+Font.register({
+  family: "RobotoLightFamily",
+  src: FontRobotoLight,
+});
 
 const styles = StyleSheet.create({
   page: {
@@ -10,18 +16,9 @@ const styles = StyleSheet.create({
     paddingBottom: 65,
     paddingHorizontal: 35,
   },
-  formGroup: {
-    gap: "10px",
-    fontSize: "19px",
-  },
   firstTitle: {
     padding: "20px",
     marginLeft: "50px",
-  },
-  title: {
-    fontWeight: "black",
-    fontSize: "25px",
-    fontFamily: "PlayfairDisplayFamily",
   },
   pageNumber: {
     position: "absolute",
@@ -31,6 +28,10 @@ const styles = StyleSheet.create({
     right: 0,
     textAlign: "center",
     color: "grey",
+  },
+  text: {
+    fontFamily: "RobotoLightFamily",
+    fontSize: "20px",
   },
 });
 
@@ -45,7 +46,7 @@ const FormPDFContract = ({ contract }: FormPDFContractProps) => {
     <Page size="A4" style={styles.page}>
       <Text style={styles.firstTitle}>{contract?.title}</Text>
 
-      <Text>
+      <Text style={styles.text}>
         {`Yo ${names} ${lastNames} estoy de acuerdo con el siguiente contrato: `}
         {contract?.description}
       </Text>

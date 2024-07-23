@@ -1,11 +1,19 @@
-import { StyleSheet, Text, View } from "@react-pdf/renderer";
+import { Font, StyleSheet, Text, View } from "@react-pdf/renderer";
 import { Result } from "../../../models/result";
 import { ReactNode } from "react";
 import Signature from "./Signature";
+import ThirdCustom from "../fonts/Roboto-Light.ttf";
+
+Font.register({
+  family: "RobotoLightFamily",
+  src: ThirdCustom,
+});
 
 const styles = StyleSheet.create({
   result: {
-    margin: 12,
+    display: "flex",
+    flexDirection: "row",
+    margin: 15,
     textAlign: "justify",
     fontSize: "18px",
     fontFamily: "RobotoLightFamily",

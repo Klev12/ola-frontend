@@ -2,19 +2,17 @@ import React, { useRef, useState } from "react";
 import { FileUpload, FileUploadHandlerEvent } from "primereact/fileupload";
 import { ENV } from "../../consts/const";
 import { Button } from "primereact/button";
-import useGlobalState from "../../store/store";
-import { useMutation, useQuery } from "react-query";
-import { verifyForm } from "../../services/forms-service";
-import { authenticate, verifyUser } from "../../services/auth-service";
+import { useQuery } from "react-query";
+import { authenticate } from "../../services/auth-service";
 import { Navigate, useNavigate } from "react-router";
 import { Divider } from "primereact/divider";
 import { Toast } from "primereact/toast";
-import { sendVerifyUserNotification } from "../../services/notification-service";
 import ROUTES from "../../consts/routes";
+
+type Severity = "error" | "success" | "info" | "warn";
 
 const Documents: React.FC = () => {
   const navigate = useNavigate();
-  const userFormId = useGlobalState((state) => state.userFormId);
   const toast = useRef<Toast>(null);
   const fileUploadRef1 = useRef<FileUpload>(null);
   const fileUploadRef2 = useRef<FileUpload>(null);
@@ -26,30 +24,7 @@ const Documents: React.FC = () => {
     queryFn: () => authenticate().then((res) => res.data),
   });
 
-  const { mutate: sendVerifyUserNotificationMutate } = useMutation(
-    sendVerifyUserNotification
-  );
-
-  const { mutate: verifyUserMutate } = useMutation(verifyUser, {
-    onSuccess: () => {},
-  });
-
-  const { mutate: verifyFormMutate } = useMutation(verifyForm, {
-    onSuccess: () => {
-      verifyUserMutate();
-      showToast(
-        "success",
-        "Success",
-        "Se ha enviado correctamente las credenciales"
-      );
-    },
-  });
-
-  const submit = () => {
-    verifyUserMutate();
-  };
-
-  const showToast = (severity: string, summary: string, detail: string) => {
+  const showToast = (severity: Severity, summary: string, detail: string) => {
     toast.current?.show({ severity, summary, detail, life: 3000 });
   };
 

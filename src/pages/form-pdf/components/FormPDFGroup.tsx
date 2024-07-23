@@ -4,8 +4,9 @@ import FormPDFField from "./FormPDFField";
 
 const styles = StyleSheet.create({
   formGroup: {
+    marginTop: "5px",
     gap: "10px",
-    fontSize: "20px",
+    fontSize: "22px",
   },
   title: {
     fontWeight: "black",
