@@ -83,9 +83,9 @@ const PrintForm = ({
     <ScrollPanel>
       <Toast ref={toast} />
       <h2>
-        {form?.form_scheme?.label}: {user?.fullname}.
+        {form?.form_scheme?.label} {user?.fullname}.
       </h2>
-      <h2>Correo: {user?.email}.</h2>
+      <h2> {user?.email}</h2>
       <form
         onSubmit={(e) => {
           e.preventDefault();
