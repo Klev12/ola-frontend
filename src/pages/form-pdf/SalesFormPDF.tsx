@@ -1,11 +1,9 @@
-import { useMutation, useQuery } from "react-query";
+import {  useQuery } from "react-query";
 import { getFormById } from "../../services/forms-service";
 import { ENV } from "../../consts/const";
-import { findUserById } from "../../services/user-service";
 import useGlobalState from "../../store/store";
 import { useParams } from "react-router";
 import { useState } from "react";
-import { MultimediaType } from "../../models/user";
 import {
   Document,
   Font,
@@ -25,6 +23,7 @@ import FormPDFGroup from "./components/FormPDFGroup";
 import FormPDFContract from "./components/FormPDFContract";
 import FormPDFTermAndConditions from "./components/FormPDFTermAndConditions";
 import { Header } from "./components/Header";
+import { FileType } from "../../models/file";
 
 Font.register({
   family: "PlayfairDisplayFamily",
@@ -78,6 +77,7 @@ const SalesFormPDF = () => {
   const [signatureLink, setSignaturelink] = useState("");
   const [cardFrontLink, setCardFrontLink] = useState("");
   const [cardBackLink, setCardBackLink] = useState("");
+  const [photoLink, setPhotoLink] = useState("");
 
   const setUserFormNames = useGlobalState((state) => state.setUserFormNames);
   const setUserFormLastNames = useGlobalState(
@@ -86,21 +86,6 @@ const SalesFormPDF = () => {
 
   const userFormNames = useGlobalState((state) => state.userFormNames);
   const userFormLastNames = useGlobalState((state) => state.userFormLastNames);
-
-  const { mutate: findUserByIdMutate } = useMutation(findUserById, {
-    onSuccess: (userData) => {
-      const cardHashes = userData.data.user.multimedias.filter(
-        (file) => file.type == MultimediaType.cardId
-      );
-
-      setCardFrontLink(
-        `${ENV.BACKEND_ROUTE}/multimedia/${cardHashes?.[0]?.hash}`
-      );
-      setCardBackLink(
-        `${ENV.BACKEND_ROUTE}/multimedia/${cardHashes?.[1]?.hash}`
-      );
-    },
-  });
 
   const { data: userFormData } = useQuery({
     queryFn: () => getFormById(id as string).then((res) => res.data),
@@ -111,7 +96,6 @@ const SalesFormPDF = () => {
       const userFormData = userForm.form_scheme.form_groups.find(
         (formGroup) => formGroup.label === "Datos Personales del titular"
       );
-
       setUserFormNames(
         userFormData?.fields?.[0]?.results[0]?.response?.value as string
       );
@@ -119,11 +103,25 @@ const SalesFormPDF = () => {
         userFormData?.fields?.[1]?.results[0]?.response?.value as string
       );
 
-      findUserByIdMutate(userForm?.form?.user_id as number);
-
       setSignaturelink(
         `${ENV.BACKEND_ROUTE}/multimedia/${userForm?.form?.signature as string}`
       );
+
+      const cardLinks = userForm.form?.files?.filter(
+        (file) => file.type === FileType.cardId
+      );
+      const photoLink = userForm.form?.files?.find(
+        (file) => file.type === FileType.photo
+      );
+
+      setCardFrontLink(
+        `${ENV.BACKEND_ROUTE}/multimedia/${cardLinks?.[0]?.hash}`
+      );
+      setCardBackLink(
+        `${ENV.BACKEND_ROUTE}/multimedia/${cardLinks?.[1]?.hash}`
+      );
+
+      setPhotoLink(`${ENV.BACKEND_ROUTE}/multimedia/${photoLink?.hash}`);
     },
   });
 
@@ -141,6 +139,7 @@ const SalesFormPDF = () => {
           signatureLink={signatureLink}
           cardBackLink={cardBackLink}
           cardFrontLink={cardFrontLink}
+          photoLink={photoLink}
         >
           <Page size="A4" style={styles.page}>
             <View fixed>

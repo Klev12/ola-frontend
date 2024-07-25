@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 
 import "primeicons/primeicons.css";
 import { Button } from "primereact/button";
@@ -6,8 +6,11 @@ import { useMutation } from "react-query";
 import { saveFileImage } from "../../../services/file-service";
 import { useParams } from "react-router";
 import { FileType } from "../../../models/file";
+import { SalesFormContext } from "./WrapperSalesForm";
 
 export const Camera = () => {
+  const { hashMode, form } = useContext(SalesFormContext);
+
   const { hash } = useParams();
   const { mutate: saveFileImageMutate } = useMutation(saveFileImage);
 
@@ -42,6 +45,8 @@ export const Camera = () => {
           fileUrl: imageUrl,
           hash: hash as string,
           type: FileType.photo,
+          formId: form?.form?.id,
+          hashMode: hashMode as boolean,
         });
       }
     }

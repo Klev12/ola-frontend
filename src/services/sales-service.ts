@@ -11,3 +11,7 @@ export function getAllSales() {
 export function verifySalesForm(hash: string) {
   return axios.get(`${ENV.BACKEND_ROUTE}/forms/verify-sales-form/${hash}`);
 }
+
+export function verifySalesFormByFormId(formId: number) {
+  return axios.post(`${ENV.BACKEND_ROUTE}/forms/verify-sales-form`, { formId });
+}

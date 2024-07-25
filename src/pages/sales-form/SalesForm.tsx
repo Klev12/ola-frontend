@@ -16,6 +16,7 @@ import UploadCards from "./components/UploadCards";
 import ROUTES from "../../consts/routes";
 import { SalesFormContext } from "./components/WrapperSalesForm";
 import PaymentOptions from "./components/PaymentOptions";
+import { verifySalesFormByFormId } from "../../services/sales-service";
 
 const SalesForm = () => {
   const { hash } = useParams();
@@ -33,6 +34,11 @@ const SalesForm = () => {
 
   const navigate = useNavigate();
 
+  const { mutate: verifySalesFormByFormIdMutate } = useMutation(
+    verifySalesFormByFormId,
+    { onSuccess: () => {} }
+  );
+
   const { mutate: submitFormByHashMutate, isLoading: isFormLoading } =
     useMutation(submitFormByHash, {
       onSuccess: () => {
@@ -42,7 +48,9 @@ const SalesForm = () => {
     });
 
   const { mutate: submitFormMutate } = useMutation(submitForm, {
-    onSuccess: () => {},
+    onSuccess: () => {
+      verifySalesFormByFormIdMutate(formData?.form?.id as number);
+    },
   });
 
   const [isSignatureReady, setIsSignatureReady] = useState(false);
@@ -98,15 +106,27 @@ const SalesForm = () => {
               }}
               loading={isFormLoading}
               disabled={!!errorMessage || isFormSubmitted || !isSignatureReady}
-              label="Siguiente"
+              label="Subir"
               type="submit"
             />
+            {!hashMode && (
+              <Button
+                type="button"
+                label="Ver pdf"
+                onClick={() => {
+                  navigate(ROUTES.SALES.PDF_ID(Number(formData?.form?.id)));
+                }}
+              />
+            )}
           </PrintForm>
           <>
             {!errorMessage && (
               <>
                 <SelectContractType formId={formData?.form?.id as number} />
-                <PaymentOptions payment={formData?.form?.payment} />
+                <PaymentOptions
+                  payment={formData?.form?.payment}
+                  formId={formData?.form?.id as number}
+                />
                 {!errorMessage && (
                   <ClientSignature
                     hash={hash as string}

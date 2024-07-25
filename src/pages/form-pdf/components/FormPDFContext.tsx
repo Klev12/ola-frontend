@@ -6,6 +6,7 @@ interface FormPDFContextProps {
   signatureLink: string;
   cardFrontLink: string;
   cardBackLink: string;
+  photoLink: string;
 }
 
 export const FormPdfContext = createContext<FormPDFContextProps>({
@@ -14,6 +15,7 @@ export const FormPdfContext = createContext<FormPDFContextProps>({
   signatureLink: "",
   cardFrontLink: "",
   cardBackLink: "",
+  photoLink: "",
 });
 
 interface FormPDFProviderProps extends FormPDFContextProps {
@@ -27,10 +29,18 @@ const FormPDFProvider = ({
   signatureLink,
   cardBackLink,
   cardFrontLink,
+  photoLink,
 }: FormPDFProviderProps) => {
   return (
     <FormPdfContext.Provider
-      value={{ lastNames, names, signatureLink, cardFrontLink, cardBackLink }}
+      value={{
+        lastNames,
+        names,
+        signatureLink,
+        cardFrontLink,
+        cardBackLink,
+        photoLink,
+      }}
     >
       {children}
     </FormPdfContext.Provider>

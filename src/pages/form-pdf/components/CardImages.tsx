@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 });
 
 const CardImages = () => {
-  const { cardBackLink, cardFrontLink } = useContext(FormPdfContext);
+  const { cardBackLink, cardFrontLink, photoLink } = useContext(FormPdfContext);
 
   return (
     <View style={styles.imageContainer}>
@@ -40,6 +40,12 @@ const CardImages = () => {
             headers: {},
             body: "",
           }}
+        />
+      )}
+      {photoLink !== "" && (
+        <Image
+          style={styles.image}
+          source={{ uri: photoLink, method: "GET", headers: {}, body: "" }}
         />
       )}
     </View>

@@ -8,3 +8,10 @@ export interface PaymentGetDto {
   month_value: number;
   remaining_total: number;
 }
+
+export interface PaymentPostDto {
+  formId: number;
+  total: number;
+  suscription: number;
+  numberFees: number;
+}

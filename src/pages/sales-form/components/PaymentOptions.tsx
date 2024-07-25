@@ -5,12 +5,17 @@ import { useEffect, useState } from "react";
 import { Dropdown } from "primereact/dropdown";
 import { InputNumber } from "primereact/inputnumber";
 import { Button } from "primereact/button";
+import { useMutation } from "react-query";
+import { createPayment } from "../../../services/payment-service";
 
 interface PaymentOptionsProps {
   payment?: PaymentGetDto;
+  formId?: number;
 }
 
-const PaymentOptions = ({ payment }: PaymentOptionsProps) => {
+const PaymentOptions = ({ payment, formId }: PaymentOptionsProps) => {
+  const { mutate: createPaymentMutate } = useMutation(createPayment);
+  console.log(payment);
   const [total, setTotal] = useState<number | undefined>(payment?.total);
   const [subscriptionValue, setSubscriptionValue] = useState<
     number | undefined
@@ -44,6 +49,16 @@ const PaymentOptions = ({ payment }: PaymentOptionsProps) => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          const form = Object.fromEntries(
+            new FormData(e.target as HTMLFormElement)
+          );
+          console.log(form);
+          createPaymentMutate({
+            formId: formId as number,
+            numberFees: numberFees,
+            suscription: subscriptionValue || 0,
+            total: total || 0,
+          });
         }}
         style={{ width: "200px" }}
       >
@@ -55,6 +70,7 @@ const PaymentOptions = ({ payment }: PaymentOptionsProps) => {
           onChange={(e) => {
             setTotal(e.value || 0);
           }}
+          name="total"
         />
         <label htmlFor="">Valor suscripción:</label>
         <InputNumber
@@ -64,6 +80,7 @@ const PaymentOptions = ({ payment }: PaymentOptionsProps) => {
           onChange={(e) => {
             setSubscriptionValue(e.value || 0);
           }}
+          name="suscription"
           value={subscriptionValue}
         />
         <label htmlFor="">Número de cuotas:</label>
@@ -111,6 +128,7 @@ const PaymentOptions = ({ payment }: PaymentOptionsProps) => {
             console.log(e.value);
             setNumberFees(e.value);
           }}
+          name="numberFees"
         />
 
         <label htmlFor="">Saldo mensual:</label>
@@ -123,7 +141,7 @@ const PaymentOptions = ({ payment }: PaymentOptionsProps) => {
 
         <label htmlFor="">Total restante:</label>
         <InputText value={String(remainingTotal)} keyfilter={"num"} disabled />
-        <Button type="button" label="Pagar" />
+        <Button type="submit" label="Generar pago" />
       </form>
     </Card>
   );
