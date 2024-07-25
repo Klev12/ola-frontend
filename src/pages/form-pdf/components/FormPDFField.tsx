@@ -18,10 +18,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 5,
+    paddingTop: 30,
   },
   label: {
     fontSize: 20,
-    color: "#333",
   },
   resultsContainer: {
     display: "flex",

@@ -1,10 +1,11 @@
-import { Font, Page, StyleSheet, Text } from "@react-pdf/renderer";
+import { Font, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import Signature from "./Signature";
 import { TermAndConditionsGetDto } from "../../../models/term-and-conditions";
 import { useContext } from "react";
 import { FormPdfContext } from "./FormPDFContext";
 import CardImages from "./CardImages";
 import FontRobotoLight from "../fonts/Roboto-Light.ttf";
+import { Header } from "./Header";
 
 Font.register({
   family: "RobotoLightFamily",
@@ -49,8 +50,10 @@ const FormPDFTermAndConditions = ({
 
   return (
     <Page size="A4" style={styles.page}>
+      <View>
+        <Header />
+      </View>
       <Text style={styles.firstTitle}>Términos y condiciones</Text>
-
       <Text style={styles.text}>
         {`Yo ${names} ${lastNames} estoy de acuerdo con los siguientes términos y condiciones: `}
         {termAndConditions?.description}

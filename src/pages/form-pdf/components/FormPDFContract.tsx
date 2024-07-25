@@ -1,9 +1,10 @@
-import { Font, Page, StyleSheet, Text } from "@react-pdf/renderer";
+import { Font, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import Signature from "./Signature";
 import { ContractGetDto } from "../../../models/contract";
 import { useContext } from "react";
 import { FormPdfContext } from "./FormPDFContext";
 import FontRobotoLight from "../fonts/Roboto-Light.ttf";
+import { Header } from "./Header";
 
 Font.register({
   family: "RobotoLightFamily",
@@ -44,6 +45,9 @@ const FormPDFContract = ({ contract }: FormPDFContractProps) => {
 
   return (
     <Page size="A4" style={styles.page}>
+      <View>
+        <Header />
+      </View>
       <Text style={styles.firstTitle}>{contract?.title}</Text>
 
       <Text style={styles.text}>

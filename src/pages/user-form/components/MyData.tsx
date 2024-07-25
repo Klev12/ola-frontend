@@ -3,7 +3,7 @@ import { Divider } from "primereact/divider";
 import { FloatLabel } from "primereact/floatlabel";
 import { InputText } from "primereact/inputtext";
 import { useQuery } from "react-query";
-import { authenticate } from "../../../services/user-service";
+import { authenticate } from "../../../services/auth-service";
 
 const MyData = () => {
   const { data: userData } = useQuery({

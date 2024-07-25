@@ -28,6 +28,7 @@ const Signup: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
 
   const { mutate: mutateSignup } = useMutation(signup, {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
       if (error.response?.data?.message) {
         setErrorMessage(error.response.data.message);
@@ -38,6 +39,7 @@ const Signup: React.FC = () => {
   });
 
   const { mutate: signupCollaboratorMutate } = useMutation(signupCollaborator, {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
       if (error.response?.data?.message) {
         setErrorMessage(error.response.data.message);

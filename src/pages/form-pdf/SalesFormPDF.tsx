@@ -143,7 +143,9 @@ const SalesFormPDF = () => {
           cardFrontLink={cardFrontLink}
         >
           <Page size="A4" style={styles.page}>
-            <Header />
+            <View fixed>
+              <Header />
+            </View>
             <Text style={styles.firstTitle}>FORMULARIO DE VENTAS</Text>
             <View>
               {userFormData?.form_scheme.form_groups.map((formGroup) => {

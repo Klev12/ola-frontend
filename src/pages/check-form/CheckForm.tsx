@@ -26,6 +26,7 @@ const CheckForm = () => {
           console.log(data);
           submitFormMutate(data);
         }}
+        refetchUser={() => {}}
       />
       <div className="images">
         {formData?.form?.files?.map((file) => {

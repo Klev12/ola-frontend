@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { FileUpload, FileUploadHandlerEvent } from "primereact/fileupload";
+import { FileUpload, FileUploadErrorEvent } from "primereact/fileupload";
 import { ENV } from "../../consts/const";
 import { Button } from "primereact/button";
 import { useQuery } from "react-query";
@@ -28,24 +28,24 @@ const Documents: React.FC = () => {
     toast.current?.show({ severity, summary, detail, life: 3000 });
   };
 
-  const beforeUploadImages = (event: FileUploadHandlerEvent) => {
-    if (event.files.length < 2) {
-      showToast("error", "Error", "Debe subir dos imágenes.");
-      event.options.clear();
-      return false;
-    }
-    return true;
-  };
+  // const beforeUploadImages = (event: FileUploadHandlerEvent) => {
+  //   if (event.files.length < 2) {
+  //     showToast("error", "Error", "Debe subir dos imágenes.");
+  //     event.options.clear();
+  //     return false;
+  //   }
+  //   return true;
+  // };
 
-  const beforeUploadVideo = (event: FileUploadHandlerEvent) => {
-    const file = event.files[0];
-    if (file.size > 50 * 1024 * 1024) {
-      showToast("error", "Error", "El video no debe exceder los 50MB.");
-      event.options.clear();
-      return false;
-    }
-    return true;
-  };
+  // const beforeUploadVideo = (event: FileUploadHandlerEvent) => {
+  //   const file = event.files[0];
+  //   if (file.size > 50 * 1024 * 1024) {
+  //     showToast("error", "Error", "El video no debe exceder los 50MB.");
+  //     event.options.clear();
+  //     return false;
+  //   }
+  //   return true;
+  // };
 
   const onUploadSuccessImages = () => {
     setImagesUploaded(true);
@@ -57,7 +57,7 @@ const Documents: React.FC = () => {
     showToast("success", "Success", "Video subido correctamente.");
   };
 
-  const onUploadError = (event: any) => {
+  const onUploadError = (event: FileUploadErrorEvent) => {
     const errorMessage = event.xhr?.responseText
       ? JSON.parse(event.xhr.responseText).error.message
       : "Error desconocido.";
@@ -95,7 +95,6 @@ const Documents: React.FC = () => {
         cancelOptions={{ style: { display: "none" } }}
         cancelLabel="Cancelar"
         url={`${ENV.BACKEND_ROUTE}/multimedia/user-card`}
-        beforeUpload={beforeUploadImages}
         onUpload={onUploadSuccessImages}
         onError={onUploadError}
       />
@@ -122,7 +121,6 @@ const Documents: React.FC = () => {
         name="video"
         withCredentials={true}
         url={`${ENV.BACKEND_ROUTE}/multimedia/video`}
-        beforeUpload={beforeUploadVideo}
         onUpload={onUploadSuccessVideo}
         onError={onUploadError}
       />

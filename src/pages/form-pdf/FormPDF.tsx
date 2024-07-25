@@ -45,17 +45,13 @@ Font.register({
   src: FontRobotoLight,
 });
 const styles = StyleSheet.create({
-  page: { paddingTop: 35, paddingBottom: 65, paddingHorizontal: 35 },
+  page: { paddingTop: 20, paddingBottom: 35, paddingHorizontal: 35 },
   firstTitle: {
     padding: "20px",
     marginLeft: "50px",
     fontFamily: "RobotoBoldFamily",
   },
-  title: {
-    fontWeight: "black",
-    fontSize: "25px",
-    fontFamily: "RobotoBoldFamily ",
-  },
+
   pageNumber: {
     position: "absolute",
     fontSize: 12,
@@ -133,7 +129,10 @@ const FormPDF = () => {
           cardFrontLink={cardFrontLink}
         >
           <Page size="A4" style={styles.page}>
-            <Header />
+            <View fixed>
+              <Header />
+            </View>
+
             <Text style={styles.firstTitle}>
               FORMULARIO DE INGRESO DE PERSONAL
             </Text>
