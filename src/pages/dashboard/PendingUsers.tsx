@@ -9,7 +9,7 @@ import { Button } from "primereact/button";
 
 const PendingUsers = () => {
   const { data, refetch } = useQuery({
-    queryFn: () => getAllUsers(false),
+    queryFn: () => getAllUsers({ access: false }),
     queryKey: ["peding-users"],
     refetchOnMount: true,
     refetchInterval: 20000,

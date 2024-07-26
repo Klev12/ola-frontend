@@ -3,9 +3,17 @@ import axios from "../interceptors/axios-interceptor";
 import { NotificationGetDto } from "../models/notification";
 import { Roles, UserGetDto } from "../models/user";
 
-export function getAllUsers(access: boolean = true) {
-  return axios.get<{ users: UserGetDto[] }>(
-    `${ENV.BACKEND_ROUTE}/users?access=${access}`
+export function getAllUsers({
+  access = true,
+  page = 1,
+  limit = 10,
+}: {
+  access: boolean;
+  page?: number;
+  limit?: number;
+}) {
+  return axios.get<{ count: number; users: UserGetDto[] }>(
+    `${ENV.BACKEND_ROUTE}/users?access=${access}&&page=${page}&&limit=${limit}`
   );
 }
 

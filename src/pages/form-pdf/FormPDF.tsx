@@ -122,6 +122,7 @@ const FormPDF = () => {
     >
       <Document>
         <FormPDFProvider
+          photoLink=""
           lastNames={userFormLastNames as string}
           names={userFormNames as string}
           signatureLink={signatureLink}

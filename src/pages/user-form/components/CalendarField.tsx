@@ -2,7 +2,6 @@ import { Calendar } from "primereact/calendar";
 import { Field } from "../../../models/form-scheme";
 import { useState } from "react";
 import { Nullable } from "primereact/ts-helpers";
-import useGlobalState from "../../../store/store";
 
 interface CalendarFieldProps {
   field: Field;
@@ -12,8 +11,6 @@ const CalendarField = ({ field }: CalendarFieldProps) => {
   const [date, setDate] = useState<Nullable<Date>>(() => {
     return new Date();
   });
-
-  const isFormEditable = useGlobalState((state) => state.isFormEditable);
 
   return (
     <>

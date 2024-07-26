@@ -9,6 +9,7 @@ import {
 import { UserFormGetDto } from "../models/user-form";
 import { dataURLToBlob } from "./document-service";
 import { PaymentGetDto } from "../models/payment";
+import { PaginationOptions } from "../models/pagination-options";
 
 export function createForm(form: FormPostDto) {
   return axios.post(`${ENV.BACKEND_ROUTE}/forms`, form);
@@ -34,8 +35,10 @@ export function getAllForms() {
   return axios.get<{ forms: FormGetDto[] }>(`${ENV.BACKEND_ROUTE}/forms/all`);
 }
 
-export function getMyForms() {
-  return axios.get<{ forms: FormGetDto[] }>(`${ENV.BACKEND_ROUTE}/forms`);
+export function getMyForms({ page = 1, limit = 10 }: PaginationOptions) {
+  return axios.get<{ forms: FormGetDto[] }>(
+    `${ENV.BACKEND_ROUTE}/forms?page=${page}&&limit=${limit}`
+  );
 }
 
 export function getFormById(id: string | number) {

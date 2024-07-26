@@ -5,6 +5,7 @@ import { useState } from "react";
 import FormList from "./components/FormList";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
+import { Paginator } from "primereact/paginator";
 
 const MyForms = () => {
   const [loading, setLoading] = useState(false);
@@ -12,7 +13,7 @@ const MyForms = () => {
 
   const { data: formsData, refetch } = useQuery({
     queryFn: () =>
-      getMyForms().then((res) =>
+      getMyForms({}).then((res) =>
         res.data.forms.filter((form) => form.form_scheme_id === 1)
       ),
     queryKey: ["forms"],
@@ -39,6 +40,17 @@ const MyForms = () => {
   return (
     <div>
       <Toast ref={toast} />
+      <Paginator
+        style={{
+          position: "fixed",
+          right: 0,
+          bottom: 0,
+        }}
+        first={0}
+        rows={0}
+        totalRecords={100}
+        onPageChange={() => {}}
+      />
       <Button
         style={{ backgroundColor: "purple", border: "0", boxShadow: "none" }}
         icon="pi pi-plus"
