@@ -12,7 +12,9 @@ import { PaymentGetDto } from "../models/payment";
 import { PaginationOptions } from "../models/pagination-options";
 
 export function createForm(form: FormPostDto) {
-  return axios.post(`${ENV.BACKEND_ROUTE}/forms`, form);
+  return axios.post(`${ENV.BACKEND_ROUTE}/forms`, {
+    formSchemeId: form.form_scheme_id,
+  });
 }
 
 export function getPaymentForm(formId: number) {
@@ -46,11 +48,15 @@ export function getFormById(id: string | number) {
 }
 
 export function generateLink(form: GenerateLinkPostDto) {
-  return axios.post(`${ENV.BACKEND_ROUTE}/forms/generate-link`, form);
+  return axios.post(`${ENV.BACKEND_ROUTE}/forms/generate-link`, {
+    formId: form.id,
+  });
 }
 
 export function invalidateLink(form: GenerateLinkPostDto) {
-  return axios.post(`${ENV.BACKEND_ROUTE}/forms/invalidate-link`, form);
+  return axios.post(`${ENV.BACKEND_ROUTE}/forms/invalidate-link`, {
+    formId: form.id,
+  });
 }
 
 export function getUserForm() {
@@ -64,7 +70,7 @@ export function getUserFormByUserId(id: string | number) {
 }
 
 export function verifyForm(id: number) {
-  return axios.post(`${ENV.BACKEND_ROUTE}/forms/verify-form`, { id });
+  return axios.post(`${ENV.BACKEND_ROUTE}/forms/verify-form`, { formId: id });
 }
 
 export function generateFormByHash(hash: string) {

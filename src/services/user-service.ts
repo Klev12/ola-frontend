@@ -33,7 +33,7 @@ export function toggleAccessUser(access: boolean, userId: number) {
 export function changeRole(role: Roles, userId: number | string) {
   return axios.put(`${ENV.BACKEND_ROUTE}/users/change-role`, {
     role,
-    user_id: userId,
+    userId: userId,
   });
 }
 
