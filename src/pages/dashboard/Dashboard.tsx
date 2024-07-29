@@ -105,7 +105,7 @@ const Dashboard = () => {
   }, [user]);
 
   return (
-    <div>
+    <div style={{ height: "100vh", overflow: "hidden" }}>
       <div className="global-home-grid">
         <Menu
           className="nav"

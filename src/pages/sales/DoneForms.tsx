@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { Card } from "primereact/card";
 import ROUTES from "../../consts/routes";
 import { Button } from "primereact/button";
+import { Paginator } from "primereact/paginator";
 
 const DoneForms = () => {
   const { data: salesData } = useQuery({
@@ -15,6 +16,7 @@ const DoneForms = () => {
 
   return (
     <div>
+      <Paginator />
       {salesData?.forms?.length === 0 && <div>No hay ventas aún</div>}
       {salesData?.forms.map((form) => {
         return (

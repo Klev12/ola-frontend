@@ -3,36 +3,36 @@
     height: 100vh;
     display: grid;
     grid-template-columns: [nav-start] 200px [nav-end] 1fr [content-end];
-    grid-template-rows: [full-height-start] 1px [height-content-start] 1fr [full-height-end];
-
-
+    grid-template-rows: [full-height-start] 1fr [full-height-end];
+    overflow: hidden; /* Asegura que no haya desbordamiento innecesario */
 }
 
 .global-home-grid > .nav {
-    grid-row: height-content-start / full-height-end;
+    grid-row: full-height-start / full-height-end;
     grid-column: nav-start / nav-end;
-    overflow: hidden;
-
+    overflow-y: auto; /* Permite desplazamiento vertical si es necesario */
+    overflow-x: hidden; /* Oculta desplazamiento horizontal */
 }
 
 .global-home-grid > .content {
-    grid-row: height-content-start / full-height-end;
+    grid-row: full-height-start / full-height-end;
     grid-column: nav-end / content-end;
-    overflow: hidden;
+    overflow-y: auto; /* Permite desplazamiento vertical si es necesario */
+    overflow-x: hidden; /* Oculta desplazamiento horizontal */
     padding: 10px;
 }
 
 /* src/styles/home-styles.css */
 .home-container {
     background-image: url('../../../../src/assets/home.jpg');
-    background-size: cover; 
-    background-position: center; 
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
     width: 100vw;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white; 
-  }
-
+    color: white;
+    overflow: hidden; /* Asegura que no haya desbordamiento innecesario */
+}

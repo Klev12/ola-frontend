@@ -42,6 +42,7 @@ const MyForms = () => {
       <Toast ref={toast} />
       <Paginator
         style={{
+          backgroundColor: "purple",
           position: "fixed",
           right: 0,
           bottom: 0,

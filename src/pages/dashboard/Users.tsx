@@ -31,21 +31,6 @@ const Users = () => {
 
   return (
     <div>
-      <Paginator
-        first={currentPage}
-        rows={rows}
-        totalRecords={userData?.data.count}
-        rowsPerPageOptions={[1, 5, 10, 20]}
-        onPageChange={(value) => {
-          setCurrentPage(value.first);
-          setRows(value.rows);
-          getAllUsersMutate({
-            access: true,
-            page: value.page + 1,
-            limit: value.rows,
-          });
-        }}
-      />
       {isLoadingUsers && <ProgressSpinner />}
       {userData?.data.users.map((user, index) => {
         return (
@@ -62,6 +47,22 @@ const Users = () => {
           </div>
         );
       })}
+
+      <Paginator
+        first={currentPage}
+        rows={rows}
+        totalRecords={userData?.data.count}
+        rowsPerPageOptions={[1, 5, 10, 20]}
+        onPageChange={(value) => {
+          setCurrentPage(value.first);
+          setRows(value.rows);
+          getAllUsersMutate({
+            access: true,
+            page: value.page + 1,
+            limit: value.rows,
+          });
+        }}
+      />
     </div>
   );
 };
