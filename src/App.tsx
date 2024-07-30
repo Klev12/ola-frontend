@@ -88,6 +88,7 @@ function App() {
             element={<WrapperSalesForm hashMode={false} />}
           >
             <Route path={ROUTES.SALES.FORM_EDITOR} element={<SalesForm />} />
+            <Route path={ROUTES.SALES.PAYMENT} element={<Payment />} />
           </Route>
 
           <Route path={ROUTES.TESTS.ME}>

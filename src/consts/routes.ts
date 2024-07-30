@@ -70,6 +70,12 @@ const ROUTES = {
     FORM_EDITOR_ID(id: number) {
       return `${this.ME}/form-editor/${id}`;
     },
+    get PAYMENT() {
+      return `${this.FORM_EDITOR}/payment`;
+    },
+    PAYMENT_FORM_ID(formId: number) {
+      return `${this.FORM_EDITOR_ID(formId)}/payment`;
+    },
   },
   BLOG: {
     ME: "/blog",

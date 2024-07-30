@@ -15,3 +15,10 @@ export interface PaymentPostDto {
   suscription: number;
   numberFees: number;
 }
+
+export interface PaymentPutDto {
+  paymentId: number;
+  total: number;
+  suscription: number;
+  numberFees: number;
+}

@@ -50,6 +50,7 @@ const SalesForm = () => {
   const { mutate: submitFormMutate } = useMutation(submitForm, {
     onSuccess: () => {
       verifySalesFormByFormIdMutate(formData?.form?.id as number);
+      navigate(ROUTES.SALES.PAYMENT_FORM_ID(formData?.form?.id as number));
     },
   });
 
@@ -76,7 +77,6 @@ const SalesForm = () => {
             disableButton={true}
             form={formData}
             onSubmit={(data) => {
-              console.log(data.results);
               if (!hashMode) {
                 submitFormMutate({ id: data.id, results: data.results });
                 return;
@@ -106,7 +106,7 @@ const SalesForm = () => {
               }}
               loading={isFormLoading}
               disabled={!!errorMessage || isFormSubmitted || !isSignatureReady}
-              label="Subir"
+              label="Siguiente"
               type="submit"
             />
             {!hashMode && (
