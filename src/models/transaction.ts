@@ -19,3 +19,13 @@ export enum TransactionStatus {
   cancelled,
   accepted,
 }
+
+export interface TransactionCardPostDto {
+  cardNumber: string;
+  holderName: string;
+  expirationMonth: string;
+  expirationYear: string;
+  securityCode: string;
+  email: string;
+  formId: number;
+}

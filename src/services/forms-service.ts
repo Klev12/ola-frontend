@@ -12,6 +12,7 @@ import { PaymentGetDto } from "../models/payment";
 import { PaginationOptions } from "../models/pagination-options";
 
 export function createForm(form: FormPostDto) {
+  console.log(form);
   return axios.post(`${ENV.BACKEND_ROUTE}/forms`, {
     formSchemeId: form.form_scheme_id,
   });

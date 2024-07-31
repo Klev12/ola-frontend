@@ -15,7 +15,6 @@ import { Camera } from "./components/Camera";
 import UploadCards from "./components/UploadCards";
 import ROUTES from "../../consts/routes";
 import { SalesFormContext } from "./components/WrapperSalesForm";
-import PaymentOptions from "./components/PaymentOptions";
 import { verifySalesFormByFormId } from "../../services/sales-service";
 
 const SalesForm = () => {
@@ -123,10 +122,6 @@ const SalesForm = () => {
             {!errorMessage && (
               <>
                 <SelectContractType formId={formData?.form?.id as number} />
-                <PaymentOptions
-                  payment={formData?.form?.payment}
-                  formId={formData?.form?.id as number}
-                />
                 {!errorMessage && (
                   <ClientSignature
                     hash={hash as string}

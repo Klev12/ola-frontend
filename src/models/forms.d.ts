@@ -2,6 +2,7 @@ import { ContractGetDto } from "./contract";
 import { FileGetDto } from "./file";
 import { PaymentGetDto } from "./payment";
 import { TermAndConditionsGetDto } from "./term-and-conditions";
+import { TransactionGetDto } from "./transaction";
 
 export interface FormsDto {}
 
@@ -25,6 +26,7 @@ export interface FormGetDto {
   term_and_condition: TermAndConditionsGetDto;
   files?: FileGetDto[];
   payment: PaymentGetDto;
+  transactions: TransactionGetDto[];
 }
 
 export interface GenerateLinkPostDto {

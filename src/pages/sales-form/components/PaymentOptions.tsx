@@ -1,7 +1,7 @@
 import { Card } from "primereact/card";
 import { PaymentGetDto } from "../../../models/payment";
 import { InputText } from "primereact/inputtext";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Dropdown } from "primereact/dropdown";
 import { InputNumber } from "primereact/inputnumber";
 import { Button } from "primereact/button";
@@ -11,6 +11,8 @@ import {
   updatePayment,
 } from "../../../services/payment-service";
 import { SalesFormContext } from "./WrapperSalesForm";
+import { Toast } from "primereact/toast";
+import { ProgressBar } from "primereact/progressbar";
 
 interface PaymentOptionsProps {
   payment?: PaymentGetDto;
@@ -18,6 +20,8 @@ interface PaymentOptionsProps {
 }
 
 const PaymentOptions = ({}: PaymentOptionsProps) => {
+  const toast = useRef<Toast>(null);
+
   const { form } = useContext(SalesFormContext);
   const [payment, setPayment] = useState(form?.form?.payment);
 
@@ -30,9 +34,26 @@ const PaymentOptions = ({}: PaymentOptionsProps) => {
     onSuccess: (response) => {
       setPayment(response.data.payment);
     },
+    onError: (data) => {
+      const message = (data as any)?.response?.data?.error?.message;
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: message,
+      });
+    },
   });
 
-  const { mutate: updatePaymentMutate } = useMutation(updatePayment);
+  const { mutate: updatePaymentMutate } = useMutation(updatePayment, {
+    onError: (data) => {
+      const message = (data as any)?.response?.data?.error?.message;
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: message,
+      });
+    },
+  });
 
   const [total, setTotal] = useState<number | undefined>(payment?.total);
   const [subscriptionValue, setSubscriptionValue] = useState<
@@ -71,7 +92,8 @@ const PaymentOptions = ({}: PaymentOptionsProps) => {
   }, [payment]);
 
   return (
-    <div style={{ width: "200px" }}>
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <Toast ref={toast} />
       <label htmlFor="">Total a pagar:</label>
       <InputNumber
         mode="decimal"

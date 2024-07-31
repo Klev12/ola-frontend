@@ -2,7 +2,14 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import useToggle from "../../../hooks/useToggle";
 import { InputMask } from "primereact/inputmask";
-import { FormEventHandler, useContext, useEffect, useState } from "react";
+import {
+  FormEventHandler,
+  ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { SalesFormContext } from "./WrapperSalesForm";
 import { useMutation, useQuery } from "react-query";
 import {
@@ -13,18 +20,39 @@ import {
   TransactionGetDto,
   TransactionStatus,
 } from "../../../models/transaction";
+import { ProgressBar } from "primereact/progressbar";
+import { Toast } from "primereact/toast";
+import { useNavigate } from "react-router";
+import ROUTES from "../../../consts/routes";
 
-const PayphonePay = () => {
+interface PayphonePayProps {
+  children?: ReactNode;
+  disableButton?: boolean;
+}
+
+const PayphonePay = ({ children, disableButton }: PayphonePayProps) => {
+  const toast = useRef<Toast>(null);
+
   const { form } = useContext(SalesFormContext);
 
-  const { value, toggle } = useToggle(false);
+  const { value, toggle, setFalse } = useToggle(false);
   const [checkingStatus, setCheckStatus] = useState(false);
   const [currentTransaction, setCurrentTransaction] = useState<
     TransactionGetDto | undefined
   >(undefined);
   const [startCheckingStatus, setStartCheckingStatus] = useState(false);
+  const [acceptedTransaction, setAcceptedTransaction] = useState<
+    TransactionGetDto | undefined
+  >(undefined);
+  const transactionDialog = useToggle();
 
-  const { remove } = useQuery({
+  useEffect(() => {
+    if (!!acceptedTransaction) {
+      transactionDialog.setTrue();
+    }
+  }, [acceptedTransaction]);
+
+  const {} = useQuery({
     queryFn: () =>
       verifyStatusTransaction(currentTransaction?.transactionId as number).then(
         (res) => res.data
@@ -33,10 +61,20 @@ const PayphonePay = () => {
     enabled: startCheckingStatus,
     onSuccess: (data) => {
       if (data.transaction.statusCode === TransactionStatus.accepted) {
-        console.log("transaction was completed successfully");
         setStartCheckingStatus(false);
         setCheckStatus(false);
-        remove();
+        toast.current?.show({
+          severity: "success",
+          summary: "Transacción realizada",
+          detail: "La transacción se hizo con exito",
+        });
+        setFalse();
+        setAcceptedTransaction(data.transaction);
+      }
+
+      if (data.transaction.statusCode === TransactionStatus.cancelled) {
+        setStartCheckingStatus(false);
+        setCheckStatus(false);
       }
     },
   });
@@ -49,6 +87,16 @@ const PayphonePay = () => {
       const { transaction } = response.data;
       setCurrentTransaction(transaction);
       setStartCheckingStatus(true);
+    },
+    onError: (data) => {
+      const message = (data as any)?.response?.data?.message;
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: message,
+      });
+      setStartCheckingStatus(false);
+      setCheckStatus(false);
     },
   });
 
@@ -70,9 +118,35 @@ const PayphonePay = () => {
     });
   };
 
+  const navigate = useNavigate();
+
   return (
     <div>
-      <Button label="Pagar con payphone" onClick={() => toggle()} />
+      <Toast ref={toast} />
+      <Button
+        disabled={disableButton}
+        label="Pagar con payphone"
+        onClick={() => toggle()}
+      />
+      {children}
+      <Dialog
+        header="Transacción"
+        draggable={false}
+        visible={transactionDialog.value}
+        onHide={() => {
+          transactionDialog.toggle();
+          navigate(ROUTES.SALES.DONE_FORMS);
+        }}
+      >
+        <p>Monto: {(acceptedTransaction?.amount as number) / 100}$</p>
+        <p>Nombre de tienda: {acceptedTransaction?.storeName}</p>
+        <p>
+          Id de transacción del cliente:{" "}
+          {acceptedTransaction?.clientTransactionId}
+        </p>
+        <p>Id de transacción: {acceptedTransaction?.transactionId}</p>
+        <p>Estatus: aceptado</p>
+      </Dialog>
       <Dialog
         header="Pago con payphone"
         closable={!checkingStatus}
@@ -91,6 +165,7 @@ const PayphonePay = () => {
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             <label htmlFor="">Número de télefono: </label>
             <InputMask
+              required
               mask="9999999999"
               placeholder="0999999999"
               name="phoneNumber"
@@ -98,13 +173,27 @@ const PayphonePay = () => {
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             <label htmlFor="">Código país número de teléfono: </label>
-            <InputMask mask="+999" placeholder="+593" name="countryCode" />
+            <InputMask
+              required
+              mask="+999"
+              placeholder="+593"
+              name="countryCode"
+            />
           </div>
           <Button
             label="Pagar"
             disabled={checkingStatus}
             loading={checkingStatus}
           />
+          {checkingStatus && (
+            <>
+              <label htmlFor="">Verificando pago</label>
+              <ProgressBar
+                mode="indeterminate"
+                style={{ height: "6px" }}
+              ></ProgressBar>
+            </>
+          )}
         </form>
       </Dialog>
     </div>
