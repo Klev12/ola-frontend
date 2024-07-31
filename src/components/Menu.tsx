@@ -30,7 +30,6 @@ const roleBasedVisibility = {
     sales: false,
     blog: true,
     norms: true,
-    forms: true,
     tests: true,
   },
   [Roles.sales]: {
