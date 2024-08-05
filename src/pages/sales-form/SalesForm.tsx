@@ -15,7 +15,6 @@ import { Camera } from "./components/Camera";
 import UploadCards from "./components/UploadCards";
 import ROUTES from "../../consts/routes";
 import { SalesFormContext } from "./components/WrapperSalesForm";
-import { verifySalesFormByFormId } from "../../services/sales-service";
 
 const SalesForm = () => {
   const { hash } = useParams();
@@ -29,14 +28,7 @@ const SalesForm = () => {
     hashMode,
   } = useContext(SalesFormContext);
 
-  console.log(formData);
-
   const navigate = useNavigate();
-
-  const { mutate: verifySalesFormByFormIdMutate } = useMutation(
-    verifySalesFormByFormId,
-    { onSuccess: () => {} }
-  );
 
   const { mutate: submitFormByHashMutate, isLoading: isFormLoading } =
     useMutation(submitFormByHash, {
@@ -48,7 +40,6 @@ const SalesForm = () => {
 
   const { mutate: submitFormMutate } = useMutation(submitForm, {
     onSuccess: () => {
-      verifySalesFormByFormIdMutate(formData?.form?.id as number);
       navigate(ROUTES.SALES.PAYMENT_FORM_ID(formData?.form?.id as number));
     },
   });
@@ -75,6 +66,21 @@ const SalesForm = () => {
           <PrintForm
             disableButton={true}
             form={formData}
+            footer={
+              <>
+                {!errorMessage && (
+                  <>
+                    <SelectContractType formId={formData?.form?.id as number} />
+                    <TermsAndConditions
+                      termAndConditions={
+                        formData?.form
+                          ?.term_and_condition as TermAndConditionsGetDto
+                      }
+                    />
+                  </>
+                )}
+              </>
+            }
             onSubmit={(data) => {
               if (!hashMode) {
                 submitFormMutate({ id: data.id, results: data.results });
@@ -118,29 +124,16 @@ const SalesForm = () => {
               />
             )}
           </PrintForm>
-          <>
-            {!errorMessage && (
-              <>
-                <SelectContractType formId={formData?.form?.id as number} />
-                {!errorMessage && (
-                  <ClientSignature
-                    hash={hash as string}
-                    beforeOnSuccess={() => {
-                      setIsSignatureReady(true);
-                    }}
-                  />
-                )}
-                <TermsAndConditions
-                  termAndConditions={
-                    formData?.form
-                      ?.term_and_condition as TermAndConditionsGetDto
-                  }
-                />
-                <Camera />
-                <UploadCards />
-              </>
-            )}
-          </>
+          {!errorMessage && (
+            <ClientSignature
+              hash={hash as string}
+              beforeOnSuccess={() => {
+                setIsSignatureReady(true);
+              }}
+            />
+          )}
+          <Camera />
+          <UploadCards />
         </>
       </SalesProvider>
     </div>

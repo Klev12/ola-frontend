@@ -1,11 +1,14 @@
 export interface TransactionGetDto {
   id: number;
+  code?: string | null;
+  token: string;
   amount: number;
   clientTransactionId: string;
   transactionId: number;
   formId: number;
   storeName: string;
   statusCode: TransactionStatus;
+  createdAt: Date;
 }
 
 export interface TransactionPostDto {

@@ -23,3 +23,12 @@ export interface TeamUser {
   user_id?: number;
   team_id?: number;
 }
+export interface TeamPostDto {
+  name: string;
+  userId: number;
+}
+
+export interface TeamAssignUserDto {
+  userId: number;
+  teamId: number;
+}

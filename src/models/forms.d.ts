@@ -13,6 +13,7 @@ export interface FormPostDto {
 export interface FormGetDto {
   id: string | number;
   done: boolean;
+  code: string;
   hash: null | string;
   user_id: string | number;
   form_scheme_id: string | undefined | number;
@@ -27,6 +28,7 @@ export interface FormGetDto {
   files?: FileGetDto[];
   payment: PaymentGetDto;
   transactions: TransactionGetDto[];
+  block: boolean;
 }
 
 export interface GenerateLinkPostDto {
@@ -41,4 +43,5 @@ export interface HashExpirationTimePostDto {
 export interface FormContractUpdateDto {
   id: string | number;
   contract_id: string | number;
+  hash?: string;
 }

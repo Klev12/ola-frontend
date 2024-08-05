@@ -5,6 +5,7 @@ import { Card } from "primereact/card";
 import ROUTES from "../../consts/routes";
 import { Button } from "primereact/button";
 import { Paginator } from "primereact/paginator";
+import TransactionsList from "./components/TransactionsList";
 
 const DoneForms = () => {
   const { data: salesData } = useQuery({
@@ -41,6 +42,7 @@ const DoneForms = () => {
                 navigate(ROUTES.DASHBOARD.CHECK_FORM_ID(form.id));
               }}
             />
+            <TransactionsList form={form} transactions={form.transactions} />
           </Card>
         );
       })}

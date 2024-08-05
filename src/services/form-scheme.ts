@@ -10,7 +10,12 @@ export function getFormSchemeById(id: number | string) {
 }
 
 export function patchFormContract(form: FormContractUpdateDto) {
-  return axios.patch(`${ENV.BACKEND_ROUTE}/forms/contract`, {
+  let api = `${ENV.BACKEND_ROUTE}/forms/contract`;
+  if (form.hash) {
+    api += `/${form.hash}`;
+  }
+
+  return axios.patch(api, {
     formId: form.id,
     contractId: form.contract_id,
   });

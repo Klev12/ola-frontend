@@ -1,4 +1,6 @@
 import { ReactNode, createContext } from "react";
+import { PaymentGetDto } from "../../../models/payment";
+import { TransactionGetDto } from "../../../models/transaction";
 
 interface FormPDFContextProps {
   lastNames: string;
@@ -7,6 +9,8 @@ interface FormPDFContextProps {
   cardFrontLink: string;
   cardBackLink: string;
   photoLink: string;
+  payment?: PaymentGetDto;
+  transactions?: TransactionGetDto[];
 }
 
 export const FormPdfContext = createContext<FormPDFContextProps>({
@@ -16,6 +20,7 @@ export const FormPdfContext = createContext<FormPDFContextProps>({
   cardFrontLink: "",
   cardBackLink: "",
   photoLink: "",
+  transactions: [],
 });
 
 interface FormPDFProviderProps extends FormPDFContextProps {
@@ -30,6 +35,8 @@ const FormPDFProvider = ({
   cardBackLink,
   cardFrontLink,
   photoLink,
+  payment,
+  transactions,
 }: FormPDFProviderProps) => {
   return (
     <FormPdfContext.Provider
@@ -40,6 +47,8 @@ const FormPDFProvider = ({
         cardFrontLink,
         cardBackLink,
         photoLink,
+        payment,
+        transactions,
       }}
     >
       {children}

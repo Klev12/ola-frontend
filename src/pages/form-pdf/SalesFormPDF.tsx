@@ -1,4 +1,4 @@
-import {  useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { getFormById } from "../../services/forms-service";
 import { ENV } from "../../consts/const";
 import useGlobalState from "../../store/store";
@@ -24,6 +24,7 @@ import FormPDFContract from "./components/FormPDFContract";
 import FormPDFTermAndConditions from "./components/FormPDFTermAndConditions";
 import { Header } from "./components/Header";
 import { FileType } from "../../models/file";
+import PaymentPDF from "./components/PaymentPDF";
 
 Font.register({
   family: "PlayfairDisplayFamily",
@@ -140,6 +141,8 @@ const SalesFormPDF = () => {
           cardBackLink={cardBackLink}
           cardFrontLink={cardFrontLink}
           photoLink={photoLink}
+          payment={userFormData?.form?.payment}
+          transactions={userFormData?.form?.transactions}
         >
           <Page size="A4" style={styles.page}>
             <View fixed>
@@ -180,6 +183,7 @@ const SalesFormPDF = () => {
               )}
             </View>
           </Page>
+          <PaymentPDF />
           <FormPDFContract contract={userFormData?.form?.contract} />
           <FormPDFTermAndConditions
             termAndConditions={userFormData?.form?.term_and_condition}

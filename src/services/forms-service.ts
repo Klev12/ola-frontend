@@ -10,6 +10,7 @@ import { UserFormGetDto } from "../models/user-form";
 import { dataURLToBlob } from "./document-service";
 import { PaymentGetDto } from "../models/payment";
 import { PaginationOptions } from "../models/pagination-options";
+import { TransactionGetDto } from "../models/transaction";
 
 export function createForm(form: FormPostDto) {
   console.log(form);
@@ -81,7 +82,10 @@ export function generateFormByHash(hash: string) {
 }
 
 export function setLinkExpirationTime(data: HashExpirationTimePostDto) {
-  return axios.post(`${ENV.BACKEND_ROUTE}/forms/expire-time`, data);
+  return axios.post(`${ENV.BACKEND_ROUTE}/forms/expire-time`, {
+    expireHashTime: data.expire_hash_time,
+    formId: data.id,
+  });
 }
 
 export function deleteFormById(id: string | number) {
@@ -123,4 +127,10 @@ export function markFormToDone({
   return axios.patch(`${ENV.BACKEND_ROUTE}/forms/mark-to-done/${hash}`, {
     formId,
   });
+}
+
+export function getFormByToken({ token }: { token: string }) {
+  return axios.get<{ form: FormGetDto; transaction: TransactionGetDto }>(
+    `${ENV.BACKEND_ROUTE}/forms/token/${token}`
+  );
 }

@@ -69,7 +69,11 @@ const SelectContractType = ({ formId }: SelectContractTypeProps) => {
             options={contractOptions}
             onChange={(e) => {
               setSelectedContract(e.value);
-              patchFormContractMutate({ id: formId, contract_id: e.value });
+              patchFormContractMutate({
+                hash: form?.form?.hash as string,
+                id: formId,
+                contract_id: e.value,
+              });
               setFalse();
             }}
           />

@@ -15,6 +15,12 @@ const ROUTES = {
     get USERS() {
       return `${this.ME}/users`;
     },
+    get USER_TEAMS() {
+      return `${this.USERS}/:id/teams`;
+    },
+    USER_TEAMS_ID(userId: string | number) {
+      return `${this.USERS}/${userId}/teams`;
+    },
     get NOTIFICATIONS() {
       return `${this.ME}/notifications`;
     },
@@ -64,6 +70,12 @@ const ROUTES = {
     TEAM_USERS_ID(id: string) {
       return `${this.TEAM}/${id}/users`;
     },
+    get TRANSACTIONS_USER() {
+      return `${this.TEAM_USERS}/:userId/transactions`;
+    },
+    TRANSACTIONS_USER_ID(teamId: number, userId: number) {
+      return `${this.TEAM_USERS_ID(String(teamId))}/${userId}/transactions`;
+    },
     get FORM_EDITOR() {
       return `${this.ME}/form-editor/:id`;
     },
@@ -75,6 +87,9 @@ const ROUTES = {
     },
     PAYMENT_FORM_ID(formId: number) {
       return `${this.FORM_EDITOR_ID(formId)}/payment`;
+    },
+    get COMMISSIONS() {
+      return `${this.ME}/commissions`;
     },
   },
   BLOG: {
@@ -133,6 +148,15 @@ const ROUTES = {
     },
     CONTRACT_TYPE() {
       return `${this.EDIT_FORM_ID}/contract-type`;
+    },
+  },
+  PAYPHONE: {
+    ME: "/payphone",
+    get LINK() {
+      return `${this.ME}/:token`;
+    },
+    LINK_TOKEN(token: string) {
+      return `${this.ME}/${token}`;
     },
   },
 };

@@ -7,11 +7,11 @@ export function saveFileImage({
   fileUrl,
   hash,
   type,
-  hashMode = true,
+
   formId,
 }: {
   fileUrl: string;
-  hash: string;
+  hash?: string;
   type: FileType;
   hashMode: boolean;
   formId?: string | number;
@@ -21,12 +21,9 @@ export function saveFileImage({
   formData.append("file", blob, "photo.png");
   formData.append("type", type);
 
-  if (!hashMode) {
+  if (!hash) {
     formData.append("formId", formId as string);
   }
 
-  return axios.post(
-    `${ENV.BACKEND_ROUTE}/files/${hashMode ? hash : ""}`,
-    formData
-  );
+  return axios.post(`${ENV.BACKEND_ROUTE}/files/${hash ? hash : ""}`, formData);
 }

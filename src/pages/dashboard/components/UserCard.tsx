@@ -2,13 +2,14 @@ import React, { useRef } from "react";
 import { Panel } from "primereact/panel";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { useMutation, useQuery } from "react-query";
 import ROUTES from "../../../consts/routes";
 import useGlobalState from "../../../store/store";
 import { Roles, UserGetDto } from "../../../models/user";
 import { changeRole, deleteUserById } from "../../../services/user-service";
+import { Tag } from "primereact/tag";
 
 interface UserCardProps {
   user: UserGetDto;
@@ -63,8 +64,29 @@ const UserCard: React.FC<UserCardProps> = ({
     });
   };
 
+  const navigate = useNavigate();
+
   return (
-    <Panel header={user.fullname} toggleable collapsed>
+    <Panel
+      header={
+        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+          <span>{user.fullname}</span>
+          {user.role === Roles.groupAdmin && (
+            <Tag
+              severity="info"
+              value="ver grupos"
+              onClick={() => {
+                navigate(ROUTES.DASHBOARD.USER_TEAMS_ID(user.id), {
+                  state: user,
+                });
+              }}
+            />
+          )}
+        </div>
+      }
+      toggleable
+      collapsed
+    >
       <Toast ref={toast} />
       <ConfirmDialog />
       {user.role !== Roles.admin &&

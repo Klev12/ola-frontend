@@ -12,18 +12,21 @@ const roleBasedVisibility = {
     mySales: true,
     team: false,
     history: false,
+    commissions: true,
   },
   [Roles.admin]: {
     generateSales: true,
     mySales: true,
     team: false,
     history: true,
+    commissions: true,
   },
   [Roles.groupAdmin]: {
-    generateSales: false,
-    mySales: false,
+    generateSales: true,
+    mySales: true,
     team: true,
-    history: false,
+    history: true,
+    commissions: true,
   },
 };
 
@@ -62,6 +65,14 @@ const Sales = () => {
       icon: "pi pi-history",
       command: () => {
         navigate(ROUTES.SALES.HISTORY);
+      },
+    },
+    {
+      id: "commissions",
+      label: "Comisiones",
+      icon: "pi pi-history",
+      command: () => {
+        navigate(ROUTES.SALES.COMMISSIONS);
       },
     },
   ];

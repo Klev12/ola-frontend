@@ -1,6 +1,7 @@
 import { ENV } from "../consts/const";
 import axios from "../interceptors/axios-interceptor";
 import { SalesGetDto } from "../models/sales";
+import { TransactionGetDto } from "../models/transaction";
 
 export function getAllSales() {
   return axios.get<{ forms: SalesGetDto[] }>(
@@ -12,6 +13,15 @@ export function verifySalesForm(hash: string) {
   return axios.get(`${ENV.BACKEND_ROUTE}/forms/verify-sales-form/${hash}`);
 }
 
-export function verifySalesFormByFormId(formId: number) {
-  return axios.post(`${ENV.BACKEND_ROUTE}/forms/verify-sales-form`, { formId });
+export function verifySalesFormByFormId({
+  formId,
+  hash,
+}: {
+  formId: number;
+  hash?: string;
+}) {
+  return axios.post<{ transaction: TransactionGetDto }>(
+    `${ENV.BACKEND_ROUTE}/forms/verify-sales-form/${hash ? hash : ""}`,
+    { formId }
+  );
 }

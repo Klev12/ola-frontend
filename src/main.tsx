@@ -11,13 +11,11 @@ import { QueryClient, QueryClientProvider } from "react-query";
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <PrimeReactProvider>
-        <QueryClientProvider client={queryClient}>
-          <App />
-        </QueryClientProvider>
-      </PrimeReactProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+  <BrowserRouter>
+    <PrimeReactProvider>
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
+    </PrimeReactProvider>
+  </BrowserRouter>
 );

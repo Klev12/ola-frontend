@@ -37,11 +37,21 @@ import WrapperSalesForm from "./pages/sales-form/components/WrapperSalesForm";
 import PendingUsers from "./pages/dashboard/PendingUsers";
 import Team from "./pages/sales/Team";
 import TeamUsers from "./pages/sales/TeamUsers";
+import Payphonelink from "./pages/sales-form/Payphonelink";
+import PaymentTransaction from "./pages/sales-form/PaymentTransaction";
+import UserTeam from "./pages/dashboard/UserTeam";
+import UserTransactions from "./pages/sales/UserTransactions";
+import Commission from "./pages/sales/Commission";
 
 function App() {
   return (
     <>
       <Routes>
+        <Route
+          path={ROUTES.PAYPHONE.ME}
+          element={<PaymentTransaction />}
+        ></Route>
+        <Route path={ROUTES.PAYPHONE.LINK} element={<Payphonelink />}></Route>
         <Route
           path=""
           element={
@@ -59,6 +69,7 @@ function App() {
           />
 
           <Route path={ROUTES.DASHBOARD.ME} element={<Dashboard />}>
+            <Route path={ROUTES.DASHBOARD.USER_TEAMS} element={<UserTeam />} />
             <Route
               path={ROUTES.DASHBOARD.NOTIFICATIONS}
               element={<Notifications />}
@@ -80,8 +91,14 @@ function App() {
             <Route path={ROUTES.SALES.DONE_FORMS} element={<DoneForms />} />
             <Route path={ROUTES.SALES.HISTORY} element={<History />}></Route>
             <Route path={ROUTES.SALES.TEAM} element={<Team />}>
-              <Route path={ROUTES.SALES.TEAM_USERS} element={<TeamUsers />} />
+              <Route path={ROUTES.SALES.TEAM_USERS} element={<TeamUsers />}>
+                <Route
+                  path={ROUTES.SALES.TRANSACTIONS_USER}
+                  element={<UserTransactions />}
+                ></Route>
+              </Route>
             </Route>
+            <Route path={ROUTES.SALES.COMMISSIONS} element={<Commission />} />
           </Route>
           <Route
             path={ROUTES.SALES.FORM_EDITOR}

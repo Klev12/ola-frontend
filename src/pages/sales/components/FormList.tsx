@@ -17,6 +17,9 @@ import {
 } from "../../../services/forms-service";
 
 import "primeicons/primeicons.css";
+import TransactionsList from "./TransactionsList";
+import useToggle from "../../../hooks/useToggle";
+import PaymentDataForm from "./PaymentDataForm";
 
 interface FormListProps {
   forms: FormGetDto[];
@@ -45,7 +48,7 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
   );
 
   const { mutate: generateLinkMutate } = useMutation(generateLink, {
-    onSettled: () => {
+    onSuccess: () => {
       setLoadingFalse();
       refetchForms();
       toast.current?.show({
@@ -55,10 +58,20 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
         life: 4000,
       });
     },
+    onError: (error) => {
+      setLoadingFalse();
+      const message = (error as any)?.response?.data?.error?.message;
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: message,
+        life: 4000,
+      });
+    },
   });
 
   const { mutate: invalidateLinkMutate } = useMutation(invalidateLink, {
-    onSettled: () => {
+    onSuccess: () => {
       setLoadingFalse();
       refetchForms();
       toast.current?.show({
@@ -74,6 +87,12 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
     useState(false);
   const [formToDelete, setFormToDelete] = useState<FormGetDto | null>(null);
 
+  const showPaymentDialog = useToggle();
+
+  const [selectedForm, setSelectedForm] = useState<FormGetDto | undefined>(
+    undefined
+  );
+
   return (
     <div className="p-grid p-justify-center">
       <Toast ref={toast} />
@@ -86,12 +105,18 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
           .reverse()
           .map((form, index) => (
             <Card
-              title={`Formulario N° ${forms.length - index}`}
-              subTitle={form.hash ? "Link Generado" : "Link no habilitado"}
+              title={`Formulario N° ${forms.length - index} ${form.code}`}
+              subTitle={
+                <div>
+                  <p>{form.hash ? "Link Generado" : "Link no habilitado"}</p>
+                  <p>{form.block ? "formulario bloqueado" : ""}</p>
+                </div>
+              }
               style={{ marginBottom: "2em" }}
               key={form.id}
             >
               <Button
+                disabled={form.block}
                 style={{
                   backgroundColor: "red",
                   border: 0,
@@ -116,6 +141,7 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
                     {window.location.origin}/generate-sales-form/{form.hash}
                   </a>
                   <Button
+                    disabled={form.block}
                     icon="pi pi-copy"
                     className="p-button-rounded p-button-info p-mr-2"
                     onClick={() => {
@@ -147,6 +173,7 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
                 </>
               ) : (
                 <Button
+                  disabled={form.block}
                   style={{
                     backgroundColor: "purple",
                     border: "0",
@@ -157,25 +184,16 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
                   loading={loading}
                   className="p-button-rounded p-button-success p-mr-2"
                   onClick={() => {
-                    setLoadingTrue();
-                    generateLinkMutate({ id: form.id });
-                    setLinkExpirationTimeMutate({
-                      id: form.id,
-                      expire_hash_time:
-                        (() => {
-                          const date = new Date();
-                          date.setMinutes(date.getUTCMinutes() + 40);
-
-                          return date;
-                        })().getTime() +
-                        46 * 60 * 36000,
-                    });
+                    showPaymentDialog.setTrue();
+                    setSelectedForm(form);
                   }}
                 />
               )}
+
               <div style={{ marginTop: "1em", display: "flex", gap: "10px" }}>
                 {form.hash && (
                   <Button
+                    disabled={form.block}
                     label="Invalidar Link"
                     icon="pi pi-times"
                     loading={loading}
@@ -187,6 +205,7 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
                   />
                 )}
                 <Button
+                  disabled={form.block}
                   style={{
                     backgroundColor: "purple",
                     border: 0,
@@ -199,6 +218,10 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
                   onClick={() => {
                     navigate(ROUTES.SALES.FORM_EDITOR_ID(Number(form.id)));
                   }}
+                />
+                <TransactionsList
+                  form={form}
+                  transactions={form.transactions}
                 />
               </div>
             </Card>
@@ -232,6 +255,33 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
         }
       >
         ¿Estás seguro que deseas eliminar este formulario?
+      </Dialog>
+
+      <Dialog
+        header={"Datos de pago " + selectedForm?.code}
+        visible={showPaymentDialog.value}
+        onHide={() => showPaymentDialog.setFalse()}
+      >
+        <PaymentDataForm
+          payment={selectedForm?.payment}
+          formId={selectedForm?.id as number}
+          onSuccess={() => {
+            setLoadingTrue();
+            generateLinkMutate({ id: selectedForm?.id as number });
+            setLinkExpirationTimeMutate({
+              id: selectedForm?.id as number,
+              expire_hash_time:
+                (() => {
+                  const date = new Date();
+                  date.setMinutes(date.getUTCMinutes() + 40);
+
+                  return date;
+                })().getTime() +
+                46 * 60 * 36000,
+            });
+            showPaymentDialog.setFalse();
+          }}
+        />
       </Dialog>
     </div>
   );

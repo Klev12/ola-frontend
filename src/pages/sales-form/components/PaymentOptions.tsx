@@ -1,4 +1,3 @@
-import { Card } from "primereact/card";
 import { PaymentGetDto } from "../../../models/payment";
 import { InputText } from "primereact/inputtext";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -12,7 +11,6 @@ import {
 } from "../../../services/payment-service";
 import { SalesFormContext } from "./WrapperSalesForm";
 import { Toast } from "primereact/toast";
-import { ProgressBar } from "primereact/progressbar";
 
 interface PaymentOptionsProps {
   payment?: PaymentGetDto;
@@ -22,7 +20,7 @@ interface PaymentOptionsProps {
 const PaymentOptions = ({}: PaymentOptionsProps) => {
   const toast = useRef<Toast>(null);
 
-  const { form } = useContext(SalesFormContext);
+  const { form, hashMode } = useContext(SalesFormContext);
   const [payment, setPayment] = useState(form?.form?.payment);
 
   useEffect(() => {
@@ -34,8 +32,8 @@ const PaymentOptions = ({}: PaymentOptionsProps) => {
     onSuccess: (response) => {
       setPayment(response.data.payment);
     },
-    onError: (data) => {
-      const message = (data as any)?.response?.data?.error?.message;
+    onError: (error) => {
+      const message = (error as any)?.response?.data?.error?.message;
       toast.current?.show({
         severity: "error",
         summary: "Error",
@@ -45,8 +43,8 @@ const PaymentOptions = ({}: PaymentOptionsProps) => {
   });
 
   const { mutate: updatePaymentMutate } = useMutation(updatePayment, {
-    onError: (data) => {
-      const message = (data as any)?.response?.data?.error?.message;
+    onError: (error) => {
+      const message = (error as any)?.response?.data?.error?.message;
       toast.current?.show({
         severity: "error",
         summary: "Error",
@@ -92,10 +90,13 @@ const PaymentOptions = ({}: PaymentOptionsProps) => {
   }, [payment]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
       <Toast ref={toast} />
+
       <label htmlFor="">Total a pagar:</label>
       <InputNumber
+        required
+        disabled={form?.form?.block || hashMode}
         mode="decimal"
         minFractionDigits={2}
         value={total}
@@ -106,6 +107,8 @@ const PaymentOptions = ({}: PaymentOptionsProps) => {
       />
       <label htmlFor="">Valor suscripción:</label>
       <InputNumber
+        required
+        disabled={form?.form?.block || hashMode}
         mode="decimal"
         minFractionDigits={2}
         max={total}
@@ -117,6 +120,8 @@ const PaymentOptions = ({}: PaymentOptionsProps) => {
       />
       <label htmlFor="">Número de cuotas:</label>
       <Dropdown
+        required
+        disabled={form?.form?.block || hashMode}
         value={numberFees}
         options={[
           {
@@ -164,6 +169,7 @@ const PaymentOptions = ({}: PaymentOptionsProps) => {
 
       <label htmlFor="">Saldo mensual:</label>
       <InputNumber
+        required
         mode="decimal"
         minFractionDigits={2}
         value={monthValue}
@@ -171,11 +177,17 @@ const PaymentOptions = ({}: PaymentOptionsProps) => {
       />
 
       <label htmlFor="">Total restante:</label>
-      <InputText value={String(remainingTotal)} keyfilter={"num"} disabled />
+      <InputText
+        required
+        value={String(remainingTotal)}
+        keyfilter={"num"}
+        disabled
+      />
       {!payment && (
         <Button
           type="submit"
-          label="Generar pago"
+          disabled={form?.form?.block}
+          label="Subir datos de pago"
           onClick={() => {
             createPaymentMutate({
               formId: form?.form?.id as number,
@@ -188,6 +200,7 @@ const PaymentOptions = ({}: PaymentOptionsProps) => {
       )}
       {payment && (
         <Button
+          disabled={form?.form?.block || hashMode}
           type="submit"
           label="Actualizar datos"
           onClick={() => {
