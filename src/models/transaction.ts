@@ -9,6 +9,7 @@ export interface TransactionGetDto {
   storeName: string;
   statusCode: TransactionStatus;
   createdAt: Date;
+  costumerName: string;
 }
 
 export interface TransactionPostDto {

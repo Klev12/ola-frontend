@@ -37,7 +37,7 @@ const UserTeam = () => {
     <>
       <GoBackButton />
       <Card title={`Usuario ${user.fullname} ${user.code}`}>
-        {teamsData?.teams.length === 0 && (
+        {teamsData?.teams?.length === 0 && (
           <Button
             label="Crear grupo"
             onClick={() => createTeamDialog.setTrue()}

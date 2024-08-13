@@ -2,19 +2,34 @@ import React, { FormEventHandler, useState } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ROUTES from "../../consts/routes";
 import { Dropdown } from "primereact/dropdown";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { signup, signupCollaborator } from "../../services/auth-service";
 import { SignupCollaboratorDto, SignupDto } from "../../models/auth";
 import { Dialog } from "primereact/dialog";
 import { Message } from "primereact/message";
 import "./styles/signup-styles.css";
 import { UserArea } from "../../models/user";
+import collaboratorLinkService from "../../services/collaborator-link-service";
 
 const Signup: React.FC = () => {
   const { code } = useParams();
+
+  const navigate = useNavigate();
+
+  const { data: collaboratorData, isLoading: isLoadingCollaboratorData } =
+    useQuery({
+      queryFn: () =>
+        collaboratorLinkService
+          .retrieveData(code as string)
+          .then((res) => res.data),
+      onError: () => {
+        navigate(ROUTES.SIGNUP);
+      },
+      retry: 1,
+    });
 
   const [selectedArea, setSelectedArea] = useState<{
     name: string;
@@ -27,7 +42,7 @@ const Signup: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [visible, setVisible] = useState<boolean>(false);
 
-  const { mutate: mutateSignup } = useMutation(signup, {
+  const { mutate: mutateSignup, isLoading: isSigning } = useMutation(signup, {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
       if (error.response?.data?.message) {
@@ -35,23 +50,30 @@ const Signup: React.FC = () => {
       } else {
         setErrorMessage("Error desconocido, por favor intente de nuevo.");
       }
+    },
+    onSuccess: () => {
+      setVisible(true);
     },
   });
 
-  const { mutate: signupCollaboratorMutate } = useMutation(signupCollaborator, {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onError: (error: any) => {
-      if (error.response?.data?.message) {
-        setErrorMessage(error.response.data.message);
-      } else {
-        setErrorMessage("Error desconocido, por favor intente de nuevo.");
-      }
-    },
-  });
+  const { mutate: signupCollaboratorMutate, isLoading: isSigningCollaborator } =
+    useMutation(signupCollaborator, {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onError: (error: any) => {
+        if (error.response?.data?.message) {
+          setErrorMessage(error.response.data.message);
+        } else {
+          setErrorMessage("Error desconocido, por favor intente de nuevo.");
+        }
+      },
+      onSuccess: () => {
+        setVisible(true);
+      },
+    });
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    setVisible(true);
+
     const formData = Object.fromEntries(
       new FormData(e.target as HTMLFormElement)
     );
@@ -69,9 +91,9 @@ const Signup: React.FC = () => {
         signupCollaboratorMutate({
           email: formData["email"] as string,
           fullname: formData["fullname"] as string,
-          area: formData["area"] as string,
+          area: UserArea.commercial,
           password: formData["password"] as string,
-          code,
+          token: code,
         } as SignupCollaboratorDto);
         return;
       }
@@ -91,7 +113,12 @@ const Signup: React.FC = () => {
     <div className="signup-wrapper">
       <div className="signup-container">
         <form className="signup-form" onSubmit={handleSubmit}>
-          <h2>Registro {code && `colaborador de ${code}`}</h2>
+          <h2>
+            Registro{" "}
+            {code &&
+              !isLoadingCollaboratorData &&
+              `colaborador de ${collaboratorData?.user.code} en el grupo "${collaboratorData?.team.name}"`}
+          </h2>
           {errorMessage && <Message severity="error" text={errorMessage} />}
           <label htmlFor="email">Correo electrónico: </label>
           <InputText
@@ -110,8 +137,9 @@ const Signup: React.FC = () => {
 
           <label htmlFor="area">Área: </label>
           <Dropdown
+            disabled={!!code}
             id="area"
-            value={selectedArea}
+            value={collaboratorData?.user.area || selectedArea}
             name="area"
             options={Object.values(UserArea).map((area) => {
               switch (area) {
@@ -178,7 +206,11 @@ const Signup: React.FC = () => {
             required
           />
 
-          <Button label="Registrarse"></Button>
+          <Button
+            label="Registrarse"
+            disabled={isSigning || isSigningCollaborator}
+            loading={isSigning || isSigningCollaborator}
+          ></Button>
 
           <div className="login-link">
             <Link to={ROUTES.LOGIN}>¿Ya tienes cuenta?</Link>
@@ -192,11 +224,12 @@ const Signup: React.FC = () => {
           onHide={() => {
             if (!visible) return;
             setVisible(false);
+            navigate(ROUTES.LOGIN);
           }}
         >
           <p className="m-0">
-            Espera un momento por favor, tu cuenta debe ser aceptada por un
-            administrador.
+            tu cuenta debe ser aceptada por un administrador o secretario, luego
+            podrás iniciar sesión.
           </p>
         </Dialog>
       </div>

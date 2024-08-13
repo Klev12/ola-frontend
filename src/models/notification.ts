@@ -9,9 +9,12 @@ export interface NotificationGetDto {
 export interface NotificationMetadata {
   userId?: string | number;
   formId?: string | number;
+  transactionToken?: string;
 }
 
 export enum NotificationType {
   newUser = "new-user",
   verifyUser = "verify-user",
+  newTransaction = "new-transaction",
+  transactionCompleted = "transaction-completed",
 }

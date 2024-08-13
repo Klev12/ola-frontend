@@ -105,7 +105,7 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
           .reverse()
           .map((form, index) => (
             <Card
-              title={`Formulario N° ${forms.length - index} ${form.code}`}
+              title={`Formulario N° ${forms.length - index}: ${form.code}`}
               subTitle={
                 <div>
                   <p>{form.hash ? "Link Generado" : "Link no habilitado"}</p>

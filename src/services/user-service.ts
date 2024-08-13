@@ -8,15 +8,21 @@ export function getAllUsers({
   page = 1,
   limit = 10,
   area,
+  keyword,
 }: {
   access: boolean;
   page?: number;
   limit?: number;
   area?: UserArea;
+  keyword?: string;
 }) {
   let api = `${ENV.BACKEND_ROUTE}/users?access=${access}&&page=${page}&&limit=${limit}`;
   if (area) {
     api += `&&area=${area}`;
+  }
+
+  if (keyword) {
+    api += `&&keyword=${keyword}`;
   }
 
   return axios.get<{ count: number; users: UserGetDto[] }>(api);

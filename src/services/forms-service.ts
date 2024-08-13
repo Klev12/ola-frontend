@@ -35,12 +35,22 @@ export function patchTotalFormPayment({
   return axios.patch(`${ENV.BACKEND_ROUTE}/forms/payment`, { total, formId });
 }
 
-export function getAllForms() {
-  return axios.get<{ forms: FormGetDto[] }>(`${ENV.BACKEND_ROUTE}/forms/all`);
+export function getAllForms({
+  page = 1,
+  limit = 10,
+  type = "all",
+}: {
+  page?: number;
+  limit?: number;
+  type?: "userform" | "salesform" | "all";
+}) {
+  return axios.get<{ forms: FormGetDto[]; count: number }>(
+    `${ENV.BACKEND_ROUTE}/forms/all?page=${page}&&limit=${limit}&&type=${type}`
+  );
 }
 
 export function getMyForms({ page = 1, limit = 10 }: PaginationOptions) {
-  return axios.get<{ forms: FormGetDto[] }>(
+  return axios.get<{ forms: FormGetDto[]; count: number }>(
     `${ENV.BACKEND_ROUTE}/forms?page=${page}&&limit=${limit}`
   );
 }

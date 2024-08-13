@@ -11,13 +11,15 @@ const roleBasedVisibility = {
   [Roles.sales]: {
     notifications: false,
     users: false,
-    collaborators: true,
+    collaborators: false,
+    forms: true,
     pendingUsers: false,
   },
   [Roles.admin]: {
     notifications: true,
     users: true,
-    collaborators: true,
+    collaborators: false,
+    forms: true,
     pendingUsers: true,
   },
 };
@@ -89,6 +91,14 @@ const Dashboard = () => {
       icon: "pi pi-hourglass",
       command: () => {
         navigate(ROUTES.DASHBOARD.PENDING_USERS);
+      },
+    },
+    {
+      id: "forms",
+      icon: "pi pi-file",
+      label: "Formularios",
+      command: () => {
+        navigate(ROUTES.DASHBOARD.FORMS);
       },
     },
   ];

@@ -7,5 +7,7 @@ export interface CommissionGetDto {
   collected: boolean;
   createdAt: Date;
   userCommission: number;
-  groupAdminCommission: number;
+  groupAdminCommission: number | null;
+  generalAdminCommission: number | null;
+  amount: number;
 }

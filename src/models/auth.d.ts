@@ -14,7 +14,7 @@ export interface SignupDto {
 }
 
 export interface SignupCollaboratorDto extends SignupDto {
-  code: string;
+  token: string;
 }
 
 export interface ErrorResponse {

@@ -11,22 +11,29 @@ const roleBasedVisibility = {
     generateSales: true,
     mySales: true,
     team: false,
-    history: false,
     commissions: true,
+    history: true,
   },
   [Roles.admin]: {
     generateSales: true,
     mySales: true,
-    team: false,
-    history: true,
+    team: true,
     commissions: true,
+    history: true,
   },
   [Roles.groupAdmin]: {
     generateSales: true,
     mySales: true,
     team: true,
-    history: true,
     commissions: true,
+    history: true,
+  },
+  [Roles.generalAdmin]: {
+    generateSales: true,
+    mySales: true,
+    team: true,
+    commissions: true,
+    history: true,
   },
 };
 
@@ -59,20 +66,21 @@ const Sales = () => {
         navigate(ROUTES.SALES.TEAM);
       },
     },
-    {
-      id: "history",
-      label: "Historial",
-      icon: "pi pi-history",
-      command: () => {
-        navigate(ROUTES.SALES.HISTORY);
-      },
-    },
+
     {
       id: "commissions",
       label: "Comisiones",
       icon: "pi pi-history",
       command: () => {
         navigate(ROUTES.SALES.COMMISSIONS);
+      },
+    },
+    {
+      id: "history",
+      label: "Historial",
+      icon: "pi pi-history",
+      command: () => {
+        navigate(ROUTES.SALES.HISTORY);
       },
     },
   ];

@@ -27,6 +27,7 @@ const UserForm = () => {
         navigate(ROUTES.USER_FORM.TERMS_AND_CONDITIONS);
       }
     },
+    queryKey: ["user-form-data"],
   });
 
   const { mutate: submitFormMutate } = useMutation(submitForm, {

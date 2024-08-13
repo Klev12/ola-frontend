@@ -4,6 +4,9 @@ export interface TeamGetDto {
   id?: number;
   name: string;
   area: TeamArea | UserArea;
+  userFullname: string;
+  userCode: string;
+  userId: number;
 }
 
 export enum TeamArea {
@@ -26,6 +29,11 @@ export interface TeamUser {
 export interface TeamPostDto {
   name: string;
   userId: number;
+}
+
+export interface TeamPatchDto {
+  teamId: number;
+  name: string;
 }
 
 export interface TeamAssignUserDto {

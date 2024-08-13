@@ -71,10 +71,11 @@ const UserCard: React.FC<UserCardProps> = ({
       header={
         <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
           <span>{user.fullname}</span>
-          {user.role === Roles.groupAdmin && (
+          <Tag severity="info" value={user.code} />
+          {(user.role === Roles.groupAdmin ||
+            user.role === Roles.generalAdmin) && (
             <Tag
-              severity="info"
-              value="ver grupos"
+              value="ver grupo"
               onClick={() => {
                 navigate(ROUTES.DASHBOARD.USER_TEAMS_ID(user.id), {
                   state: user,
@@ -142,6 +143,12 @@ const UserCard: React.FC<UserCardProps> = ({
                       return (
                         <option key={index} value={role}>
                           Usuario
+                        </option>
+                      );
+                    case Roles.generalAdmin:
+                      return (
+                        <option key={index} value={role}>
+                          Admin general
                         </option>
                       );
                   }

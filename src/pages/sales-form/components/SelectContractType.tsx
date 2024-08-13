@@ -8,6 +8,7 @@ import useToggle from "../../../hooks/useToggle";
 import useGlobalState from "../../../store/store";
 import { Card } from "primereact/card";
 import { SalesFormContext } from "./WrapperSalesForm";
+import { ContractGetDto } from "../../../models/contract";
 
 interface SelectContractTypeProps {
   formId: string | number;
@@ -31,9 +32,13 @@ const SelectContractType = ({ formId }: SelectContractTypeProps) => {
   });
 
   const contractOptions = useMemo(() => {
+    if (!contractData) {
+      return undefined;
+    }
+
     return contractData?.contracts
-      .filter((contract) => contract.id !== 1)
-      .map((contract) => ({
+      ?.filter((contract: ContractGetDto) => contract.id !== 1)
+      ?.map((contract: ContractGetDto) => ({
         label: contract.title,
         value: contract.id,
       }));
@@ -51,7 +56,7 @@ const SelectContractType = ({ formId }: SelectContractTypeProps) => {
       <Card>
         <Card
           title={
-            contractData?.contracts.find(
+            contractData?.contracts?.find(
               (contract) => contract.id === selectedContract
             )?.title
           }
@@ -79,7 +84,7 @@ const SelectContractType = ({ formId }: SelectContractTypeProps) => {
           />
           <p>
             {
-              contractData?.contracts.find(
+              contractData?.contracts?.find(
                 (contract) => contract.id === selectedContract
               )?.description
             }
@@ -89,15 +94,16 @@ const SelectContractType = ({ formId }: SelectContractTypeProps) => {
               <h3>
                 Proyecto{" "}
                 {
-                  contractData?.contracts.find(
+                  contractData?.contracts?.find(
                     (contract) => contract.id === selectedContract
                   )?.project
-                }
+                }{" "}
+                + IVA
               </h3>
               <h3>
                 Mensualidades 9, de{" "}
                 {
-                  contractData?.contracts.find(
+                  contractData?.contracts?.find(
                     (contract) => contract.id === selectedContract
                   )?.monthly_payment
                 }
@@ -105,7 +111,7 @@ const SelectContractType = ({ formId }: SelectContractTypeProps) => {
               <h3>
                 Subscripción{" "}
                 {
-                  contractData?.contracts.find(
+                  contractData?.contracts?.find(
                     (contract) => contract.id === selectedContract
                   )?.suscription
                 }

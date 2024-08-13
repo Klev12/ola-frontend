@@ -11,12 +11,17 @@ const MyForms = () => {
   const [loading, setLoading] = useState(false);
   const toast = useRef<Toast>(null);
 
+  const [currentPage, setCurrentPage] = useState(0);
+
   const { data: formsData, refetch } = useQuery({
     queryFn: () =>
-      getMyForms({}).then((res) =>
-        res.data.forms.filter((form) => form.form_scheme_id === 1)
-      ),
-    queryKey: ["forms"],
+      getMyForms({ page: currentPage + 1, limit: 10 }).then((res) => {
+        const forms = res.data.forms.filter(
+          (form) => form.form_scheme_id === 1
+        );
+        return { forms, count: res.data.count };
+      }),
+    queryKey: ["forms", currentPage],
   });
 
   const { mutate: createFormMutate } = useMutation(createForm, {
@@ -41,16 +46,12 @@ const MyForms = () => {
     <div>
       <Toast ref={toast} />
       <Paginator
-        style={{
-          backgroundColor: "purple",
-          position: "fixed",
-          right: 0,
-          bottom: 0,
+        first={currentPage === 0 ? currentPage : currentPage + 10}
+        rows={10}
+        onPageChange={(e) => {
+          setCurrentPage(e.page);
         }}
-        first={0}
-        rows={0}
-        totalRecords={100}
-        onPageChange={() => {}}
+        totalRecords={formsData?.count}
       />
       <Button
         style={{ backgroundColor: "purple", border: "0", boxShadow: "none" }}
@@ -61,7 +62,7 @@ const MyForms = () => {
         label="Crear nuevo formulario"
         raised
       />
-      <FormList forms={formsData || []} refetchForms={refetch} />
+      <FormList forms={formsData?.forms || []} refetchForms={refetch} />
     </div>
   );
 };

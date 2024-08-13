@@ -6,14 +6,21 @@ import { Column } from "primereact/column";
 import { Tag } from "primereact/tag";
 import { TransactionStatus } from "../../models/transaction";
 import { useState } from "react";
+import { Paginator } from "primereact/paginator";
 
 const UserTransactions = () => {
   const { userId } = useParams();
 
+  const [currentPage, setCurrentPage] = useState(0);
+
   const { data: transactionsData } = useQuery({
     queryFn: () =>
-      getAllTransactions({ userId: Number(userId) }).then((res) => res.data),
-    queryKey: ["transactions", userId],
+      getAllTransactions({
+        userId: Number(userId),
+        page: currentPage + 1,
+        limit: 10,
+      }).then((res) => res.data),
+    queryKey: ["transactions", userId, currentPage],
   });
 
   const transactionStatus: {
@@ -29,39 +36,46 @@ const UserTransactions = () => {
     },
   };
 
-  const [currentPage, setCurrentPage] = useState(1);
-
   return (
     <div>
-      <DataTable
-        paginator
-        rows={transactionsData?.count}
-        totalRecords={transactionsData?.count}
-        rowsPerPageOptions={[1, 5, 10, 20]}
-        first={currentPage}
-        onPage={(page) => {
-          setCurrentPage(page.first);
-        }}
-        header={`Transacciones totales: ${transactionsData?.count}`}
-        value={transactionsData?.transactions}
-        emptyMessage="No hay transacciones"
-      >
-        <Column
-          field="statusCode"
-          header="Estatus"
-          body={(value) => {
-            console.log();
-            return (
-              <Tag severity={transactionStatus?.[value.statusCode].severity}>
-                {transactionStatus?.[value.statusCode].details}
-              </Tag>
-            );
+      <div>
+        <DataTable
+          rows={transactionsData?.count}
+          totalRecords={transactionsData?.count}
+          rowsPerPageOptions={[1, 5, 10, 20]}
+          first={currentPage}
+          onPage={(page) => {
+            setCurrentPage(page.first);
+          }}
+          header={`Transacciones totales: ${transactionsData?.count}`}
+          value={transactionsData?.transactions}
+          emptyMessage="No hay transacciones"
+        >
+          <Column
+            field="statusCode"
+            header="Estatus"
+            body={(value) => {
+              return (
+                <Tag severity={transactionStatus?.[value.statusCode].severity}>
+                  {transactionStatus?.[value.statusCode].details}
+                </Tag>
+              );
+            }}
+          />
+
+          <Column header="Monto" field="amount" />
+          <Column header="Código de formulario" field="formCode" />
+          <Column header="Creación" field="createdAt" />
+        </DataTable>
+        <Paginator
+          first={currentPage === 0 ? currentPage : currentPage + 10}
+          rows={10}
+          totalRecords={transactionsData?.count}
+          onPageChange={(e) => {
+            setCurrentPage(e.page);
           }}
         />
-
-        <Column header="Monto" field="amount" />
-        <Column header="Creación" field="createdAt" />
-      </DataTable>
+      </div>
       <>
         total:{" "}
         {transactionsData?.transactions.reduce(

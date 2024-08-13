@@ -1,5 +1,5 @@
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import ROUTES from "./consts/routes";
@@ -42,6 +42,12 @@ import PaymentTransaction from "./pages/sales-form/PaymentTransaction";
 import UserTeam from "./pages/dashboard/UserTeam";
 import UserTransactions from "./pages/sales/UserTransactions";
 import Commission from "./pages/sales/Commission";
+import HistoryTransactions from "./pages/sales/HistoryTransactions";
+import HistoryCommissions from "./pages/sales/HistoryCommissions";
+import HistorySales from "./pages/sales/HistorySales";
+import AllForms from "./pages/dashboard/AllForms";
+import { AllUserForms } from "./pages/dashboard/AllUserForms";
+import AllSalesForms from "./pages/dashboard/AllSalesForms";
 
 function App() {
   return (
@@ -83,13 +89,44 @@ function App() {
               path={ROUTES.DASHBOARD.PENDING_USERS}
               element={<PendingUsers />}
             />
+            <Route path={ROUTES.DASHBOARD.FORMS} element={<AllForms />}>
+              <Route
+                path={ROUTES.DASHBOARD.FORMS}
+                element={<Navigate to={ROUTES.DASHBOARD.FORMS_SALES} />}
+              />
+              <Route
+                path={ROUTES.DASHBOARD.FORMS_USER}
+                element={<AllUserForms />}
+              />
+              <Route
+                path={ROUTES.DASHBOARD.FORMS_SALES}
+                element={<AllSalesForms />}
+              />
+            </Route>
           </Route>
           <Route path={ROUTES.BLOG.ME} element={<Blog />} />
           <Route path={ROUTES.REGULATION.ME} element={<Regulation />} />
           <Route path={ROUTES.SALES.ME} element={<Sales />}>
             <Route path={ROUTES.SALES.FORMS} element={<MyForms />} />
             <Route path={ROUTES.SALES.DONE_FORMS} element={<DoneForms />} />
-            <Route path={ROUTES.SALES.HISTORY} element={<History />}></Route>
+            <Route path={ROUTES.SALES.HISTORY} element={<History />}>
+              <Route
+                path={ROUTES.SALES.HISTORY}
+                element={<Navigate to={ROUTES.SALES.HISTORY_TRANSACTIONS} />}
+              />
+              <Route
+                path={ROUTES.SALES.HISTORY_TRANSACTIONS}
+                element={<HistoryTransactions />}
+              />
+              <Route
+                path={ROUTES.SALES.HISTORY_COMMISSIONS}
+                element={<HistoryCommissions />}
+              />
+              <Route
+                path={ROUTES.SALES.HISTORY_SALES}
+                element={<HistorySales />}
+              />
+            </Route>
             <Route path={ROUTES.SALES.TEAM} element={<Team />}>
               <Route path={ROUTES.SALES.TEAM_USERS} element={<TeamUsers />}>
                 <Route

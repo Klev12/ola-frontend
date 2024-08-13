@@ -35,6 +35,7 @@ export enum Roles {
   user = "user",
   sales = "sales",
   groupAdmin = "group_admin",
+  generalAdmin = "general_admin",
 }
 
 export enum UserArea {

@@ -42,6 +42,15 @@ const ROUTES = {
     get PENDING_USERS() {
       return `${this.ME}/pending-users`;
     },
+    get FORMS() {
+      return `${this.ME}/forms`;
+    },
+    get FORMS_USER() {
+      return `${this.FORMS}/type-user`;
+    },
+    get FORMS_SALES() {
+      return `${this.FORMS}/type-sales`;
+    },
   },
 
   SALES: {
@@ -60,6 +69,15 @@ const ROUTES = {
     },
     get HISTORY() {
       return `${this.ME}/history`;
+    },
+    get HISTORY_TRANSACTIONS() {
+      return `${this.HISTORY}/transactions`;
+    },
+    get HISTORY_COMMISSIONS() {
+      return `${this.HISTORY}/commissions`;
+    },
+    get HISTORY_SALES() {
+      return `${this.HISTORY}/sales`;
     },
     get TEAM() {
       return `${this.ME}/team`;

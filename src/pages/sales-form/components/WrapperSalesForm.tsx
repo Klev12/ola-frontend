@@ -36,7 +36,7 @@ const WrapperSalesForm = ({ hashMode = true }: WrapperSalesFormProps) => {
       hashMode
         ? generateFormByHash(hash as string).then((res) => res.data)
         : getFormById(Number(id)).then((res) => res.data),
-    queryKey: ["sales-form", id || hash],
+    queryKey: ["sales-form-data", id || hash],
     refetchOnWindowFocus: false,
     retry: 1,
     onError: () => {

@@ -13,7 +13,10 @@ import {
   removeUserFromTeam,
 } from "../../../services/team-service";
 import { Toast } from "primereact/toast";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { Paginator } from "primereact/paginator";
+import { InputText } from "primereact/inputtext";
+import useGlobalState from "../../../store/store";
 
 interface UserListTeamProps {
   team?: TeamGetDto;
@@ -22,18 +25,32 @@ interface UserListTeamProps {
 }
 
 const UserListTeam = ({ team, visible, onHide }: UserListTeamProps) => {
+  const authenticatedUser = useGlobalState((state) => state.user);
+
   const toast = useRef<Toast>(null);
+
+  const [currentPageUser, setCurrenPageUser] = useState(0);
+  const [currentPageTeamUser, setCurrenPageTeamUser] = useState(0);
+  const [keyword, setKeyword] = useState<string | undefined>(undefined);
 
   const { data: usersData } = useQuery({
     queryFn: () =>
-      getAllUsers({ area: team?.area as UserArea, access: true }).then(
-        (res) => res.data
-      ),
-    queryKey: ["user-team", team?.id],
+      getAllUsers({
+        area: team?.area as UserArea,
+        access: true,
+        page: currentPageUser + 1,
+        limit: 5,
+        keyword,
+      }).then((res) => res.data),
+    queryKey: ["user-team", team?.id, currentPageUser, keyword],
   });
 
   const { data: usersFromTeamData, refetch: refetchUsersFromTeam } = useQuery({
-    queryFn: () => getUsersFromTeam(team?.id as number).then((res) => res.data),
+    queryFn: () =>
+      getUsersFromTeam({
+        teamId: team?.id as number,
+        page: currentPageTeamUser + 1,
+      }).then((res) => res.data),
     queryKey: ["users-from-team", team?.id],
   });
 
@@ -44,6 +61,13 @@ const UserListTeam = ({ team, visible, onHide }: UserListTeamProps) => {
         detail: "El usuario fue agregado al equipo",
       });
       refetchUsersFromTeam();
+    },
+    onError: (error) => {
+      const message = (error as any).response?.data?.error?.message;
+      toast.current?.show({
+        severity: "error",
+        detail: message,
+      });
     },
   });
 
@@ -56,11 +80,31 @@ const UserListTeam = ({ team, visible, onHide }: UserListTeamProps) => {
   return (
     <>
       <Toast ref={toast} />
-      <Dialog visible={visible} onHide={onHide} draggable={false}>
+      <Dialog
+        style={{ minHeight: "400px", minWidth: "400px" }}
+        visible={visible}
+        onHide={onHide}
+        draggable={false}
+      >
+        <form
+          className="p-inputgroup flex-1"
+          style={{ width: "30vw" }}
+          onSubmit={(e) => {
+            e.preventDefault();
+            const formData = Object.fromEntries(
+              new FormData(e.target as HTMLFormElement)
+            );
+            setKeyword(formData["keyword"].toString());
+          }}
+        >
+          <InputText placeholder="Nombre, código, email" name="keyword" />
+          <Button icon="pi pi-search" />
+        </form>
         <DataTable
           value={
-            usersData?.users.filter((user) => user.role !== Roles.groupAdmin) ||
-            []
+            usersData?.users.filter(
+              (user) => user.id !== authenticatedUser?.id
+            ) || []
           }
         >
           <Column header="Nombre" field="fullname" />
@@ -81,6 +125,14 @@ const UserListTeam = ({ team, visible, onHide }: UserListTeamProps) => {
             )}
           />
         </DataTable>
+        <Paginator
+          rows={5}
+          totalRecords={usersData?.count}
+          first={currentPageUser}
+          onPageChange={(e) => {
+            setCurrenPageUser(e.page);
+          }}
+        />
       </Dialog>
       <DataTable
         value={usersFromTeamData?.teamUsers}
@@ -101,6 +153,14 @@ const UserListTeam = ({ team, visible, onHide }: UserListTeamProps) => {
           )}
         />
       </DataTable>
+      <Paginator
+        first={currentPageTeamUser}
+        rows={10}
+        totalRecords={usersFromTeamData?.count}
+        onPageChange={(e) => {
+          setCurrenPageTeamUser(e.page);
+        }}
+      />
     </>
   );
 };

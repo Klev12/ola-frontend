@@ -43,10 +43,30 @@ export function confirmTransaction({
   );
 }
 
-export function getAllTransactions({ userId }: { userId?: number }) {
-  let api = `${ENV.BACKEND_ROUTE}/transactions`;
+export function getAllTransactions({
+  userId,
+  page = 1,
+  limit = 10,
+  month,
+  keyword,
+}: {
+  userId?: number;
+  page?: number;
+  limit?: number;
+  month?: number;
+  keyword?: string;
+}) {
+  let api = `${ENV.BACKEND_ROUTE}/transactions?page=${page}&&limit=${limit}`;
   if (userId) {
-    api += `?userId=${userId}`;
+    api += `&&userId=${userId}`;
+  }
+
+  if (month) {
+    api += `&&month=${month}`;
+  }
+
+  if (keyword) {
+    api += `&&keyword=${keyword}`;
   }
 
   return axios.get<{ count: number; transactions: TransactionGetDto[] }>(api);

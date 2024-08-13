@@ -25,7 +25,9 @@ const Notifications = () => {
         <div>No hay notificaciones</div>
       )}
       <DataScroller
-        value={notificationsData?.notifications}
+        value={notificationsData?.notifications.sort(
+          (a, b) => (b.id as number) - (a.id as number)
+        )}
         itemTemplate={(notification) => (
           <NotificationCard key={notification.id} notification={notification} />
         )}
@@ -35,6 +37,7 @@ const Notifications = () => {
         loader
         buffer={0.4}
         header="Notificaciones"
+        emptyMessage="No hay notificaciones"
       />
     </div>
   );

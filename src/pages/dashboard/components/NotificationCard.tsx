@@ -72,6 +72,7 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
           severity="danger"
           aria-label="Cancel"
           onClick={() => {
+            console.log(notification);
             deleteNotificationByIdMutate(notification.id);
           }}
         />
@@ -114,6 +115,28 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
             )}
           >
             Revisar formulario
+          </Link>
+        </>
+      )}
+      {notification.type === NotificationType.newTransaction && (
+        <>
+          <Link
+            target="_blank"
+            to={ROUTES.DASHBOARD.CHECK_FORM_ID(
+              notification.metadata.formId as number
+            )}
+          >
+            Revisar formulario
+          </Link>
+        </>
+      )}
+      {notification.type === NotificationType.transactionCompleted && (
+        <>
+          <Link
+            target="_blank"
+            to={ROUTES.SALES.PDF_ID(notification.metadata.formId as string)}
+          >
+            Revisar pdf
           </Link>
         </>
       )}

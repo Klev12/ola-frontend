@@ -74,6 +74,7 @@ const PaymentTransaction = () => {
         {transactionData?.transaction.statusCode ===
           TransactionStatus.accepted && "Transacción exitosa!"}
       </h2>
+      <p>Cliente: {transactionData?.transaction.costumerName}</p>
       <p>Monto: {transactionData?.transaction?.amount}</p>
       <p>
         Identificador de transacción:{" "}

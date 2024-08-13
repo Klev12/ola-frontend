@@ -1,18 +1,15 @@
-import { useParams } from "react-router";
+import { Navigate, useParams } from "react-router";
 import PayphoneButton from "./components/PayphoneButtton";
 import { useQuery } from "react-query";
 import { getFormByToken } from "../../services/forms-service";
-import ROUTES from "../../consts/routes";
+
 import { TransactionStatus } from "../../models/transaction";
+import ROUTES from "../../consts/routes";
 
 const Payphonelink = () => {
   const { token } = useParams();
 
-  const {
-    data: formData,
-    isLoading: isFormLoading,
-    isError,
-  } = useQuery({
+  const { data: formData, isError } = useQuery({
     queryFn: () =>
       getFormByToken({ token: token as string }).then((res) => res.data),
     queryKey: ["form-data", token],
@@ -29,7 +26,14 @@ const Payphonelink = () => {
   }
 
   if (formData.transaction.statusCode === TransactionStatus.accepted) {
-    return <div>Esta transacción ya ha sido aceptada</div>;
+    return (
+      <Navigate
+        to={
+          ROUTES.PAYPHONE.ME +
+          `?id=${formData.transaction.transactionId}&clientTransactionId=${formData.transaction.clientTransactionId}`
+        }
+      />
+    );
   }
 
   return (
@@ -40,9 +44,6 @@ const Payphonelink = () => {
         recargar la página
       </p>
       <PayphoneButton
-        responseUrl={`${window.location}${ROUTES.PAYPHONE.LINK_TOKEN(
-          formData.transaction.token
-        )}`}
         amount={Number(formData.transaction.amount)}
         clientTransactionId={formData.transaction.clientTransactionId}
       />

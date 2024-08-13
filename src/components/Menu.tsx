@@ -50,6 +50,13 @@ const roleBasedVisibility = {
     forms: true,
     test: true,
   },
+  [Roles.generalAdmin]: {
+    home: true,
+    sales: true,
+    blog: true,
+    norms: true,
+    tests: true,
+  },
 };
 
 export default function MenuDemo() {
