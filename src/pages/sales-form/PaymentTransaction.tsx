@@ -6,6 +6,7 @@ import { Card } from "primereact/card";
 import { TransactionStatus } from "../../models/transaction";
 import { Tag } from "primereact/tag";
 import { ProgressSpinner } from "primereact/progressspinner";
+import formatDate from "../../utils/format-date";
 
 const PaymentTransaction = () => {
   const query = useQueryPath();
@@ -81,7 +82,9 @@ const PaymentTransaction = () => {
         {transactionData?.transaction?.transactionId}
       </p>
       <p>Tienda: {transactionData?.transaction.storeName}</p>
-      <p>Fecha: {String(transactionData?.transaction?.createdAt)}</p>
+      <p>
+        Fecha: {formatDate(transactionData?.transaction?.createdAt as string)}
+      </p>
       <p>
         <Tag
           severity={

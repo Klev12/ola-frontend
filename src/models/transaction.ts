@@ -8,7 +8,7 @@ export interface TransactionGetDto {
   formId: number;
   storeName: string;
   statusCode: TransactionStatus;
-  createdAt: Date;
+  createdAt: string;
   costumerName: string;
 }
 
