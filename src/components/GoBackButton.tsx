@@ -7,6 +7,7 @@ const GoBackButton = () => {
 
   return (
     <Button
+      type="button"
       icon={PrimeIcons.CHEVRON_LEFT}
       onClick={() => navigate(-1)}
       outlined

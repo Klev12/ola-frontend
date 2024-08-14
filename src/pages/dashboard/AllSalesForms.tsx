@@ -11,6 +11,7 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import { useNavigate } from "react-router";
 import ROUTES from "../../consts/routes";
 import { PrimeIcons } from "primereact/api";
+import formatDate from "../../utils/format-date";
 
 const AllSalesForms = () => {
   const op = useRef<OverlayPanel>(null);
@@ -87,6 +88,11 @@ const AllSalesForms = () => {
               onClick={() => navigate(ROUTES.DASHBOARD.CHECK_FORM_ID(value.id))}
             />
           )}
+        />
+        <Column
+          header="Fecha"
+          field="createdAt"
+          body={(value: FormGetDto) => <div>{formatDate(value.createdAt)}</div>}
         />
       </DataTable>
       <Paginator

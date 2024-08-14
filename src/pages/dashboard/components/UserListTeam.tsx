@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "react-query";
 import { TeamGetDto } from "../../../models/team";
 import { getAllUsers } from "../../../services/user-service";
-import { Roles, UserArea, UserGetDto } from "../../../models/user";
+import { UserArea, UserGetDto } from "../../../models/user";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Dialog } from "primereact/dialog";

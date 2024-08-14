@@ -1,8 +1,7 @@
 import { PaymentGetDto } from "../../../models/payment";
-import { useContext, useRef, useState } from "react";
+import { useContext } from "react";
 
 import { SalesFormContext } from "./WrapperSalesForm";
-import { Toast } from "primereact/toast";
 import PaymentDataForm from "../../sales/components/PaymentDataForm";
 
 interface PaymentOptionsProps {

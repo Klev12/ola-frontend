@@ -47,7 +47,7 @@ const PayphonePay = ({ children, disableButton }: PayphonePayProps) => {
   const transactionDialog = useToggle();
 
   useEffect(() => {
-    if (!!acceptedTransaction) {
+    if (acceptedTransaction) {
       transactionDialog.setTrue();
     }
   }, [acceptedTransaction]);

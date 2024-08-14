@@ -15,6 +15,8 @@ import ROUTES from "../../../consts/routes";
 import { Link } from "react-router-dom";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
+import { Tag } from "primereact/tag";
+import formatDate from "../../../utils/format-date";
 
 interface NotificationCardProps {
   notification: NotificationGetDto;
@@ -63,7 +65,7 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
   });
 
   return (
-    <Card>
+    <Card footer={<Tag value={formatDate(notification.createdAt)} />}>
       <Toast ref={toast} />
       {notification.type !== NotificationType.newUser && (
         <Button

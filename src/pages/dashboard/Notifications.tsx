@@ -3,15 +3,22 @@ import { DataScroller } from "primereact/datascroller";
 import { getAllNotifications } from "../../services/user-service";
 import NotificationCard from "./components/NotificationCard";
 import useGlobalState from "../../store/store";
+import { useState } from "react";
+import PaginatorPage from "../../components/PaginatorPage";
 
 const Notifications = () => {
   const setNumberOfNotification = useGlobalState(
     (state) => state.setNumberOfNotifications
   );
 
+  const [currentPage, setCurrentPage] = useState(0);
+
   const { data: notificationsData } = useQuery({
-    queryFn: () => getAllNotifications().then((res) => res.data),
-    queryKey: ["notifications"],
+    queryFn: () =>
+      getAllNotifications({ page: currentPage + 1, limit: 10 }).then(
+        (res) => res.data
+      ),
+    queryKey: ["notifications", currentPage],
     onSuccess: (data) => {
       const numberOfNotifications = data.notifications.length;
       setNumberOfNotification(numberOfNotifications);
@@ -38,6 +45,13 @@ const Notifications = () => {
         buffer={0.4}
         header="Notificaciones"
         emptyMessage="No hay notificaciones"
+      />
+      <PaginatorPage
+        limit={10}
+        total={notificationsData?.count}
+        onPage={(page) => {
+          setCurrentPage(page);
+        }}
       />
     </div>
   );

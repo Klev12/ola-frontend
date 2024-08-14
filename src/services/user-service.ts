@@ -28,9 +28,15 @@ export function getAllUsers({
   return axios.get<{ count: number; users: UserGetDto[] }>(api);
 }
 
-export function getAllNotifications() {
-  return axios.get<{ notifications: NotificationGetDto[] }>(
-    `${ENV.BACKEND_ROUTE}/notifications`
+export function getAllNotifications({
+  page = 1,
+  limit = 10,
+}: {
+  page?: number;
+  limit?: number;
+}) {
+  return axios.get<{ notifications: NotificationGetDto[]; count: number }>(
+    `${ENV.BACKEND_ROUTE}/notifications?page=${page}&&limit=${limit}`
   );
 }
 

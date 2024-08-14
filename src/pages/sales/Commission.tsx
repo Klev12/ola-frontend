@@ -9,7 +9,6 @@ import { Paginator } from "primereact/paginator";
 import useGlobalState from "../../store/store";
 import { Roles } from "../../models/user";
 import { Badge } from "primereact/badge";
-import { Dropdown } from "primereact/dropdown";
 import { Calendar } from "primereact/calendar";
 import { Button } from "primereact/button";
 

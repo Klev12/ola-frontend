@@ -7,8 +7,9 @@ import { findUserById } from "../../services/user-service";
 import { ENV } from "../../consts/const";
 import { MultimediaType } from "../../models/user";
 import "./styles/check-user-form-styles.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ProgressSpinner } from "primereact/progressspinner";
+import { Toast } from "primereact/toast";
 
 interface CheckUserFormProps {
   normalMode?: boolean;
@@ -16,7 +17,7 @@ interface CheckUserFormProps {
 
 const CheckUserForm = ({ normalMode = false }: CheckUserFormProps) => {
   const { id } = useParams();
-
+  const toast = useRef<Toast>(null);
   const [errorMessage, setErrorMessage] = useState("");
 
   const { mutate: findUserByIdMutate, data: userData } =
@@ -37,10 +38,27 @@ const CheckUserForm = ({ normalMode = false }: CheckUserFormProps) => {
     },
   });
 
-  const { mutate: submitFormMutate, isLoading } = useMutation(submitForm);
+  const { mutate: submitFormMutate, isLoading } = useMutation(submitForm, {
+    onSuccess: () => {
+      toast.current?.show({
+        severity: "success",
+        summary: "Éxito al subir cambios",
+      });
+    },
+    onError: (error) => {
+      const message = (error as any)?.response?.data?.error?.message;
+
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: message,
+      });
+    },
+  });
 
   return (
     <div className="user-form">
+      <Toast ref={toast} />
       {isFormLoading && <ProgressSpinner />}
       {errorMessage && <h2>{errorMessage}</h2>}
       <PrintForm
@@ -56,6 +74,7 @@ const CheckUserForm = ({ normalMode = false }: CheckUserFormProps) => {
           findUserByIdMutate(userData?.data.user.id as number);
         }}
       />
+
       <div className="images">
         {userData?.data.user.multimedias.map((file) => {
           if (file.type === MultimediaType.video) {

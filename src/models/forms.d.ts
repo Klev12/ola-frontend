@@ -29,6 +29,7 @@ export interface FormGetDto {
   payment: PaymentGetDto;
   transactions: TransactionGetDto[];
   block: boolean;
+  createdAt: string;
 }
 
 export interface GenerateLinkPostDto {

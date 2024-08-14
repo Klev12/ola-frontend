@@ -13,6 +13,7 @@ import ROUTES from "../consts/routes";
 import { InputSwitch } from "primereact/inputswitch";
 import { UserGetDto } from "../models/user";
 import "../components/styles/input-switch.css";
+import GoBackButton from "./GoBackButton";
 
 interface PrintFormProps {
   form?: UserFormGetDto;
@@ -62,15 +63,6 @@ const PrintForm = ({
     navigate(ROUTES.FORM_PDF.ID(form?.user_form.user_id as number));
   };
 
-  const showNotification = () => {
-    toast.current?.show({
-      severity: "success",
-      summary: "Cambios subidos",
-      detail: "Los cambios se han subido correctamente",
-      life: 3000,
-    });
-  };
-
   useEffect(() => {
     if (normalMode) {
       setIsFormEditable(false);
@@ -116,7 +108,6 @@ const PrintForm = ({
 
           if (normalMode) {
             onSubmit({ id: form?.form?.id as number, results });
-            showNotification(); // Mostrar notificación al enviar el formulario
             return;
           }
         }}
@@ -131,6 +122,7 @@ const PrintForm = ({
             right: 0,
           }}
         >
+          <GoBackButton />
           {!disableButton && (
             <div className="edition-menu">
               <label htmlFor="">
@@ -138,6 +130,7 @@ const PrintForm = ({
               </label>
               <InputSwitch
                 className="custom-input-switch"
+                defaultChecked={false}
                 checked={!isFormEditable as boolean}
                 onChange={(e) => setIsFormEditable(!e.value)}
               />
@@ -153,8 +146,7 @@ const PrintForm = ({
               }}
               label="Subir cambios"
               loading={isLoading}
-              disabled={isLoading || isFormEditable}
-              onClick={() => showNotification()}
+              disabled={isLoading || !isFormEditable}
             />
           )}
 
