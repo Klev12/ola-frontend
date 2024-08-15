@@ -146,7 +146,7 @@ const PrintForm = ({
               }}
               label="Subir cambios"
               loading={isLoading}
-              disabled={isLoading || !isFormEditable}
+              disabled={isLoading || isFormEditable}
             />
           )}
 

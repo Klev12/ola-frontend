@@ -53,6 +53,7 @@ function App() {
   return (
     <>
       <Routes>
+        <Route path="" element={<Navigate to={ROUTES.HOME.ME} />} />
         <Route
           path={ROUTES.PAYPHONE.ME}
           element={<PaymentTransaction />}

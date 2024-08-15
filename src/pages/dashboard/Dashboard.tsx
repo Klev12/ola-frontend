@@ -22,6 +22,13 @@ const roleBasedVisibility = {
     forms: true,
     pendingUsers: true,
   },
+  [Roles.secretary]: {
+    notifications: true,
+    users: true,
+    collaborators: false,
+    forms: true,
+    pendingUsers: true,
+  },
 };
 
 const Dashboard = () => {

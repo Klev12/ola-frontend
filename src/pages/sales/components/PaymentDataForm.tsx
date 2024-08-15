@@ -122,18 +122,14 @@ const PaymentDataForm = ({
         style={{ display: "flex", flexDirection: "column", gap: 10 }}
         onSubmit={(e) => {
           e.preventDefault();
-          const formData = Object.fromEntries(
-            new FormData(e.target as HTMLFormElement)
-          );
-
-          const total = parseFloat(formData["total"].toString());
-          const suscription = parseFloat(formData["suscription"].toString());
-          const numberFees = Number(formData["numberFees"]);
+          // const formData = Object.fromEntries(
+          //   new FormData(e.target as HTMLFormElement)
+          // );
 
           if (isPaymentPresent) {
             updatePaymentMutate({
               total,
-              suscription,
+              suscription: suscriptionValue,
               numberFees,
               paymentId:
                 (payment?.id as number) || (paymentResponse?.id as number),
@@ -143,7 +139,7 @@ const PaymentDataForm = ({
           }
           createPaymentMutate({
             total,
-            suscription,
+            suscription: suscriptionValue,
             numberFees,
             formId: formId as number,
           });
@@ -157,6 +153,7 @@ const PaymentDataForm = ({
           name="total"
           required
           onChange={(value) => {
+            console.log(value);
             setTotal(value.value || 0);
           }}
           min={0}

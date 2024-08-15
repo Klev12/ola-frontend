@@ -21,6 +21,13 @@ const roleBasedVisibility = {
     commissions: true,
     history: true,
   },
+  [Roles.secretary]: {
+    generateSales: true,
+    mySales: true,
+    team: true,
+    commissions: true,
+    history: true,
+  },
   [Roles.groupAdmin]: {
     generateSales: true,
     mySales: true,

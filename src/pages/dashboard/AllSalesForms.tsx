@@ -12,18 +12,23 @@ import { useNavigate } from "react-router";
 import ROUTES from "../../consts/routes";
 import { PrimeIcons } from "primereact/api";
 import formatDate from "../../utils/format-date";
+import SearchInput from "../../components/SearchInput";
 
 const AllSalesForms = () => {
   const op = useRef<OverlayPanel>(null);
   const [currentPage, setCurrentPage] = useState(0);
+  const [keyword, setKeyword] = useState<string | undefined>(undefined);
   const navigate = useNavigate();
 
   const { data: salesFormData } = useQuery({
     queryFn: () =>
-      getAllForms({ type: "salesform", page: currentPage + 1, limit: 10 }).then(
-        (res) => res.data
-      ),
-    queryKey: ["all-sales-form", currentPage],
+      getAllForms({
+        type: "salesform",
+        page: currentPage + 1,
+        limit: 10,
+        keyword,
+      }).then((res) => res.data),
+    queryKey: ["all-sales-form", currentPage, keyword],
   });
 
   const [selectedForm, setSelectedForm] = useState<FormGetDto | undefined>(
@@ -32,7 +37,14 @@ const AllSalesForms = () => {
 
   return (
     <div>
-      <DataTable value={salesFormData?.forms}>
+      <SearchInput
+        placeholder="Código"
+        onSearch={(keyword) => setKeyword(keyword)}
+      />
+      <DataTable
+        value={salesFormData?.forms}
+        emptyMessage="No hay formularios de ventas"
+      >
         <Column header="Código" field="code" />
         <Column
           header="Completado"

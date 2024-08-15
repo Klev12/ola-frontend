@@ -7,18 +7,29 @@ import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { useMutation, useQuery } from "react-query";
 import ROUTES from "../../../consts/routes";
 import useGlobalState from "../../../store/store";
-import { Roles, UserGetDto } from "../../../models/user";
-import { changeRole, deleteUserById } from "../../../services/user-service";
+import { Roles, UserArea, UserGetDto } from "../../../models/user";
+import {
+  changeRole,
+  deleteUserById,
+  patchUser,
+} from "../../../services/user-service";
 import { Tag } from "primereact/tag";
+import { PrimeIcons } from "primereact/api";
+import useToggle from "../../../hooks/useToggle";
+import { Dialog } from "primereact/dialog";
+import { InputText } from "primereact/inputtext";
+import SelectUserArea from "../../../components/SelectUserArea";
 
 interface UserCardProps {
   user: UserGetDto;
   notificationMode?: boolean;
+  onSuccessEdit?: () => void;
 }
 
 const UserCard: React.FC<UserCardProps> = ({
   user,
   notificationMode = false,
+  onSuccessEdit,
 }) => {
   const toast = useRef<Toast>(null);
 
@@ -44,7 +55,20 @@ const UserCard: React.FC<UserCardProps> = ({
     },
   });
 
-  const athenticatedUser = useGlobalState((state) => state.user);
+  const { mutate: patchUserMutate, isLoading: updatingUser } = useMutation(
+    patchUser,
+    {
+      onSuccess: () => {
+        toast.current?.show({
+          severity: "success",
+          summary: "Datos de usuario actualizado",
+        });
+        if (onSuccessEdit) onSuccessEdit();
+      },
+    }
+  );
+
+  const authenticatedUser = useGlobalState((state) => state.user);
 
   const confirmDelete = () => {
     confirmDialog({
@@ -65,6 +89,8 @@ const UserCard: React.FC<UserCardProps> = ({
   };
 
   const navigate = useNavigate();
+
+  const showEditMenu = useToggle();
 
   return (
     <Panel
@@ -91,7 +117,7 @@ const UserCard: React.FC<UserCardProps> = ({
       <Toast ref={toast} />
       <ConfirmDialog />
       {user.role !== Roles.admin &&
-        athenticatedUser?.role !== Roles.secretary && <></>}
+        authenticatedUser?.role !== Roles.secretary && <></>}
 
       <div>Email: {user.email}</div>
       <div>Area: {user.area}</div>
@@ -166,20 +192,77 @@ const UserCard: React.FC<UserCardProps> = ({
                   height: "10px",
                 }}
               />
-              <Button
-                style={{
-                  backgroundColor: "red",
-                  border: 0,
-                  boxShadow: "none",
-                }}
-                rounded
-                label="Eliminar usuario"
-                onClick={confirmDelete}
-              />
+              {authenticatedUser?.role !== Roles.secretary && (
+                <Button
+                  style={{
+                    backgroundColor: "red",
+                    border: 0,
+                    boxShadow: "none",
+                  }}
+                  rounded
+                  label="Eliminar usuario"
+                  onClick={confirmDelete}
+                />
+              )}
             </div>
           </form>
         )}
       </div>
+      <Button
+        icon={PrimeIcons.PENCIL}
+        outlined
+        label="editar"
+        onClick={() => showEditMenu.setTrue()}
+      />
+      <Dialog
+        visible={showEditMenu.value}
+        onHide={() => showEditMenu.setFalse()}
+      >
+        <form
+          action=""
+          style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+          onSubmit={(e) => {
+            e.preventDefault();
+            const formData = Object.fromEntries(
+              new FormData(e.target as HTMLFormElement)
+            );
+
+            patchUserMutate({
+              user: {
+                email: formData["email"].toString(),
+                fullname: formData["fullname"].toString(),
+                area: formData["area"].toString() as UserArea,
+                userId: user.id as number,
+              },
+            });
+          }}
+        >
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+          >
+            <label htmlFor="">Nombre completo</label>
+            <InputText defaultValue={user.fullname} name="fullname" />
+          </div>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+          >
+            <label htmlFor="">Email</label>
+            <InputText defaultValue={user.email} name="email" />
+          </div>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+          >
+            <label htmlFor="">Área</label>
+            <SelectUserArea defaultArea={user.area} />
+          </div>
+          <div></div>
+          <Button
+            label="Subir cambios"
+            loading={updatingUser}
+            disabled={updatingUser}
+          />
+        </form>
+      </Dialog>
     </Panel>
   );
 };

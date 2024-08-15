@@ -39,14 +39,20 @@ export function getAllForms({
   page = 1,
   limit = 10,
   type = "all",
+  keyword,
 }: {
   page?: number;
   limit?: number;
   type?: "userform" | "salesform" | "all";
+  keyword?: string;
 }) {
-  return axios.get<{ forms: FormGetDto[]; count: number }>(
-    `${ENV.BACKEND_ROUTE}/forms/all?page=${page}&&limit=${limit}&&type=${type}`
-  );
+  let api = `${ENV.BACKEND_ROUTE}/forms/all?page=${page}&&limit=${limit}&&type=${type}`;
+
+  if (keyword) {
+    api += `&&keyword=${keyword}`;
+  }
+
+  return axios.get<{ forms: FormGetDto[]; count: number }>(api);
 }
 
 export function getMyForms({ page = 1, limit = 10 }: PaginationOptions) {

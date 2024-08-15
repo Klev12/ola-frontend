@@ -45,7 +45,7 @@ const Signup: React.FC = () => {
   const { mutate: mutateSignup, isLoading: isSigning } = useMutation(signup, {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
-      if (error.response?.data?.message) {
+      if (error?.response?.data?.message) {
         setErrorMessage(error.response.data.message);
       } else {
         setErrorMessage("Error desconocido, por favor intente de nuevo.");
@@ -117,7 +117,7 @@ const Signup: React.FC = () => {
             Registro{" "}
             {code &&
               !isLoadingCollaboratorData &&
-              `colaborador de ${collaboratorData?.user.code} en el grupo "${collaboratorData?.team.name}"`}
+              `colaborador de ${collaboratorData?.user?.code} en el grupo "${collaboratorData?.team.name}"`}
           </h2>
           {errorMessage && <Message severity="error" text={errorMessage} />}
           <label htmlFor="email">Correo electrónico: </label>

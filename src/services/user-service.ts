@@ -71,3 +71,11 @@ export function findUserById(id: string | number) {
 export function getCountUsers() {
   return axios.get<{ count: number }>(`${ENV.BACKEND_ROUTE}/users/count`);
 }
+
+export function patchUser({
+  user,
+}: {
+  user: { fullname?: string; area?: UserArea; userId: number; email?: string };
+}) {
+  return axios.patch(`${ENV.BACKEND_ROUTE}/users`, user);
+}
