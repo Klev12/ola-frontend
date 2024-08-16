@@ -51,7 +51,7 @@ const EditForm = () => {
           });
         }}
       />
-      {formSchemeData?.form_scheme.form_groups.map((formGroup) => {
+      {formSchemeData?.form_scheme?.form_groups?.map((formGroup) => {
         return (
           <Card title={formGroup.label}>
             <Button
@@ -78,19 +78,19 @@ const EditForm = () => {
               <Button>Añadir campo + </Button>
             </form>
             <div style={{ display: "flex", flexDirection: "column" }}>
-              {formGroup.fields.map((field) => {
-                if (field.component === "input") {
+              {formGroup?.fields?.map((field) => {
+                if (field?.component === "input") {
                   return (
                     <div>
-                      <div>{field.label}</div>
+                      <div>{field?.label}</div>
                       <InputText />
                     </div>
                   );
                 }
-                if (field.component === "select") {
+                if (field?.component === "select") {
                   return (
                     <div>
-                      <div>{field.label}</div>
+                      <div>{field?.label}</div>
                       <Dropdown />
                     </div>
                   );

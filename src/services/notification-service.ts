@@ -10,3 +10,19 @@ export function sendVerifyUserNotification(formId: string | number) {
     formId,
   });
 }
+
+export function markAsSeenNotification({
+  notificationsIds,
+}: {
+  notificationsIds: number[];
+}) {
+  return axios.patch(`${ENV.BACKEND_ROUTE}/notifications/mark-as-seen`, {
+    notificationsIds,
+  });
+}
+
+export function getUnseenCountNotifications() {
+  return axios.get<{ count: number }>(
+    `${ENV.BACKEND_ROUTE}/notifications/unseen-count`
+  );
+}

@@ -13,6 +13,7 @@ import ROUTES from "../../consts/routes";
 import { PrimeIcons } from "primereact/api";
 import formatDate from "../../utils/format-date";
 import SearchInput from "../../components/SearchInput";
+import PaginatorPage from "../../components/PaginatorPage";
 
 const AllSalesForms = () => {
   const op = useRef<OverlayPanel>(null);
@@ -107,12 +108,11 @@ const AllSalesForms = () => {
           body={(value: FormGetDto) => <div>{formatDate(value.createdAt)}</div>}
         />
       </DataTable>
-      <Paginator
-        first={currentPage === 0 ? currentPage : currentPage + 10}
-        rows={10}
-        totalRecords={salesFormData?.count}
-        onPageChange={(e) => {
-          setCurrentPage(e.page);
+      <PaginatorPage
+        limit={10}
+        total={salesFormData?.count}
+        onPage={(page) => {
+          setCurrentPage(page);
         }}
       />
     </div>

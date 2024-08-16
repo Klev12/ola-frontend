@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { UserGetDto } from "../models/user";
 import { UserFormGetDto } from "../models/user-form";
+import { NotificationGetDto } from "../models/notification";
 
 interface GlobalState {
   user?: UserGetDto;
@@ -24,6 +25,8 @@ interface GlobalState {
   onChangeNames: (names: string) => void; */
   currentUserForm?: UserFormGetDto;
   setCurrentUserForm: (userForm: UserFormGetDto) => void;
+  enabledFetchNotifications?: boolean;
+  setEnabledFetchNotifications: (enabled: boolean) => void;
 }
 
 const useGlobalState = create<GlobalState>((set) => ({
@@ -36,6 +39,10 @@ const useGlobalState = create<GlobalState>((set) => ({
   numberOfNotifications: 0,
   normalModeCheckForm: false,
   currentUserForm: undefined,
+  enabledFetchNotifications: true,
+  setEnabledFetchNotifications: (enabled) => {
+    set({ enabledFetchNotifications: enabled });
+  },
   setNormalModeCheckForm: (normalModeCheckForm) => {
     set({ normalModeCheckForm });
   },

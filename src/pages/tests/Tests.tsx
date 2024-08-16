@@ -41,8 +41,8 @@ const Tests = () => {
           label="Crear nueva prueba"
         />
       </form>
-      {testsData?.tests.length === 0 && <span>No hay pruebas, crea una!</span>}
-      {testsData?.tests.map((test) => {
+      {testsData?.tests?.length === 0 && <span>No hay pruebas, crea una!</span>}
+      {testsData?.tests?.map((test) => {
         return (
           <Card title={test.title}>
             <Button

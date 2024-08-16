@@ -52,7 +52,9 @@ const ROUTES = {
       return `${this.FORMS}/type-sales`;
     },
   },
-
+  NOTIFICATIONS: {
+    ME: "/notifications",
+  },
   SALES: {
     ME: "/sales",
     get FORMS() {

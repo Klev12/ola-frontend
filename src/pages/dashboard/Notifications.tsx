@@ -1,10 +1,11 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { DataScroller } from "primereact/datascroller";
 import { getAllNotifications } from "../../services/user-service";
 import NotificationCard from "./components/NotificationCard";
 import useGlobalState from "../../store/store";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import PaginatorPage from "../../components/PaginatorPage";
+import { markAsSeenNotification } from "../../services/notification-service";
 
 const Notifications = () => {
   const setNumberOfNotification = useGlobalState(
@@ -12,6 +13,10 @@ const Notifications = () => {
   );
 
   const [currentPage, setCurrentPage] = useState(0);
+
+  const setEnabledFetchNotifications = useGlobalState(
+    (state) => state.setEnabledFetchNotifications
+  );
 
   const { data: notificationsData } = useQuery({
     queryFn: () =>
@@ -22,9 +27,34 @@ const Notifications = () => {
     onSuccess: (data) => {
       const numberOfNotifications = data.notifications.length;
       setNumberOfNotification(numberOfNotifications);
+      setEnabledFetchNotifications(false);
     },
-    refetchInterval: 20000,
+    refetchInterval: 3000,
   });
+
+  const { mutate: markAsSeenNotificationMutate } = useMutation(
+    markAsSeenNotification
+  );
+
+  const unseenNotifications = useMemo(() => {
+    return notificationsData?.notifications?.filter(
+      (notification) => !notification.seen
+    );
+  }, [notificationsData]);
+
+  useEffect(() => {
+    return () => {
+      setEnabledFetchNotifications(true);
+    };
+  }, []);
+
+  useEffect(() => {
+    markAsSeenNotificationMutate({
+      notificationsIds: unseenNotifications?.map(
+        (unseenNotification) => unseenNotification.id as number
+      ) as [],
+    });
+  }, [unseenNotifications]);
 
   return (
     <div>

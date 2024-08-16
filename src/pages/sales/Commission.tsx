@@ -56,10 +56,10 @@ const Commission = ({ collected = false }: CommissionProps) => {
         emptyMessage="No hay comisiones"
       >
         <Column header="Código formulario" field="formCode" />
-        <Column header="valor transacción" field="amount" />
-        <Column header="vendedor" field="userFullname" />
+        <Column header="Valor transacción" field="amount" />
+        <Column header="Vendedor" field="userFullname" />
         <Column
-          header="ganancia"
+          header="Ganancia"
           field="userCommission"
           body={(value: CommissionGetDto) => (
             <>
@@ -76,10 +76,10 @@ const Commission = ({ collected = false }: CommissionProps) => {
             </>
           )}
         />
-        <Column header="nombre de grupo" field="teamName" />
-        <Column header="jefe de grupo" field="groupAdminFullname" />
+        <Column header="Nombre de grupo" field="teamName" />
+        <Column header="Jefe de grupo" field="groupAdminFullname" />
         <Column
-          header="ganancia"
+          header="Ganancia"
           field="groupAdminCommission"
           body={(value: CommissionGetDto) => (
             <>
@@ -117,10 +117,10 @@ const Commission = ({ collected = false }: CommissionProps) => {
         emptyMessage="No hay comisiones"
       >
         <Column header="Código formulario" field="formCode" />
-        <Column header="valor transacción" field="amount" />
-        <Column header="vendedor" field="userFullname" />
+        <Column header="Valor transacción" field="amount" />
+        <Column header="Vendedor" field="userFullname" />
         <Column
-          header="ganancia"
+          header="Ganancia"
           field="userCommission"
           body={(value: CommissionGetDto) => (
             <div>
@@ -138,10 +138,10 @@ const Commission = ({ collected = false }: CommissionProps) => {
             </div>
           )}
         />
-        <Column header="nombre de grupo" field="teamName" />
-        <Column header="jefe de grupo" field="groupAdminFullname" />
+        <Column header="Nombre de grupo" field="teamName" />
+        <Column header="Jefe de grupo" field="groupAdminFullname" />
         <Column
-          header="ganancia"
+          header="Ganancia"
           field="generalAdminCommission"
           body={(value: CommissionGetDto) => (
             <div>
@@ -153,10 +153,10 @@ const Commission = ({ collected = false }: CommissionProps) => {
                 )}
               </p>
 
-              {value.groupAdminCommission && (
+              {value.groupAdminCommission && !value.generalAdminCommission && (
                 <Badge
                   severity="success"
-                  value={`+${
+                  value={`${
                     parseFloat(
                       (value.groupAdminCommission / value.amount).toFixed(2)
                     ) * 100
@@ -200,14 +200,14 @@ const Commission = ({ collected = false }: CommissionProps) => {
           value={commissionData?.commissions}
           emptyMessage="No hay comisiones"
         >
-          <Column header="valor transacción" field="amount" />
-          <Column header="vendedor" field="userFullname" />
-          <Column header="ganancia 10%" field="userCommission" />
-          <Column header="nombre de grupo" field="teamName" />
+          <Column header="Valor transacción" field="amount" />
+          <Column header="Vendedor" field="userFullname" />
+          <Column header="Ganancia 10%" field="userCommission" />
+          <Column header="Nombre de grupo" field="teamName" />
           <Column header="Creada en" field="createdAt" />
 
-          <Column header="jefe de grupo" field="groupAdminFullname" />
-          <Column header="ganancia" field="groupAdminCommission" />
+          <Column header="Jefe de grupo" field="groupAdminFullname" />
+          <Column header="Ganancia" field="groupAdminCommission" />
           <Column
             header="Estado"
             field="collected"

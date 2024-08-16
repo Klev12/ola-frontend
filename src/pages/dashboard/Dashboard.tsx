@@ -16,14 +16,14 @@ const roleBasedVisibility = {
     pendingUsers: false,
   },
   [Roles.admin]: {
-    notifications: true,
+    notifications: false,
     users: true,
     collaborators: false,
     forms: true,
     pendingUsers: true,
   },
   [Roles.secretary]: {
-    notifications: true,
+    notifications: false,
     users: true,
     collaborators: false,
     forms: true,

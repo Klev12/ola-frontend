@@ -4,6 +4,7 @@ export interface NotificationGetDto {
   description: string;
   type: NotificationType;
   metadata: NotificationMetadata;
+  seen: boolean;
   createdAt: string;
 }
 

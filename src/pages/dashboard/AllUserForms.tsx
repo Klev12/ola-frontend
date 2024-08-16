@@ -11,6 +11,7 @@ import { useQuery } from "react-query";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import ROUTES from "../../consts/routes";
+import PaginatorPage from "../../components/PaginatorPage";
 
 export const AllUserForms = () => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -63,12 +64,11 @@ export const AllUserForms = () => {
         />
         <Column header="Fecha" field="createdAt" />
       </DataTable>
-      <Paginator
-        first={currentPage === 0 ? currentPage : currentPage + 10}
-        rows={10}
-        totalRecords={salesFormData?.count}
-        onPageChange={(e) => {
-          setCurrentPage(e.page);
+      <PaginatorPage
+        limit={10}
+        total={salesFormData?.count}
+        onPage={(page) => {
+          setCurrentPage(page);
         }}
       />
     </div>

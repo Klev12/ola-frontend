@@ -80,7 +80,10 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
         />
       )}
 
-      <h2>{notification.title}</h2>
+      <h2>
+        {notification.title}{" "}
+        {!notification.seen && <Tag value="nuevo" severity="info" />}
+      </h2>
       <p>{notification.description}</p>
       {notification.type === NotificationType.newUser && (
         <div style={{ display: "flex", gap: "0.8rem" }}>

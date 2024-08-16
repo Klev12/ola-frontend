@@ -35,9 +35,6 @@ const History = () => {
         <TabPanel header="Comisiones">
           <Outlet />
         </TabPanel>
-        <TabPanel header="Mis ventas">
-          <Outlet />
-        </TabPanel>
       </TabView>
     </div>
   );

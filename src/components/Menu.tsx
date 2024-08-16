@@ -6,6 +6,7 @@ import ROUTES from "../consts/routes";
 import { Roles, UserArea } from "../models/user";
 import useGlobalState from "../store/store";
 import { useMemo } from "react";
+import NotificationsPanel from "./NotificationsPanel";
 
 const roleBasedVisibility = {
   [Roles.admin]: {
@@ -26,8 +27,7 @@ const roleBasedVisibility = {
   },
   [Roles.groupAdmin]: {
     home: true,
-    dashboard: true,
-    sales: false,
+    sales: true,
     blog: true,
     norms: true,
     tests: true,
@@ -79,7 +79,7 @@ export default function MenuDemo() {
       icon: "pi pi-sliders-v",
       visible: false,
       command: () => {
-        navigate(ROUTES.DASHBOARD.NOTIFICATIONS);
+        navigate(ROUTES.DASHBOARD.USERS);
       },
     },
     {
@@ -146,7 +146,17 @@ export default function MenuDemo() {
 
   return (
     <div className="menu">
-      <Menubar model={roleBasedItems as MenuItem[]} end={<AvatarDemo />} />
+      <Menubar
+        model={roleBasedItems as MenuItem[]}
+        end={
+          <div style={{ display: "flex", gap: "5px" }}>
+            {[Roles.admin, Roles.secretary].includes(user?.role as Roles) && (
+              <NotificationsPanel />
+            )}
+            <AvatarDemo />
+          </div>
+        }
+      />
     </div>
   );
 }

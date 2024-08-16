@@ -74,6 +74,7 @@ function App() {
             path={ROUTES.DASHBOARD.CHECK_USER_FORM}
             element={<CheckUserForm />}
           />
+          <Route path={ROUTES.NOTIFICATIONS.ME} element={<Notifications />} />
 
           <Route path={ROUTES.DASHBOARD.ME} element={<Dashboard />}>
             <Route path={ROUTES.DASHBOARD.USER_TEAMS} element={<UserTeam />} />

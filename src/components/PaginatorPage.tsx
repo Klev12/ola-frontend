@@ -9,17 +9,17 @@ interface PaginatorPageProps {
 
 const PaginatorPage = ({ total, limit, onPage }: PaginatorPageProps) => {
   const [currentPage, setCurrentPage] = useState(0);
-  const [currentLimit] = useState(limit);
+  const [rows, setRows] = useState(limit);
 
   return (
     <Paginator
-      first={
-        currentPage === 0 ? currentPage : currentPage + (currentLimit || 0)
-      }
-      rows={currentLimit}
+      first={currentPage}
+      rows={rows}
       totalRecords={total}
       onPageChange={(e) => {
-        setCurrentPage(e.page);
+        console.log(total, e.first, e.rows);
+        setCurrentPage(e.first);
+        setRows(e.rows);
         onPage(e.page);
       }}
     />

@@ -6,6 +6,7 @@ import FormList from "./components/FormList";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import { Paginator } from "primereact/paginator";
+import PaginatorPage from "../../components/PaginatorPage";
 
 const MyForms = () => {
   const [loading, setLoading] = useState(false);
@@ -45,13 +46,12 @@ const MyForms = () => {
   return (
     <div>
       <Toast ref={toast} />
-      <Paginator
-        first={currentPage === 0 ? currentPage : currentPage + 10}
-        rows={10}
-        onPageChange={(e) => {
-          setCurrentPage(e.page);
+      <PaginatorPage
+        limit={10}
+        total={formsData?.count}
+        onPage={(page) => {
+          setCurrentPage(page);
         }}
-        totalRecords={formsData?.count}
       />
       <Button
         style={{ backgroundColor: "purple", border: "0", boxShadow: "none" }}
