@@ -4,7 +4,6 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Tag } from "primereact/tag";
 import { FormGetDto } from "../../models/forms";
-import { Paginator } from "primereact/paginator";
 import { Button } from "primereact/button";
 import { useRef, useState } from "react";
 import { OverlayPanel } from "primereact/overlaypanel";

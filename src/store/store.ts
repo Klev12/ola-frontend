@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { UserGetDto } from "../models/user";
 import { UserFormGetDto } from "../models/user-form";
-import { NotificationGetDto } from "../models/notification";
 
 interface GlobalState {
   user?: UserGetDto;

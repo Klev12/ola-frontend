@@ -5,7 +5,6 @@ import { useState } from "react";
 import FormList from "./components/FormList";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
-import { Paginator } from "primereact/paginator";
 import PaginatorPage from "../../components/PaginatorPage";
 
 const MyForms = () => {

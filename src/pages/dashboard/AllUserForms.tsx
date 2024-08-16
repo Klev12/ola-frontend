@@ -1,5 +1,4 @@
 import { Column } from "primereact/column";
-import { Paginator } from "primereact/paginator";
 import { FormGetDto } from "../../models/forms";
 import { PrimeIcons } from "primereact/api";
 import { Button } from "primereact/button";
