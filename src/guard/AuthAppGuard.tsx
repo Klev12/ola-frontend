@@ -32,7 +32,7 @@ const AuthAppGuard = ({
       }
     },
     queryKey: ["user"],
-    retry: 2,
+    retry: 0,
   });
 
   if (isLoading) {

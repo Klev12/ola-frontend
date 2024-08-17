@@ -60,6 +60,7 @@ const TeamUsers = () => {
               )
             );
           }}
+          emptyMessage="No hay usuarios"
         >
           <Column field="user.fullname" header="Nombre"></Column>
           <Column field="user.code" header="Código"></Column>

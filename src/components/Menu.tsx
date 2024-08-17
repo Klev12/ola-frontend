@@ -7,6 +7,7 @@ import { Roles, UserArea } from "../models/user";
 import useGlobalState from "../store/store";
 import { useMemo } from "react";
 import NotificationsPanel from "./NotificationsPanel";
+import "./styles/global-menu.css";
 
 const roleBasedVisibility = {
   [Roles.admin]: {
@@ -145,7 +146,7 @@ export default function MenuDemo() {
   }, [user]);
 
   return (
-    <div className="menu">
+    <div className="global-menu">
       <Menubar
         model={roleBasedItems as MenuItem[]}
         end={

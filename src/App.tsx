@@ -94,7 +94,7 @@ function App() {
             <Route path={ROUTES.DASHBOARD.FORMS} element={<AllForms />}>
               <Route
                 path={ROUTES.DASHBOARD.FORMS}
-                element={<Navigate to={ROUTES.DASHBOARD.FORMS_SALES} />}
+                element={<Navigate to={ROUTES.DASHBOARD.FORMS_USER} />}
               />
               <Route
                 path={ROUTES.DASHBOARD.FORMS_USER}

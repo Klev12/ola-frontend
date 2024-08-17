@@ -107,13 +107,7 @@ const Sales = () => {
   return (
     <div>
       <div className="global-home-grid">
-        <Menu
-          className="nav"
-          onChange={() => {
-            console.log("hasd");
-          }}
-          model={roleBasedItems}
-        />
+        <Menu className="nav" model={roleBasedItems} />
         <div className="content">
           <Outlet />
         </div>

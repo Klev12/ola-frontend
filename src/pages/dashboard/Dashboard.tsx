@@ -6,6 +6,7 @@ import { Badge } from "primereact/badge";
 import useGlobalState from "../../store/store";
 import { Roles } from "../../models/user";
 import { useEffect, useMemo } from "react";
+import "./styles/dashboard.css";
 
 const roleBasedVisibility = {
   [Roles.sales]: {
@@ -122,18 +123,10 @@ const Dashboard = () => {
   }, [user]);
 
   return (
-    <div style={{ height: "100vh", overflow: "hidden" }}>
-      <div className="global-home-grid">
-        <Menu
-          className="nav"
-          onChange={() => {
-            console.log("hasd");
-          }}
-          model={roleBasedItems}
-        />
-        <div className="content">
-          <Outlet />
-        </div>
+    <div className="global-home-grid">
+      <Menu className="nav" model={roleBasedItems} />
+      <div className="content">
+        <Outlet />
       </div>
     </div>
   );

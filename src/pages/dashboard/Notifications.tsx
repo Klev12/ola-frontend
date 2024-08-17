@@ -58,9 +58,6 @@ const Notifications = () => {
 
   return (
     <div>
-      {notificationsData?.notifications.length === 0 && (
-        <div>No hay notificaciones</div>
-      )}
       <DataScroller
         value={notificationsData?.notifications.sort(
           (a, b) => (b.id as number) - (a.id as number)
@@ -69,10 +66,6 @@ const Notifications = () => {
           <NotificationCard key={notification.id} notification={notification} />
         )}
         rows={10}
-        inline
-        scrollHeight="700px"
-        loader
-        buffer={0.4}
         header="Notificaciones"
         emptyMessage="No hay notificaciones"
       />

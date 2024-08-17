@@ -53,7 +53,12 @@ const MyForms = () => {
         }}
       />
       <Button
-        style={{ backgroundColor: "purple", border: "0", boxShadow: "none" }}
+        style={{
+          backgroundColor: "purple",
+          border: "0",
+          boxShadow: "none",
+          marginBottom: "20px",
+        }}
         icon="pi pi-plus"
         onClick={handleClick}
         loading={loading}

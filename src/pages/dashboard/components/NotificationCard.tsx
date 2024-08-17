@@ -43,14 +43,14 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
     }
   );
 
-  const { mutate: deleteNotificationByIdMutate } = useMutation(
-    deleteNotificationById,
-    {
-      onSuccess: () => {
-        refetch();
-      },
-    }
-  );
+  const {
+    mutate: deleteNotificationByIdMutate,
+    isLoading: isDeletingNotification,
+  } = useMutation(deleteNotificationById, {
+    onSuccess: () => {
+      refetch();
+    },
+  });
 
   const { mutate: deleteUserByIdMutate } = useMutation(deleteUserById, {
     onSuccess: () => {
@@ -65,20 +65,27 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
   });
 
   return (
-    <Card footer={<Tag value={formatDate(notification.createdAt)} />}>
+    <Card
+      footer={
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Tag value={formatDate(notification.createdAt)} />
+          {notification.type !== NotificationType.newUser && (
+            <Button
+              icon="pi pi-times"
+              rounded
+              severity="help"
+              aria-label="Cancel"
+              onClick={() => {
+                console.log(notification);
+                deleteNotificationByIdMutate(notification.id);
+              }}
+              loading={isDeletingNotification}
+            />
+          )}
+        </div>
+      }
+    >
       <Toast ref={toast} />
-      {notification.type !== NotificationType.newUser && (
-        <Button
-          icon="pi pi-times"
-          rounded
-          severity="danger"
-          aria-label="Cancel"
-          onClick={() => {
-            console.log(notification);
-            deleteNotificationByIdMutate(notification.id);
-          }}
-        />
-      )}
 
       <h2>
         {notification.title}{" "}
@@ -114,7 +121,6 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
       {notification.type === NotificationType.verifyUser && (
         <>
           <Link
-            target="_blank"
             to={ROUTES.DASHBOARD.CHECK_USER_FORM_ID(
               notification.metadata?.userId as number
             )}
@@ -126,7 +132,6 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
       {notification.type === NotificationType.newTransaction && (
         <>
           <Link
-            target="_blank"
             to={ROUTES.DASHBOARD.CHECK_FORM_ID(
               notification.metadata.formId as number
             )}

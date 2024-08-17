@@ -14,9 +14,9 @@ import {
 } from "../../../services/team-service";
 import { Toast } from "primereact/toast";
 import { useRef, useState } from "react";
-import { Paginator } from "primereact/paginator";
 import { InputText } from "primereact/inputtext";
 import useGlobalState from "../../../store/store";
+import PaginatorPage from "../../../components/PaginatorPage";
 
 interface UserListTeamProps {
   team?: TeamGetDto;
@@ -36,7 +36,7 @@ const UserListTeam = ({ team, visible, onHide }: UserListTeamProps) => {
   const { data: usersData } = useQuery({
     queryFn: () =>
       getAllUsers({
-        area: team?.area as UserArea,
+        area: UserArea.commercial,
         access: true,
         page: currentPageUser + 1,
         limit: 5,
@@ -125,12 +125,12 @@ const UserListTeam = ({ team, visible, onHide }: UserListTeamProps) => {
             )}
           />
         </DataTable>
-        <Paginator
-          rows={5}
-          totalRecords={usersData?.count}
-          first={currentPageUser}
-          onPageChange={(e) => {
-            setCurrenPageUser(e.page);
+
+        <PaginatorPage
+          limit={10}
+          total={usersData?.count}
+          onPage={(page) => {
+            setCurrenPageUser(page);
           }}
         />
       </Dialog>
@@ -153,12 +153,11 @@ const UserListTeam = ({ team, visible, onHide }: UserListTeamProps) => {
           )}
         />
       </DataTable>
-      <Paginator
-        first={currentPageTeamUser}
-        rows={10}
-        totalRecords={usersFromTeamData?.count}
-        onPageChange={(e) => {
-          setCurrenPageTeamUser(e.page);
+      <PaginatorPage
+        limit={10}
+        total={usersFromTeamData?.count}
+        onPage={(page) => {
+          setCurrenPageTeamUser(page);
         }}
       />
     </>

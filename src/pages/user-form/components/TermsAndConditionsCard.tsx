@@ -20,7 +20,7 @@ const TermsAndConditionsCard = ({
   return (
     <Card title="Términos y condiciones" className="terms-card">
       <div className="m-0 terms-text">
-        {`Yo ${userFormNames?.toLocaleUpperCase()} ${userFormLastNames?.toUpperCase()} con el numero de identificacion ${userIdCard} `}
+        {`Yo ${userFormNames?.toLocaleUpperCase()} ${userFormLastNames?.toUpperCase()} con el número de identificación ${userIdCard} `}
         {termAndConditions?.description}
         <div className="checkbox-container">
           <Checkbox

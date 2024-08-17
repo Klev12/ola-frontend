@@ -64,6 +64,7 @@ const UserCard: React.FC<UserCardProps> = ({
           summary: "Datos de usuario actualizado",
         });
         if (onSuccessEdit) onSuccessEdit();
+        showEditMenu.setFalse();
       },
     }
   );
@@ -94,12 +95,17 @@ const UserCard: React.FC<UserCardProps> = ({
 
   return (
     <Panel
+      collapsed={true}
       header={
         <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
           <span>{user.fullname}</span>
           <Tag severity="info" value={user.code} />
-          {(user.role === Roles.groupAdmin ||
-            user.role === Roles.generalAdmin) && (
+          {[
+            Roles.admin,
+            Roles.secretary,
+            Roles.generalAdmin,
+            Roles.groupAdmin,
+          ].includes(user.role) && (
             <Tag
               value="ver grupo"
               onClick={() => {
@@ -111,8 +117,6 @@ const UserCard: React.FC<UserCardProps> = ({
           )}
         </div>
       }
-      toggleable
-      collapsed
     >
       <Toast ref={toast} />
       <ConfirmDialog />
@@ -126,7 +130,7 @@ const UserCard: React.FC<UserCardProps> = ({
         {user.verified
           ? "el usuario está verificado"
           : "el usuario no está verificado"}
-        <Link target="_blank" to={ROUTES.DASHBOARD.CHECK_USER_FORM_ID(user.id)}>
+        <Link to={ROUTES.DASHBOARD.CHECK_USER_FORM_ID(user.id)}>
           Revisar formulario
         </Link>
       </div>

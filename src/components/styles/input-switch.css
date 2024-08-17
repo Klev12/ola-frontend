@@ -1,12 +1,11 @@
 .custom-input-switch .p-inputswitch-slider {
-    background-color: purple;
-  }
-  
-  .custom-input-switch .p-inputswitch-slider:before {
-    background-color: white; /
-  }
-  
-  .custom-input-switch .p-inputswitch-slider:after {
-    background-color: white; 
-  }
-  
+  background-color: purple;
+}
+
+.custom-input-switch .p-inputswitch-slider:before {
+  background-color: white;
+}
+
+.custom-input-switch .p-inputswitch-slider:after {
+  background-color: white;
+}

@@ -66,6 +66,12 @@ const Team = () => {
     [teamsData]
   );
 
+  const myTeam = useMemo(
+    () =>
+      teamsData?.teams?.find((team) => team.userId === authenticatedUser?.id),
+    [teamsData]
+  );
+
   const menuRight = useRef<OverlayPanel>(null);
 
   return (
@@ -132,7 +138,11 @@ const Team = () => {
           }}
         >
           <label htmlFor="">Nombre de grupo</label>
-          <InputText placeholder="nombre de grupo" name="name" />
+          <InputText
+            defaultValue={myTeam?.name}
+            placeholder="nombre de grupo"
+            name="name"
+          />
           <Button
             label={
               teamsData?.teams.length !== 0

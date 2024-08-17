@@ -32,6 +32,7 @@ const AuthGuard = ({
       navigate(errorRedirectTo || location.pathname);
     },
     queryKey: ["user"],
+    retry: 1,
   });
 
   if (isLoading) {

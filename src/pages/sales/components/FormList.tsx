@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
-import { ScrollPanel } from "primereact/scrollpanel";
 import { Toast } from "primereact/toast";
 import { Dialog } from "primereact/dialog";
 import useLoading from "../../../hooks/useLoading";
@@ -20,6 +19,7 @@ import "primeicons/primeicons.css";
 import TransactionsList from "./TransactionsList";
 import useToggle from "../../../hooks/useToggle";
 import PaymentDataForm from "./PaymentDataForm";
+import { AxiosError } from "axios";
 
 interface FormListProps {
   forms: FormGetDto[];
@@ -60,7 +60,8 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
     },
     onError: (error) => {
       setLoadingFalse();
-      const message = (error as any)?.response?.data?.error?.message;
+      const message = (error as AxiosError<{ error: { message: string } }>)
+        ?.response?.data?.error?.message;
       toast.current?.show({
         severity: "error",
         summary: "Error",
@@ -96,24 +97,71 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
   return (
     <div className="p-grid p-justify-center">
       <Toast ref={toast} />
-      <ScrollPanel
-        style={{ width: "80%", height: "600px", scrollbarColor: "blue" }}
-        className="custombar2"
-      >
-        {forms
-          .slice()
-          .reverse()
-          .map((form, index) => (
-            <Card
-              title={`Formulario N° ${forms.length - index}: ${form.code}`}
-              subTitle={
-                <div>
-                  <p>{form.hash ? "Link Generado" : "Link no habilitado"}</p>
-                  <p>{form.block ? "formulario bloqueado" : ""}</p>
-                </div>
-              }
-              style={{ marginBottom: "2em" }}
-              key={form.id}
+
+      {forms
+        .slice()
+        .reverse()
+        .map((form, index) => (
+          <Card
+            title={`Formulario N° ${forms.length - index}: ${form.code}`}
+            subTitle={
+              <div>
+                <p>{form.hash ? "Link Generado" : "Link no habilitado"}</p>
+                <p>{form.block ? "formulario bloqueado" : ""}</p>
+              </div>
+            }
+            style={{ marginBottom: "2em" }}
+            key={form.id}
+          >
+            {form.hash && (
+              <div style={{ marginBottom: "20px" }}>
+                <h3 style={{ padding: 0, margin: 0 }}>Link:</h3>
+                <a
+                  style={{ margin: "10px 0", marginRight: "10px" }}
+                  href={ROUTES.GENERATE_SALES_FORM.HASH(form.hash)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {window.location.origin}/generate-sales-form/{form.hash}
+                </a>
+
+                <Button
+                  disabled={form.block}
+                  icon="pi pi-copy"
+                  className="p-button-rounded p-button-info p-mr-2"
+                  onClick={() => {
+                    const textToCopy = `${window.location.origin}/generate-sales-form/${form.hash}`;
+
+                    // Create a temporary textarea element
+                    const textarea = document.createElement("textarea");
+                    textarea.value = textToCopy;
+                    textarea.setAttribute("readonly", "");
+                    textarea.style.position = "absolute";
+                    textarea.style.left = "-9999px"; // Move outside the screen to make it invisible
+
+                    document.body.appendChild(textarea);
+                    textarea.select();
+
+                    // Execute copy command
+                    document.execCommand("copy");
+
+                    // Clean up - remove the textarea from the DOM
+                    document.body.removeChild(textarea);
+                    toast.current?.show({
+                      severity: "success",
+                      summary: "Link Copiado",
+                      detail: "El link ha sido copiado al portapapeles.",
+                      life: 3000,
+                    });
+                  }}
+                />
+              </div>
+            )}
+            <div
+              style={{
+                display: "flex",
+                gap: "10px",
+              }}
             >
               <Button
                 disabled={form.block}
@@ -130,48 +178,7 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
                   setDeleteConfirmationVisible(true);
                 }}
               ></Button>
-              {form.hash ? (
-                <>
-                  <h3>Link:</h3>
-                  <a
-                    href={ROUTES.GENERATE_SALES_FORM.HASH(form.hash)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {window.location.origin}/generate-sales-form/{form.hash}
-                  </a>
-                  <Button
-                    disabled={form.block}
-                    icon="pi pi-copy"
-                    className="p-button-rounded p-button-info p-mr-2"
-                    onClick={() => {
-                      const textToCopy = `${window.location.origin}/generate-sales-form/${form.hash}`;
-
-                      // Create a temporary textarea element
-                      const textarea = document.createElement("textarea");
-                      textarea.value = textToCopy;
-                      textarea.setAttribute("readonly", "");
-                      textarea.style.position = "absolute";
-                      textarea.style.left = "-9999px"; // Move outside the screen to make it invisible
-
-                      document.body.appendChild(textarea);
-                      textarea.select();
-
-                      // Execute copy command
-                      document.execCommand("copy");
-
-                      // Clean up - remove the textarea from the DOM
-                      document.body.removeChild(textarea);
-                      toast.current?.show({
-                        severity: "success",
-                        summary: "Link Copiado",
-                        detail: "El link ha sido copiado al portapapeles.",
-                        life: 3000,
-                      });
-                    }}
-                  />
-                </>
-              ) : (
+              {!form.hash && (
                 <Button
                   disabled={form.block}
                   style={{
@@ -189,44 +196,39 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
                   }}
                 />
               )}
-
-              <div style={{ marginTop: "1em", display: "flex", gap: "10px" }}>
-                {form.hash && (
-                  <Button
-                    disabled={form.block}
-                    label="Invalidar Link"
-                    icon="pi pi-times"
-                    loading={loading}
-                    className="p-button-rounded p-button-danger"
-                    onClick={() => {
-                      setLoadingTrue();
-                      invalidateLinkMutate({ id: form.id });
-                    }}
-                  />
-                )}
+              {form.hash && (
                 <Button
                   disabled={form.block}
-                  style={{
-                    backgroundColor: "purple",
-                    border: 0,
-                    boxShadow: "none",
-                  }}
-                  label="Formulario"
-                  icon="pi pi-file"
+                  label="Invalidar Link"
+                  icon="pi pi-times"
                   loading={loading}
-                  className="p-button-rounded"
+                  className="p-button-rounded p-button-danger"
                   onClick={() => {
-                    navigate(ROUTES.SALES.FORM_EDITOR_ID(Number(form.id)));
+                    setLoadingTrue();
+                    invalidateLinkMutate({ id: form.id });
                   }}
                 />
-                <TransactionsList
-                  form={form}
-                  transactions={form.transactions}
-                />
-              </div>
-            </Card>
-          ))}
-      </ScrollPanel>
+              )}
+
+              <Button
+                disabled={form.block}
+                style={{
+                  backgroundColor: "purple",
+                  border: 0,
+                  boxShadow: "none",
+                }}
+                label="Formulario"
+                icon="pi pi-file"
+                loading={loading}
+                className="p-button-rounded"
+                onClick={() => {
+                  navigate(ROUTES.SALES.FORM_EDITOR_ID(Number(form.id)));
+                }}
+              />
+              <TransactionsList form={form} transactions={form.transactions} />
+            </div>
+          </Card>
+        ))}
 
       <Dialog
         draggable={false}

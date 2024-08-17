@@ -42,7 +42,13 @@ const Users = () => {
       {userData?.data.users.map((user, index) => {
         return (
           <div key={index}>
-            <UserCard user={user} notificationMode={false} />
+            <UserCard
+              user={user}
+              notificationMode={false}
+              onSuccessEdit={() => {
+                getAllUsersMutate({ access: true, keyword });
+              }}
+            />
           </div>
         );
       })}

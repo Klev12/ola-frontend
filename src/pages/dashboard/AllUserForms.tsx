@@ -11,6 +11,7 @@ import { useNavigate } from "react-router";
 import { useState } from "react";
 import ROUTES from "../../consts/routes";
 import PaginatorPage from "../../components/PaginatorPage";
+import formatDate from "../../utils/format-date";
 
 export const AllUserForms = () => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -57,11 +58,17 @@ export const AllUserForms = () => {
             <Button
               icon={PrimeIcons.EYE}
               label="Revisar"
-              onClick={() => navigate(ROUTES.DASHBOARD.CHECK_FORM_ID(value.id))}
+              onClick={() =>
+                navigate(ROUTES.DASHBOARD.CHECK_USER_FORM_ID(value.user_id))
+              }
             />
           )}
         />
-        <Column header="Fecha" field="createdAt" />
+        <Column
+          header="Fecha"
+          field="createdAt"
+          body={(value: FormGetDto) => <div>{formatDate(value.createdAt)}</div>}
+        />
       </DataTable>
       <PaginatorPage
         limit={10}
