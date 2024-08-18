@@ -1,13 +1,11 @@
-import { Menu } from "primereact/menu";
 import { Outlet, useNavigate } from "react-router-dom";
 import { MenuItem } from "primereact/menuitem";
 import ROUTES from "../../consts/routes";
 import { Badge } from "primereact/badge";
 import useGlobalState from "../../store/store";
 import { Roles } from "../../models/user";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import "./styles/dashboard.css";
-import ExpandNavButton from "../../components/ExpandNavButton";
 import GlobalNav from "../../components/GlobalNav";
 
 const roleBasedVisibility = {

@@ -1,4 +1,3 @@
-import { Menu } from "primereact/menu";
 import { Outlet, useNavigate } from "react-router-dom";
 import ROUTES from "../../consts/routes";
 import { MenuItem } from "primereact/menuitem";
