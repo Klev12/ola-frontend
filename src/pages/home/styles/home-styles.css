@@ -1,6 +1,6 @@
 .global-home-grid {
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: [start-nav] 200px [end-nav] 1fr [content-end];
   height: 100%;
   z-index: 10;
 }
@@ -39,8 +39,10 @@
 .nav {
   position: sticky;
   top: 0;
-
+  z-index: 9;
   height: 100vh;
+  transition: transform 1s;
+  grid-column: start-nav / end-nav;
 }
 
 .nav > ul {
@@ -62,4 +64,67 @@
   align-items: center;
   color: white;
   overflow: hidden; /* Asegura que no haya desbordamiento innecesario */
+}
+
+.expand-nav-button {
+  position: fixed;
+  right: 0;
+  z-index: 8;
+
+  display: none;
+
+  margin: 10px;
+
+  background-color: white;
+}
+
+.nav-overlay {
+  position: fixed;
+  width: 100vw;
+  z-index: 9;
+  height: 100vh;
+
+  background-color: rgba(101, 37, 161, 0.452);
+
+  opacity: 0;
+}
+
+.--hide-overlay {
+  display: none;
+}
+
+.--show-overlay {
+  display: fixed;
+  opacity: 1;
+}
+
+.--expand-nav {
+  transform: translate(0);
+}
+
+.--collapse-nav {
+  transform: translate(-300px);
+}
+
+@media (width < 670px) {
+  .content {
+    grid-column: start-nav / content-end;
+  }
+  .nav {
+    position: fixed;
+    z-index: 10;
+  }
+
+  .expand-nav-button {
+    display: block;
+  }
+}
+
+@media (width > 670px) {
+  .nav {
+    transform: translate(0);
+  }
+  .nav-overlay {
+    display: none;
+  }
 }

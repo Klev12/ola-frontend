@@ -163,69 +163,79 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
                 gap: "10px",
               }}
             >
-              <Button
-                disabled={form.block}
-                style={{
-                  backgroundColor: "red",
-                  border: 0,
-                  boxShadow: "none",
-                }}
-                className="p-button-rounded p-button-success p-mr-2"
-                icon="pi pi-trash"
-                label="Eliminar"
-                onClick={() => {
-                  setFormToDelete(form);
-                  setDeleteConfirmationVisible(true);
-                }}
-              ></Button>
-              {!form.hash && (
+              <div>
+                <Button
+                  disabled={form.block}
+                  style={{
+                    backgroundColor: "red",
+                    border: 0,
+                    boxShadow: "none",
+                    margin: "10px",
+                  }}
+                  className="p-button-rounded p-button-success p-mr-2"
+                  icon="pi pi-trash"
+                  label="Eliminar"
+                  onClick={() => {
+                    setFormToDelete(form);
+                    setDeleteConfirmationVisible(true);
+                  }}
+                ></Button>
+                {!form.hash && (
+                  <Button
+                    disabled={form.block}
+                    style={{
+                      backgroundColor: "purple",
+                      border: "0",
+                      boxShadow: "none",
+                      margin: "10px",
+                    }}
+                    label="Generar Link"
+                    icon="pi pi-link"
+                    loading={loading}
+                    className="p-button-rounded p-button-success p-mr-2"
+                    onClick={() => {
+                      showPaymentDialog.setTrue();
+                      setSelectedForm(form);
+                    }}
+                  />
+                )}
+                {form.hash && (
+                  <Button
+                    disabled={form.block}
+                    label="Invalidar Link"
+                    icon="pi pi-times"
+                    loading={loading}
+                    className="p-button-rounded p-button-danger"
+                    onClick={() => {
+                      setLoadingTrue();
+                      invalidateLinkMutate({ id: form.id });
+                    }}
+                    style={{ margin: "10px" }}
+                  />
+                )}
+              </div>
+              <div>
                 <Button
                   disabled={form.block}
                   style={{
                     backgroundColor: "purple",
-                    border: "0",
+                    border: 0,
                     boxShadow: "none",
+                    margin: "10px",
                   }}
-                  label="Generar Link"
-                  icon="pi pi-link"
+                  label="Formulario"
+                  icon="pi pi-file"
                   loading={loading}
-                  className="p-button-rounded p-button-success p-mr-2"
+                  className="p-button-rounded"
                   onClick={() => {
-                    showPaymentDialog.setTrue();
-                    setSelectedForm(form);
+                    navigate(ROUTES.SALES.FORM_EDITOR_ID(Number(form.id)));
                   }}
                 />
-              )}
-              {form.hash && (
-                <Button
-                  disabled={form.block}
-                  label="Invalidar Link"
-                  icon="pi pi-times"
-                  loading={loading}
-                  className="p-button-rounded p-button-danger"
-                  onClick={() => {
-                    setLoadingTrue();
-                    invalidateLinkMutate({ id: form.id });
-                  }}
+                <TransactionsList
+                  form={form}
+                  transactions={form.transactions}
                 />
-              )}
-
-              <Button
-                disabled={form.block}
-                style={{
-                  backgroundColor: "purple",
-                  border: 0,
-                  boxShadow: "none",
-                }}
-                label="Formulario"
-                icon="pi pi-file"
-                loading={loading}
-                className="p-button-rounded"
-                onClick={() => {
-                  navigate(ROUTES.SALES.FORM_EDITOR_ID(Number(form.id)));
-                }}
-              />
-              <TransactionsList form={form} transactions={form.transactions} />
+              </div>
             </div>
           </Card>
         ))}

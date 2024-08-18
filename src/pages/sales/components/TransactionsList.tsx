@@ -38,6 +38,7 @@ const TransactionsList = ({ transactions, form }: TransactionsListProps) => {
       <Button
         label="Ver transacciones"
         onClick={() => transactionDialog.setTrue()}
+        style={{ margin: "10px" }}
       />
       <Dialog
         header={`Formulario ${form?.code}`}

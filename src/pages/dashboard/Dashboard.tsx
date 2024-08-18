@@ -5,8 +5,10 @@ import ROUTES from "../../consts/routes";
 import { Badge } from "primereact/badge";
 import useGlobalState from "../../store/store";
 import { Roles } from "../../models/user";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./styles/dashboard.css";
+import ExpandNavButton from "../../components/ExpandNavButton";
+import GlobalNav from "../../components/GlobalNav";
 
 const roleBasedVisibility = {
   [Roles.sales]: {
@@ -124,7 +126,7 @@ const Dashboard = () => {
 
   return (
     <div className="global-home-grid">
-      <Menu className="nav" model={roleBasedItems} />
+      <GlobalNav items={roleBasedItems} />
       <div className="content">
         <Outlet />
       </div>

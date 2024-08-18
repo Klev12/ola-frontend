@@ -5,6 +5,7 @@ import { MenuItem } from "primereact/menuitem";
 import { Roles } from "../../models/user";
 import { useMemo } from "react";
 import useGlobalState from "../../store/store";
+import GlobalNav from "../../components/GlobalNav";
 
 const roleBasedVisibility = {
   [Roles.sales]: {
@@ -107,7 +108,7 @@ const Sales = () => {
   return (
     <div>
       <div className="global-home-grid">
-        <Menu className="nav" model={roleBasedItems} />
+        <GlobalNav items={roleBasedItems} />
         <div className="content">
           <Outlet />
         </div>
