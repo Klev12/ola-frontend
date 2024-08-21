@@ -39,7 +39,7 @@
 .nav {
   position: sticky;
   top: 0;
-  z-index: 9;
+  z-index: 8;
   height: 100vh;
   transition: transform 1s;
   grid-column: start-nav / end-nav;
@@ -47,8 +47,9 @@
 
 .nav > ul {
   width: 190px;
-
+  top: 0;
   position: fixed;
+
   background-color: white;
 }
 
@@ -69,7 +70,7 @@
 .expand-nav-button {
   position: fixed;
   right: 0;
-  z-index: 8;
+  z-index: 7;
 
   display: none;
 
@@ -81,6 +82,8 @@
 .nav-overlay {
   position: fixed;
   width: 100vw;
+  left: 0;
+  top: 0;
   z-index: 9;
   height: 100vh;
 

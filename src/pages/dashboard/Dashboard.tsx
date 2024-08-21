@@ -22,6 +22,7 @@ const roleBasedVisibility = {
     collaborators: false,
     forms: true,
     pendingUsers: true,
+    global: true,
   },
   [Roles.secretary]: {
     notifications: false,
@@ -29,6 +30,7 @@ const roleBasedVisibility = {
     collaborators: false,
     forms: true,
     pendingUsers: true,
+    global: true,
   },
 };
 
@@ -107,6 +109,14 @@ const Dashboard = () => {
       label: "Formularios",
       command: () => {
         navigate(ROUTES.DASHBOARD.FORMS);
+      },
+    },
+    {
+      id: "global",
+      icon: "pi pi-globe",
+      label: "Global",
+      command: () => {
+        navigate(ROUTES.DASHBOARD.GLOBAL);
       },
     },
   ];

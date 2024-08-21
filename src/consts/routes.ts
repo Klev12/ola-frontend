@@ -51,6 +51,18 @@ const ROUTES = {
     get FORMS_SALES() {
       return `${this.FORMS}/type-sales`;
     },
+    get GLOBAL() {
+      return `${this.ME}/global`;
+    },
+    get GLOBAL_CONTRACTS() {
+      return `${this.GLOBAL}/contracts`;
+    },
+    get GLOBAL_TERMS_AND_CONDITIONS() {
+      return `${this.GLOBAL}/terms-and-conditions`;
+    },
+    get GLOBAL_REGULATION() {
+      return `${this.GLOBAL}/regulation`;
+    },
   },
   NOTIFICATIONS: {
     ME: "/notifications",

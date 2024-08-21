@@ -60,7 +60,7 @@ const Sales = () => {
     {
       id: "mySales",
       label: "Mis ventas",
-      icon: "pi pi-thumbs-up",
+      icon: "pi pi-shopping-bag",
       command: () => {
         navigate(ROUTES.SALES.DONE_FORMS);
       },
@@ -77,7 +77,7 @@ const Sales = () => {
     {
       id: "commissions",
       label: "Comisiones",
-      icon: "pi pi-history",
+      icon: "pi pi-wallet",
       command: () => {
         navigate(ROUTES.SALES.COMMISSIONS);
       },

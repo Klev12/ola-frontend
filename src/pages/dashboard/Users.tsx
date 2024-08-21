@@ -39,19 +39,21 @@ const Users = () => {
         <Button icon="pi pi-search" />
       </form>
       {isLoadingUsers && <ProgressSpinner />}
-      {userData?.data.users.map((user, index) => {
-        return (
-          <div key={index}>
-            <UserCard
-              user={user}
-              notificationMode={false}
-              onSuccessEdit={() => {
-                getAllUsersMutate({ access: true, keyword });
-              }}
-            />
-          </div>
-        );
-      })}
+      <div style={{ display: "grid", gap: "20px", marginTop: "20px" }}>
+        {userData?.data.users.map((user, index) => {
+          return (
+            <div key={index}>
+              <UserCard
+                user={user}
+                notificationMode={false}
+                onSuccessEdit={() => {
+                  getAllUsersMutate({ access: true, keyword });
+                }}
+              />
+            </div>
+          );
+        })}
+      </div>
 
       <Paginator
         first={currentPage}

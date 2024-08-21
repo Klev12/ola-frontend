@@ -48,6 +48,10 @@ import HistorySales from "./pages/sales/HistorySales";
 import AllForms from "./pages/dashboard/AllForms";
 import { AllUserForms } from "./pages/dashboard/AllUserForms";
 import AllSalesForms from "./pages/dashboard/AllSalesForms";
+import Global from "./pages/dashboard/Global";
+import GlobalContracts from "./pages/dashboard/global/GlobalContracts";
+import GlobalTermsAndConditions from "./pages/dashboard/global/GlobalTermsAndConditions";
+import GlobalRegulation from "./pages/dashboard/global/GlobalRegulation";
 
 function App() {
   return (
@@ -103,6 +107,20 @@ function App() {
               <Route
                 path={ROUTES.DASHBOARD.FORMS_SALES}
                 element={<AllSalesForms />}
+              />
+            </Route>
+            <Route path={ROUTES.DASHBOARD.GLOBAL} element={<Global />}>
+              <Route
+                path={ROUTES.DASHBOARD.GLOBAL_CONTRACTS}
+                element={<GlobalContracts />}
+              />
+              <Route
+                path={ROUTES.DASHBOARD.GLOBAL_TERMS_AND_CONDITIONS}
+                element={<GlobalTermsAndConditions />}
+              />
+              <Route
+                path={ROUTES.DASHBOARD.GLOBAL_REGULATION}
+                element={<GlobalRegulation />}
               />
             </Route>
           </Route>
