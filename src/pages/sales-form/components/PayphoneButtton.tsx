@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { ENV } from "../../../consts/const";
 
 declare const payphone: any;
 
@@ -15,16 +16,14 @@ const PayphoneButton = ({
 
   useEffect(() => {
     const script = document.createElement("script");
-    script.src =
-      "https://pay.payphonetodoesposible.com/api/button/js?appId=Ijkyvm2RUuUXi94KwTlg";
+    script.src = `https://pay.payphonetodoesposible.com/api/button/js?appId=${ENV.PAYPHONE_ID}`;
     script.type = "module";
     script.onload = () => {
       if (payphone) {
         payphone
           .Button({
             //token obtenido desde la consola de developer
-            token:
-              "k6sz9s4H49ZN5p0lfxRe008byjRJYnut2zO8_dJf5xhQ5ufZcdiIMo3H1o-78eUfkI_nrUusw_GGtDiDq97Zss0ObyYGbXtWW5zsJysXjLdVjE-dC5XJ-yw9MwoYrnnjYvNAVVA1nwVfsXPLTrZ5ARmQGDUEiN70cl5ptaOAdiGoJS2AyXZWR3weVlIES-ma5OfMMtA1X3jMw50__JTTNRMRKoF-cRR2bbFfUk55E0YFB7ZtTWx__aZWQpFUsXLUR5-2ym-zPb1QwTRVEzynKMIgQmLfh0xj5Za4OYZlap861oOSkTGaidtIjxtFX439X4AiW1LgOJr3DuIGbjRwCJZh9J4",
+            token: ENV.PAYPHONE_TOKEN,
 
             //PARÁMETROS DE CONFIGURACIÓN
             btnHorizontal: true,
