@@ -37,16 +37,26 @@ const Payphonelink = () => {
   }
 
   return (
-    <div>
-      <h2>Ola pago</h2>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: "2.5rem",
+      }}
+    >
+      <h1 style={{ fontSize: 50 }}>Ola Transacion</h1>
       <p>
-        Nota: si hay un error al hacer click en el botón del pago, por favor
-        recargar la página
+        Nota: si hay un error al momento de realizar el pago, por favor recargar
+        la página.
       </p>
-      <PayphoneButton
-        amount={Number(formData.transaction.amount)}
-        clientTransactionId={formData.transaction.clientTransactionId}
-      />
+      <div style={{}}>
+        <PayphoneButton
+          amount={Number(formData.transaction.amount)}
+          clientTransactionId={formData.transaction.clientTransactionId}
+        />
+      </div>
     </div>
   );
 };
