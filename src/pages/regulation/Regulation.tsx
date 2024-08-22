@@ -1,6 +1,13 @@
-import RegulationForm from "./components/Dialog";
+import { useQuery } from "react-query";
+import regulationService from "../../services/regulation-service";
+import ButtonInfo from "./components/ButtonInfo";
 
 const Regulation = () => {
+  const { data: regulationData, refetch: refetchAllRegulations } = useQuery({
+    queryFn: () => regulationService.findAll().then((res) => res.data),
+    queryKey: ["regulation-data-user"],
+  });
+
   return (
     <div
       style={{
@@ -10,12 +17,24 @@ const Regulation = () => {
         padding: "10px",
       }}
     >
-      Reglamento
-      <RegulationForm />
-      <RegulationForm />
-      <RegulationForm />
-      <RegulationForm />
-      <RegulationForm />
+      <h2>Reglamentos</h2>
+      <div style={{ display: "grid", gap: "20px" }}>
+        {regulationData?.regulations?.map((regulation) => {
+          return (
+            <ButtonInfo
+              key={regulation.id}
+              label="Leer reglamento"
+              title={regulation.title}
+              description={regulation.description}
+              checked={!!regulation.seen}
+              regulationId={regulation.id}
+              onSuccess={() => {
+                refetchAllRegulations();
+              }}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };

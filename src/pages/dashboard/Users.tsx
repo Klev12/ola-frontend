@@ -18,7 +18,7 @@ const Users = () => {
 
   useEffect(() => {
     getAllUsersMutate({ access: true, keyword });
-  }, [keyword]);
+  }, [keyword, getAllUsersMutate]);
 
   const [currentPage, setCurrentPage] = useState(0);
 

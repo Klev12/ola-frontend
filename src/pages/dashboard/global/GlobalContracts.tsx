@@ -67,7 +67,7 @@ const GlobalContracts = () => {
               )
             }
           >
-            <ScrollPanel style={{ height: "100px" }}>
+            <ScrollPanel style={{ height: "100%", maxHeight: "100px" }}>
               {contract.description}
             </ScrollPanel>
           </Card>
