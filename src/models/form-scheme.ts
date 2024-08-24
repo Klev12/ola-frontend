@@ -30,11 +30,13 @@ export enum FieldIdentifier {
   lastNames = "last-names",
   names = "names",
   data = "data",
+  cardId = "card_id",
 }
 
 export interface Metadata {
   type: string;
   options?: OptionMetadata[];
+  dependsOn?: string[];
 }
 
 export interface OptionMetadata {

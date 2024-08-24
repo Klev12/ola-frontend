@@ -11,10 +11,10 @@ import { useState } from "react";
 import { ContractGetDto, ContractType } from "../../../models/contract";
 import useToggle from "../../../hooks/useToggle";
 import { InputText } from "primereact/inputtext";
-import { InputTextarea } from "primereact/inputtextarea";
 import { Tag } from "primereact/tag";
 import { ScrollPanel } from "primereact/scrollpanel";
 import { InputNumber } from "primereact/inputnumber";
+import { Editor } from "primereact/editor";
 
 const GlobalContracts = () => {
   const { data: contractData, refetch: refetchAllContracts } = useQuery({
@@ -33,6 +33,9 @@ const GlobalContracts = () => {
 
   const [selectedContract, setSelectedContract] = useState<ContractGetDto>();
 
+  const [text, setText] = useState("");
+  const [html, setHtml] = useState("");
+
   return (
     <div style={{ display: "grid", gap: "20px" }}>
       {contractData?.contracts?.map((contract) => {
@@ -46,6 +49,8 @@ const GlobalContracts = () => {
                   icon={PrimeIcons.PENCIL}
                   onClick={() => {
                     setSelectedContract(contract);
+                    setText(contract.description);
+                    setHtml(contract.html || "");
                     showEditMenu.setTrue();
                   }}
                 />
@@ -68,7 +73,13 @@ const GlobalContracts = () => {
             }
           >
             <ScrollPanel style={{ height: "100%", maxHeight: "100px" }}>
-              {contract.description}
+              <Editor
+                showHeader={false}
+                name="description"
+                value={contract.html || contract.description}
+                readOnly
+                style={{ height: "320px" }}
+              />
             </ScrollPanel>
           </Card>
         );
@@ -102,7 +113,8 @@ const GlobalContracts = () => {
 
             patchContractMutate({
               contractId: selectedContract?.id as number,
-              description: formData["description"].toString(),
+              description: text,
+              html,
               title: formData["title"].toString(),
               project:
                 parseFloat(
@@ -133,12 +145,17 @@ const GlobalContracts = () => {
             style={{ display: "flex", flexDirection: "column", gap: "10px" }}
           >
             <label htmlFor="">Descripción</label>
-            <InputTextarea
-              required
-              defaultValue={selectedContract?.description}
-              name="description"
-              style={{ height: "150px" }}
-            />
+            <div className="card">
+              <Editor
+                name="description"
+                value={selectedContract?.html || text}
+                onTextChange={(e) => {
+                  setText(e.textValue || "");
+                  setHtml(e.htmlValue || "");
+                }}
+                style={{ height: "320px" }}
+              />
+            </div>
           </div>
           {[
             ContractType.graphicDesign,

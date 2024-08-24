@@ -10,22 +10,26 @@ import TextAreaField from "./TextAreaField";
 
 interface FieldProps {
   field: Field;
+  required?: boolean;
 }
 
-const FieldInput = ({ field }: FieldProps) => {
+const FieldInput = ({ field, required = false }: FieldProps) => {
   const isEditable = useGlobalState((state) => state.isFormEditable);
   const setUserFormLastNames = useGlobalState(
     (state) => state.setUserFormLastNames
   );
   const setUserFormNames = useGlobalState((state) => state.setUserFormNames);
+
+  const setUserIdCard = useGlobalState((state) => state.setUserIdCard);
   return (
     <div className="field-input">
       {field.component === "input" && field.metadata.type === "string" && (
         <div>
           <label htmlFor={`I${field.label}`}>{field.label}</label>
-          {Boolean(field.required) && <small>campo obligatorio*</small>}
+          {(field.required || required) && <small>campo obligatorio*</small>}
+          {!field.required && !required && <small>campo opcional</small>}
           <InputText
-            required={field.required}
+            required={field.required || required}
             defaultValue={field.results[0]?.response?.value}
             id={`I${field.label}`}
             name={field.id as string}
@@ -38,6 +42,10 @@ const FieldInput = ({ field }: FieldProps) => {
               if (field.identifier === FieldIdentifier.lastNames) {
                 setUserFormLastNames(e.target.value);
               }
+
+              if (field.identifier === FieldIdentifier.cardId) {
+                setUserIdCard(e.target.value);
+              }
             }}
           />
         </div>
@@ -46,10 +54,10 @@ const FieldInput = ({ field }: FieldProps) => {
       {field.component === "input" && field.metadata.type === "number" && (
         <>
           <label htmlFor={`I${field.label}`}>{field.label}</label>
-          {field.required && <small>campo obligatorio*</small>}
+          {field.required || (required && <small>campo obligatorio*</small>)}
 
           <InputNumber
-            required={field.required}
+            required={field.required || required}
             disabled={isEditable}
             value={
               Number(field.results?.[0]?.response?.value?.replace(/,/g, "")) ||
@@ -63,7 +71,7 @@ const FieldInput = ({ field }: FieldProps) => {
 
       {field.component === "input" && field.metadata.type === "date" && (
         <>
-          {field.required && <small>campo obligatorio*</small>}
+          {field.required || (required && <small>campo obligatorio*</small>)}
           <CalendarField field={field} />
         </>
       )}
@@ -72,10 +80,10 @@ const FieldInput = ({ field }: FieldProps) => {
       {field.component === "chip" && (
         <div>
           <label htmlFor={`I${field.label}`}>{field.label}</label>
-          {field.required && <small>campo obligatorio*</small>}
-
+          {field.required || (required && <small>campo obligatorio*</small>)}
+          {!field.required && !required && <small>campo opcional</small>}
           <InputText
-            required={field.required}
+            required={field.required || required}
             disabled={isEditable}
             defaultValue={field.results[0]?.response?.value}
             id={`I${field.label}`}
@@ -85,7 +93,8 @@ const FieldInput = ({ field }: FieldProps) => {
       )}
       {field.component === "check" && (
         <div className="input-group">
-          {field.required && <small> campo obligatoriodasdadads*</small>}
+          {field.required ||
+            (required && <small> campo obligatoriodasdadads*</small>)}
 
           <CheckBoxField field={field} />
         </div>

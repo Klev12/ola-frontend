@@ -1,13 +1,16 @@
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { FileUpload, FileUploadErrorEvent } from "primereact/fileupload";
 import { ENV } from "../../consts/const";
 import { Button } from "primereact/button";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { authenticate } from "../../services/auth-service";
 import { Navigate, useNavigate } from "react-router";
 import { Divider } from "primereact/divider";
 import { Toast } from "primereact/toast";
 import ROUTES from "../../consts/routes";
+import { MultimediaType } from "../../models/user";
+import { PrimeIcons } from "primereact/api";
+import multimediaService from "../../services/multimedia-service";
 
 type Severity = "error" | "success" | "info" | "warn";
 
@@ -20,32 +23,24 @@ const Documents: React.FC = () => {
   const [imagesUploaded, setImagesUploaded] = useState(false);
   const [videoUploaded, setVideoUploaded] = useState(false);
 
-  const { data: userData } = useQuery({
+  const { data: userData, refetch: refetchUser } = useQuery({
     queryFn: () => authenticate().then((res) => res.data),
+    queryKey: ["user-data"],
   });
+
+  const { mutate: deleteMultimediaByHash } = useMutation(
+    multimediaService.deleteByHash,
+    {
+      onSuccess: () => {
+        refetchUser();
+      },
+    }
+  );
 
   const showToast = (severity: Severity, summary: string, detail: string) => {
     toast.current?.show({ severity, summary, detail, life: 3000 });
+    refetchUser();
   };
-
-  // const beforeUploadImages = (event: FileUploadHandlerEvent) => {
-  //   if (event.files.length < 2) {
-  //     showToast("error", "Error", "Debe subir dos imágenes.");
-  //     event.options.clear();
-  //     return false;
-  //   }
-  //   return true;
-  // };
-
-  // const beforeUploadVideo = (event: FileUploadHandlerEvent) => {
-  //   const file = event.files[0];
-  //   if (file.size > 50 * 1024 * 1024) {
-  //     showToast("error", "Error", "El video no debe exceder los 50MB.");
-  //     event.options.clear();
-  //     return false;
-  //   }
-  //   return true;
-  // };
 
   const onUploadSuccessImages = () => {
     setImagesUploaded(true);
@@ -63,6 +58,18 @@ const Documents: React.FC = () => {
       : "Error desconocido.";
     showToast("error", "Error", errorMessage);
   };
+
+  const cardIdImages = useMemo(() => {
+    return userData?.user.multimedias.filter(
+      (multimedia) => multimedia.type === MultimediaType.cardId
+    );
+  }, [userData]);
+
+  const video = useMemo(() => {
+    return userData?.user.multimedias.find(
+      (multimedia) => multimedia.type === MultimediaType.video
+    );
+  }, [userData]);
 
   if (userData?.user?.multimedias?.length === 3) {
     return <Navigate to={ROUTES.USER_FORM.SIGNATURE} />;
@@ -98,6 +105,29 @@ const Documents: React.FC = () => {
         onUpload={onUploadSuccessImages}
         onError={onUploadError}
       />
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "200px 200px",
+          gap: "10px",
+        }}
+      >
+        {cardIdImages?.map((multimedia) => {
+          return (
+            <div>
+              <Button
+                rounded
+                icon={PrimeIcons.TIMES}
+                onClick={() => deleteMultimediaByHash(multimedia.hash)}
+              />
+              <img
+                style={{ width: "100%" }}
+                src={`${ENV.BACKEND_ROUTE}/multimedia/${multimedia.hash}`}
+              ></img>
+            </div>
+          );
+        })}
+      </div>
       <h2>Video</h2>
       <small>Debes decir lo siguiente en el video</small>
       <p>
@@ -124,6 +154,20 @@ const Documents: React.FC = () => {
         onUpload={onUploadSuccessVideo}
         onError={onUploadError}
       />
+      <div>
+        {video && (
+          <div>
+            <Button
+              rounded
+              icon={PrimeIcons.TIMES}
+              onClick={() => deleteMultimediaByHash(video.hash)}
+            />
+            <video
+              src={`${ENV.BACKEND_ROUTE}/multimedia/${video.hash}`}
+            ></video>
+          </div>
+        )}
+      </div>
       <Divider />
       <Button
         label="Siguiente"

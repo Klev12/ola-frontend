@@ -8,6 +8,7 @@ import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../consts/routes";
 import useGlobalState from "../../store/store";
+import { FieldIdentifier } from "../../models/form-scheme";
 
 const UserForm = () => {
   const setUserFormNames = useGlobalState((state) => state.setUserFormNames);
@@ -26,8 +27,19 @@ const UserForm = () => {
       if (form?.user_form.done) {
         navigate(ROUTES.USER_FORM.TERMS_AND_CONDITIONS);
       }
+
+      const fields = form?.form_scheme.form_groups
+        .flat()
+        .flatMap((formGroup) => formGroup.fields)
+        .flat();
+      console.log(fields);
+      setUserFormNames(
+        fields?.find((field) => field.identifier === FieldIdentifier.names)
+          ?.results?.[0]?.response?.value || ""
+      );
     },
     queryKey: ["user-form-data"],
+    refetchOnWindowFocus: false,
   });
 
   const { mutate: submitFormMutate } = useMutation(submitForm, {

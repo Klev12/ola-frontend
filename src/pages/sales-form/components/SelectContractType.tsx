@@ -5,10 +5,11 @@ import { useContext, useMemo, useState } from "react";
 import { patchFormContract } from "../../../services/form-scheme";
 import { Checkbox } from "primereact/checkbox";
 import useToggle from "../../../hooks/useToggle";
-import useGlobalState from "../../../store/store";
 import { Card } from "primereact/card";
 import { SalesFormContext } from "./WrapperSalesForm";
 import { ContractGetDto } from "../../../models/contract";
+import { ScrollPanel } from "primereact/scrollpanel";
+import ContractHeader from "../../../components/ContractHeader";
 
 interface SelectContractTypeProps {
   formId: string | number;
@@ -46,9 +47,6 @@ const SelectContractType = ({ formId }: SelectContractTypeProps) => {
 
   const { mutate: patchFormContractMutate } = useMutation(patchFormContract);
 
-  const userFormNames = useGlobalState((state) => state.userFormNames);
-  const userFormLastNames = useGlobalState((state) => state.userFormLastNames);
-
   return (
     <div>
       <label htmlFor="">Elige el tipo de contrato:</label>
@@ -64,10 +62,7 @@ const SelectContractType = ({ formId }: SelectContractTypeProps) => {
           {selectedContract && (
             <Checkbox checked={value} onChange={() => toggle()} required />
           )}
-          <div>
-            Yo {userFormNames?.toUpperCase()} {userFormLastNames?.toUpperCase()}{" "}
-            estoy de acuerdo con el siguiente contrato{" "}
-          </div>
+          <ContractHeader />
           <Dropdown
             required
             value={selectedContract}
@@ -82,13 +77,16 @@ const SelectContractType = ({ formId }: SelectContractTypeProps) => {
               setFalse();
             }}
           />
-          <p>
-            {
-              contractData?.contracts?.find(
-                (contract) => contract.id === selectedContract
-              )?.description
-            }
-          </p>
+          <p>{}</p>
+          <ScrollPanel style={{ height: "250px" }}>
+            <p>
+              {
+                contractData?.contracts?.find(
+                  (contract) => contract.id === selectedContract
+                )?.description
+              }
+            </p>
+          </ScrollPanel>
           {selectedContract && (
             <Card>
               <h3>

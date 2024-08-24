@@ -3,6 +3,7 @@ import useGlobalState from "../../../store/store";
 import { Checkbox } from "primereact/checkbox";
 import { TermAndConditionsGetDto } from "../../../models/term-and-conditions";
 import useToggle from "../../../hooks/useToggle";
+import { ScrollPanel } from "primereact/scrollpanel";
 
 interface TermsAndConditionsCardProps {
   termAndConditions?: TermAndConditionsGetDto;
@@ -21,7 +22,9 @@ const TermsAndConditionsCard = ({
     <Card title="Términos y condiciones" className="terms-card">
       <div className="m-0 terms-text">
         {`Yo ${userFormNames?.toLocaleUpperCase()} ${userFormLastNames?.toUpperCase()} con el número de identificación ${userIdCard} `}
-        {termAndConditions?.description}
+        <ScrollPanel style={{ height: "300px" }}>
+          {termAndConditions?.description}
+        </ScrollPanel>
         <div className="checkbox-container">
           <Checkbox
             required

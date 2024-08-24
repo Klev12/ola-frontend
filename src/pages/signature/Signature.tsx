@@ -49,8 +49,8 @@ const SignatureDraw: React.FC = () => {
         <p>Por favor realizar su firma en el cuadrado de color blanco.</p>
         <CanvasDraw
           ref={canvasRef}
-          canvasWidth={700}
-          canvasHeight={500}
+          canvasWidth={400}
+          canvasHeight={300}
           brushRadius={3}
           brushColor="black"
           saveData="signature"

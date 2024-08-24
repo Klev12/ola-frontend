@@ -58,13 +58,13 @@ const FormPDFTermAndConditions = ({
         {`Yo ${names} ${lastNames} estoy de acuerdo con los siguientes términos y condiciones: `}
         {termAndConditions?.description}
       </Text>
+      <Signature />
       {hasImages && <CardImages />}
       <Text
         style={styles.pageNumber}
         render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
         fixed
       />
-      <Signature />
     </Page>
   );
 };
