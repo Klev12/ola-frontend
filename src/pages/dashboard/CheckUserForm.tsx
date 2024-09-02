@@ -10,6 +10,7 @@ import "./styles/check-user-form-styles.css";
 import { useRef, useState } from "react";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Toast } from "primereact/toast";
+import GlobalPrintForm from "../../components/global-print-form/GlobalPrintForm";
 
 interface CheckUserFormProps {
   normalMode?: boolean;
@@ -57,22 +58,19 @@ const CheckUserForm = ({ normalMode = false }: CheckUserFormProps) => {
   });
 
   return (
-    <div className="user-form">
+    <div className="user-form" style={{ position: "relative" }}>
       <Toast ref={toast} />
       {isFormLoading && <ProgressSpinner />}
       {errorMessage && <h2>{errorMessage}</h2>}
-      <PrintForm
-        normalMode={false}
-        form={formData}
-        isLoading={isLoading}
-        user={userData?.data.user}
-        onSubmit={(data) => {
-          console.log(data);
-          submitFormMutate(data);
+      <GlobalPrintForm
+        showHeader={true}
+        formInfo={formData?.user_form}
+        formScheme={formData?.form_scheme}
+        defaulEditionMode={false}
+        onSubmit={(results) => {
+          submitFormMutate({ id: formData?.user_form?.id as number, results });
         }}
-        refetchUser={() => {
-          findUserByIdMutate(userData?.data.user.id as number);
-        }}
+        loading={isLoading}
       />
 
       <div className="images">

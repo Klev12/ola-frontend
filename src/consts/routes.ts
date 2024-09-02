@@ -191,6 +191,21 @@ const ROUTES = {
       return `${this.ME}/${token}`;
     },
   },
+  PDF: {
+    ME: "/pdf",
+    get ID() {
+      return `${this.ME}/:id`;
+    },
+    PDF_ID(id: number) {
+      return `${this.ME}/${id}`;
+    },
+    get USER() {
+      return `${this.ME}/user-form/:id`;
+    },
+    USER_ID(id: number) {
+      return `${this.ME}/user-form/${id}`;
+    },
+  },
 };
 
 export default ROUTES;

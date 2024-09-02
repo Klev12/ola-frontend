@@ -28,6 +28,7 @@ const Regulation = () => {
               description={regulation.description}
               checked={!!regulation.seen}
               regulationId={regulation.id}
+              html={regulation.html}
               onSuccess={() => {
                 refetchAllRegulations();
               }}

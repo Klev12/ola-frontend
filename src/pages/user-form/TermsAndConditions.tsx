@@ -1,30 +1,26 @@
 import { Button } from "primereact/button";
 import { Checkbox } from "primereact/checkbox";
 import { Divider } from "primereact/divider";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./styles/terms-and-conditions.css";
 import { useNavigate } from "react-router";
 import { useMutation } from "react-query";
 import { verifyForm } from "../../services/forms-service";
 import ROUTES from "../../consts/routes";
-import useGlobalState from "../../store/store";
 import TermsAndConditionsCard from "./components/TermsAndConditionsCard";
 import ContractCard from "./components/ContractCard";
+import { UserFormContext } from "./WrapperUserForm";
+import ContractHeader from "../../components/ContractHeader";
 
 const TermsAndConditions = () => {
   const navigate = useNavigate();
-  const userFormId = useGlobalState((state) => state.userFormId);
+  const { formInfo, formScheme, formDetails } = useContext(UserFormContext);
 
   const { mutate: verifyFormMutate } = useMutation(verifyForm, {
     onSuccess: () => {
       navigate(ROUTES.USER_FORM.DOCUMENTS);
     },
   });
-
-  const userFormNames = useGlobalState((state) => state.userFormNames);
-  const userFormLastNames = useGlobalState((state) => state.userFormLastNames);
-  const userIdCard = useGlobalState((state) => state.userIdCard);
-  const currentUserForm = useGlobalState((state) => state.currentUserForm);
 
   const [thirdChecked, setThirdChecked] = useState<boolean>(false);
 
@@ -33,14 +29,14 @@ const TermsAndConditions = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          console.log("hello");
-          verifyFormMutate(userFormId as number);
+          verifyFormMutate(formInfo?.id as number);
         }}
       >
         <>
-          <ContractCard contract={currentUserForm?.user_form?.contract} />
+          <ContractHeader formGroups={formScheme?.form_groups || []} />
+          <ContractCard contract={formInfo?.contract} />
           <TermsAndConditionsCard
-            termAndConditions={currentUserForm?.user_form?.term_and_condition}
+            termAndConditions={formInfo?.term_and_condition}
           />
         </>
 
@@ -53,7 +49,9 @@ const TermsAndConditions = () => {
         ></Checkbox>
         <span className="checkbox-label">
           Yo{" "}
-          {`${userFormNames?.toLocaleUpperCase()} ${userFormLastNames?.toLocaleUpperCase()} con la identificación ${userIdCard} `}
+          {`${formDetails?.userNames?.toUpperCase()} ${formDetails?.userLastNames?.toLocaleUpperCase()} con la identificación ${
+            formDetails?.cardId
+          } `}
           acepto que acabo de leer los dos enunciados anteriormente.
         </span>
         <Button

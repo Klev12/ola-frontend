@@ -1,99 +1,40 @@
-import { useMutation, useQuery } from "react-query";
-import { getUserForm } from "../../services/forms-service";
-import FormGroupList from "./components/FormGroupList";
-import { ResultPutDto } from "../../models/result";
+import { useMutation } from "react-query";
 import { submitForm } from "../../services/result-service";
-import { ScrollPanel } from "primereact/scrollpanel";
-import { Button } from "primereact/button";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import GlobalPrintForm from "../../components/global-print-form/GlobalPrintForm";
+import { useContext } from "react";
+import { UserFormContext } from "./WrapperUserForm";
 import ROUTES from "../../consts/routes";
-import useGlobalState from "../../store/store";
-import { FieldIdentifier } from "../../models/form-scheme";
 
 const UserForm = () => {
-  const setUserFormNames = useGlobalState((state) => state.setUserFormNames);
-  const setUserFormLastNames = useGlobalState(
-    (state) => state.setUserFormLastNames
-  );
-
-  const setUserFormId = useGlobalState((state) => state.setUserFormId);
-
-  const setUserIdCard = useGlobalState((state) => state.setUserIdCard);
-
   const navigate = useNavigate();
-  const { data: form } = useQuery({
-    queryFn: () => getUserForm().then((res) => res.data),
+  const { formInfo, formScheme, setFormDetails } = useContext(UserFormContext);
+
+  const { mutate: submitFormMutate, isLoading } = useMutation(submitForm, {
     onSuccess: () => {
-      if (form?.user_form.done) {
-        navigate(ROUTES.USER_FORM.TERMS_AND_CONDITIONS);
-      }
-
-      const fields = form?.form_scheme.form_groups
-        .flat()
-        .flatMap((formGroup) => formGroup.fields)
-        .flat();
-      console.log(fields);
-      setUserFormNames(
-        fields?.find((field) => field.identifier === FieldIdentifier.names)
-          ?.results?.[0]?.response?.value || ""
-      );
-    },
-    queryKey: ["user-form-data"],
-    refetchOnWindowFocus: false,
-  });
-
-  const { mutate: submitFormMutate } = useMutation(submitForm, {
-    onSuccess: (data) => {
-      console.log(data.data);
-      setUserFormId(form?.user_form.id as number);
       navigate(ROUTES.USER_FORM.TERMS_AND_CONDITIONS);
     },
   });
 
+  if (formInfo?.done) {
+    return <Navigate to={ROUTES.USER_FORM.TERMS_AND_CONDITIONS} />;
+  }
+
   return (
     <>
-      <ScrollPanel>
-        <h2>{form?.form_scheme?.label} </h2>
-
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            const formData = Object.fromEntries(
-              new FormData(e.target as HTMLFormElement)
-            );
-
-            const results: ResultPutDto[] = Object.keys(formData).map((key) => {
-              return {
-                field_id: Number(key),
-                form_id: form?.user_form.id,
-                response: {
-                  value: formData[key],
-                },
-              } as ResultPutDto;
-            });
-
-            setUserFormNames(results[0].response.value);
-            setUserFormLastNames(results[1].response.value);
-            setUserIdCard(results[2].response.value);
-
-            submitFormMutate({
-              id: form?.user_form.id as number,
-              results,
-            });
-          }}
-        >
-          <FormGroupList formGroups={form?.form_scheme.form_groups} />
-          <Button
-            label="Siguiente"
-            type="submit"
-            style={{
-              backgroundColor: "purple",
-              border: "0",
-              margin: "10px",
-            }}
-          />
-        </form>
-      </ScrollPanel>
+      <GlobalPrintForm
+        formInfo={formInfo}
+        formScheme={formScheme}
+        onSubmit={(results) => {
+          submitFormMutate({ id: formInfo?.id as number, results });
+        }}
+        editMode={!!formInfo?.done}
+        showHeader={false}
+        onChangeDetails={(form) => {
+          setFormDetails(form);
+        }}
+        loading={isLoading}
+      />
     </>
   );
 };

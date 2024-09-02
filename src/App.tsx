@@ -52,6 +52,10 @@ import Global from "./pages/dashboard/Global";
 import GlobalContracts from "./pages/dashboard/global/GlobalContracts";
 import GlobalTermsAndConditions from "./pages/dashboard/global/GlobalTermsAndConditions";
 import GlobalRegulation from "./pages/dashboard/global/GlobalRegulation";
+import Pdf from "./pages/pdf/Pdf";
+import UserFormPdf from "./pages/pdf/UserFormPdf";
+import SalesFormPdf from "./pages/pdf/SalesFormPdf";
+import WrapperUserForm from "./pages/user-form/WrapperUserForm";
 
 function App() {
   return (
@@ -170,7 +174,7 @@ function App() {
             <Route path={ROUTES.TESTS.EDIT_FORM} element={<EditForm />}></Route>
           </Route>
         </Route>
-        <Route path={ROUTES.USER_FORM.ME} element={<UserFormWrapper />}>
+        <Route path={ROUTES.USER_FORM.ME} element={<WrapperUserForm />}>
           <Route path={ROUTES.USER_FORM.ME} element={<UserForm />} />
           <Route path={ROUTES.USER_FORM.DOCUMENTS} element={<Documents />} />
           <Route
@@ -205,7 +209,17 @@ function App() {
         </Route>
 
         <Route path={ROUTES.DASHBOARD.CHECK_FORM} element={<CheckForm />} />
-
+        <Route
+          path={ROUTES.PDF.ME}
+          element={
+            <AuthAppGuard>
+              <Pdf />
+            </AuthAppGuard>
+          }
+        >
+          <Route path={ROUTES.PDF.ID} element={<SalesFormPdf />}></Route>
+          <Route path={ROUTES.PDF.USER} element={<UserFormPdf />} />
+        </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>

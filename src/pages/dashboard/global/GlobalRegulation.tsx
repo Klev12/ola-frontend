@@ -1,23 +1,26 @@
 import { useMutation, useQuery } from "react-query";
 import regulationService from "../../../services/regulation-service";
-import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
-import { InputTextarea } from "primereact/inputtextarea";
 import { useState } from "react";
 import { RegulationGetDto } from "../../../models/regulations";
 import { PrimeIcons } from "primereact/api";
 import useToggle from "../../../hooks/useToggle";
+import ListElements from "./ListElements";
+import { Editor } from "primereact/editor";
 
 const GlobalRegulation = () => {
   const showMenu = useToggle();
   const showEditMenu = useToggle();
   const showDeleteMenu = useToggle();
 
+  const [html, setHtml] = useState<string>();
+  const [text, setText] = useState<string>();
+
   const { data: regulationData, refetch: refetchAllRegulations } = useQuery({
     queryFn: () => regulationService.findAll().then((res) => res.data),
-    queryKey: ["regulations-data"],
+    queryKey: ["all-regulations"],
   });
 
   const { mutate: createRegulation, isLoading: isCreatingRegulation } =
@@ -48,47 +51,92 @@ const GlobalRegulation = () => {
 
   return (
     <div>
-      <div style={{ display: "grid", gap: "20px" }}>
-        {regulationData?.regulations?.map((regulation) => {
-          return (
-            <Card
-              header={
-                <>
-                  <Button
-                    icon={PrimeIcons.PENCIL}
-                    onClick={() => {
-                      showEditMenu.setTrue();
-                      setSelectedItem(regulation);
-                    }}
-                  />
-                </>
-              }
-              footer={
-                <div style={{ display: "flex", justifyContent: "end" }}>
-                  <Button
-                    rounded
-                    icon={PrimeIcons.TIMES}
-                    onClick={() => {
-                      setSelectedItem(regulation);
-                      showDeleteMenu.setTrue();
-                    }}
-                  />
-                </div>
-              }
-              title={regulation.title}
-            >
-              {regulation.description}
-            </Card>
-          );
-        })}
-      </div>
+      <ListElements
+        header={(element) => (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "end",
 
+              width: "100%",
+            }}
+          >
+            <Button
+              style={{ marginRight: "10px" }}
+              rounded
+              icon={PrimeIcons.TIMES}
+              onClick={() => {
+                setSelectedItem(element);
+                showDeleteMenu.setTrue();
+              }}
+            />
+          </div>
+        )}
+        elements={regulationData?.regulations || []}
+        title={(regulation) => <>{regulation.title}</>}
+        description={(regulation) => (
+          <Editor
+            value={regulation.html || regulation.description}
+            readOnly
+            showHeader={false}
+            style={{
+              height: "150px",
+            }}
+          />
+        )}
+        formTemplate={(regulation) => (
+          <>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+            >
+              <label htmlFor="">Título</label>
+              <InputText
+                placeholder="Título"
+                defaultValue={regulation?.title}
+                name="title"
+              />
+            </div>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+            >
+              <label htmlFor="">Título</label>
+              <Editor
+                placeholder="Descripción"
+                name="description"
+                value={regulation?.description}
+                onTextChange={(e) => {
+                  setText(e.textValue);
+                  setHtml(e.htmlValue || "");
+                }}
+                style={{ height: "300px" }}
+              />
+            </div>
+          </>
+        )}
+        onSubmit={(data, selectedItem) => {
+          patchRegulation({
+            title: data.title,
+            description: text as string,
+            html,
+            regulationId: selectedItem?.id as number,
+          });
+        }}
+        disabledButtons={isPatchingRegulation}
+      />
       <Button
         icon={PrimeIcons.PLUS}
         label="Crear nueva regla"
         onClick={() => showMenu.setTrue()}
       />
-      <Dialog visible={showMenu.value} onHide={() => showMenu.setFalse()}>
+      <Dialog
+        style={{ width: "50vw", maxWidth: "500px" }}
+        visible={showMenu.value}
+        onHide={() => {
+          setHtml(undefined);
+          setText(undefined);
+          showMenu.setFalse();
+        }}
+      >
         <form
           action=""
           style={{
@@ -108,7 +156,8 @@ const GlobalRegulation = () => {
 
             createRegulation({
               title: formData["title"].toString(),
-              description: formData["description"].toString(),
+              description: text as string,
+              html: html || "",
             });
           }}
         >
@@ -122,10 +171,12 @@ const GlobalRegulation = () => {
             style={{ display: "flex", flexDirection: "column", gap: "10px" }}
           >
             <label htmlFor="">Descripción</label>
-            <InputTextarea
-              required
-              name="description"
-              style={{ height: "150px" }}
+            <Editor
+              style={{ height: "300px" }}
+              onTextChange={(e) => {
+                setHtml(e.htmlValue || "");
+                setText(e.textValue);
+              }}
             />
           </div>
           <Button
@@ -152,63 +203,6 @@ const GlobalRegulation = () => {
           loading={isDeletingRegulation}
           disabled={isDeletingRegulation}
         />
-      </Dialog>
-
-      <Dialog
-        visible={showEditMenu.value}
-        onHide={() => showEditMenu.setFalse()}
-      >
-        <form
-          action=""
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "20px",
-            width: "100%",
-            minWidth: "100px",
-            margin: "0 auto",
-          }}
-          onSubmit={(e) => {
-            e.preventDefault();
-
-            const formData = Object.fromEntries(
-              new FormData(e.target as HTMLFormElement)
-            );
-
-            patchRegulation({
-              title: formData["title"].toString(),
-              description: formData["description"].toString(),
-              regulationId: selectedItem?.id as number,
-            });
-          }}
-        >
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-          >
-            <label htmlFor="">Título</label>
-            <InputText
-              required
-              name="title"
-              defaultValue={selectedItem?.title}
-            />
-          </div>
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-          >
-            <label htmlFor="">Descripción</label>
-            <InputTextarea
-              required
-              defaultValue={selectedItem?.description}
-              name="description"
-              style={{ height: "150px" }}
-            />
-          </div>
-          <Button
-            label="Subir cambios"
-            disabled={isPatchingRegulation}
-            loading={isPatchingRegulation}
-          />
-        </form>
       </Dialog>
     </div>
   );

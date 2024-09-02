@@ -6,6 +6,13 @@ import { TransactionGetDto } from "./transaction";
 
 export interface FormsDto {}
 
+export interface FormDetails {
+  userNames?: string;
+  userLastNames?: string;
+  storeName?: string;
+  cardId?: string;
+}
+
 export interface FormPostDto {
   form_scheme_id: number | string;
 }

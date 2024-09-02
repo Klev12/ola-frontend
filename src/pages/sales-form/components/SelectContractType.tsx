@@ -62,7 +62,7 @@ const SelectContractType = ({ formId }: SelectContractTypeProps) => {
           {selectedContract && (
             <Checkbox checked={value} onChange={() => toggle()} required />
           )}
-          <ContractHeader />
+          <ContractHeader formGroups={form?.form_scheme.form_groups || []} />
           <Dropdown
             required
             value={selectedContract}

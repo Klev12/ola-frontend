@@ -3,6 +3,12 @@ export interface ResultPutDto {
   field_id: string | number;
   response: ResponseResult;
 }
+
+export interface ResultDto {
+  field_id: string | number;
+  response: ResponseResult;
+}
+
 export interface ResponseResult {
   value: string;
 }
@@ -14,5 +20,5 @@ export interface Result extends ResultPutDto {
 export interface AllResultPutDto {
   id: string | number;
   hash?: string;
-  results: ResultPutDto[];
+  results: ResultDto[];
 }

@@ -130,7 +130,7 @@ const UserCard: React.FC<UserCardProps> = ({
         {user.verified
           ? "el usuario está verificado"
           : "el usuario no está verificado"}
-        <Link to={ROUTES.DASHBOARD.CHECK_USER_FORM_ID(user.id)}>
+        <Link to={ROUTES.DASHBOARD.CHECK_USER_FORM_ID(user.id as number)}>
           Revisar formulario
         </Link>
       </div>

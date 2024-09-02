@@ -4,6 +4,7 @@ export interface RegulationGetDto {
   description: string;
   seen?: boolean | null;
   userId?: number | null;
+  html: string;
 }
 
 export interface RegulationMarkAsSeenDto {
@@ -14,9 +15,11 @@ export interface RegulationPatchDto {
   title?: string;
   description?: string;
   regulationId: number;
+  html?: string;
 }
 
 export interface RegulationPostDto {
   title: string;
   description: string;
+  html: string;
 }

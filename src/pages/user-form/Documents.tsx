@@ -11,6 +11,8 @@ import ROUTES from "../../consts/routes";
 import { MultimediaType } from "../../models/user";
 import { PrimeIcons } from "primereact/api";
 import multimediaService from "../../services/multimedia-service";
+import FileUploader from "./components/FileUploader";
+import { FileDocument } from "../../models/file";
 
 type Severity = "error" | "success" | "info" | "warn";
 
@@ -81,6 +83,30 @@ const Documents: React.FC = () => {
 
   return (
     <div style={{ padding: "20px" }}>
+      <FileUploader
+        name="userCard"
+        uploadUrl={`${ENV.BACKEND_ROUTE}/multimedia/user-card`}
+        maxFiles={2}
+        showSpecificDelete={false}
+        onGlobalDelete={(file) => {
+          console.log(file);
+        }}
+        defaultFiles={
+          userData?.user?.multimedias?.map(
+            (file) =>
+              ({
+                id: file.id,
+                url: `${ENV.BACKEND_ROUTE}/multimedia/${file.hash}`,
+                status: "completado",
+                identifier: file.hash,
+              } as FileDocument)
+          ) || []
+        }
+        deleteUrl={`${ENV.BACKEND_ROUTE}/multimedia/`}
+        onAfterUpload={() => {
+          refetchUser();
+        }}
+      />
       <h2>Cédula</h2>
       <p>
         Debes subir dos fotos de tu cédula, la parte de enfrente y la parte de
@@ -95,7 +121,10 @@ const Documents: React.FC = () => {
           style: { backgroundColor: "purple", border: "0", boxShadow: "none" },
         }}
         uploadOptions={{
-          style: { backgroundColor: "purple", border: "0", boxShadow: "none" },
+          style: {
+            border: "0",
+            boxShadow: "none",
+          },
         }}
         uploadLabel="Subir"
         chooseLabel="Elegir imágenes"
@@ -104,6 +133,10 @@ const Documents: React.FC = () => {
         url={`${ENV.BACKEND_ROUTE}/multimedia/user-card`}
         onUpload={onUploadSuccessImages}
         onError={onUploadError}
+        onBeforeSelect={(data) => {
+          console.log(data);
+        }}
+        accept="jpeg, png"
       />
       <div
         style={{

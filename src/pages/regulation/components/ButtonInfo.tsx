@@ -5,12 +5,14 @@ import { Checkbox } from "primereact/checkbox";
 import useToggle from "../../../hooks/useToggle";
 import { useMutation } from "react-query";
 import regulationService from "../../../services/regulation-service";
+import { Editor } from "primereact/editor";
 
 interface ButtonInfo {
   regulationId?: number;
   label?: string;
   title?: string;
   description?: string;
+  html?: string;
   checked?: boolean;
   onSuccess?: () => void;
 }
@@ -22,6 +24,7 @@ export default function ButtonInfo({
   checked,
   onSuccess,
   regulationId,
+  html,
 }: ButtonInfo) {
   const [visible, setVisible] = useState<boolean>(false);
   const isCheckBox = useToggle();
@@ -60,7 +63,11 @@ export default function ButtonInfo({
           isCheckBox.setFalse();
         }}
       >
-        <p className="m-0">{description}</p>
+        <Editor
+          value={html || description}
+          showHeader={false}
+          style={{ height: "350px" }}
+        />
         <form
           onSubmit={(e) => {
             e.preventDefault();

@@ -1,116 +1,95 @@
 import { useMutation, useQuery } from "react-query";
 import termAndConditionsService from "../../../services/term-and-conditions-service";
-import { Card } from "primereact/card";
-import { Button } from "primereact/button";
-import { PrimeIcons } from "primereact/api";
-import { Dialog } from "primereact/dialog";
+
 import useToggle from "../../../hooks/useToggle";
 import { useState } from "react";
-import { TermAndConditionsGetDto } from "../../../models/term-and-conditions";
 import { InputText } from "primereact/inputtext";
-import { InputTextarea } from "primereact/inputtextarea";
+import ListElements from "./ListElements";
+import { Editor } from "primereact/editor";
 
 const GlobalTermsAndConditions = () => {
   const showEditMenu = useToggle();
 
-  const [selectedItem, setSelectedItem] = useState<TermAndConditionsGetDto>();
+  const [html, setHtml] = useState<string>();
+  const [text, setText] = useState<string>();
 
-  const { data: termAndConditionsData, refetch: refetchAllTermAndConditions } =
-    useQuery({
-      queryFn: () => termAndConditionsService.findAll().then((res) => res.data),
-    });
+  const {
+    data: termAndConditionsData,
+    refetch: refetchAllTermAndConditions,
+    isLoading,
+  } = useQuery({
+    queryFn: () => termAndConditionsService.findAll().then((res) => res.data),
+    queryKey: ["all-term-and-conditions"],
+  });
 
   const {
     mutate: patchTermAndConditions,
     isLoading: patchingTermAndConditions,
   } = useMutation(termAndConditionsService.patch, {
     onSuccess: () => {
-      showEditMenu.setFalse();
+      showEditMenu.setTrue();
       refetchAllTermAndConditions();
+    },
+    onSettled: () => {
+      showEditMenu.setFalse();
     },
   });
 
   return (
     <div>
-      {termAndConditionsData?.termAndConditions?.map((termAndCondition) => {
-        return (
-          <Card
-            header={
-              <>
-                <Button
-                  style={{ margin: "10px" }}
-                  outlined
-                  icon={PrimeIcons.PENCIL}
-                  onClick={() => {
-                    showEditMenu.setTrue();
-                    setSelectedItem(termAndCondition);
-                  }}
-                />
-              </>
-            }
-            title={termAndCondition.title}
-          >
-            {termAndCondition.description}
-          </Card>
-        );
-      })}
-      <Dialog
-        visible={showEditMenu.value}
-        draggable={false}
-        onHide={() => showEditMenu.setFalse()}
-      >
-        <form
-          action=""
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "20px",
-            width: "100%",
-            minWidth: "100px",
-            margin: "0 auto",
-          }}
-          onSubmit={(e) => {
-            e.preventDefault();
-
-            const formData = Object.fromEntries(
-              new FormData(e.target as HTMLFormElement)
-            );
-
-            patchTermAndConditions({
-              description: formData["description"].toString(),
-              title: formData["title"].toString(),
-              termAndConditionsId: selectedItem?.id as number,
-            });
-          }}
-        >
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-          >
-            <label htmlFor="">Título</label>
-            <InputText
-              required
-              defaultValue={selectedItem?.title}
-              name="title"
-            />
-          </div>
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-          >
-            <label htmlFor="">Descripción</label>
-            <InputTextarea
-              required
-              defaultValue={selectedItem?.description}
-              name="description"
-              style={{ height: "150px" }}
-            />
-          </div>
-          <Button
-            label="Subir cambios"
-            disabled={patchingTermAndConditions}
-            loading={patchingTermAndConditions}
+      <ListElements
+        loading={isLoading}
+        elements={termAndConditionsData?.termAndConditions || []}
+        title={(termAndCondition) => <>{termAndCondition.title}</>}
+        description={(termAndCondition) => (
+          <Editor
+            value={termAndCondition.html || termAndCondition.description}
+            style={{ height: 150 }}
+            showHeader={false}
+            readOnly
           />
-        </form>
-      </Dialog>
+        )}
+        formTemplate={(selectedTermAndCondition) => (
+          <>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+            >
+              <label htmlFor="">Título</label>
+              <InputText
+                placeholder="Título"
+                defaultValue={selectedTermAndCondition?.title}
+                name="title"
+              />
+            </div>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+            >
+              <label htmlFor="">Título</label>
+              <Editor
+                placeholder="Descripción"
+                name="description"
+                value={
+                  selectedTermAndCondition?.html ||
+                  selectedTermAndCondition?.description
+                }
+                onTextChange={(e) => {
+                  setHtml(e.htmlValue || "");
+                  setText(e.textValue);
+                }}
+              />
+            </div>
+          </>
+        )}
+        onSubmit={(data, currentTermAndCondition) => {
+          patchTermAndConditions({
+            title: data.title,
+            termAndConditionsId: currentTermAndCondition?.id as number,
+            description: text,
+            html,
+          });
+        }}
+        disabledButtons={patchingTermAndConditions}
+      />
     </div>
   );
 };

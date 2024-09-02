@@ -9,3 +9,11 @@ export enum FileType {
   cardId = "card_id",
   photo = "photo",
 }
+
+export interface FileDocument {
+  id: number;
+  url: string;
+  identifier: string;
+  status: "pendiente" | "completado";
+  fileData?: File;
+}

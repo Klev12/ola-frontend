@@ -12,13 +12,13 @@ import { ContractGetDto, ContractType } from "../../../models/contract";
 import useToggle from "../../../hooks/useToggle";
 import { InputText } from "primereact/inputtext";
 import { Tag } from "primereact/tag";
-import { ScrollPanel } from "primereact/scrollpanel";
 import { InputNumber } from "primereact/inputnumber";
 import { Editor } from "primereact/editor";
 
 const GlobalContracts = () => {
   const { data: contractData, refetch: refetchAllContracts } = useQuery({
     queryFn: () => getAllContracts().then((res) => res.data),
+    queryKey: ["all-contracts"],
   });
 
   const showEditMenu = useToggle();
@@ -72,15 +72,13 @@ const GlobalContracts = () => {
               )
             }
           >
-            <ScrollPanel style={{ height: "100%", maxHeight: "100px" }}>
-              <Editor
-                showHeader={false}
-                name="description"
-                value={contract.html || contract.description}
-                readOnly
-                style={{ height: "320px" }}
-              />
-            </ScrollPanel>
+            <Editor
+              showHeader={false}
+              name="description"
+              value={contract.html || contract.description}
+              readOnly
+              style={{ height: "100px" }}
+            />
           </Card>
         );
       })}
@@ -92,7 +90,7 @@ const GlobalContracts = () => {
         style={{
           width: "50vw",
           minWidth: "300px",
-          maxWidth: "450px",
+          maxWidth: "600px",
         }}
       >
         <form
