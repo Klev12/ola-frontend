@@ -1,12 +1,12 @@
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 import { useMutation, useQuery } from "react-query";
-import { verifyUser } from "../../services/auth-service";
+import { authenticate, verifyUser } from "../../services/auth-service";
 import { useNavigate } from "react-router";
 import ROUTES from "../../consts/routes";
 import { sendVerifyUserNotification } from "../../services/notification-service";
-import useGlobalState from "../../store/store";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
+import { UserFormContext } from "./WrapperUserForm";
 
 const Verification = () => {
   const navigate = useNavigate();
@@ -14,13 +14,29 @@ const Verification = () => {
 
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
-  const userFormId = useGlobalState((state) => state.userFormId);
+  const { formInfo } = useContext(UserFormContext);
+
+  useQuery({
+    queryFn: () => authenticate().then((res) => res.data),
+    refetchInterval: 4000,
+    onSuccess: (data) => {
+      const isFormVerified = data.user.is_form_verified;
+      if (isFormVerified) {
+        navigate(ROUTES.HOME.ME);
+      }
+    },
+    onError: () => {
+      navigate(ROUTES.LOGIN);
+    },
+    queryKey: ["authenticated-user"],
+  });
 
   useQuery({
     queryFn: verifyUser,
     onError: () => {
-      navigate(ROUTES.HOME.ME);
+      navigate(ROUTES.LOGIN);
     },
+    queryKey: ["verify-user"],
   });
 
   const { mutate: sendVerifyUserNotificationMutate, isLoading } = useMutation(
@@ -48,7 +64,15 @@ const Verification = () => {
   );
 
   return (
-    <div>
+    <div
+      style={{
+        padding: "20px",
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       <Toast ref={toast} />
       <p
         style={{
@@ -66,7 +90,7 @@ const Verification = () => {
         loading={isLoading}
         disabled={buttonDisabled || isLoading}
         onClick={() => {
-          sendVerifyUserNotificationMutate(userFormId as number);
+          sendVerifyUserNotificationMutate(formInfo?.id as number);
           setButtonDisabled(true);
         }}
       />

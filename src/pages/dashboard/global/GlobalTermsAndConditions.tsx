@@ -76,6 +76,7 @@ const GlobalTermsAndConditions = () => {
                   setHtml(e.htmlValue || "");
                   setText(e.textValue);
                 }}
+                style={{ height: "300px" }}
               />
             </div>
           </>

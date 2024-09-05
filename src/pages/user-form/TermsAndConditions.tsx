@@ -10,11 +10,10 @@ import ROUTES from "../../consts/routes";
 import TermsAndConditionsCard from "./components/TermsAndConditionsCard";
 import ContractCard from "./components/ContractCard";
 import { UserFormContext } from "./WrapperUserForm";
-import ContractHeader from "../../components/ContractHeader";
 
 const TermsAndConditions = () => {
   const navigate = useNavigate();
-  const { formInfo, formScheme, formDetails } = useContext(UserFormContext);
+  const { formInfo, formDetails } = useContext(UserFormContext);
 
   const { mutate: verifyFormMutate } = useMutation(verifyForm, {
     onSuccess: () => {
@@ -33,7 +32,6 @@ const TermsAndConditions = () => {
         }}
       >
         <>
-          <ContractHeader formGroups={formScheme?.form_groups || []} />
           <ContractCard contract={formInfo?.contract} />
           <TermsAndConditionsCard
             termAndConditions={formInfo?.term_and_condition}

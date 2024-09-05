@@ -57,7 +57,6 @@ const GlobalRegulation = () => {
             style={{
               display: "flex",
               justifyContent: "end",
-
               width: "100%",
             }}
           >

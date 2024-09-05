@@ -30,7 +30,13 @@ export enum FieldIdentifier {
   lastNames = "last-names",
   names = "names",
   data = "data",
+  bussinesName = "bussines-name",
+  costumerPhone = "costumer-phone",
+  phone = "phone",
+  email = "email",
+  genre = "genre",
   cardId = "card_id",
+  area = "area",
 }
 
 export interface Metadata {

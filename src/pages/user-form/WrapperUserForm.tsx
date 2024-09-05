@@ -31,9 +31,10 @@ const WrapperUserForm = () => {
     retry: 1,
   });
 
-  const defaultFormDetails = useFormDetails(
-    formData?.form_scheme?.form_groups || []
-  );
+  const defaultFormDetails = useFormDetails({
+    formInfo: formData?.user_form,
+    formScheme: formData?.form_scheme,
+  });
 
   const [formDetails, setFormDetails] = useState<FormDetails | undefined>(
     undefined

@@ -6,6 +6,7 @@ import { ScrollPanel } from "primereact/scrollpanel";
 import { FormDetails } from "../../../models/forms";
 import { useContext } from "react";
 import { UserFormContext } from "../WrapperUserForm";
+import ConfidentialityContractStatic from "../../../components/term-and-conditions/ConfidentialityContractStatic";
 
 interface TermsAndConditionsCardProps {
   termAndConditions?: TermAndConditionsGetDto;
@@ -22,22 +23,25 @@ const TermsAndConditionsCard = ({
   return (
     <Card title="Términos y condiciones" className="terms-card">
       <div className="m-0 terms-text">
-        {`Yo ${formDetails?.userNames?.toLocaleUpperCase()} ${formDetails?.userLastNames?.toUpperCase()} con el número de identificación ${
-          formDetails?.cardId
-        } `}
         <ScrollPanel style={{ height: "300px" }}>
-          {termAndConditions?.description}
+          <ConfidentialityContractStatic formDetails={formDetails}>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: termAndConditions?.html || "",
+              }}
+            ></div>
+          </ConfidentialityContractStatic>
+          <div className="checkbox-container">
+            <Checkbox
+              required
+              onChange={() => toggle()}
+              checked={value}
+            ></Checkbox>
+            <span className="checkbox-label">
+              Acepto todos los términos y condiciones que acabo de leer
+            </span>
+          </div>
         </ScrollPanel>
-        <div className="checkbox-container">
-          <Checkbox
-            required
-            onChange={() => toggle()}
-            checked={value}
-          ></Checkbox>
-          <span className="checkbox-label">
-            Acepto todos los términos y condiciones que acabo de leer
-          </span>
-        </div>
       </div>
     </Card>
   );

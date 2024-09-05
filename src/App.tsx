@@ -16,7 +16,6 @@ import UserForm from "./pages/user-form/UserForm";
 import Documents from "./pages/user-form/Documents";
 import TermsAndConditions from "./pages/user-form/TermsAndConditions";
 import Application from "./layout/Application";
-import UserFormWrapper from "./layout/UserFormWrapper";
 import Regulation from "./pages/regulation/Regulation";
 import FormPDF from "./pages/form-pdf/FormPDF";
 import AuthAppGuard from "./guard/AuthAppGuard";

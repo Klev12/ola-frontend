@@ -34,7 +34,7 @@ const GlobalContracts = () => {
   const [selectedContract, setSelectedContract] = useState<ContractGetDto>();
 
   const [text, setText] = useState("");
-  const [html, setHtml] = useState("");
+  const [html, setHtml] = useState(" ");
 
   return (
     <div style={{ display: "grid", gap: "20px" }}>
@@ -112,7 +112,7 @@ const GlobalContracts = () => {
             patchContractMutate({
               contractId: selectedContract?.id as number,
               description: text,
-              html,
+              html: html || " ",
               title: formData["title"].toString(),
               project:
                 parseFloat(

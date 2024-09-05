@@ -11,6 +11,9 @@ export interface FormDetails {
   userLastNames?: string;
   storeName?: string;
   cardId?: string;
+  area?: string;
+  genre?: "Hombre" | "Mujer";
+  createdAt?: string;
 }
 
 export interface FormPostDto {

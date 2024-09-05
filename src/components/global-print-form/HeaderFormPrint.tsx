@@ -1,6 +1,6 @@
 import { Button } from "primereact/button";
 import { Checkbox } from "primereact/checkbox";
-import { useContext, useRef } from "react";
+import { ReactNode, useContext, useRef } from "react";
 import { GlobalFormContext } from "./GlobalPrintForm";
 import { useNavigate } from "react-router";
 import ROUTES from "../../consts/routes";
@@ -9,9 +9,22 @@ import { useMutation } from "react-query";
 import { verifyForm } from "../../services/forms-service";
 import { Toast } from "primereact/toast";
 import { AxiosError } from "axios";
+import GoBackButton from "../GoBackButton";
 
-const HeaderFormPrint = () => {
-  const { editionMode, setEditionMode, formInfo } =
+export interface CustomHeaderTemplateProps {
+  editionMenu: ReactNode;
+  verificationButton: ReactNode;
+  submitButton: ReactNode;
+  pdfButton: ReactNode;
+  goBackButton: ReactNode;
+}
+
+interface HeaderFormPrintProps {
+  customHeaderTemplate?: (options: CustomHeaderTemplateProps) => ReactNode;
+}
+
+const HeaderFormPrint = ({ customHeaderTemplate }: HeaderFormPrintProps) => {
+  const { editionMode, setEditionMode, formInfo, type } =
     useContext(GlobalFormContext);
 
   const navigate = useNavigate();
@@ -21,9 +34,7 @@ const HeaderFormPrint = () => {
   const { mutate: verifyFormMutate, isLoading: verifyingForm } = useMutation(
     verifyForm,
     {
-      onSuccess: () => {
-        window.location.reload();
-      },
+      onSuccess: () => {},
       onError: (
         data: AxiosError<{ error: { message: string; errorCode: string } }>
       ) => {
@@ -40,14 +51,67 @@ const HeaderFormPrint = () => {
     }
   );
 
+  const headerOptions: CustomHeaderTemplateProps = {
+    goBackButton: <GoBackButton />,
+    editionMenu: (
+      <div style={{ display: "flex", gap: "10px" }}>
+        <label style={{ fontSize: "14px" }}>
+          Modo edición {editionMode ? "activado" : "desactivado"}
+        </label>
+        <Checkbox
+          checked={!!editionMode}
+          onChange={() => {
+            setEditionMode(!editionMode);
+          }}
+        />
+      </div>
+    ),
+    verificationButton: (
+      <Button
+        outlined
+        type="button"
+        style={{ fontSize: "14px" }}
+        disabled={!editionMode || verifyingForm}
+        label={
+          formInfo?.done ? "Formulario verificado" : "Verificar formulario"
+        }
+        onClick={() => {
+          verifyFormMutate(formInfo?.id as number);
+        }}
+      />
+    ),
+    submitButton: (
+      <Button
+        disabled={!editionMode}
+        label="Subir"
+        style={{ fontSize: "14px" }}
+      />
+    ),
+    pdfButton: (
+      <Button
+        icon={PrimeIcons.EYE}
+        label="pdf"
+        type="button"
+        disabled={!formInfo?.done}
+        style={{ fontSize: "14px" }}
+        onClick={() => {
+          if (type === "user-form") {
+            navigate(ROUTES.PDF.USER_ID(formInfo?.user_id as number));
+          } else {
+            navigate(ROUTES.PDF.PDF_ID(formInfo?.id as number));
+          }
+        }}
+      />
+    ),
+  };
+
   return (
     <>
       <Toast ref={toast} />
       <nav
         style={{
-          position: "sticky",
-          top: 0,
-          left: 0,
+          position: "fixed",
+          width: "100%",
           padding: "30px",
           background: "white",
           zIndex: "10",
@@ -57,46 +121,12 @@ const HeaderFormPrint = () => {
           alignItems: "center",
         }}
       >
-        <div style={{ display: "flex", gap: "10px" }}>
-          <label style={{ fontSize: "14px" }}>
-            Modo edición {editionMode ? "activado" : "desactivado"}
-          </label>
-          <Checkbox
-            checked={!!editionMode}
-            onChange={() => {
-              setEditionMode(!editionMode);
-            }}
-          />
-        </div>
-
-        <div style={{ display: "flex", gap: "10px" }}>
-          <Button
-            outlined
-            type="button"
-            style={{ fontSize: "14px" }}
-            disabled={!editionMode || verifyingForm}
-            label={
-              formInfo?.done ? "Formulario verificado" : "Verificar formulario"
-            }
-            onClick={() => {
-              verifyFormMutate(formInfo?.id as number);
-            }}
-          />
-          <Button
-            disabled={!editionMode}
-            label="Subir"
-            style={{ fontSize: "14px" }}
-          />
-          <Button
-            icon={PrimeIcons.EYE}
-            label="pdf"
-            type="button"
-            disabled={!formInfo?.done}
-            style={{ fontSize: "14px" }}
-            onClick={() => {
-              navigate(ROUTES.PDF.PDF_ID(formInfo?.id as number));
-            }}
-          />
+        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+          {!customHeaderTemplate &&
+            Object.values(headerOptions).map((headerOption, index) => {
+              return <div key={index}>{headerOption}</div>;
+            })}
+          {customHeaderTemplate && customHeaderTemplate(headerOptions)}
         </div>
       </nav>
     </>

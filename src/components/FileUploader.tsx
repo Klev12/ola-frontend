@@ -3,32 +3,38 @@ import { Button } from "primereact/button";
 import { Tag } from "primereact/tag";
 import { Toast } from "primereact/toast";
 import { useEffect, useRef, useState } from "react";
-import { FileDocument } from "../../../models/file";
+import { FileDocument } from "../models/file";
 import { useMutation } from "react-query";
-import GlobalFileService from "../../../services/global-file-service";
+import GlobalFileService from "../services/global-file-service";
+import CanvasDrawUploader from "./file-uploader/CanvasDrawUploader";
+import { AxiosError } from "axios";
 
 interface FileUploaderProps {
   maxFiles: number;
   showSpecificDelete?: boolean;
   showGeneralDelete?: boolean;
-  onGlobalDelete?: (files: FileDocument[]) => void;
+  onAfterGlobalDelete?: (files: FileDocument[]) => void;
   onAfterUpload?: (files: FileDocument[]) => void;
   uploadUrl?: string;
   deleteUrl: string;
   name?: string;
   defaultFiles: FileDocument[];
+  accept?: string;
+  type: "image" | "video" | "canvas-draw";
 }
 
 const FileUploader = ({
   maxFiles,
   showGeneralDelete = true,
   showSpecificDelete = true,
-  onGlobalDelete,
+  onAfterGlobalDelete,
   uploadUrl,
   deleteUrl,
   name,
   defaultFiles,
   onAfterUpload,
+  accept,
+  type = "image",
 }: FileUploaderProps) => {
   const toast = useRef<Toast>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -37,7 +43,7 @@ const FileUploader = ({
 
   const [allFilesUploaded, setAllFilesUploaded] = useState(false);
 
-  const { mutate: uploadFiles } = useMutation(
+  const { mutate: uploadFiles, isLoading: isUploading } = useMutation(
     (files: File[]) =>
       new GlobalFileService({
         url: uploadUrl,
@@ -47,6 +53,16 @@ const FileUploader = ({
       onSuccess: () => {
         setFiles(files.map((file) => ({ ...file, status: "completado" })));
         if (onAfterUpload) onAfterUpload(files);
+        toast.current?.show({ severity: "success", summary: "Éxito" });
+      },
+      onError: (error: AxiosError<{ error?: { message?: string } }>) => {
+        const message = error.response?.data.error?.message;
+
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: message,
+        });
       },
     }
   );
@@ -55,7 +71,13 @@ const FileUploader = ({
     (identifier: string) =>
       new GlobalFileService({
         deleteUrl,
-      }).delete(identifier)
+      }).delete(identifier),
+    {
+      onSuccess: () => {
+        setFiles([]);
+        if (onAfterGlobalDelete) onAfterGlobalDelete(files);
+      },
+    }
   );
 
   const handleFileChange = () => {
@@ -81,12 +103,18 @@ const FileUploader = ({
   };
 
   useEffect(() => {
-    if (files.length > 0 && files.every((file) => file.status === "completado"))
+    if (
+      files.length > 0 &&
+      files.every((file) => file.status === "completado")
+    ) {
       setAllFilesUploaded(true);
+    } else {
+      setAllFilesUploaded(false);
+    }
   }, [files]);
 
   useEffect(() => {
-    if (defaultFiles.length !== 0) setFiles(defaultFiles);
+    setFiles(defaultFiles);
   }, [defaultFiles]);
 
   return (
@@ -99,21 +127,34 @@ const FileUploader = ({
         multiple
         style={{ display: "none" }}
         onChange={handleFileChange}
+        accept={accept}
       />
-      <Button
-        label="Elegir archivos"
-        onClick={() => {
-          fileInputRef.current?.click();
-        }}
-        disabled={files.length === maxFiles}
-      />
-      <Button
-        label="Subir archivos"
-        disabled={files.length !== maxFiles || allFilesUploaded}
-        onClick={() => {
-          uploadFiles(files.map((file) => file.fileData as File));
-        }}
-      />
+      {type !== "canvas-draw" && (
+        <Button
+          label="Elegir archivos"
+          onClick={() => {
+            fileInputRef.current?.click();
+          }}
+          disabled={files.length === maxFiles}
+        />
+      )}
+
+      {type !== "canvas-draw" && (
+        <Button
+          label="Subir archivos"
+          disabled={files.length !== maxFiles || allFilesUploaded}
+          onClick={() => {
+            uploadFiles(files.map((file) => file.fileData as File));
+          }}
+        />
+      )}
+      {type === "canvas-draw" && (
+        <CanvasDrawUploader
+          onSubmit={(file) => {
+            uploadFiles([file]);
+          }}
+        />
+      )}
       <div
         style={{
           display: "grid",
@@ -127,17 +168,17 @@ const FileUploader = ({
             icon={PrimeIcons.TIMES}
             rounded
             onClick={() => {
-              setFiles([]);
+              setFiles(files.filter((file) => file.status !== "pendiente"));
               for (const file of files) {
                 if (file.status === "completado") deleteFile(file.identifier);
               }
-              if (onGlobalDelete) onGlobalDelete(files);
             }}
             style={{ justifySelf: "end" }}
-            disabled={isDeleting}
-            loading={isDeleting}
+            disabled={isDeleting || isUploading}
+            loading={isDeleting || isUploading}
           />
         )}
+
         <div>
           {files.map((file, index) => {
             return (
@@ -149,7 +190,9 @@ const FileUploader = ({
                   gap: "20px",
                 }}
               >
-                <img src={file.url} alt="" width={40} />
+                {type === "image" && <img src={file.url} alt="" width={40} />}
+                {type === "video" && <video src={file.url} width={40} />}
+                {type === "canvas-draw" && <img src={file.url} width={40} />}
                 <Tag
                   severity={file.status === "pendiente" ? "warning" : "success"}
                   value={file.status}

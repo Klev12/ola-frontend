@@ -1,10 +1,10 @@
 import { InputText } from "primereact/inputtext";
 import { Field, FieldIdentifier } from "../../models/form-scheme";
-import { Checkbox } from "primereact/checkbox";
 import SelectType from "./SelectType";
 import { useContext, useMemo } from "react";
 import { GlobalFormContext } from "./GlobalPrintForm";
 import { Calendar } from "primereact/calendar";
+import CheckBoxType from "./CheckBoxType";
 
 interface FieldTypeProps {
   field: Field;
@@ -49,7 +49,7 @@ const FieldType = ({ field, required }: FieldTypeProps) => {
 
       {field.component === "input" && field?.metadata?.type === "date" && (
         <Calendar
-          value={new Date(defaultValue)}
+          value={new Date(defaultValue || "2024")}
           required={required || field.required}
           disabled={!editionMode}
           name={field.id as string}
@@ -65,12 +65,7 @@ const FieldType = ({ field, required }: FieldTypeProps) => {
         />
       )}
       {field.component === "check" && (
-        <Checkbox
-          checked={defaultValue === "on"}
-          required={required || field.required}
-          name={field.id as string}
-          disabled={!editionMode}
-        />
+        <CheckBoxType defaultValue={defaultValue} field={field} />
       )}
       {field.component === "select" && (
         <SelectType defaultValue={defaultValue} field={field} />

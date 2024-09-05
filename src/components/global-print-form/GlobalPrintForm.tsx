@@ -5,8 +5,8 @@ import formatDate from "../../utils/format-date";
 import { ResultDto } from "../../models/result";
 import DependentFormGroup from "./DependentFormGroup";
 import FieldListType from "./FieldListType";
-import HeaderFormPrint from "./HeaderFormPrint";
-import { createContext, useEffect, useState } from "react";
+import HeaderFormPrint, { CustomHeaderTemplateProps } from "./HeaderFormPrint";
+import { createContext, ReactNode, useEffect, useState } from "react";
 
 interface GlobalPrintFormProps {
   formScheme?: FormScheme;
@@ -17,6 +17,8 @@ interface GlobalPrintFormProps {
   onChangeDetails?: (formDetails: FormDetails) => void;
   loading?: boolean;
   editMode?: boolean;
+  customHeaderTemplate?: (options: CustomHeaderTemplateProps) => ReactNode;
+  type?: "user-form" | "sales-form";
 }
 
 interface GlobalFormContext {
@@ -26,12 +28,14 @@ interface GlobalFormContext {
   setFormDetails: (formDetails: FormDetails) => void;
   editionMode?: boolean;
   setEditionMode: (mode: boolean) => void;
+  type?: "user-form" | "sales-form";
 }
 
 export const GlobalFormContext = createContext<GlobalFormContext>({
   editionMode: true,
   setEditionMode: () => {},
   setFormDetails: () => {},
+  type: "user-form",
 });
 
 const GlobalPrintForm = ({
@@ -43,6 +47,8 @@ const GlobalPrintForm = ({
   onChangeDetails,
   loading = false,
   editMode = false,
+  customHeaderTemplate,
+  type = "user-form",
 }: GlobalPrintFormProps) => {
   const [editionMode, setEditionMode] = useState<boolean>(defaulEditionMode);
   const [formDetails, setFormDetails] = useState(() => {
@@ -97,6 +103,7 @@ const GlobalPrintForm = ({
         setFormDetails: (form) => {
           setFormDetails(form);
         },
+        type,
       }}
     >
       <form
@@ -120,8 +127,10 @@ const GlobalPrintForm = ({
           if (onSubmit) onSubmit(results);
         }}
       >
-        {showHeader && <HeaderFormPrint />}
-        <div style={{ padding: "30px" }}>
+        {showHeader && (
+          <HeaderFormPrint customHeaderTemplate={customHeaderTemplate} />
+        )}
+        <div style={{ padding: "30px", paddingTop: "100px" }}>
           <div>
             <h1>Formulario {formInfo?.code}</h1>
             <span>Creado en {formatDate(formInfo?.createdAt || "")}</span>
