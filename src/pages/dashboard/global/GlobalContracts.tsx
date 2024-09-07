@@ -17,7 +17,7 @@ import { Editor } from "primereact/editor";
 
 const GlobalContracts = () => {
   const { data: contractData, refetch: refetchAllContracts } = useQuery({
-    queryFn: () => getAllContracts().then((res) => res.data),
+    queryFn: () => getAllContracts({}).then((res) => res.data),
     queryKey: ["all-contracts"],
   });
 

@@ -13,6 +13,9 @@ export interface FormDetails {
   cardId?: string;
   area?: string;
   genre?: "Hombre" | "Mujer";
+  city?: string;
+  agreement?: string;
+  observations?: string;
   createdAt?: string;
 }
 

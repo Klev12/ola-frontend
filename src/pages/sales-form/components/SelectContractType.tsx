@@ -7,7 +7,7 @@ import { Checkbox } from "primereact/checkbox";
 import useToggle from "../../../hooks/useToggle";
 import { Card } from "primereact/card";
 import { SalesFormContext } from "./WrapperSalesForm";
-import { ContractGetDto } from "../../../models/contract";
+import { ContractGetDto, ContractType } from "../../../models/contract";
 import { ScrollPanel } from "primereact/scrollpanel";
 import ContractHeader from "../../../components/ContractHeader";
 
@@ -29,7 +29,8 @@ const SelectContractType = ({ formId }: SelectContractTypeProps) => {
   );
 
   const { data: contractData } = useQuery({
-    queryFn: () => getAllContracts().then((res) => res.data),
+    queryFn: () =>
+      getAllContracts({ type: ContractType.sales }).then((res) => res.data),
   });
 
   const contractOptions = useMemo(() => {

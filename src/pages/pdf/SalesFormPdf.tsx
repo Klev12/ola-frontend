@@ -17,7 +17,7 @@ const SalesFormPdf = () => {
     <>
       {formData && (
         <FormPdf
-          type="normal-form"
+          type="sales-form"
           formInfo={formData?.form}
           formScheme={formData?.form_scheme}
         />

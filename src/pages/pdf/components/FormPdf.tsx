@@ -6,12 +6,13 @@ import FormPdfTemplate from "./FormPdfTemplate";
 import { FormGetDto } from "../../../models/forms";
 import { FormScheme } from "../../../models/form-scheme";
 import { UserGetDto } from "../../../models/user";
+import SalesFormTemplate from "./SalesFormTemplate";
 
 interface FormPdfProps {
   formInfo?: FormGetDto;
   formScheme?: FormScheme;
   user?: UserGetDto;
-  type: "user-form" | "normal-form";
+  type: "user-form" | "normal-form" | "sales-form";
 }
 
 const FormPdf = ({ formInfo, formScheme, user, type }: FormPdfProps) => {
@@ -41,10 +42,11 @@ const FormPdf = ({ formInfo, formScheme, user, type }: FormPdfProps) => {
             }}
           />
         )}
-        {type === "normal-form" && (
-          <FormPdfTemplate
+        {type === "sales-form" && (
+          <SalesFormTemplate
             formInfo={formInfo}
             formScheme={formScheme}
+            authenticatedUser={user}
             onLoadHtml={(html) => {
               setHtml(html);
             }}

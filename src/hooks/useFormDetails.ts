@@ -29,6 +29,9 @@ const useFormDetails = ({ formInfo, formScheme }: UseFormDetailsProps) => {
             FieldIdentifier.email,
             FieldIdentifier.genre,
             FieldIdentifier.phone,
+            FieldIdentifier.city,
+            FieldIdentifier.agreement,
+            FieldIdentifier.observations,
           ];
 
           return allowedFields.includes(field.identifier);
@@ -36,11 +39,14 @@ const useFormDetails = ({ formInfo, formScheme }: UseFormDetailsProps) => {
 
     return {
       cardId: getResponse(FieldIdentifier.cardId, fields),
-      storeName: "",
+      storeName: getResponse(FieldIdentifier.bussinesName, fields),
       userLastNames: getResponse(FieldIdentifier.lastNames, fields),
       userNames: getResponse(FieldIdentifier.names, fields),
       area: getResponse(FieldIdentifier.area, fields),
       genre: getResponse(FieldIdentifier.genre, fields),
+      city: getResponse(FieldIdentifier.city, fields),
+      agreement: getResponse(FieldIdentifier.agreement, fields),
+      observations: getResponse(FieldIdentifier.observations, fields),
       createdAt: formInfo?.createdAt,
     } as FormDetails;
   }, [formScheme?.form_groups, formInfo]);

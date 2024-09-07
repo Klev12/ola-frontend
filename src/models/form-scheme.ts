@@ -36,6 +36,9 @@ export enum FieldIdentifier {
   email = "email",
   genre = "genre",
   cardId = "card_id",
+  city = "city",
+  observations = "observations",
+  agreement = "agreement",
   area = "area",
 }
 

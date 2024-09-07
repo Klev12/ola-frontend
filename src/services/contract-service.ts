@@ -16,10 +16,13 @@ export function getTermsAndConditions() {
     );
 }
 
-export function getAllContracts() {
-  return axios.get<{ contracts: ContractGetDto[] }>(
-    `${ENV.BACKEND_ROUTE}/contracts`
-  );
+export function getAllContracts({ type }: { type?: ContractType }) {
+  let api = `${ENV.BACKEND_ROUTE}/contracts`;
+  if (type) {
+    api += `?type=${type}`;
+  }
+
+  return axios.get<{ contracts: ContractGetDto[] }>(api);
 }
 
 export function patchContract(contract: ContractPatchDto) {

@@ -2,7 +2,6 @@ import { Button } from "primereact/button";
 import { Checkbox } from "primereact/checkbox";
 import { ReactNode, useContext, useRef } from "react";
 import { GlobalFormContext } from "./GlobalPrintForm";
-import { useNavigate } from "react-router";
 import ROUTES from "../../consts/routes";
 import { PrimeIcons } from "primereact/api";
 import { useMutation } from "react-query";
@@ -26,8 +25,6 @@ interface HeaderFormPrintProps {
 const HeaderFormPrint = ({ customHeaderTemplate }: HeaderFormPrintProps) => {
   const { editionMode, setEditionMode, formInfo, type } =
     useContext(GlobalFormContext);
-
-  const navigate = useNavigate();
 
   const toast = useRef<Toast>(null);
 
@@ -88,20 +85,18 @@ const HeaderFormPrint = ({ customHeaderTemplate }: HeaderFormPrintProps) => {
       />
     ),
     pdfButton: (
-      <Button
-        icon={PrimeIcons.EYE}
-        label="pdf"
-        type="button"
-        disabled={!formInfo?.done}
-        style={{ fontSize: "14px" }}
-        onClick={() => {
-          if (type === "user-form") {
-            navigate(ROUTES.PDF.USER_ID(formInfo?.user_id as number));
-          } else {
-            navigate(ROUTES.PDF.PDF_ID(formInfo?.id as number));
-          }
-        }}
-      />
+      <a
+        style={{ display: "flex", alignItems: "center", gap: "10px" }}
+        target="_blank"
+        href={
+          type === "user-form"
+            ? ROUTES.PDF.USER_ID(formInfo?.user_id as number)
+            : ROUTES.PDF.PDF_ID(formInfo?.id as number)
+        }
+      >
+        <i className={PrimeIcons.EYE}></i>
+        <span>pdf</span>
+      </a>
     ),
   };
 
