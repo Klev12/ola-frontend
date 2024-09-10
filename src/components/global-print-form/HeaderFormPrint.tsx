@@ -23,7 +23,7 @@ interface HeaderFormPrintProps {
 }
 
 const HeaderFormPrint = ({ customHeaderTemplate }: HeaderFormPrintProps) => {
-  const { editionMode, setEditionMode, formInfo, type } =
+  const { editionMode, setEditionMode, formInfo, type, loading } =
     useContext(GlobalFormContext);
 
   const toast = useRef<Toast>(null);
@@ -68,7 +68,7 @@ const HeaderFormPrint = ({ customHeaderTemplate }: HeaderFormPrintProps) => {
         outlined
         type="button"
         style={{ fontSize: "14px" }}
-        disabled={!editionMode || verifyingForm}
+        disabled={!editionMode || verifyingForm || loading}
         label={
           formInfo?.done ? "Formulario verificado" : "Verificar formulario"
         }
@@ -79,7 +79,8 @@ const HeaderFormPrint = ({ customHeaderTemplate }: HeaderFormPrintProps) => {
     ),
     submitButton: (
       <Button
-        disabled={!editionMode}
+        disabled={!editionMode || loading}
+        loading={loading}
         label="Subir"
         style={{ fontSize: "14px" }}
       />

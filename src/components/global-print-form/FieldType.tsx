@@ -5,6 +5,7 @@ import { useContext, useMemo } from "react";
 import { GlobalFormContext } from "./GlobalPrintForm";
 import { Calendar } from "primereact/calendar";
 import CheckBoxType from "./CheckBoxType";
+import { InputTextarea } from "primereact/inputtextarea";
 
 interface FieldTypeProps {
   field: Field;
@@ -69,6 +70,15 @@ const FieldType = ({ field, required }: FieldTypeProps) => {
       )}
       {field.component === "select" && (
         <SelectType defaultValue={defaultValue} field={field} />
+      )}
+      {field.component === "textarea" && (
+        <InputTextarea
+          style={{ height: "100px", margin: 0 }}
+          defaultValue={defaultValue}
+          required={required || field.required}
+          name={field.id as string}
+          disabled={!editionMode}
+        />
       )}
     </>
   );

@@ -38,7 +38,6 @@ const TransactionsList = ({ transactions, form }: TransactionsListProps) => {
       <Button
         label="Ver transacciones"
         onClick={() => transactionDialog.setTrue()}
-        style={{ margin: "10px" }}
       />
       <Dialog
         header={`Formulario ${form?.code}`}
@@ -68,9 +67,10 @@ const TransactionsList = ({ transactions, form }: TransactionsListProps) => {
               <Button
                 label="Copiar"
                 onClick={() => {
-                  console.log(`${window.location.host}}`);
+                  console.log(`${window.location.host}`);
+
                   copyText(
-                    `${window.location.host}${ROUTES.PAYPHONE.LINK_TOKEN(
+                    `${window.location.origin}${ROUTES.PAYPHONE.LINK_TOKEN(
                       value.token
                     )}`
                   );

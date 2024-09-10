@@ -8,13 +8,14 @@ import { SalesFormContext } from "./WrapperSalesForm";
 import { Toast } from "primereact/toast";
 import { TransactionGetDto } from "../../../models/transaction";
 import TransactionsList from "../../sales/components/TransactionsList";
+import { AxiosError } from "axios";
 
 const ConfirmSale = () => {
-  const { form, hashMode } = useContext(SalesFormContext);
+  const { formInfo, hashMode } = useContext(SalesFormContext);
   const toast = useRef<Toast>(null);
   const dialog = useToggle();
   const isLoadingVerification = useToggle();
-  const isFormBlocked = useToggle(form?.form?.block);
+  const isFormBlocked = useToggle(formInfo?.block);
 
   const [pendingTransaction, setPedingTransaction] = useState<
     TransactionGetDto | undefined
@@ -32,8 +33,8 @@ const ConfirmSale = () => {
         isFormBlocked.setTrue();
         setPedingTransaction(response.data.transaction);
       },
-      onError: (error) => {
-        const message = (error as any)?.response?.data?.error?.message;
+      onError: (error: AxiosError<{ error?: { message?: string } }>) => {
+        const message = error?.response?.data?.error?.message;
         isLoadingVerification.setFalse();
         toast.current?.show({
           summary: "Error",
@@ -49,7 +50,7 @@ const ConfirmSale = () => {
       <Toast ref={toast} />
 
       <Button
-        disabled={form?.form?.block}
+        disabled={formInfo?.block}
         label="Confirmar venta"
         onClick={() => dialog.setTrue()}
       />
@@ -78,8 +79,8 @@ const ConfirmSale = () => {
               onClick={() => {
                 isLoadingVerification.setTrue();
                 verifySalesFormByFormIdMutate({
-                  formId: form?.form?.id as number,
-                  hash: hashMode ? (form?.form?.hash as string) : undefined,
+                  formId: formInfo?.id as number,
+                  hash: hashMode ? (formInfo?.hash as string) : undefined,
                 });
               }}
               className="p-button-danger"
@@ -95,15 +96,12 @@ const ConfirmSale = () => {
       </Dialog>
 
       {pendingTransaction && (
-        <TransactionsList
-          form={form?.form}
-          transactions={[pendingTransaction]}
-        />
+        <TransactionsList form={formInfo} transactions={[pendingTransaction]} />
       )}
-      {form?.form?.transactions.length !== 0 && (
+      {formInfo?.transactions.length !== 0 && (
         <TransactionsList
-          form={form?.form}
-          transactions={form?.form?.transactions}
+          form={formInfo}
+          transactions={formInfo?.transactions}
         />
       )}
     </div>

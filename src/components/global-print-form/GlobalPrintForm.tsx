@@ -1,5 +1,5 @@
 import { Button } from "primereact/button";
-import { FieldIdentifier, FormScheme } from "../../models/form-scheme";
+import { FormScheme } from "../../models/form-scheme";
 import { FormDetails, FormGetDto } from "../../models/forms";
 import formatDate from "../../utils/format-date";
 import { ResultDto } from "../../models/result";
@@ -7,6 +7,7 @@ import DependentFormGroup from "./DependentFormGroup";
 import FieldListType from "./FieldListType";
 import HeaderFormPrint, { CustomHeaderTemplateProps } from "./HeaderFormPrint";
 import { createContext, ReactNode, useEffect, useState } from "react";
+import useFormDetails from "../../hooks/useFormDetails";
 
 interface GlobalPrintFormProps {
   formScheme?: FormScheme;
@@ -19,6 +20,9 @@ interface GlobalPrintFormProps {
   editMode?: boolean;
   customHeaderTemplate?: (options: CustomHeaderTemplateProps) => ReactNode;
   type?: "user-form" | "sales-form";
+  formFooter?: ReactNode;
+  footer?: ReactNode;
+  showSubmitButton?: boolean;
 }
 
 interface GlobalFormContext {
@@ -29,10 +33,12 @@ interface GlobalFormContext {
   editionMode?: boolean;
   setEditionMode: (mode: boolean) => void;
   type?: "user-form" | "sales-form";
+  loading: boolean;
 }
 
 export const GlobalFormContext = createContext<GlobalFormContext>({
   editionMode: true,
+  loading: false,
   setEditionMode: () => {},
   setFormDetails: () => {},
   type: "user-form",
@@ -49,38 +55,18 @@ const GlobalPrintForm = ({
   editMode = false,
   customHeaderTemplate,
   type = "user-form",
+  footer,
+  formFooter,
+  showSubmitButton = true,
 }: GlobalPrintFormProps) => {
   const [editionMode, setEditionMode] = useState<boolean>(defaulEditionMode);
-  const [formDetails, setFormDetails] = useState(() => {
-    const fields = formScheme?.form_groups
-      .flatMap((formGroup) => formGroup.fields)
-      .filter((field) => {
-        const allowedFields = [
-          FieldIdentifier.cardId,
-          FieldIdentifier.lastNames,
-          FieldIdentifier.names,
-        ];
-        return allowedFields.includes(field.identifier);
-      })
-      .map((field) => ({
-        id: field.id,
-        identifier: field.identifier,
-        response: field.results?.[0]?.response?.value,
-      }));
+  const [formDetails, setFormDetails] = useState({});
 
-    return {
-      cardId: fields?.find(
-        (field) => field.identifier === FieldIdentifier.cardId
-      )?.response,
-      storeName: "",
-      userLastNames: fields?.find(
-        (field) => field.identifier === FieldIdentifier.lastNames
-      )?.response,
-      userNames: fields?.find(
-        (field) => field.identifier === FieldIdentifier.names
-      )?.response,
-    } as FormDetails;
-  });
+  const currentFormDetails = useFormDetails({ formInfo, formScheme });
+
+  useEffect(() => {
+    setFormDetails(currentFormDetails);
+  }, [currentFormDetails]);
 
   useEffect(() => {
     if (onChangeDetails) onChangeDetails(formDetails);
@@ -93,6 +79,7 @@ const GlobalPrintForm = ({
   return (
     <GlobalFormContext.Provider
       value={{
+        loading,
         formScheme,
         formInfo,
         editionMode: editionMode,
@@ -154,9 +141,17 @@ const GlobalPrintForm = ({
               </div>
             );
           })}
-          <Button label="Subir cambios" loading={loading} disabled={loading} />
+          {formFooter}
+          {showSubmitButton && (
+            <Button
+              label="Subir cambios"
+              loading={loading}
+              disabled={loading}
+            />
+          )}
         </div>
       </form>
+      {footer}
     </GlobalFormContext.Provider>
   );
 };

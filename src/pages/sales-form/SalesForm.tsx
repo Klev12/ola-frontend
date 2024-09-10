@@ -1,141 +1,153 @@
-import { useMutation } from "react-query";
-import { useNavigate, useParams } from "react-router";
-import PrintForm from "../../components/PrintForm";
-import { submitForm, submitFormByHash } from "../../services/result-service";
-import { useContext, useState } from "react";
-import { ProgressSpinner } from "primereact/progressspinner";
+import { useContext, useMemo } from "react";
+import { SalesFormContext } from "./components/WrapperSalesForm";
+import GlobalPrintForm from "../../components/global-print-form/GlobalPrintForm";
+import SelectContractType from "./components/SelectContractType";
+import FileUploader from "../../components/FileUploader";
+import { ENV } from "../../consts/const";
+import { FileDocument, FileType } from "../../models/file";
+import TermsAndConditionsSales from "./components/TermsAndConditionsSales";
 import { Button } from "primereact/button";
 
-import ClientSignature from "./components/ClientSignature";
-import SelectContractType from "./components/SelectContractType";
-import SalesProvider, { SalesContextProps } from "./components/SalesProvider";
-import TermsAndConditions from "./components/TermsAndConditions";
-import { TermAndConditionsGetDto } from "../../models/term-and-conditions";
-import { Camera } from "./components/Camera";
-import UploadCards from "./components/UploadCards";
-import ROUTES from "../../consts/routes";
-import { SalesFormContext } from "./components/WrapperSalesForm";
-
 const SalesForm = () => {
-  const { hash } = useParams();
-
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-
   const {
-    form: formData,
-    isFormLoading: isLoading,
-    errorMessage,
+    formInfo,
+    formScheme,
+    submit,
+    setFormDetails,
+    hash,
     hashMode,
+    refetchForm,
   } = useContext(SalesFormContext);
 
-  const navigate = useNavigate();
+  const isSignatureUploaded = useMemo(() => {
+    return !!formInfo?.signature;
+  }, [formInfo]);
 
-  const { mutate: submitFormByHashMutate, isLoading: isFormLoading } =
-    useMutation(submitFormByHash, {
-      onSuccess: () => {
-        setIsFormSubmitted(true);
-        navigate(ROUTES.GENERATE_SALES_FORM.PAYMENT_HASH(hash as string));
-      },
-    });
-
-  const { mutate: submitFormMutate } = useMutation(submitForm, {
-    onSuccess: () => {
-      navigate(ROUTES.SALES.PAYMENT_FORM_ID(formData?.form?.id as number));
-    },
-  });
-
-  const [isSignatureReady, setIsSignatureReady] = useState(false);
-
-  const [formDataValues, setFormDataValues] = useState<
-    SalesContextProps | undefined
-  >(undefined);
-
-  if (isLoading) {
+  const cardImages = useMemo(() => {
     return (
-      <div>
-        <ProgressSpinner />
-        Cargando formulario...
-      </div>
+      formInfo?.files
+        ?.filter((file) => file.type === FileType.cardId)
+        .map((file) => {
+          return {
+            id: file.id,
+            identifier: file.hash,
+            status: "completado",
+            url: `${ENV.BACKEND_ROUTE}/multimedia/${file.hash}`,
+          } as FileDocument;
+        }) || []
     );
-  }
+  }, [formInfo]);
+
+  const photos = useMemo(() => {
+    return (
+      formInfo?.files
+        ?.filter((file) => file.type === FileType.photo)
+        .map((file) => {
+          return {
+            id: file.id,
+            identifier: file.hash,
+            status: "completado",
+            url: `${ENV.BACKEND_ROUTE}/multimedia/${file.hash}`,
+          } as FileDocument;
+        }) || []
+    );
+  }, [formInfo]);
 
   return (
     <div>
-      <SalesProvider formData={formDataValues?.formData}>
-        <>
-          <PrintForm
-            disableButton={true}
-            form={formData}
-            footer={
-              <>
-                {!errorMessage && (
-                  <>
-                    <SelectContractType formId={formData?.form?.id as number} />
-                    <TermsAndConditions
-                      termAndConditions={
-                        formData?.form
-                          ?.term_and_condition as TermAndConditionsGetDto
-                      }
-                    />
-                  </>
-                )}
-              </>
+      <GlobalPrintForm
+        type="sales-form"
+        customHeaderTemplate={({ pdfButton, goBackButton }) => (
+          <>
+            {goBackButton}
+            <Button label="Siguiente" disabled={!isSignatureUploaded} />
+            {pdfButton}
+          </>
+        )}
+        showSubmitButton={false}
+        showHeader={true}
+        formInfo={formInfo}
+        formScheme={formScheme}
+        onSubmit={(data) => {
+          submit({ id: formInfo?.id as number, results: data });
+        }}
+        formFooter={
+          <>
+            <SelectContractType formId={formInfo?.id as number} />
+            <TermsAndConditionsSales />
+          </>
+        }
+        onChangeDetails={(form) => {
+          setFormDetails(form);
+        }}
+      />
+      <div style={{ padding: "40px" }}>
+        <h2>Firma</h2>
+        <FileUploader
+          additionalPayload={{ formId: formInfo?.id }}
+          defaultFiles={[
+            {
+              id: 1,
+              identifier: formInfo?.signature as string,
+              status: "completado",
+              url: `${ENV.BACKEND_ROUTE}/multimedia/${formInfo?.signature}`,
+            },
+          ]}
+          deleteUrl=""
+          uploadUrl={`${ENV.BACKEND_ROUTE}/forms/signature/${
+            hashMode ? hash : ""
+          }`}
+          onAfterUpload={() => {
+            if (!hashMode) {
+              refetchForm();
             }
-            onSubmit={(data) => {
-              if (!hashMode) {
-                submitFormMutate({ id: data.id, results: data.results });
-                return;
-              }
-
-              submitFormByHashMutate({
-                id: data.id,
-                hash: hash,
-                results: data.results,
-              });
-
-              setFormDataValues({
-                formData: {
-                  id: data.id as number,
-                  hash: hash as string,
-                  results: data.results,
-                },
-              });
-            }}
-            refetchUser={() => {}}
-          >
-            <Button
-              style={{
-                backgroundColor: "purple",
-                border: 0,
-                boxShadow: "none",
-              }}
-              loading={isFormLoading}
-              disabled={!!errorMessage || isFormSubmitted || !isSignatureReady}
-              label="Siguiente"
-              type="submit"
-            />
-            {!hashMode && (
-              <Button
-                type="button"
-                label="Ver pdf"
-                onClick={() => {
-                  navigate(ROUTES.SALES.PDF_ID(Number(formData?.form?.id)));
-                }}
-              />
-            )}
-          </PrintForm>
-          {!errorMessage && (
-            <ClientSignature
-              hash={hash as string}
-              beforeOnSuccess={() => {
-                setIsSignatureReady(true);
-              }}
-            />
-          )}
-          <Camera />
-          <UploadCards />
-        </>
-      </SalesProvider>
+          }}
+          name="signature"
+          showGeneralDelete={false}
+          maxFiles={1}
+          type="canvas-draw"
+          showSpecificDelete={false}
+        />
+        <h2>Imágenes de cédula</h2>
+        <FileUploader
+          noIdentifier={true}
+          additionalPayload={{ type: FileType.cardId, formId: formInfo?.id }}
+          deletePayload={{ formId: formInfo?.id, type: FileType.cardId }}
+          inARow={true}
+          accept=".jpeg, .png"
+          defaultFiles={cardImages}
+          deleteUrl={`${ENV.BACKEND_ROUTE}/files`}
+          maxFiles={2}
+          type="image"
+          showSpecificDelete={false}
+          name="file"
+          uploadUrl={`${ENV.BACKEND_ROUTE}/files/${hashMode ? hash : ""}`}
+          onAfterUpload={() => {
+            if (!hashMode) {
+              refetchForm();
+            }
+          }}
+        />
+        <h2>Foto del cliente</h2>
+        <FileUploader
+          noIdentifier={true}
+          defaultFiles={photos}
+          additionalPayload={{ type: FileType.photo, formId: formInfo?.id }}
+          uploadUrl={`${ENV.BACKEND_ROUTE}/files/${hashMode ? hash : ""}`}
+          deletePayload={{ formId: formInfo?.id, type: FileType.photo }}
+          deleteUrl={`${ENV.BACKEND_ROUTE}/files`}
+          maxFiles={1}
+          accept=".jpeg, .png"
+          type="camara"
+          showSpecificDelete={false}
+          name="file"
+          onAfterUpload={() => {
+            if (!hashMode) {
+              refetchForm();
+            }
+          }}
+        />
+      </div>
     </div>
   );
 };

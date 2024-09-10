@@ -8,6 +8,7 @@ import { useMutation } from "react-query";
 import GlobalFileService from "../services/global-file-service";
 import CanvasDrawUploader from "./file-uploader/CanvasDrawUploader";
 import { AxiosError } from "axios";
+import CamaraUploader from "./file-uploader/CamaraUploader";
 
 interface FileUploaderProps {
   maxFiles: number;
@@ -20,13 +21,18 @@ interface FileUploaderProps {
   name?: string;
   defaultFiles: FileDocument[];
   accept?: string;
-  type: "image" | "video" | "canvas-draw";
+  type: "image" | "video" | "canvas-draw" | "camara";
+  additionalPayload?: object;
+  deletePayload?: object;
+  inARow?: boolean;
+  noIdentifier?: boolean;
 }
 
 const FileUploader = ({
   maxFiles,
   showGeneralDelete = true,
   showSpecificDelete = true,
+  noIdentifier = false,
   onAfterGlobalDelete,
   uploadUrl,
   deleteUrl,
@@ -35,6 +41,9 @@ const FileUploader = ({
   onAfterUpload,
   accept,
   type = "image",
+  additionalPayload,
+  inARow = false,
+  deletePayload,
 }: FileUploaderProps) => {
   const toast = useRef<Toast>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -48,6 +57,7 @@ const FileUploader = ({
       new GlobalFileService({
         url: uploadUrl,
         name: name,
+        payload: additionalPayload,
       }).upload(files),
     {
       onSuccess: () => {
@@ -71,6 +81,7 @@ const FileUploader = ({
     (identifier: string) =>
       new GlobalFileService({
         deleteUrl,
+        payload: deletePayload,
       }).delete(identifier),
     {
       onSuccess: () => {
@@ -129,7 +140,7 @@ const FileUploader = ({
         onChange={handleFileChange}
         accept={accept}
       />
-      {type !== "canvas-draw" && (
+      {type !== "canvas-draw" && type !== "camara" && (
         <Button
           label="Elegir archivos"
           onClick={() => {
@@ -139,17 +150,30 @@ const FileUploader = ({
         />
       )}
 
-      {type !== "canvas-draw" && (
+      {type !== "canvas-draw" && type !== "camara" && (
         <Button
           label="Subir archivos"
           disabled={files.length !== maxFiles || allFilesUploaded}
           onClick={() => {
-            uploadFiles(files.map((file) => file.fileData as File));
+            if (inARow) {
+              for (const file of files) {
+                uploadFiles([file.fileData as File]);
+              }
+            } else {
+              uploadFiles(files.map((file) => file.fileData as File));
+            }
           }}
         />
       )}
       {type === "canvas-draw" && (
         <CanvasDrawUploader
+          onSubmit={(file) => {
+            uploadFiles([file]);
+          }}
+        />
+      )}
+      {type === "camara" && (
+        <CamaraUploader
           onSubmit={(file) => {
             uploadFiles([file]);
           }}
@@ -170,7 +194,8 @@ const FileUploader = ({
             onClick={() => {
               setFiles(files.filter((file) => file.status !== "pendiente"));
               for (const file of files) {
-                if (file.status === "completado") deleteFile(file.identifier);
+                if (file.status === "completado")
+                  deleteFile(noIdentifier ? "" : file.identifier);
               }
             }}
             style={{ justifySelf: "end" }}
@@ -193,6 +218,7 @@ const FileUploader = ({
                 {type === "image" && <img src={file.url} alt="" width={40} />}
                 {type === "video" && <video src={file.url} width={40} />}
                 {type === "canvas-draw" && <img src={file.url} width={40} />}
+                {type === "camara" && <img src={file.url} width={40} />}
                 <Tag
                   severity={file.status === "pendiente" ? "warning" : "success"}
                   value={file.status}

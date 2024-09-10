@@ -1,23 +1,17 @@
-import { PaymentGetDto } from "../../../models/payment";
 import { useContext } from "react";
 
 import { SalesFormContext } from "./WrapperSalesForm";
 import PaymentDataForm from "../../sales/components/PaymentDataForm";
 
-interface PaymentOptionsProps {
-  payment?: PaymentGetDto;
-  formId?: number;
-}
-
-const PaymentOptions = ({}: PaymentOptionsProps) => {
-  const { form, hashMode } = useContext(SalesFormContext);
+const PaymentOptions = () => {
+  const { formInfo, hashMode } = useContext(SalesFormContext);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
       <PaymentDataForm
-        payment={form?.form?.payment}
-        disabled={form?.form?.block || hashMode}
-        formId={form?.form?.id as number}
+        payment={formInfo?.payment}
+        disabled={formInfo?.block || hashMode}
+        formId={formInfo?.id as number}
       />
     </div>
   );

@@ -34,7 +34,7 @@ const CanvasDrawUploader = ({
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div>
       <CanvasDraw
         saveData=""
         ref={canvas}

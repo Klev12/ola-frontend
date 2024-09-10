@@ -51,4 +51,5 @@ export interface Metadata {
 export interface OptionMetadata {
   value: string;
   label: string;
+  correct?: "true" | "false";
 }

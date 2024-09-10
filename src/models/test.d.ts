@@ -7,6 +7,6 @@ export interface TestGetDto {
   id: number | string;
   title: string;
   score: number;
-  done: boolean;
+  published: boolean;
   form_scheme_id: number;
 }

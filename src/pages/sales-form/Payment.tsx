@@ -12,13 +12,13 @@ import ConfirmSale from "./components/ConfirmSale";
 const Payment = () => {
   const toast = useRef<Toast>(null);
 
-  const { form } = useContext(SalesFormContext);
+  const { formInfo } = useContext(SalesFormContext);
 
   const currentPendingTransaction = useMemo(() => {
-    return form?.form?.transactions.find(
+    return formInfo?.transactions.find(
       (transaction) => transaction.statusCode === TransactionStatus.pending
     );
-  }, [form]);
+  }, [formInfo]);
 
   const [acceptedTransaction] = useState<TransactionGetDto | undefined>(
     undefined

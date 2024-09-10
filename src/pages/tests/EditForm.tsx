@@ -1,31 +1,23 @@
-import { Button } from "primereact/button";
-import { InputText } from "primereact/inputtext";
 import { useMutation, useQuery } from "react-query";
 import { useParams } from "react-router";
-import {
-  createFormGroup,
-  deleteFormGroupById,
-} from "../../services/form-group-service";
-import { getFormSchemeById } from "../../services/form-scheme";
-import { Card } from "primereact/card";
-import SelectTypeField from "./components/SelectTypeField";
-import { createField } from "../../services/field-service";
-import { Dropdown } from "primereact/dropdown";
+import { getTestById, markTestAsPublished } from "../../services/test-service";
+import EditSelectOptions from "./components/EditSelectOptions";
+import GoBackButton from "../../components/GoBackButton";
+import { Button } from "primereact/button";
+import useToggle from "../../hooks/useToggle";
+import { confirmDialog, ConfirmDialog } from "primereact/confirmdialog";
 
 const EditForm = () => {
-  const { id: formSchemeId } = useParams();
+  const { id } = useParams();
+  const showDialog = useToggle();
+
   const { data: formSchemeData, refetch: refetchFormScheme } = useQuery({
-    queryFn: () =>
-      getFormSchemeById(formSchemeId as string).then((res) => res.data),
-  });
-  const { mutate: createFormGroupMutate } = useMutation(createFormGroup, {
-    onSuccess: () => {
-      refetchFormScheme();
-    },
+    queryFn: () => getTestById({ id: Number(id) }).then((res) => res.data),
+    queryKey: ["form-scheme", id],
   });
 
-  const { mutate: deleteFormGroupByIdMutate } = useMutation(
-    deleteFormGroupById,
+  const { mutate: markTestAsPublishedMutate } = useMutation(
+    markTestAsPublished,
     {
       onSuccess: () => {
         refetchFormScheme();
@@ -33,73 +25,62 @@ const EditForm = () => {
     }
   );
 
-  const { mutate: createFieldMutate } = useMutation(createField, {
-    onSuccess: () => {
-      refetchFormScheme();
-    },
-  });
-
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      <InputText placeholder="Título del formulario" />
+    <div style={{ display: "flex", flexDirection: "column", padding: "20px" }}>
+      <GoBackButton />
+      <h2>{formSchemeData?.test.title}</h2>
+      <div>
+        {formSchemeData?.formScheme.form_groups.map((formGroup) => {
+          return (
+            <div key={formGroup.id}>
+              <h4>{formGroup.label}</h4>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "20px",
+                }}
+              >
+                {formGroup.fields.map((field) => {
+                  return (
+                    <div
+                      key={field.id}
+                      style={{ border: "1px solid black", padding: "10px" }}
+                    >
+                      <EditSelectOptions
+                        disabled={formSchemeData.test.published}
+                        field={field}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
       <Button
-        label="crear grupo+"
+        disabled={formSchemeData?.test.published}
+        label="Subir"
+        style={{ marginTop: "20px" }}
         onClick={() => {
-          createFormGroupMutate({
-            form_scheme_id: formSchemeId as string,
-            label: "default text",
+          confirmDialog({
+            message:
+              "Estar seguro de proceder (luego de aceptar no podrás editar la prueba)",
+            header: "Confirmación",
+            acceptLabel: "Sí",
+            icon: "pi pi-exclamation-triangle",
+            defaultFocus: "accept",
+            accept: () => {
+              markTestAsPublishedMutate(formSchemeData?.test.id as number);
+            },
           });
         }}
       />
-      {formSchemeData?.form_scheme?.form_groups?.map((formGroup) => {
-        return (
-          <Card title={formGroup.label}>
-            <Button
-              label="Eliminar"
-              onClick={() => deleteFormGroupByIdMutate(formGroup.id)}
-            />
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                const formData = Object.fromEntries(
-                  new FormData(e.target as HTMLFormElement)
-                );
-                createFieldMutate({
-                  component: formData["type"] as string,
-                  label: "default field",
-                  form_group_id: formGroup.id as number,
-                  metadata: JSON.stringify({ type: "string" }),
-                  required: false,
-                });
-              }}
-            >
-              <label>Tipo</label>
-              <SelectTypeField />
-              <Button>Añadir campo + </Button>
-            </form>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              {formGroup?.fields?.map((field) => {
-                if (field?.component === "input") {
-                  return (
-                    <div>
-                      <div>{field?.label}</div>
-                      <InputText />
-                    </div>
-                  );
-                }
-                if (field?.component === "select") {
-                  return (
-                    <div>
-                      <div>{field?.label}</div>
-                      <Dropdown />
-                    </div>
-                  );
-                }
-              })}
-            </div>
-          </Card>
-        );
-      })}
+      <ConfirmDialog
+        visible={showDialog.value}
+        onHide={() => showDialog.setFalse()}
+      />
     </div>
   );
 };

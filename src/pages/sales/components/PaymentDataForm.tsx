@@ -9,6 +9,7 @@ import {
   updatePayment,
 } from "../../../services/payment-service";
 import { Toast } from "primereact/toast";
+import { AxiosError } from "axios";
 
 interface PaymentDataFormProps {
   payment?: PaymentGetDto;
@@ -89,8 +90,8 @@ const PaymentDataForm = ({
       });
       if (onSuccess) onSuccess();
     },
-    onError: (data) => {
-      const message = (data as any)?.response?.data?.error?.message;
+    onError: (data: AxiosError<{ error?: { message?: string } }>) => {
+      const message = data?.response?.data?.error?.message;
       toast.current?.show({
         severity: "error",
         detail: message,
@@ -106,8 +107,8 @@ const PaymentDataForm = ({
       });
       if (onSuccess) onSuccess();
     },
-    onError: (data) => {
-      const message = (data as any)?.response?.data?.error?.message;
+    onError: (data: AxiosError<{ error?: { message?: string } }>) => {
+      const message = data?.response?.data?.error?.message;
       toast.current?.show({
         severity: "error",
         detail: message,

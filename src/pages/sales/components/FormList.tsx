@@ -98,147 +98,141 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
     <div className="p-grid p-justify-center">
       <Toast ref={toast} />
 
-      {forms
-        .slice()
-        .reverse()
-        .map((form, index) => (
-          <Card
-            title={`Formulario N° ${forms.length - index}: ${form.code}`}
-            subTitle={
-              <div>
-                <p>{form.hash ? "Link Generado" : "Link no habilitado"}</p>
-                <p>{form.block ? "formulario bloqueado" : ""}</p>
-              </div>
-            }
-            style={{ marginBottom: "2em" }}
-            key={form.id}
+      {forms.map((form, index) => (
+        <Card
+          title={`Formulario N° ${forms.length - index}: ${form.code}`}
+          subTitle={
+            <div>
+              <p>{form.hash ? "Link Generado" : "Link no habilitado"}</p>
+              <p>{form.block ? "formulario bloqueado" : ""}</p>
+            </div>
+          }
+          style={{ marginBottom: "2em" }}
+          key={form.id}
+        >
+          {form.hash && (
+            <div style={{ marginBottom: "20px" }}>
+              <h3 style={{ padding: 0, margin: 0 }}>Link:</h3>
+              <a
+                style={{ margin: "10px 0", marginRight: "10px" }}
+                href={ROUTES.GENERATE_SALES_FORM.HASH(form.hash)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {window.location.origin}/generate-sales-form/{form.hash}
+              </a>
+
+              <Button
+                disabled={form.block}
+                icon="pi pi-copy"
+                className="p-button-rounded p-button-info p-mr-2"
+                onClick={() => {
+                  const textToCopy = `${window.location.origin}/generate-sales-form/${form.hash}`;
+
+                  // Create a temporary textarea element
+                  const textarea = document.createElement("textarea");
+                  textarea.value = textToCopy;
+                  textarea.setAttribute("readonly", "");
+                  textarea.style.position = "absolute";
+                  textarea.style.left = "-9999px"; // Move outside the screen to make it invisible
+
+                  document.body.appendChild(textarea);
+                  textarea.select();
+
+                  // Execute copy command
+                  document.execCommand("copy");
+
+                  // Clean up - remove the textarea from the DOM
+                  document.body.removeChild(textarea);
+                  toast.current?.show({
+                    severity: "success",
+                    summary: "Link Copiado",
+                    detail: "El link ha sido copiado al portapapeles.",
+                    life: 3000,
+                  });
+                }}
+              />
+            </div>
+          )}
+          <div
+            style={{
+              display: "flex",
+              gap: "10px",
+            }}
           >
-            {form.hash && (
-              <div style={{ marginBottom: "20px" }}>
-                <h3 style={{ padding: 0, margin: 0 }}>Link:</h3>
-                <a
-                  style={{ margin: "10px 0", marginRight: "10px" }}
-                  href={ROUTES.GENERATE_SALES_FORM.HASH(form.hash)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {window.location.origin}/generate-sales-form/{form.hash}
-                </a>
-
-                <Button
-                  disabled={form.block}
-                  icon="pi pi-copy"
-                  className="p-button-rounded p-button-info p-mr-2"
-                  onClick={() => {
-                    const textToCopy = `${window.location.origin}/generate-sales-form/${form.hash}`;
-
-                    // Create a temporary textarea element
-                    const textarea = document.createElement("textarea");
-                    textarea.value = textToCopy;
-                    textarea.setAttribute("readonly", "");
-                    textarea.style.position = "absolute";
-                    textarea.style.left = "-9999px"; // Move outside the screen to make it invisible
-
-                    document.body.appendChild(textarea);
-                    textarea.select();
-
-                    // Execute copy command
-                    document.execCommand("copy");
-
-                    // Clean up - remove the textarea from the DOM
-                    document.body.removeChild(textarea);
-                    toast.current?.show({
-                      severity: "success",
-                      summary: "Link Copiado",
-                      detail: "El link ha sido copiado al portapapeles.",
-                      life: 3000,
-                    });
-                  }}
-                />
-              </div>
-            )}
-            <div
-              style={{
-                display: "flex",
-                gap: "10px",
-              }}
-            >
-              <div>
-                <Button
-                  disabled={form.block}
-                  style={{
-                    backgroundColor: "red",
-                    border: 0,
-                    boxShadow: "none",
-                    margin: "10px",
-                  }}
-                  className="p-button-rounded p-button-success p-mr-2"
-                  icon="pi pi-trash"
-                  label="Eliminar"
-                  onClick={() => {
-                    setFormToDelete(form);
-                    setDeleteConfirmationVisible(true);
-                  }}
-                ></Button>
-                {!form.hash && (
-                  <Button
-                    disabled={form.block}
-                    style={{
-                      backgroundColor: "purple",
-                      border: "0",
-                      boxShadow: "none",
-                      margin: "10px",
-                    }}
-                    label="Generar Link"
-                    icon="pi pi-link"
-                    loading={loading}
-                    className="p-button-rounded p-button-success p-mr-2"
-                    onClick={() => {
-                      showPaymentDialog.setTrue();
-                      setSelectedForm(form);
-                    }}
-                  />
-                )}
-                {form.hash && (
-                  <Button
-                    disabled={form.block}
-                    label="Invalidar Link"
-                    icon="pi pi-times"
-                    loading={loading}
-                    className="p-button-rounded p-button-danger"
-                    onClick={() => {
-                      setLoadingTrue();
-                      invalidateLinkMutate({ id: form.id });
-                    }}
-                    style={{ margin: "10px" }}
-                  />
-                )}
-              </div>
-              <div>
+            <div>
+              <Button
+                disabled={form.block}
+                style={{
+                  backgroundColor: "red",
+                  border: 0,
+                  boxShadow: "none",
+                  margin: "10px",
+                }}
+                className="p-button-rounded p-button-success p-mr-2"
+                icon="pi pi-trash"
+                label="Eliminar"
+                onClick={() => {
+                  setFormToDelete(form);
+                  setDeleteConfirmationVisible(true);
+                }}
+              ></Button>
+              {!form.hash && (
                 <Button
                   disabled={form.block}
                   style={{
                     backgroundColor: "purple",
-                    border: 0,
+                    border: "0",
                     boxShadow: "none",
                     margin: "10px",
                   }}
-                  label="Formulario"
-                  icon="pi pi-file"
+                  label="Generar Link"
+                  icon="pi pi-link"
                   loading={loading}
-                  className="p-button-rounded"
+                  className="p-button-rounded p-button-success p-mr-2"
                   onClick={() => {
-                    navigate(ROUTES.SALES.FORM_EDITOR_ID(Number(form.id)));
+                    showPaymentDialog.setTrue();
+                    setSelectedForm(form);
                   }}
                 />
-                <TransactionsList
-                  form={form}
-                  transactions={form.transactions}
+              )}
+              {form.hash && (
+                <Button
+                  disabled={form.block}
+                  label="Invalidar Link"
+                  icon="pi pi-times"
+                  loading={loading}
+                  className="p-button-rounded p-button-danger"
+                  onClick={() => {
+                    setLoadingTrue();
+                    invalidateLinkMutate({ id: form.id });
+                  }}
+                  style={{ margin: "10px" }}
                 />
-              </div>
+              )}
             </div>
-          </Card>
-        ))}
+            <div>
+              <Button
+                disabled={form.block}
+                style={{
+                  backgroundColor: "purple",
+                  border: 0,
+                  boxShadow: "none",
+                  margin: "10px",
+                }}
+                label="Formulario"
+                icon="pi pi-file"
+                loading={loading}
+                className="p-button-rounded"
+                onClick={() => {
+                  navigate(ROUTES.SALES.FORM_EDITOR_ID(Number(form.id)));
+                }}
+              />
+              <TransactionsList form={form} transactions={form.transactions} />
+            </div>
+          </div>
+        </Card>
+      ))}
 
       <Dialog
         draggable={false}

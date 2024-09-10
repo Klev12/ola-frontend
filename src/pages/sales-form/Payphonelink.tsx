@@ -36,6 +36,8 @@ const Payphonelink = () => {
     );
   }
 
+  console.log(formData);
+
   return (
     <div
       style={{
@@ -46,7 +48,7 @@ const Payphonelink = () => {
         gap: "2.5rem",
       }}
     >
-      <h1 style={{ fontSize: 50 }}>Ola Transacion</h1>
+      <h1 style={{ fontSize: 50 }}>Ola Transacción</h1>
       <p>
         Nota: si hay un error al momento de realizar el pago, por favor recargar
         la página.
