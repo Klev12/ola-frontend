@@ -146,7 +146,7 @@ const GlobalPrintForm = ({
             <Button
               label="Subir cambios"
               loading={loading}
-              disabled={loading}
+              disabled={loading || !editionMode}
             />
           )}
         </div>

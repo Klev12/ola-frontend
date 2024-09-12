@@ -25,6 +25,7 @@ const roleBasedVisibility = {
     blog: true,
     norms: true,
     forms: true,
+    tests: true,
   },
   [Roles.groupAdmin]: {
     home: true,
@@ -40,7 +41,7 @@ const roleBasedVisibility = {
     blog: true,
     norms: true,
     forms: true,
-    test: true,
+    tests: true,
   },
   [Roles.user]: {
     home: true,
@@ -49,7 +50,7 @@ const roleBasedVisibility = {
     blog: true,
     norms: true,
     forms: true,
-    test: true,
+    tests: true,
   },
   [Roles.generalAdmin]: {
     home: true,

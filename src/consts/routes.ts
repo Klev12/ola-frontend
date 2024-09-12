@@ -181,6 +181,12 @@ const ROUTES = {
     CONTRACT_TYPE() {
       return `${this.EDIT_FORM_ID}/contract-type`;
     },
+    get RESOLVER() {
+      return `${this.ME}/resolver/:id`;
+    },
+    RESOLVER_TEST_ID(testId: number) {
+      return `${this.ME}/resolver/${testId}`;
+    },
   },
   PAYPHONE: {
     ME: "/payphone",
@@ -204,6 +210,12 @@ const ROUTES = {
     },
     USER_ID(id: number) {
       return `${this.ME}/user-form/${id}`;
+    },
+    get TEST() {
+      return `${this.ME}/test/:id`;
+    },
+    TEST_ID(id: number) {
+      return `${this.ME}/test/${id}`;
     },
   },
 };

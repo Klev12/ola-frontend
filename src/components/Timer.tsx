@@ -1,33 +1,29 @@
+import { useEffect } from "react";
 import { useTimer } from "react-timer-hook";
-interface MyTimerProps {
+interface TimerProps {
   expiryTimestamp: Date;
+  onExpireFn?: () => void;
 }
 
-function MyTimer({ expiryTimestamp }: MyTimerProps) {
+export default function Timer({ expiryTimestamp, onExpireFn }: TimerProps) {
   const { seconds, minutes } = useTimer({
     expiryTimestamp,
-    onExpire: () => {
-      window.location.reload();
-    },
   });
 
-  return (
-    <div style={{ textAlign: "center" }}>
-      <h1>Tiempo Restante</h1>
-      <p>Tiene 45min para responder el formulario</p>
-      <div style={{ fontSize: "100px" }}>
-        <span>{minutes}</span>:<span>{seconds}</span>
-      </div>
-    </div>
-  );
-}
+  useEffect(() => {
+    if (seconds === 0 && minutes === 0) {
+      if (onExpireFn) onExpireFn();
+    }
+  }, [seconds, minutes, onExpireFn]);
 
-export default function Timer() {
-  const time = new Date();
-  time.setSeconds(time.getSeconds() + 2700);
   return (
     <div>
-      <MyTimer expiryTimestamp={time} />
+      <span>
+        Tiempo restante:{" "}
+        <span style={{ fontWeight: "bold" }}>
+          {minutes}:{seconds}
+        </span>
+      </span>
     </div>
   );
 }

@@ -55,6 +55,8 @@ import Pdf from "./pages/pdf/Pdf";
 import UserFormPdf from "./pages/pdf/UserFormPdf";
 import SalesFormPdf from "./pages/pdf/SalesFormPdf";
 import WrapperUserForm from "./pages/user-form/WrapperUserForm";
+import Resolver from "./pages/tests/Resolver";
+import TestFormPdf from "./pages/pdf/TestFormPdf";
 
 function App() {
   return (
@@ -171,6 +173,7 @@ function App() {
           <Route path={ROUTES.TESTS.ME}>
             <Route path={ROUTES.TESTS.ME} element={<Tests />} />
             <Route path={ROUTES.TESTS.EDIT_FORM} element={<EditForm />}></Route>
+            <Route path={ROUTES.TESTS.RESOLVER} element={<Resolver />}></Route>
           </Route>
         </Route>
         <Route path={ROUTES.USER_FORM.ME} element={<WrapperUserForm />}>
@@ -218,6 +221,7 @@ function App() {
         >
           <Route path={ROUTES.PDF.ID} element={<SalesFormPdf />}></Route>
           <Route path={ROUTES.PDF.USER} element={<UserFormPdf />} />
+          <Route path={ROUTES.PDF.TEST} element={<TestFormPdf />} />
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>

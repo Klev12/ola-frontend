@@ -8,5 +8,7 @@ export interface TestGetDto {
   title: string;
   score: number;
   published: boolean;
+  expireTime?: string | null;
+  formSchemeId: number;
   form_scheme_id: number;
 }

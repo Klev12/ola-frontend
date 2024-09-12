@@ -7,15 +7,18 @@ import { FormGetDto } from "../../../models/forms";
 import { FormScheme } from "../../../models/form-scheme";
 import { UserGetDto } from "../../../models/user";
 import SalesFormTemplate from "./SalesFormTemplate";
+import { TestGetDto } from "../../../models/test";
+import TestFormTemplate from "./TestFormTemplate";
 
 interface FormPdfProps {
   formInfo?: FormGetDto;
+  test?: TestGetDto;
   formScheme?: FormScheme;
   user?: UserGetDto;
-  type: "user-form" | "normal-form" | "sales-form";
+  type: "user-form" | "normal-form" | "sales-form" | "test-form";
 }
 
-const FormPdf = ({ formInfo, formScheme, user, type }: FormPdfProps) => {
+const FormPdf = ({ formInfo, formScheme, user, type, test }: FormPdfProps) => {
   const [pdfUrl, setPdfUrl] = useState<string | undefined>(undefined);
   const [html, setHtml] = useState("");
   const { mutate: createPdf } = useMutation(pdfService.create, {
@@ -47,6 +50,15 @@ const FormPdf = ({ formInfo, formScheme, user, type }: FormPdfProps) => {
             formInfo={formInfo}
             formScheme={formScheme}
             authenticatedUser={user}
+            onLoadHtml={(html) => {
+              setHtml(html);
+            }}
+          />
+        )}
+        {type === "test-form" && (
+          <TestFormTemplate
+            test={test}
+            formScheme={formScheme}
             onLoadHtml={(html) => {
               setHtml(html);
             }}

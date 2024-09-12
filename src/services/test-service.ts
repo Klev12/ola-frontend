@@ -3,8 +3,14 @@ import axios from "../interceptors/axios-interceptor";
 import { FormScheme } from "../models/form-scheme";
 import { TestGetDto, TestPostDto } from "../models/test";
 
-export function getAllTests() {
-  return axios.get<{ tests: TestGetDto[] }>(`${ENV.BACKEND_ROUTE}/tests`);
+export function getAllTests({
+  published = "all",
+}: {
+  published?: "all" | "true" | "false";
+}) {
+  return axios.get<{ tests: TestGetDto[] }>(
+    `${ENV.BACKEND_ROUTE}/tests?published=${published}`
+  );
 }
 
 export function createNewTest(test: TestPostDto) {
