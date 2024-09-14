@@ -11,14 +11,6 @@ import formatDate from "../../utils/format-date";
 const PaymentTransaction = () => {
   const query = useQueryPath();
 
-  if (!query.get("id")) {
-    return <div>id es requerido</div>;
-  }
-
-  if (!query.get("clientTransactionId")) {
-    return <div>clientTransactionId es requerido</div>;
-  }
-
   const checkStatus = useToggle(true);
 
   const { data: transactionData, isLoading } = useQuery({
@@ -39,6 +31,14 @@ const PaymentTransaction = () => {
       }
     },
   });
+
+  if (!query.get("id")) {
+    return <div>id es requerido</div>;
+  }
+
+  if (!query.get("clientTransactionId")) {
+    return <div>clientTransactionId es requerido</div>;
+  }
 
   const transactionStatus: {
     [key: number]: { severity: "success" | "danger" | "info"; details: string };
@@ -91,6 +91,7 @@ const PaymentTransaction = () => {
       <p style={{ marginBottom: "0.5rem" }}>
         Cliente: {transactionData?.transaction.costumerName}
       </p>
+      <p>Nombre de negocio: {transactionData?.transaction.businessName}</p>
       <p style={{ marginBottom: "0.5rem" }}>
         Monto: {transactionData?.transaction?.amount}
       </p>

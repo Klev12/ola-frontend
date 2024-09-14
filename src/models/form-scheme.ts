@@ -1,3 +1,4 @@
+import { GradeResponseGetDto } from "./grade";
 import { Result } from "./result";
 
 export interface FormScheme {
@@ -23,6 +24,7 @@ export interface Field {
   form_group_id: number | string;
   required: boolean;
   results: Result[];
+  gradeResponses?: GradeResponseGetDto[];
   identifier: FieldIdentifier;
 }
 

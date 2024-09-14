@@ -27,6 +27,28 @@ export function deleteTestById({ id }: { id: number }) {
   return axios.delete(`${ENV.BACKEND_ROUTE}/tests/${id}`);
 }
 
-export function markTestAsPublished(testId: number) {
-  return axios.post(`${ENV.BACKEND_ROUTE}/tests/mark-as-published`, { testId });
+export function markTestAsPublished({
+  testId,
+  startDate,
+  endDate,
+}: {
+  testId: number;
+  startDate: string;
+  endDate: string;
+}) {
+  return axios.post(`${ENV.BACKEND_ROUTE}/tests/mark-as-published`, {
+    testId,
+    startDate,
+    endDate,
+  });
+}
+
+export function patchTest({
+  testId,
+  title,
+}: {
+  testId: number;
+  title?: string;
+}) {
+  return axios.patch(`${ENV.BACKEND_ROUTE}/tests`, { testId, title });
 }

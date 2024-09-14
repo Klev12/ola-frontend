@@ -61,7 +61,9 @@ const FileUploader = ({
       }).upload(files),
     {
       onSuccess: () => {
-        setFiles(files.map((file) => ({ ...file, status: "completado" })));
+        setFiles((files) =>
+          files.map((file) => ({ ...file, status: "completado" }))
+        );
         if (onAfterUpload) onAfterUpload(files);
         toast.current?.show({ severity: "success", summary: "Éxito" });
       },
@@ -169,6 +171,18 @@ const FileUploader = ({
         <CanvasDrawUploader
           onSubmit={(file) => {
             uploadFiles([file]);
+
+            setFiles([
+              {
+                id: 1,
+                url: URL.createObjectURL(
+                  new Blob([file], { type: "image/png" })
+                ),
+                identifier: "",
+                status: "pendiente",
+                fileData: file,
+              },
+            ]);
           }}
         />
       )}
@@ -176,6 +190,16 @@ const FileUploader = ({
         <CamaraUploader
           onSubmit={(file) => {
             uploadFiles([file]);
+
+            setFiles([
+              {
+                id: 1,
+                url: URL.createObjectURL(new Blob([file])),
+                identifier: "",
+                status: "pendiente",
+                fileData: file,
+              },
+            ]);
           }}
         />
       )}

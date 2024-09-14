@@ -13,17 +13,17 @@ import { Toast } from "primereact/toast";
 const VerifyStatusTransaction = () => {
   const toast = useRef<Toast>(null);
 
-  const { form } = useContext(SalesFormContext);
+  const { formInfo } = useContext(SalesFormContext);
 
   const { value: startCheckingStatus, toggle, setFalse } = useToggle(false);
 
   const currentPendingTransaction = useMemo(() => {
-    const pendingTransaction = form?.form?.transactions.find(
+    const pendingTransaction = formInfo?.transactions.find(
       (transaction) => transaction.statusCode === TransactionStatus.pending
     );
 
     return pendingTransaction;
-  }, [form]);
+  }, [formInfo]);
 
   const { data: transactionStatus } = useQuery({
     queryFn: () =>

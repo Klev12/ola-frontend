@@ -1,7 +1,7 @@
 import { ENV } from "../consts/const";
 import axios from "../interceptors/axios-interceptor";
 import { NotificationGetDto } from "../models/notification";
-import { Roles, UserArea, UserGetDto } from "../models/user";
+import { MetadataUser, Roles, UserArea, UserGetDto } from "../models/user";
 
 export function getAllUsers({
   access = true,
@@ -65,7 +65,9 @@ export function verifyUserForm(userId: number | string) {
 }
 
 export function findUserById(id: string | number) {
-  return axios.get<{ user: UserGetDto }>(`${ENV.BACKEND_ROUTE}/users/${id}`);
+  return axios.get<{ user: UserGetDto; metadata: MetadataUser }>(
+    `${ENV.BACKEND_ROUTE}/users/${id}`
+  );
 }
 
 export function getCountUsers() {

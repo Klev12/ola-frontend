@@ -16,6 +16,10 @@ export interface UserGetDto {
   level?: LevelGetDto;
 }
 
+export interface MetadataUser {
+  ci: string;
+}
+
 export interface UserMultimedia {
   id: string | number;
   type: string;

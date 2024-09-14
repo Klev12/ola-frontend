@@ -5,11 +5,15 @@ import EditSelectOptions from "./components/EditSelectOptions";
 import GoBackButton from "../../components/GoBackButton";
 import { Button } from "primereact/button";
 import useToggle from "../../hooks/useToggle";
-import { confirmDialog, ConfirmDialog } from "primereact/confirmdialog";
+import { Calendar } from "primereact/calendar";
+import { useState } from "react";
+import { Dialog } from "primereact/dialog";
 
 const EditForm = () => {
   const { id } = useParams();
   const showDialog = useToggle();
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [endDate, setEndDate] = useState<Date | null>(new Date());
 
   const { data: formSchemeData, refetch: refetchFormScheme } = useQuery({
     queryFn: () => getTestById({ id: Number(id) }).then((res) => res.data),
@@ -21,6 +25,7 @@ const EditForm = () => {
     {
       onSuccess: () => {
         refetchFormScheme();
+        showDialog.setFalse();
       },
     }
   );
@@ -64,23 +69,82 @@ const EditForm = () => {
         label="Subir"
         style={{ marginTop: "20px" }}
         onClick={() => {
-          confirmDialog({
-            message:
-              "Estar seguro de proceder (luego de aceptar no podrás editar la prueba)",
-            header: "Confirmación",
-            acceptLabel: "Sí",
-            icon: "pi pi-exclamation-triangle",
-            defaultFocus: "accept",
-            accept: () => {
-              markTestAsPublishedMutate(formSchemeData?.test.id as number);
-            },
-          });
+          showDialog.setTrue();
+          setEndDate(new Date());
+          setStartDate(new Date());
         }}
       />
-      <ConfirmDialog
+      <Dialog
+        header="Confirmación"
+        draggable={false}
         visible={showDialog.value}
         onHide={() => showDialog.setFalse()}
-      />
+        style={{ width: "90vw" }}
+      >
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            markTestAsPublishedMutate({
+              testId: formSchemeData?.test.id as number,
+              startDate: startDate?.toISOString() || "",
+              endDate: endDate?.toISOString() || "",
+            });
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "end",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: "20px",
+            }}
+          >
+            <div style={{ width: "45%" }}>
+              <div style={{ fontWeight: "bold" }}>Fecha de inicio:</div>
+              <Calendar
+                style={{ width: "100%", minWidth: "200px" }}
+                showTime
+                hourFormat="12"
+                value={startDate}
+                onChange={(e) => {
+                  setStartDate(e.value || new Date());
+                  setEndDate(e.value || new Date());
+                }}
+                inline
+                required
+                minDate={new Date()}
+                invalid
+              />
+            </div>
+            <div style={{ width: "45%", minWidth: "200px" }}>
+              <div style={{ fontWeight: "bold" }}>Fecha de fin:</div>
+              <Calendar
+                style={{ width: "100%" }}
+                showTime
+                hourFormat="12"
+                value={endDate}
+                onChange={(e) => setEndDate(e.value || new Date())}
+                inline
+                required
+                minDate={startDate || new Date()}
+              />
+            </div>
+          </div>
+          <p>
+            Estás seguro de proceder (luego de aceptar no podrás editar la
+            prueba)
+          </p>
+          <div style={{ display: "flex", gap: "20px" }}>
+            <Button
+              label="No"
+              type="button"
+              onClick={() => showDialog.setFalse()}
+            />
+            <Button label="Sí" />
+          </div>
+        </form>
+      </Dialog>
     </div>
   );
 };

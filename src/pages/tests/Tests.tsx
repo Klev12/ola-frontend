@@ -3,6 +3,7 @@ import {
   createNewTest,
   deleteTestById,
   getAllTests,
+  patchTest,
 } from "../../services/test-service";
 import { useNavigate } from "react-router";
 import { Button } from "primereact/button";
@@ -69,6 +70,12 @@ const Tests = () => {
     },
   });
 
+  const { mutate: patchTestMutate } = useMutation(patchTest, {
+    onSuccess: () => {
+      refetch();
+    },
+  });
+
   const navigate = useNavigate();
 
   return (
@@ -123,8 +130,10 @@ const Tests = () => {
                       display: "flex",
                       justifyContent: "end",
                       padding: "20px",
+                      gap: "20px",
                     }}
                   >
+                    <Tag value={test.status} />
                     <Button
                       rounded
                       icon={PrimeIcons.TIMES}
@@ -139,12 +148,28 @@ const Tests = () => {
                         <h2>{test.title || "Click to Edit"}</h2>
                       </InplaceDisplay>
                       <InplaceContent>
-                        <InputText
-                          defaultValue={test.title}
-                          name="title"
-                          autoFocus
-                        />
-                        <Button label="subir cambios" />
+                        <form
+                          action=""
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            const formData = Object.fromEntries(
+                              new FormData(e.target as HTMLFormElement)
+                            );
+
+                            patchTestMutate({
+                              testId: test.id as number,
+                              title: formData["title"].toString(),
+                            });
+                          }}
+                        >
+                          <InputText
+                            defaultValue={test.title}
+                            name="title"
+                            required
+                            autoFocus
+                          />
+                          <Button label="subir cambios" />
+                        </form>
                       </InplaceContent>
                     </Inplace>
                     {test.published && (

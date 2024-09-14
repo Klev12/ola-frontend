@@ -55,10 +55,9 @@ const ConfirmSale = () => {
         onClick={() => dialog.setTrue()}
       />
 
-      <Dialog header="Confirmar Venta" onHide={() => {}}></Dialog>
       <Dialog
         closable={!isLoadingVerification.value}
-        style={{ width: "50vw" }}
+        style={{ width: "90vw", maxWidth: "400px" }}
         visible={dialog.value}
         draggable={false}
         onHide={() => {

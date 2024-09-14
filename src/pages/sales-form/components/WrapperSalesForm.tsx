@@ -19,7 +19,7 @@ interface SalesFormContextProps {
   setFormDetails: (form: FormDetails) => void;
   isFormLoading?: boolean;
   toggleLoading: () => void;
-  errorMessage?: string;
+  isFormExpire: boolean;
   hashMode?: boolean;
   hash?: string;
   submit: (data: AllResultPutDto) => void;
@@ -36,6 +36,7 @@ export const SalesFormContext = createContext<SalesFormContextProps>({
   submit: () => {},
   submitByHash: () => {},
   refetchForm: () => {},
+  isFormExpire: false,
 });
 
 interface WrapperSalesFormProps {
@@ -46,7 +47,7 @@ const WrapperSalesForm = ({ hashMode = true }: WrapperSalesFormProps) => {
   const { hash } = useParams();
   const { id } = useParams();
 
-  const [errorMessage, setErrorMessage] = useState<string | undefined>();
+  const [isFormExpire, setIsFormExpire] = useState(false);
   const isFormLoading = useToggle();
 
   const navigate = useNavigate();
@@ -64,8 +65,8 @@ const WrapperSalesForm = ({ hashMode = true }: WrapperSalesFormProps) => {
     refetchOnWindowFocus: false,
     retry: 1,
     onError: () => {
-      setErrorMessage("El link ya ha sido usado, por favor usa otro.");
       isFormLoading.setFalse();
+      setIsFormExpire(true);
     },
     onSuccess: () => {
       isFormLoading.setFalse();
@@ -76,10 +77,19 @@ const WrapperSalesForm = ({ hashMode = true }: WrapperSalesFormProps) => {
     onSuccess: () => {
       navigate(ROUTES.SALES.PAYMENT_FORM_ID(formData?.form?.id as number));
     },
+    onError: () => {
+      setIsFormExpire(true);
+    },
   });
   const { mutate: submitFormByHashMutate } = useMutation(submitFormByHash, {
     onSuccess: () => {
-      navigate(ROUTES.SALES.PAYMENT_FORM_ID(formData?.form?.id as number));
+      navigate(
+        ROUTES.GENERATE_SALES_FORM.PAYMENT_HASH(formData?.form?.hash || "")
+      );
+    },
+
+    onError: () => {
+      setIsFormExpire(true);
     },
   });
 
@@ -94,11 +104,11 @@ const WrapperSalesForm = ({ hashMode = true }: WrapperSalesFormProps) => {
           formInfo: formData?.form,
           formScheme: formData?.form_scheme,
           formDetails,
+          isFormExpire,
           isFormLoading: isFormLoading.value,
           toggleLoading: () => {
             isFormLoading.setTrue();
           },
-          errorMessage,
           hashMode,
           setFormDetails: (form) => {
             setFormDetails(form);

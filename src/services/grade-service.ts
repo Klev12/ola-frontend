@@ -13,7 +13,7 @@ class GradeService {
   findAll({ testId }: { testId?: number }) {
     let api = `${ENV.BACKEND_ROUTE}/grades`;
     if (testId) {
-      api += `testId=${testId}`;
+      api += `?testId=${testId}`;
     }
 
     return axios.get<{ grades: GradeGetDto[] }>(api);

@@ -1,5 +1,5 @@
 import { Button } from "primereact/button";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { dataURLToBlob } from "../../services/document-service";
 
 interface CamaraUploaderProps {
@@ -8,6 +8,7 @@ interface CamaraUploaderProps {
 }
 
 const CamaraUploader = ({ onSubmit, loading }: CamaraUploaderProps) => {
+  const [stream, setStream] = useState<MediaStream | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const photoRef = useRef<HTMLCanvasElement>(null);
   const [photo, setPhoto] = useState<string | null>(null);
@@ -15,11 +16,14 @@ const CamaraUploader = ({ onSubmit, loading }: CamaraUploaderProps) => {
   const [file, setFile] = useState<File>();
 
   const StartCamera = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    const newStream = await navigator.mediaDevices.getUserMedia({
+      video: true,
+    });
     if (videoRef.current) {
-      videoRef.current.srcObject = stream;
+      videoRef.current.srcObject = newStream;
       videoRef.current.play();
       setIsCameraOn(true);
+      setStream(newStream);
     }
   };
 
@@ -42,6 +46,14 @@ const CamaraUploader = ({ onSubmit, loading }: CamaraUploaderProps) => {
       }
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (stream) {
+        stream.getTracks().forEach((track) => track.stop());
+      }
+    };
+  }, [stream]);
 
   return (
     <div>

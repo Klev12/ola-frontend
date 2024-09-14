@@ -33,7 +33,7 @@ interface PayphonePayProps {
 const PayphonePay = ({ children, disableButton }: PayphonePayProps) => {
   const toast = useRef<Toast>(null);
 
-  const { form } = useContext(SalesFormContext);
+  const { formInfo } = useContext(SalesFormContext);
 
   const { value, toggle, setFalse } = useToggle(false);
   const [checkingStatus, setCheckStatus] = useState(false);
@@ -114,7 +114,7 @@ const PayphonePay = ({ children, disableButton }: PayphonePayProps) => {
     createTransactionPayphoneMutate({
       countryCode: Number(countryCode),
       phoneNumber: formData["phoneNumber"].toString(),
-      formId: form?.form?.id as number,
+      formId: formInfo?.id as number,
     });
   };
 

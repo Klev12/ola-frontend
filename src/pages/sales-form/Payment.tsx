@@ -8,11 +8,12 @@ import { Dialog } from "primereact/dialog";
 import { useNavigate } from "react-router";
 import ROUTES from "../../consts/routes";
 import ConfirmSale from "./components/ConfirmSale";
+import Timer from "../../components/Timer";
 
 const Payment = () => {
   const toast = useRef<Toast>(null);
 
-  const { formInfo } = useContext(SalesFormContext);
+  const { formInfo, isFormExpire } = useContext(SalesFormContext);
 
   const currentPendingTransaction = useMemo(() => {
     return formInfo?.transactions.find(
@@ -39,11 +40,11 @@ const Payment = () => {
     <div
       style={{
         display: "flex",
-        gap: 50,
         justifyContent: "center",
-        paddingTop: "20px",
-        gridTemplateColumns: "1fr 1fr",
+        flexWrap: "wrap",
+        gap: "20px",
         padding: "20px",
+        marginTop: "20px",
       }}
     >
       <Dialog
@@ -63,18 +64,31 @@ const Payment = () => {
         <p>Estatus: aceptado</p>
       </Dialog>
       <Toast ref={toast} />
-      <PaymentOptions />
-      {/* <PayphonePay disableButton={checkStatus.value}>
-        {checkStatus.value && (
-          <>
-            <ProgressBar mode="indeterminate" style={{ height: "6px" }} />
-            <label htmlFor="">Verificando transacción</label>
-          </>
-        )}
-      </PayphonePay>
-
-      <PayphoneCard /> */}
-      <ConfirmSale />
+      {isFormExpire && (
+        <div>
+          <h2>El formulario expiró</h2>
+        </div>
+      )}
+      {!isFormExpire && (
+        <>
+          <div>
+            <PaymentOptions />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "20px",
+            }}
+          >
+            {formInfo?.expire_hash_time && (
+              <Timer expiryTimestamp={new Date(formInfo.expire_hash_time)} />
+            )}
+            <ConfirmSale />
+          </div>
+        </>
+      )}
     </div>
   );
 };

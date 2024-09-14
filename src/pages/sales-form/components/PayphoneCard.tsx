@@ -9,7 +9,7 @@ import { createTransactionWithCard } from "../../../services/transaction-service
 import { SalesFormContext } from "./WrapperSalesForm";
 
 const PayphoneCard = () => {
-  const { form } = useContext(SalesFormContext);
+  const { formInfo } = useContext(SalesFormContext);
 
   const cardFormDialog = useToggle();
 
@@ -22,7 +22,6 @@ const PayphoneCard = () => {
     const formData = Object.fromEntries(
       new FormData(e.target as HTMLFormElement)
     );
-    console.log(formData);
     const cardNumber = formData["cardNumber"].toString().replace(/\s/g, "");
     const holderName = formData["holderName"].toString();
     const expirationDate =
@@ -39,7 +38,7 @@ const PayphoneCard = () => {
       expirationYear: (2000 + Number(expirationYear)).toString(),
       securityCode,
       email,
-      formId: form?.form?.id as number,
+      formId: formInfo?.id as number,
     });
   };
 

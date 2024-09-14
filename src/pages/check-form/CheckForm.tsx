@@ -1,18 +1,21 @@
 import { useMutation, useQuery } from "react-query";
 import { getFormById } from "../../services/forms-service";
-import PrintForm from "../../components/PrintForm";
+
 import { useParams } from "react-router";
 import { submitForm } from "../../services/result-service";
 import { ENV } from "../../consts/const";
 import PaymentDataForm from "../sales/components/PaymentDataForm";
 import useGlobalState from "../../store/store";
 import { Toast } from "primereact/toast";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
+import GlobalPrintForm from "../../components/global-print-form/GlobalPrintForm";
+import FileUploader from "../../components/FileUploader";
+import { FileDocument, FileType } from "../../models/file";
 
 const CheckForm = () => {
   const { id } = useParams();
   const toast = useRef<Toast>(null);
-  const { data: formData } = useQuery({
+  const { data: formData, refetch: refetchForm } = useQuery({
     queryFn: () => getFormById(id as string).then((res) => res.data),
     queryKey: ["form-user", id],
     retry: 1,
@@ -35,41 +38,102 @@ const CheckForm = () => {
       });
     },
   });
+
+  const cardImages = useMemo(() => {
+    return (
+      formData?.form?.files
+        ?.filter((file) => file.type === FileType.cardId)
+        .map((file) => {
+          return {
+            id: file.id,
+            identifier: file.hash,
+            status: "completado",
+            url: `${ENV.BACKEND_ROUTE}/multimedia/${file.hash}`,
+          } as FileDocument;
+        }) || []
+    );
+  }, [formData]);
+
   const isFormEditable = useGlobalState((state) => state.isFormEditable);
 
   return (
     <div className="user-form">
       <Toast ref={toast} />
-      <PrintForm
-        normalMode={true}
-        form={formData}
-        isLoading={isLoading}
-        onSubmit={(data) => {
-          console.log(data);
-          submitFormMutate(data);
+      <GlobalPrintForm
+        defaulEditionMode={false}
+        type="sales-form"
+        showHeader={true}
+        formInfo={formData?.form}
+        formScheme={formData?.form_scheme}
+        showSubmitButton={false}
+        onSubmit={(results) => {
+          submitFormMutate({ id: formData?.form?.id as number, results });
         }}
-        refetchUser={() => {}}
       />
-
-      <div className="images">
-        {formData?.form?.files?.map((file) => {
-          return (
-            <img
-              width={200}
-              src={`${ENV.BACKEND_ROUTE}/multimedia/${file.hash}`}
-            ></img>
-          );
-        })}
-        <img
-          width={200}
-          src={`${ENV.BACKEND_ROUTE}/multimedia/${formData?.form?.signature}`}
-        ></img>
-        <div>
-          <PaymentDataForm
-            payment={formData?.form?.payment}
-            formId={formData?.form?.id as number}
-            disabled={isFormEditable}
-          />
+      <div style={{ padding: "30px" }}>
+        <h2>Firma</h2>
+        <FileUploader
+          additionalPayload={{ formId: formData?.form?.id }}
+          defaultFiles={[
+            {
+              id: 1,
+              identifier: formData?.form?.signature as string,
+              status: "completado",
+              url: `${ENV.BACKEND_ROUTE}/multimedia/${formData?.form?.signature}`,
+            },
+          ]}
+          deleteUrl=""
+          uploadUrl={`${ENV.BACKEND_ROUTE}/forms/signature`}
+          onAfterUpload={() => {
+            refetchForm();
+          }}
+          name="signature"
+          showGeneralDelete={false}
+          maxFiles={1}
+          type="canvas-draw"
+          showSpecificDelete={false}
+        />
+        <h2>Fotos de identificación</h2>
+        <FileUploader
+          noIdentifier={true}
+          additionalPayload={{
+            type: FileType.cardId,
+            formId: formData?.form?.id,
+          }}
+          deletePayload={{ formId: formData?.form?.id, type: FileType.cardId }}
+          inARow={true}
+          accept=".jpeg, .png"
+          defaultFiles={cardImages}
+          deleteUrl={`${ENV.BACKEND_ROUTE}/files/`}
+          maxFiles={2}
+          type="image"
+          showSpecificDelete={false}
+          name="file"
+          uploadUrl={`${ENV.BACKEND_ROUTE}/files/`}
+          onAfterUpload={() => {
+            refetchForm();
+          }}
+        />
+        <div className="images">
+          {formData?.form?.files?.map((file) => {
+            return (
+              <img
+                width={200}
+                src={`${ENV.BACKEND_ROUTE}/multimedia/${file.hash}`}
+              ></img>
+            );
+          })}
+          <img
+            width={200}
+            src={`${ENV.BACKEND_ROUTE}/multimedia/${formData?.form?.signature}`}
+          ></img>
+          <div>
+            <PaymentDataForm
+              payment={formData?.form?.payment}
+              formId={formData?.form?.id as number}
+              disabled={isFormEditable}
+            />
+          </div>
         </div>
       </div>
     </div>
