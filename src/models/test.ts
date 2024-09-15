@@ -8,12 +8,12 @@ export interface TestGetDto {
   title: string;
   score: number;
   published: boolean;
-  expireTime?: string | null;
+  expireTime: number;
   formSchemeId: number;
   form_scheme_id: number;
   status: TestStatus;
-  createdAt: string;
-  startDate: string;
+  createdAt?: string | null;
+  startDate?: string | null;
   endDate: string;
 }
 

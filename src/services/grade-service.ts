@@ -18,6 +18,10 @@ class GradeService {
 
     return axios.get<{ grades: GradeGetDto[] }>(api);
   }
+
+  startTimer({ testId }: { testId: number }) {
+    return axios.post(`${ENV.BACKEND_ROUTE}/grades/start-timer`, { testId });
+  }
 }
 
 const gradeService = new GradeService();

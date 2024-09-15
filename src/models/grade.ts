@@ -3,8 +3,16 @@ export interface GradeGetDto {
   score: number;
   testId: number;
   userId: number;
+  expireTime: string;
+  status: GradeStatus;
+  userName: string;
+  userCode: string;
 }
 
+export enum GradeStatus {
+  unresolved = "unresolved",
+  resolved = "resolved",
+}
 export interface GradeResponseGetDto {
   id: number;
   value: GradeResponseOption;

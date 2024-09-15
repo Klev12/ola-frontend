@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "react-query";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { getTestById, markTestAsPublished } from "../../services/test-service";
 import EditSelectOptions from "./components/EditSelectOptions";
 import GoBackButton from "../../components/GoBackButton";
@@ -8,12 +8,14 @@ import useToggle from "../../hooks/useToggle";
 import { Calendar } from "primereact/calendar";
 import { useState } from "react";
 import { Dialog } from "primereact/dialog";
+import ROUTES from "../../consts/routes";
 
 const EditForm = () => {
   const { id } = useParams();
   const showDialog = useToggle();
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(new Date());
+  const navigate = useNavigate();
 
   const { data: formSchemeData, refetch: refetchFormScheme } = useQuery({
     queryFn: () => getTestById({ id: Number(id) }).then((res) => res.data),
@@ -26,6 +28,7 @@ const EditForm = () => {
       onSuccess: () => {
         refetchFormScheme();
         showDialog.setFalse();
+        navigate(ROUTES.TESTS.ME);
       },
     }
   );

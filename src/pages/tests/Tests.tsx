@@ -16,10 +16,13 @@ import { Inplace, InplaceContent, InplaceDisplay } from "primereact/inplace";
 import ROUTES from "../../consts/routes";
 import useGlobalState from "../../store/store";
 import { Roles } from "../../models/user";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Tag } from "primereact/tag";
 import NormalModeCard from "./components/NormalModeCard";
 import gradeService from "../../services/grade-service";
+import formatDate from "../../utils/format-date";
+import { GradeStatus } from "../../models/grade";
+import PaginatorPage from "../../components/PaginatorPage";
 
 const Tests = () => {
   const authenticatedUser = useGlobalState((state) => state.user);
@@ -31,11 +34,15 @@ const Tests = () => {
 
   const showDialog = useToggle();
 
+  const [page, setPage] = useState(0);
+
   const { data: testsData, refetch } = useQuery({
     queryFn: () =>
-      getAllTests({ published: isNormalMode ? "true" : "all" }).then(
-        (res) => res.data
-      ),
+      getAllTests({
+        published: isNormalMode ? "true" : "all",
+        page: page + 1,
+      }).then((res) => res.data),
+    queryKey: ["test", page],
   });
 
   const { data: gradeData } = useQuery({
@@ -80,6 +87,13 @@ const Tests = () => {
 
   return (
     <div style={{ padding: "10px" }}>
+      <PaginatorPage
+        onPage={(page) => {
+          setPage(page);
+        }}
+        limit={10}
+        total={testsData?.count}
+      />
       <Dialog
         draggable={false}
         visible={showDialog.value}
@@ -143,6 +157,30 @@ const Tests = () => {
                     />
                   </div>
                   <div style={{ marginBottom: "20px" }}>
+                    <div>
+                      <span>Creado en {formatDate(test.createdAt || "")}</span>
+                      {test.startDate && (
+                        <div style={{ display: "flex", gap: "20px" }}>
+                          <div style={{ display: "flex", gap: "20px" }}>
+                            <span style={{ fontWeight: "bold" }}>
+                              Empieza en:
+                            </span>
+                            <span>
+                              {formatDate(test.startDate, "simplified")}
+                            </span>
+                          </div>
+                          <div style={{ display: "flex", gap: "20px" }}>
+                            <span style={{ fontWeight: "bold" }}>
+                              Acaba en:
+                            </span>
+                            <span>
+                              {formatDate(test.endDate, "simplified")}
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
                     <Inplace closable>
                       <InplaceDisplay>
                         <h2>{test.title || "Click to Edit"}</h2>
@@ -196,14 +234,20 @@ const Tests = () => {
                         alignItems: "center",
                       }}
                     >
-                      <a
-                        href={ROUTES.PDF.TEST_ID(test.id as number)}
-                        target="_blank"
-                      >
-                        Ver pdf
-                      </a>
-                      <span>Calificación: </span>{" "}
-                      <Tag value={`${test.grade.score} / ${test.score}`} />
+                      {test?.grade?.status === GradeStatus.resolved && (
+                        <a
+                          href={ROUTES.PDF.TEST_ID(test.id as number)}
+                          target="_blank"
+                        >
+                          Ver pdf
+                        </a>
+                      )}
+                      {test.grade?.status === GradeStatus.resolved && (
+                        <div>
+                          <span>Calificación: </span>{" "}
+                          <Tag value={`${test.grade.score} / ${test.score}`} />
+                        </div>
+                      )}
                     </div>
                   )}
                 </NormalModeCard>

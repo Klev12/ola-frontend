@@ -34,11 +34,13 @@
 .content {
   padding: 10px;
   overflow-x: scroll;
+
+  grid-column: end-nav / content-end;
 }
 
 .nav {
-  position: sticky;
-  top: 0;
+  position: fixed;
+  top: 64px;
   z-index: 8;
   height: 100vh;
   transition: transform 1s;
@@ -47,10 +49,9 @@
 
 .nav > ul {
   width: 190px;
-  top: 0;
-  position: fixed;
 
-  background-color: white;
+  position: fixed;
+  top: 0;
 }
 
 .home-container {

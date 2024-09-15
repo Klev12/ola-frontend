@@ -9,7 +9,6 @@ interface GlobalNavProps {
 
 const GlobalNav = ({ items }: GlobalNavProps) => {
   const showNav = useToggle();
-  console.log(showNav.value);
 
   return (
     <>

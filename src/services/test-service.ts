@@ -5,11 +5,15 @@ import { TestGetDto, TestPostDto } from "../models/test";
 
 export function getAllTests({
   published = "all",
+  page = 1,
+  limit = 10,
 }: {
   published?: "all" | "true" | "false";
+  page?: number;
+  limit?: number;
 }) {
-  return axios.get<{ tests: TestGetDto[] }>(
-    `${ENV.BACKEND_ROUTE}/tests?published=${published}`
+  return axios.get<{ count: number; tests: TestGetDto[] }>(
+    `${ENV.BACKEND_ROUTE}/tests?published=${published}&&page=${page}&&limit=${limit}`
   );
 }
 

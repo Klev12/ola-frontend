@@ -3,6 +3,7 @@ import { FormScheme } from "../../../models/form-scheme";
 import { TestGetDto } from "../../../models/test";
 import { UserGetDto } from "../../../models/user";
 import { GradeGetDto, GradeResponseOption } from "../../../models/grade";
+import formatDateEs from "../../../utils/format-date-es";
 
 interface TestFormTemplateProps {
   onLoadHtml?: (html: string) => void;
@@ -37,6 +38,17 @@ const TestFormTemplate = ({
         `}
       </style>
       <h1>{test?.title}</h1>
+      <div>Creado el {formatDateEs(test?.createdAt || "")}</div>
+      <div style={{ display: "flex", gap: "20px" }}>
+        <span>
+          Resuelto por:{" "}
+          <span style={{ fontWeight: "bold" }}>{test?.grade?.userName}</span>
+        </span>
+        <span>
+          Código de usuario:{" "}
+          <span style={{ fontWeight: "bold" }}>{test?.grade?.userCode}</span>
+        </span>
+      </div>
       {formScheme?.form_groups.map((formGroup) => {
         return (
           <div key={formGroup.id}>
