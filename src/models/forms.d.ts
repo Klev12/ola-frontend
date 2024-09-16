@@ -17,6 +17,7 @@ export interface FormDetails {
   agreement?: string;
   observations?: string;
   createdAt?: string;
+  contractDuration?: string;
 }
 
 export interface FormPostDto {

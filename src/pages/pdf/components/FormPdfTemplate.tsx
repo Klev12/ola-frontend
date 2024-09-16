@@ -9,6 +9,7 @@ import FooterSignaturesStatic from "../../../components/term-and-conditions/Foot
 import ConfidentialityContractStatic from "../../../components/term-and-conditions/ConfidentialityContractStatic";
 import formatDateEs from "../../../utils/format-date-es";
 import BoxUserFormTemplate from "./BoxUserFormTemplate";
+import replaceKeyWords from "../../../utils/replace-key-words";
 
 interface FormPdfTemplateProps {
   onLoadHtml?: (html: string) => void;
@@ -172,7 +173,12 @@ const FormPdfTemplate = ({
         <h2>{formInfo?.contract.title}</h2>
         <UserFormContractStatic formDetails={formDetails}>
           <div
-            dangerouslySetInnerHTML={{ __html: formInfo?.contract.html || "" }}
+            dangerouslySetInnerHTML={{
+              __html: replaceKeyWords({
+                text: formInfo?.contract.html || "",
+                formDetails,
+              }),
+            }}
           ></div>
         </UserFormContractStatic>
         <FooterSignaturesStatic

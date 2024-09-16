@@ -7,6 +7,7 @@ export interface ContractGetDto {
   project?: number | string;
   monthly_payment?: number | string;
   suscription?: number | string;
+  tag?: string | null;
 }
 
 export interface ContractPatchDto {
@@ -17,6 +18,7 @@ export interface ContractPatchDto {
   project?: number;
   monthlyPayment?: number;
   suscription?: number;
+  tag?: string;
 }
 
 export enum ContractType {

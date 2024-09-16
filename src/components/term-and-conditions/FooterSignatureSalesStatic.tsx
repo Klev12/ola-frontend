@@ -13,20 +13,12 @@ interface FooterSignatureSalesStaticProps {
 
 const FooterSignatureSalesStatic = ({
   formInfo,
-  sellerDetails,
-  sellerMetadata,
   formDetails,
   style,
 }: FooterSignatureSalesStaticProps) => {
   const clientSignatureUrl = useMemo(() => {
     return `${ENV.BACKEND_ROUTE}/multimedia/${formInfo?.signature}`;
   }, [formInfo]);
-
-  const sellerSignatureUrl = useMemo(() => {
-    return `${ENV.BACKEND_ROUTE}/multimedia/${
-      sellerDetails?.multimedias.find((file) => file.type === "signature")?.hash
-    }`;
-  }, [sellerDetails]);
 
   return (
     <div style={{ ...style, display: "flex", justifyContent: "space-around" }}>
@@ -39,15 +31,10 @@ const FooterSignatureSalesStatic = ({
           alignItems: "center",
         }}
       >
-        <img src={sellerSignatureUrl} height={130} />
-        <h5>Vendedor</h5>
-        <p>{sellerDetails?.fullname}</p>
-        <div>
-          C.C:{" "}
-          {sellerMetadata?.ci.replace(/.$/, (lastChar) => {
-            return `-${lastChar}`;
-          })}
-        </div>
+        <img src={""} height={130} />
+        <h5>Empresa</h5>
+        <p>OLA business</p>
+        <div>C.C: 010586281-7</div>
       </div>
       <div
         style={{

@@ -6,12 +6,13 @@ import useFormDetails from "../../../hooks/useFormDetails";
 import HeaderDate from "./sales/HeaderDate";
 import BoxTableSales from "./sales/BoxTableSales";
 import { ENV, ResourceAssets } from "../../../consts/const";
-import UserFormContractStatic from "../../../components/term-and-conditions/UserFormContractStatic";
 import FooterSignaturesStatic from "../../../components/term-and-conditions/FooterSignaturesStatic";
 import formatDateEs from "../../../utils/format-date-es";
 import FooterSignatureSalesStatic from "../../../components/term-and-conditions/FooterSignatureSalesStatic";
 import { useQuery } from "react-query";
 import { findUserById } from "../../../services/user-service";
+import replaceKeyWords from "../../../utils/replace-key-words";
+import SalesFormContractStatic from "../../../components/term-and-conditions/SalesFormContractStatic";
 
 interface SalesFormTemplateProps {
   onLoadHtml?: (html: string) => void;
@@ -350,12 +351,22 @@ const SalesFormTemplate = ({
         })}
       </div>
       <div style={{ breakInside: "avoid" }}>
-        <h2>{formInfo?.contract?.title}</h2>
-        <UserFormContractStatic formDetails={formDetails}>
+        <h2>
+          {replaceKeyWords({
+            text: formInfo?.contract?.title || "",
+            formDetails,
+          })}
+        </h2>
+        <SalesFormContractStatic formDetails={formDetails}>
           <div
-            dangerouslySetInnerHTML={{ __html: formInfo?.contract?.html || "" }}
+            dangerouslySetInnerHTML={{
+              __html: replaceKeyWords({
+                text: formInfo?.contract.html || "",
+                formDetails,
+              }),
+            }}
           ></div>
-        </UserFormContractStatic>
+        </SalesFormContractStatic>
         <FooterSignatureSalesStatic
           formDetails={formDetails}
           formInfo={formInfo}
@@ -365,13 +376,16 @@ const SalesFormTemplate = ({
       </div>
       <div style={{ breakInside: "avoid" }}>
         <h2>{formInfo?.term_and_condition?.title}</h2>
-        <UserFormContractStatic formDetails={formDetails}>
+        <SalesFormContractStatic formDetails={formDetails}>
           <div
             dangerouslySetInnerHTML={{
-              __html: formInfo?.term_and_condition?.html || "",
+              __html: replaceKeyWords({
+                text: formInfo?.term_and_condition.html || "",
+                formDetails,
+              }),
             }}
           ></div>
-        </UserFormContractStatic>
+        </SalesFormContractStatic>
         <FooterSignaturesStatic
           formDetails={formDetails}
           clientSignatureUrl={`${ENV.BACKEND_ROUTE}/multimedia/${formInfo?.signature}`}

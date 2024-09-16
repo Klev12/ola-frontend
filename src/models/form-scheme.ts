@@ -42,6 +42,7 @@ export enum FieldIdentifier {
   observations = "observations",
   agreement = "agreement",
   area = "area",
+  contractDuration = "contract-duration",
 }
 
 export interface Metadata {

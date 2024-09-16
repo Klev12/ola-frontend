@@ -1,4 +1,4 @@
-import { useContext, useMemo } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { SalesFormContext } from "./components/WrapperSalesForm";
 import GlobalPrintForm from "../../components/global-print-form/GlobalPrintForm";
 import SelectContractType from "./components/SelectContractType";
@@ -22,8 +22,10 @@ const SalesForm = () => {
     isFormExpire,
   } = useContext(SalesFormContext);
 
-  const isSignatureUploaded = useMemo(() => {
-    return !!formInfo?.signature;
+  const [isSignatureUploaded, setIsSignatureUploaded] = useState(false);
+
+  useEffect(() => {
+    setIsSignatureUploaded(!!formInfo?.signature);
   }, [formInfo]);
 
   const cardImages = useMemo(() => {
@@ -102,10 +104,10 @@ const SalesForm = () => {
             }
           }}
           formFooter={
-            <>
+            <div style={{ width: "100%", maxWidth: "400px" }}>
               <SelectContractType formId={formInfo?.id as number} />
               <TermsAndConditionsSales />
-            </>
+            </div>
           }
           onChangeDetails={(form) => {
             setFormDetails(form);
@@ -133,6 +135,7 @@ const SalesForm = () => {
               if (!hashMode) {
                 refetchForm();
               }
+              setIsSignatureUploaded(true);
             }}
             name="signature"
             showGeneralDelete={false}

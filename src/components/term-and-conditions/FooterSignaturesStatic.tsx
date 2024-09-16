@@ -23,9 +23,9 @@ const FooterSignaturesStatic = ({
           alignItems: "center",
         }}
       >
-        <img src="" height={130} />
-        <h5>EL EMPLEADOR</h5>
-        <p>Christian Adrián Guapisaca Cabrera</p>
+        <img src={""} height={130} />
+        <h5>Empresa</h5>
+        <p>OLA business</p>
         <div>C.C: 010586281-7</div>
       </div>
       <div

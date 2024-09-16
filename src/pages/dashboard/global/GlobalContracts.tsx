@@ -55,6 +55,7 @@ const GlobalContracts = () => {
                   }}
                 />
                 <Tag value={contract.type} />
+                {contract.tag && <Tag severity={"info"} value={contract.tag} />}
               </div>
             }
             title={contract.title}
@@ -126,9 +127,20 @@ const GlobalContracts = () => {
                 parseFloat(
                   formData?.["suscription"]?.toString()?.replace(",", "")
                 ) || undefined,
+              tag: formData["tag"].toString(),
             });
           }}
         >
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+          >
+            <label htmlFor="">Etiqueta</label>
+            <InputText
+              required
+              defaultValue={selectedContract?.tag || ""}
+              name="tag"
+            />
+          </div>
           <div
             style={{ display: "flex", flexDirection: "column", gap: "10px" }}
           >

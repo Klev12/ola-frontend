@@ -47,6 +47,7 @@ const useFormDetails = ({ formInfo, formScheme }: UseFormDetailsProps) => {
       city: getResponse(FieldIdentifier.city, fields),
       agreement: getResponse(FieldIdentifier.agreement, fields),
       observations: getResponse(FieldIdentifier.observations, fields),
+      contractDuration: getResponse(FieldIdentifier.contractDuration, fields),
       createdAt: formInfo?.createdAt,
     } as FormDetails;
   }, [formScheme?.form_groups, formInfo]);
