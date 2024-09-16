@@ -11,6 +11,7 @@ import { useMemo, useRef } from "react";
 import GlobalPrintForm from "../../components/global-print-form/GlobalPrintForm";
 import FileUploader from "../../components/FileUploader";
 import { FileDocument, FileType } from "../../models/file";
+import { AxiosError } from "axios";
 
 const CheckForm = () => {
   const { id } = useParams();
@@ -21,15 +22,15 @@ const CheckForm = () => {
     retry: 1,
   });
 
-  const { mutate: submitFormMutate, isLoading } = useMutation(submitForm, {
+  const { mutate: submitFormMutate } = useMutation(submitForm, {
     onSuccess: () => {
       toast.current?.show({
         severity: "success",
         summary: "Éxito al subir cambios",
       });
     },
-    onError: (error) => {
-      const message = (error as any)?.response?.data?.error?.message;
+    onError: (error: AxiosError<{ error?: { message?: string } }>) => {
+      const message = error?.response?.data?.error?.message;
 
       toast.current?.show({
         severity: "error",
