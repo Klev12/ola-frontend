@@ -192,7 +192,10 @@ const FormPdfTemplate = ({
           <ConfidentialityContractStatic formDetails={formDetails}>
             <div
               dangerouslySetInnerHTML={{
-                __html: formInfo?.term_and_condition?.html || "",
+                __html: replaceKeyWords({
+                  text: formInfo?.term_and_condition?.html || "",
+                  formDetails,
+                }),
               }}
             ></div>
           </ConfidentialityContractStatic>

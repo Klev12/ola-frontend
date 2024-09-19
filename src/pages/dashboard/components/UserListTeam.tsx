@@ -17,6 +17,7 @@ import { useRef, useState } from "react";
 import { InputText } from "primereact/inputtext";
 import useGlobalState from "../../../store/store";
 import PaginatorPage from "../../../components/PaginatorPage";
+import { AxiosError } from "axios";
 
 interface UserListTeamProps {
   team?: TeamGetDto;
@@ -36,7 +37,7 @@ const UserListTeam = ({ team, visible, onHide }: UserListTeamProps) => {
   const { data: usersData } = useQuery({
     queryFn: () =>
       getAllUsers({
-        area: UserArea.commercial,
+        area: team?.area as UserArea,
         access: true,
         page: currentPageUser + 1,
         limit: 5,
@@ -62,8 +63,8 @@ const UserListTeam = ({ team, visible, onHide }: UserListTeamProps) => {
       });
       refetchUsersFromTeam();
     },
-    onError: (error) => {
-      const message = (error as any).response?.data?.error?.message;
+    onError: (error: AxiosError<{ error?: { message?: string } }>) => {
+      const message = error.response?.data?.error?.message;
       toast.current?.show({
         severity: "error",
         detail: message,

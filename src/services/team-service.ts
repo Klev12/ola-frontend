@@ -54,3 +54,7 @@ export function assignUserToTeam(team: TeamAssignUserDto) {
 export function removeUserFromTeam(teamUserId: number) {
   return axios.delete(`${ENV.BACKEND_ROUTE}/teams/remove-user/${teamUserId}`);
 }
+
+export function deleteTeamById({ id }: { id: number }) {
+  return axios.delete(`${ENV.BACKEND_ROUTE}/teams/${id}`);
+}

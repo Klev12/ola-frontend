@@ -4,12 +4,18 @@ import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import GoBackButton from "../../components/GoBackButton";
 import { useMutation, useQuery } from "react-query";
-import { createTeam, getAllTeams } from "../../services/team-service";
+import {
+  createTeam,
+  deleteTeamById,
+  getAllTeams,
+} from "../../services/team-service";
 import { Dialog } from "primereact/dialog";
 import useToggle from "../../hooks/useToggle";
 import { InputText } from "primereact/inputtext";
 import { PrimeIcons } from "primereact/api";
 import UserListTeam from "./components/UserListTeam";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { Tag } from "primereact/tag";
 
 const UserTeam = () => {
   const location = useLocation();
@@ -29,6 +35,12 @@ const UserTeam = () => {
       },
     }
   );
+
+  const { mutate: deleteTeamByIdMutate } = useMutation(deleteTeamById, {
+    onSuccess: () => {
+      refetch();
+    },
+  });
 
   const createTeamDialog = useToggle();
   const showUserList = useToggle();
@@ -88,6 +100,7 @@ const UserTeam = () => {
               >
                 <div className="flex-1 flex flex-column gap-2 xl:mr-8">
                   <p className="font-bold">{team.name}</p>
+                  <Tag value={team.area} />
                   <div className="flex align-items-center gap-2">
                     <Button
                       label="Añadir usuarios"
@@ -95,6 +108,19 @@ const UserTeam = () => {
                       icon={PrimeIcons.PLUS}
                       onClick={() => showUserList.setTrue()}
                     />
+                    <Button
+                      label="Eliminar grupo"
+                      onClick={() => {
+                        confirmDialog({
+                          message: "¿Estás seguro de eliminar el grupo?",
+                          acceptLabel: "Sí",
+                          accept: () => {
+                            deleteTeamByIdMutate({ id: team.id as number });
+                          },
+                        });
+                      }}
+                    />
+                    <ConfirmDialog draggable={false} />
 
                     <UserListTeam
                       team={team}

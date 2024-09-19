@@ -121,7 +121,7 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
         <>
           <Link
             target="_blank"
-            to={ROUTES.PDF.PDF_ID(notification.metadata?.userId as number)}
+            to={ROUTES.PDF.USER_ID(notification.metadata?.userId as number)}
           >
             Revisar formulario
           </Link>

@@ -68,11 +68,11 @@ const NormalModeCard = ({ test, children }: NormalModeCardProps) => {
       <h2>{test?.title}</h2>
       <Button
         label="Resolver"
-        disabled={
-          test?.status !== TestStatus.active ||
-          test.grade?.status === GradeStatus.resolved ||
-          !canSubmit.value
-        }
+        // disabled={
+        //   test?.status !== TestStatus.active ||
+        //   test.grade?.status === GradeStatus.resolved ||
+        //   !canSubmit.value
+        // }
         icon={PrimeIcons.EYE}
         onClick={() => {
           navigate(ROUTES.TESTS.RESOLVER_TEST_ID(test?.id as number));

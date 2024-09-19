@@ -37,7 +37,7 @@ const TestFormTemplate = ({
         }
         `}
       </style>
-      <h1>{test?.title}</h1>
+      <h1 style={{ textAlign: "center" }}>{test?.title}</h1>
       <div>Creado el {formatDateEs(test?.createdAt || "")}</div>
       <div style={{ display: "flex", gap: "20px" }}>
         <span>

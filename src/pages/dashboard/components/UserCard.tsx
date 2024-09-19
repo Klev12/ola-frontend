@@ -108,6 +108,7 @@ const UserCard: React.FC<UserCardProps> = ({
           ].includes(user.role) && (
             <Tag
               value="ver grupo"
+              style={{ cursor: "pointer" }}
               onClick={() => {
                 navigate(ROUTES.DASHBOARD.USER_TEAMS_ID(user.id), {
                   state: user,
