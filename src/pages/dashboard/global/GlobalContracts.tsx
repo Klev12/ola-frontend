@@ -14,11 +14,18 @@ import { InputText } from "primereact/inputtext";
 import { Tag } from "primereact/tag";
 import { InputNumber } from "primereact/inputnumber";
 import { Editor } from "primereact/editor";
+import { useSearchParams } from "react-router-dom";
 
 const GlobalContracts = () => {
+  const [searchParams] = useSearchParams();
+
   const { data: contractData, refetch: refetchAllContracts } = useQuery({
-    queryFn: () => getAllContracts({}).then((res) => res.data),
-    queryKey: ["all-contracts"],
+    queryFn: () =>
+      getAllContracts({
+        type:
+          (searchParams.get("type") as ContractType) || ContractType.userForm,
+      }).then((res) => res.data),
+    queryKey: ["all-contracts", searchParams.get("type")],
   });
 
   const showEditMenu = useToggle();
@@ -38,6 +45,11 @@ const GlobalContracts = () => {
 
   return (
     <div style={{ display: "grid", gap: "20px" }}>
+      <h2>
+        {searchParams.get("type") === ContractType.sales
+          ? "Contratos de ventas"
+          : "Contratos de usuarios"}
+      </h2>
       {contractData?.contracts?.map((contract) => {
         return (
           <Card

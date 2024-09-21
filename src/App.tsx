@@ -57,6 +57,9 @@ import SalesFormPdf from "./pages/pdf/SalesFormPdf";
 import WrapperUserForm from "./pages/user-form/WrapperUserForm";
 import Resolver from "./pages/tests/Resolver";
 import TestFormPdf from "./pages/pdf/TestFormPdf";
+import TestCreation from "./pages/tests/TestCreation";
+import TestResolution from "./pages/tests/TestResolution";
+import TestChecking from "./pages/tests/TestChecking";
 
 function App() {
   return (
@@ -171,7 +174,11 @@ function App() {
           </Route>
 
           <Route path={ROUTES.TESTS.ME}>
-            <Route path={ROUTES.TESTS.ME} element={<Tests />} />
+            <Route path={ROUTES.TESTS.ME} element={<Tests />}>
+              <Route path={ROUTES.TESTS.CREATE} element={<TestCreation />} />
+              <Route path={ROUTES.TESTS.RESOLVE} element={<TestResolution />} />
+              <Route path={ROUTES.TESTS.CHECK} element={<TestChecking />} />
+            </Route>
             <Route path={ROUTES.TESTS.EDIT_FORM} element={<EditForm />}></Route>
             <Route path={ROUTES.TESTS.RESOLVER} element={<Resolver />}></Route>
           </Route>

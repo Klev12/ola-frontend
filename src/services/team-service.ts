@@ -6,20 +6,25 @@ import {
   TeamPatchDto,
   TeamPostDto,
 } from "../models/team";
-import { UserGetDto } from "../models/user";
+import { UserArea, UserGetDto } from "../models/user";
 
 export function getAllTeams({
   userId,
   page = 1,
   limit = 10,
+  area,
 }: {
   userId?: number;
   page?: number;
   limit?: number;
+  area?: UserArea;
 }) {
   let endpoint = `${ENV.BACKEND_ROUTE}/teams?page=${page}&&limit=${limit}`;
   if (userId) {
     endpoint += `&&userId=${userId}`;
+  }
+  if (area) {
+    endpoint += `&&area=${area}`;
   }
 
   return axios.get<{ teams: TeamGetDto[]; count: number }>(endpoint);

@@ -19,6 +19,7 @@ import CollaboratorLinkList from "./components/CollaboratorLinkList";
 import { Tag } from "primereact/tag";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { Paginator } from "primereact/paginator";
+import { UserArea } from "../../models/user";
 
 const Team = () => {
   const authenticatedUser = useGlobalState((state) => state.user);
@@ -30,7 +31,9 @@ const Team = () => {
 
   const { data: teamsData, refetch: refetchTeams } = useQuery({
     queryFn: () =>
-      getAllTeams({ page: page + 1, limit: 5 }).then((res) => res.data),
+      getAllTeams({ page: page + 1, limit: 5, area: UserArea.commercial }).then(
+        (res) => res.data
+      ),
     queryKey: ["teams-data", page],
   });
 

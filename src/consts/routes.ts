@@ -187,6 +187,15 @@ const ROUTES = {
     RESOLVER_TEST_ID(testId: number) {
       return `${this.ME}/resolver/${testId}`;
     },
+    get CREATE() {
+      return `${this.ME}/create`;
+    },
+    get RESOLVE() {
+      return `${this.ME}/resolve`;
+    },
+    get CHECK() {
+      return `${this.ME}/check`;
+    },
   },
   PAYPHONE: {
     ME: "/payphone",

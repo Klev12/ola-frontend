@@ -1,13 +1,10 @@
-import { TabPanel, TabView } from "primereact/tabview";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import ROUTES from "../../consts/routes";
-import { useEffect, useMemo } from "react";
-
-const tabPage: { [key: number]: string } = {
-  [0]: ROUTES.DASHBOARD.GLOBAL_CONTRACTS,
-  [1]: ROUTES.DASHBOARD.GLOBAL_TERMS_AND_CONDITIONS,
-  [2]: ROUTES.DASHBOARD.GLOBAL_REGULATION,
-};
+import { useEffect } from "react";
+import { Menubar } from "primereact/menubar";
+import { MenuItem } from "primereact/menuitem";
+import { ContractType } from "../../models/contract";
+import { TermAndConditionsType } from "../../models/term-and-conditions";
 
 const Global = () => {
   const navigate = useNavigate();
@@ -19,31 +16,82 @@ const Global = () => {
     }
   }, [location, navigate]);
 
-  const activateTab = useMemo(() => {
-    return Object.entries(tabPage).find(
-      (entry) => entry[1] === location.pathname
-    )?.[0];
-  }, [location]);
+  const items: MenuItem[] = [
+    {
+      label: "Contratos",
+      icon: "pi pi-box",
+      style: { background: "red" },
+      items: [
+        {
+          label: "Usuarios",
+          command: () => {
+            navigate({
+              pathname: ROUTES.DASHBOARD.GLOBAL_CONTRACTS,
+              search: `?type=${ContractType.userForm}`,
+            });
+          },
+        },
+        {
+          label: "Ventas",
+          command: () => {
+            navigate({
+              pathname: ROUTES.DASHBOARD.GLOBAL_CONTRACTS,
+              search: `?type=${ContractType.sales}`,
+            });
+          },
+        },
+      ],
+    },
+    {
+      label: "Términos y condiciones",
+      icon: "pi pi-box",
+      items: [
+        {
+          label: "Usuarios",
+          command: () => {
+            navigate({
+              pathname: ROUTES.DASHBOARD.GLOBAL_TERMS_AND_CONDITIONS,
+              search: `?type=${TermAndConditionsType.userForm}`,
+            });
+          },
+        },
+        {
+          label: "Ventas",
+          command: () => {
+            navigate({
+              pathname: ROUTES.DASHBOARD.GLOBAL_TERMS_AND_CONDITIONS,
+              search: `?type=${TermAndConditionsType.salesForm}`,
+            });
+          },
+        },
+      ],
+    },
+    {
+      label: "Reglamento",
+      icon: "pi pi-ethereum",
+
+      command: () => {
+        navigate(ROUTES.DASHBOARD.GLOBAL_REGULATION);
+      },
+    },
+  ];
 
   return (
-    <TabView
-      activeIndex={Number(activateTab)}
-      onTabChange={(tab) => {
-        navigate(tabPage[tab.index] || "");
-      }}
-    >
-      <TabPanel header="Contratos">
-        <Outlet />
-      </TabPanel>
+    <>
+      <Menubar
+        style={{
+          position: "fixed",
+          background: "white",
+          zIndex: 2,
+          width: "70%",
+        }}
+        model={items}
+      />
 
-      <TabPanel header="Términos y condiciones">
+      <div style={{ marginTop: "70px" }}>
         <Outlet />
-      </TabPanel>
-
-      <TabPanel header="Reglamente interno">
-        <Outlet />
-      </TabPanel>
-    </TabView>
+      </div>
+    </>
   );
 };
 

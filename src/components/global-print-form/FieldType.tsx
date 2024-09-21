@@ -1,7 +1,7 @@
 import { InputText } from "primereact/inputtext";
 import { Field, FieldIdentifier } from "../../models/form-scheme";
 import SelectType from "./SelectType";
-import { useContext, useMemo } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { GlobalFormContext } from "./GlobalPrintForm";
 import { Calendar } from "primereact/calendar";
 import CheckBoxType from "./CheckBoxType";
@@ -20,17 +20,23 @@ const FieldType = ({ field, required }: FieldTypeProps) => {
     return field?.results?.[0]?.response?.value;
   }, [field]);
 
+  const [value, setValue] = useState<string>();
+
+  useEffect(() => {
+    setValue(defaultValue);
+  }, [defaultValue]);
+
   return (
     <>
       {field.component === "input" && field?.metadata?.type !== "date" && (
         <InputText
-          defaultValue={defaultValue}
+          value={value}
           required={required || field.required}
           name={field.id as string}
           disabled={!editionMode}
           onChange={(e) => {
-            const text = e.target.value;
-
+            const text = e.target.value.toUpperCase();
+            setValue(text);
             switch (field.identifier) {
               case FieldIdentifier.cardId:
                 setFormDetails({ ...formDetails, cardId: text });

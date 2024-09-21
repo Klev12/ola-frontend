@@ -1,9 +1,9 @@
 import { ENV } from "../consts/const";
 import axios from "../interceptors/axios-interceptor";
 import { FormScheme } from "../models/form-scheme";
-import { TestGetDto, TestPostDto } from "../models/test";
+import { TestGetDto, TestPostDto, TestToResolveGetDto } from "../models/test";
 
-export function getAllTests({
+export function getMyTests({
   published = "all",
   page = 1,
   limit = 10,
@@ -17,13 +17,39 @@ export function getAllTests({
   );
 }
 
+export function getAllTests({
+  page = 1,
+  limit = 10,
+  published = "all",
+}: {
+  published?: "all" | "true" | "false";
+  page?: number;
+  limit?: number;
+}) {
+  return axios.get<{ count: number; tests: TestGetDto[] }>(
+    `${ENV.BACKEND_ROUTE}/tests/all?published=${published}&&page=${page}&&limit=${limit}`
+  );
+}
+
+export function getAllTestToResolve({
+  page = 1,
+  limit = 10,
+}: {
+  page?: number;
+  limit?: number;
+}) {
+  return axios.get<{ count: number; tests: TestToResolveGetDto[] }>(
+    `${ENV.BACKEND_ROUTE}/tests/resolve?page=${page}&&limit=${limit}`
+  );
+}
+
 export function createNewTest(test: TestPostDto) {
   return axios.post(`${ENV.BACKEND_ROUTE}/tests`, test);
 }
 
-export function getTestById({ id }: { id: number }) {
+export function getTestById({ id, userId }: { id: number; userId: number }) {
   return axios.get<{ test: TestGetDto; formScheme: FormScheme }>(
-    `${ENV.BACKEND_ROUTE}/tests/${id}`
+    `${ENV.BACKEND_ROUTE}/tests/results/${id}?userId=${userId}`
   );
 }
 

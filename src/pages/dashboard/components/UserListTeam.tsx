@@ -128,7 +128,7 @@ const UserListTeam = ({ team, visible, onHide }: UserListTeamProps) => {
         </DataTable>
 
         <PaginatorPage
-          limit={10}
+          limit={5}
           total={usersData?.count}
           onPage={(page) => {
             setCurrenPageUser(page);

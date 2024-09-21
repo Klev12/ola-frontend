@@ -146,12 +146,7 @@ const Signup: React.FC = () => {
                 case UserArea.commercial:
                   return {
                     value: area,
-                    label: "Asesor comercial",
-                  };
-                case UserArea.communityManager:
-                  return {
-                    value: area,
-                    label: "Community manager",
+                    label: "Comercial",
                   };
                 case UserArea.communication:
                   return {
@@ -168,20 +163,15 @@ const Signup: React.FC = () => {
                     value: area,
                     label: "Marketing",
                   };
-                case UserArea.photograph:
+                case UserArea.administration:
                   return {
                     value: area,
-                    label: "Fotografía",
+                    label: "Adminitración",
                   };
-                case UserArea.secretary:
+                case UserArea.audiovisualProduction:
                   return {
                     value: area,
-                    label: "Secretario/a",
-                  };
-                case UserArea.telemarketing:
-                  return {
-                    value: area,
-                    label: "Telemarketing",
+                    label: "Producción audiovisual",
                   };
               }
             })}

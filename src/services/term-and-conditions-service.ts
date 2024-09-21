@@ -3,13 +3,17 @@ import axios from "../interceptors/axios-interceptor";
 import {
   TermAndConditionsGetDto,
   TermAndConditionsPatchDto,
+  TermAndConditionsType,
 } from "../models/term-and-conditions";
 
 class TermAndConditionsService {
-  async findAll() {
-    return axios.get<{ termAndConditions: TermAndConditionsGetDto[] }>(
-      `${ENV.BACKEND_ROUTE}/term-and-conditions`
-    );
+  async findAll({ type }: { type?: TermAndConditionsType }) {
+    let api = `${ENV.BACKEND_ROUTE}/term-and-conditions`;
+    if (type) {
+      api += `?type=${type}`;
+    }
+
+    return axios.get<{ termAndConditions: TermAndConditionsGetDto[] }>(api);
   }
 
   async patch(termAndConditions: TermAndConditionsPatchDto) {

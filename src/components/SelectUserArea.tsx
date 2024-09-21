@@ -18,16 +18,17 @@ const SelectUserArea = ({ defaultArea }: SelectUserAreaProps) => {
       name="area"
       options={Object.values(UserArea).map((area) => {
         switch (area) {
+          case UserArea.administration:
+            return {
+              value: area,
+              label: "Administración",
+            };
           case UserArea.commercial:
             return {
               value: area,
               label: "Asesor comercial",
             };
-          case UserArea.communityManager:
-            return {
-              value: area,
-              label: "Community manager",
-            };
+
           case UserArea.communication:
             return {
               value: area,
@@ -43,20 +44,10 @@ const SelectUserArea = ({ defaultArea }: SelectUserAreaProps) => {
               value: area,
               label: "Marketing",
             };
-          case UserArea.photograph:
+          case UserArea.audiovisualProduction:
             return {
               value: area,
-              label: "Fotografía",
-            };
-          case UserArea.secretary:
-            return {
-              value: area,
-              label: "Secretario/a",
-            };
-          case UserArea.telemarketing:
-            return {
-              value: area,
-              label: "Telemarketing",
+              label: "Producción audiovisual",
             };
         }
       })}

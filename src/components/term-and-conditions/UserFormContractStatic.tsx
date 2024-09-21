@@ -19,8 +19,7 @@ const UserFormContractStatic = ({
           {formatDateEs(formDetails?.createdAt || "")}, comparecen, por una
           parte, el señor Christian Adrián Guapisaca Cabrera representante legal
           de OLABUSINESS SAS con numero de cedula RUC 0195142890001 en calidad
-          de EMPLEADOR; y, por otra parte,{" "}
-          {formDetails?.genre === "Hombre" ? "el señor" : "la señorita"}
+          de EMPLEADOR; y, por otra parte,
           {` ${formDetails?.userNames} ${formDetails?.userLastNames}`}, portador
           de la cédula de ciudadanía número {formDetails?.cardId} en calidad de
           TRABAJADOR. Los comparecientes son ecuatorianos, domiciliados en la

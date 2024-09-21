@@ -3,6 +3,7 @@ export interface TermAndConditionsGetDto {
   title: string;
   description: string;
   html: string;
+  type: TermAndConditionsType;
 }
 
 export interface TermAndConditionsPatchDto {
@@ -10,4 +11,9 @@ export interface TermAndConditionsPatchDto {
   description?: string;
   html?: string;
   termAndConditionsId: number;
+}
+
+export enum TermAndConditionsType {
+  userForm = "user-form",
+  salesForm = "sales-form",
 }

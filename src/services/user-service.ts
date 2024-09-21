@@ -60,7 +60,7 @@ export function deleteUserById(id: number | string) {
 
 export function verifyUserForm(userId: number | string) {
   return axios.post(`${ENV.BACKEND_ROUTE}/users/verify-user-form`, {
-    id: userId,
+    userId,
   });
 }
 

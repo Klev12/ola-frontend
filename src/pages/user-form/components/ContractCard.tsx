@@ -21,8 +21,11 @@ const ContractCard = ({ contract }: ContractCardProps) => {
         <UserFormContractStatic formDetails={formDetails}>
           <div dangerouslySetInnerHTML={{ __html: contract?.html || "" }}></div>
         </UserFormContractStatic>
-        <Checkbox required checked={value} onChange={() => toggle()} />
       </ScrollPanel>
+      <div className="checkbox-container" style={{ marginTop: "20px" }}>
+        <Checkbox required checked={value} onChange={() => toggle()} />
+        <span>Acepto el contrato que acabo de leer</span>
+      </div>
     </Card>
   );
 };

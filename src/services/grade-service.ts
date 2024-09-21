@@ -10,13 +10,26 @@ class GradeService {
     });
   }
 
-  findAll({ testId }: { testId?: number }) {
-    let api = `${ENV.BACKEND_ROUTE}/grades`;
+  findAll({
+    testId,
+    userId,
+    page = 1,
+    limit = 10,
+  }: {
+    testId?: number;
+    userId?: number;
+    page?: number;
+    limit?: number;
+  }) {
+    let api = `${ENV.BACKEND_ROUTE}/grades?page=${page}&&limit=${limit}`;
     if (testId) {
-      api += `?testId=${testId}`;
+      api += `&&testId=${testId}`;
+    }
+    if (userId) {
+      api += `&&userId=${userId}`;
     }
 
-    return axios.get<{ grades: GradeGetDto[] }>(api);
+    return axios.get<{ count: number; grades: GradeGetDto[] }>(api);
   }
 
   startTimer({ testId }: { testId: number }) {

@@ -4,21 +4,22 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Tag } from "primereact/tag";
 import { TransactionGetDto, TransactionStatus } from "../../models/transaction";
-import { Paginator } from "primereact/paginator";
+
 import { Button } from "primereact/button";
 import copyText from "../../utils/copy-text";
 import ROUTES from "../../consts/routes";
 import { useState } from "react";
 import { Calendar } from "primereact/calendar";
+import PaginatorPage from "../../components/PaginatorPage";
 
 const HistoryTransactions = () => {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [date, setDate] = useState<Date | undefined>();
 
   const { data: transactionData } = useQuery({
     queryFn: () =>
       getAllTransactions({
-        page: 1,
+        page,
         month: date?.getMonth() ? date.getMonth() + 1 : undefined,
       }).then((res) => res.data),
     retry: 1,
@@ -83,12 +84,11 @@ const HistoryTransactions = () => {
         />
         <Column header="Creado en" field="createdAt" />
       </DataTable>
-      <Paginator
-        first={page}
-        rows={10}
-        totalRecords={transactionData?.count}
-        onPageChange={(e) => {
-          setPage(e.page);
+      <PaginatorPage
+        limit={10}
+        total={transactionData?.count}
+        onPage={(page) => {
+          setPage(page + 1);
         }}
       />
     </div>

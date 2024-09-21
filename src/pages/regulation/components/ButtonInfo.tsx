@@ -52,6 +52,7 @@ export default function ButtonInfo({
         }}
       />
       <Dialog
+        closable={checked}
         draggable={false}
         header={title}
         visible={visible}

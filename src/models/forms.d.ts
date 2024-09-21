@@ -3,6 +3,7 @@ import { FileGetDto } from "./file";
 import { PaymentGetDto } from "./payment";
 import { TermAndConditionsGetDto } from "./term-and-conditions";
 import { TransactionGetDto } from "./transaction";
+import { UserGetDto } from "./user";
 
 export interface FormsDto {}
 
@@ -44,6 +45,7 @@ export interface FormGetDto {
   transactions: TransactionGetDto[];
   block: boolean;
   createdAt: string;
+  user?: UserGetDto;
 }
 
 export interface GenerateLinkPostDto {

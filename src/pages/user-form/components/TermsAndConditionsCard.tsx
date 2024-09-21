@@ -31,17 +31,17 @@ const TermsAndConditionsCard = ({
               }}
             ></div>
           </ConfidentialityContractStatic>
-          <div className="checkbox-container">
-            <Checkbox
-              required
-              onChange={() => toggle()}
-              checked={value}
-            ></Checkbox>
-            <span className="checkbox-label">
-              Acepto todos los términos y condiciones que acabo de leer
-            </span>
-          </div>
         </ScrollPanel>
+        <div className="checkbox-container">
+          <Checkbox
+            required
+            onChange={() => toggle()}
+            checked={value}
+          ></Checkbox>
+          <span className="checkbox-label">
+            Acepto todos los términos y condiciones que acabo de leer
+          </span>
+        </div>
       </div>
     </Card>
   );

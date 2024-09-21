@@ -6,9 +6,13 @@ import { useState } from "react";
 import { InputText } from "primereact/inputtext";
 import ListElements from "./ListElements";
 import { Editor } from "primereact/editor";
+import { Tag } from "primereact/tag";
+import { useSearchParams } from "react-router-dom";
+import { TermAndConditionsType } from "../../../models/term-and-conditions";
 
 const GlobalTermsAndConditions = () => {
   const showEditMenu = useToggle();
+  const [searchParams] = useSearchParams();
 
   const [html, setHtml] = useState<string>();
   const [text, setText] = useState<string>();
@@ -18,8 +22,11 @@ const GlobalTermsAndConditions = () => {
     refetch: refetchAllTermAndConditions,
     isLoading,
   } = useQuery({
-    queryFn: () => termAndConditionsService.findAll().then((res) => res.data),
-    queryKey: ["all-term-and-conditions"],
+    queryFn: () =>
+      termAndConditionsService
+        .findAll({ type: searchParams.get("type") as TermAndConditionsType })
+        .then((res) => res.data),
+    queryKey: ["all-term-and-conditions", searchParams.get("type")],
   });
 
   const {
@@ -37,8 +44,18 @@ const GlobalTermsAndConditions = () => {
 
   return (
     <div>
+      <h2>
+        {searchParams.get("type") === TermAndConditionsType.userForm
+          ? "Contratos de usuarios"
+          : "Contratos de ventas"}
+      </h2>
       <ListElements
         loading={isLoading}
+        header={(termAndCondition) => (
+          <>
+            <Tag value={termAndCondition.type} />
+          </>
+        )}
         elements={termAndConditionsData?.termAndConditions || []}
         title={(termAndCondition) => <>{termAndCondition.title}</>}
         description={(termAndCondition) => (

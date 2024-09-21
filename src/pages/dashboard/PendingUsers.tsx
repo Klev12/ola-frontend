@@ -8,6 +8,8 @@ import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import { useEffect, useState } from "react";
 import { Paginator } from "primereact/paginator";
+import { Tag } from "primereact/tag";
+import formatDate from "../../utils/format-date";
 const PendingUsers = () => {
   const { data, refetch } = useQuery({
     queryFn: () => getAllUsers({ access: false }),
@@ -56,6 +58,11 @@ const PendingUsers = () => {
           <Card
             title={`Nuevo usuario ${user.fullname} ${user.email}`}
             key={index}
+            footer={
+              <>
+                <Tag severity={"info"} value={formatDate(user.createdAt)} />
+              </>
+            }
           >
             <div style={{ display: "flex", gap: "0.5rem" }}>
               <Button
@@ -68,6 +75,7 @@ const PendingUsers = () => {
                 }}
               />
               <Button
+                severity="danger"
                 label="Denegar acceso"
                 onClick={() => {
                   deleteUserByIdMutate(user.id);

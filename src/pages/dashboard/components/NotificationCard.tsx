@@ -120,8 +120,9 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
       {notification.type === NotificationType.verifyUser && (
         <>
           <Link
-            target="_blank"
-            to={ROUTES.PDF.USER_ID(notification.metadata?.userId as number)}
+            to={ROUTES.DASHBOARD.CHECK_USER_FORM_ID(
+              notification.metadata?.userId as number
+            )}
           >
             Revisar formulario
           </Link>

@@ -31,12 +31,10 @@ const TermsAndConditions = () => {
           verifyFormMutate(formInfo?.id as number);
         }}
       >
-        <>
-          <ContractCard contract={formInfo?.contract} />
-          <TermsAndConditionsCard
-            termAndConditions={formInfo?.term_and_condition}
-          />
-        </>
+        <ContractCard contract={formInfo?.contract} />
+        <TermsAndConditionsCard
+          termAndConditions={formInfo?.term_and_condition}
+        />
 
         <Divider />
 

@@ -14,6 +14,7 @@ export interface UserGetDto {
   code: string;
   collaborators: Collaborator[];
   level?: LevelGetDto;
+  createdAt: string;
 }
 
 export interface MetadataUser {
@@ -43,12 +44,10 @@ export enum Roles {
 }
 
 export enum UserArea {
+  administration = "administration",
+  audiovisualProduction = "audiovisual-production",
   commercial = "commercial",
   design = "design",
-  communityManager = "community-manager",
-  photograph = "photograph",
-  telemarketing = "telemarketing",
-  secretary = "secretary",
   marketing = "marketing",
   communication = "communication",
 }

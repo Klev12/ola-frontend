@@ -29,16 +29,27 @@ const DependentFormGroup = ({ formGroup }: DependentFormGroupProps) => {
 
   return (
     <>
-      <Dropdown
-        style={{ marginBottom: "20px" }}
-        value={selectedOption}
-        options={options}
-        onChange={(e) => {
-          setSelectedOption(e.value);
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px",
+          marginBottom: "20px",
         }}
-        disabled={!editionMode}
-        name={firstField.id as string}
-      />
+      >
+        <label>{firstField.label}: </label>
+        <Dropdown
+          style={{ marginBottom: "20px" }}
+          value={selectedOption}
+          options={options}
+          onChange={(e) => {
+            setSelectedOption(e.value);
+          }}
+          disabled={!editionMode}
+          name={firstField.id as string}
+        />
+      </div>
+
       {selectedOption === "true" && (
         <>
           {dependentFields.map((field) => {

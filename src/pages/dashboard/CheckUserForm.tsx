@@ -65,8 +65,8 @@ const CheckUserForm = ({ normalMode = false }: CheckUserFormProps) => {
         summary: "Éxito al subir cambios",
       });
     },
-    onError: (error) => {
-      const message = (error as any)?.response?.data?.error?.message;
+    onError: (error: AxiosError<{ error?: { message?: string } }>) => {
+      const message = error?.response?.data?.error?.message;
 
       toast.current?.show({
         severity: "error",

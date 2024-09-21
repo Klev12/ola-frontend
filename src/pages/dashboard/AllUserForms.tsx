@@ -51,6 +51,7 @@ export const AllUserForms = () => {
           )}
         />
         <Column header="Creado por" field="user.fullname" />
+        <Column header="Código de usuario" field="user.code" />
 
         <Column
           header="Revisar"
@@ -60,6 +61,17 @@ export const AllUserForms = () => {
               label="Revisar"
               onClick={() =>
                 navigate(ROUTES.DASHBOARD.CHECK_USER_FORM_ID(value.user_id))
+              }
+            />
+          )}
+        />
+        <Column
+          header="Verificación"
+          body={(value: FormGetDto) => (
+            <Tag
+              severity={value.user?.is_form_verified ? "success" : "info"}
+              value={
+                value.user?.is_form_verified ? "Verificado" : "Sin verificar"
               }
             />
           )}
