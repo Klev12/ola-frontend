@@ -52,7 +52,9 @@ const PendingUsers = () => {
         height: "calc(100vh - 100px)",
       }}
     >
-      <button onClick={() => refetch()}>recargar</button>
+      {data?.data.users.length === 0 && (
+        <span>No hay usuarios pendientes por ahora.</span>
+      )}
       {data?.data.users.map((user, index) => {
         return (
           <Card

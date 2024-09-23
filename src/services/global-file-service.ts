@@ -33,13 +33,14 @@ export default class GlobalFileService {
       formData.append(`${key}`, value);
     }
 
-    return axios.post(`${this.url}`, formData);
+    return axios.post(`${this.url}`, formData, { withCredentials: true });
   }
 
   delete(identifier: string) {
     console.log(this.payload);
     return axios.delete(`${this.deleteUrl}/${identifier}`, {
       data: this.payload,
+      withCredentials: true,
     });
   }
 }

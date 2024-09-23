@@ -10,17 +10,23 @@ import ROUTES from "../../consts/routes";
 import { useMemo, useRef } from "react";
 import { Toast } from "primereact/toast";
 import { AxiosError } from "axios";
+import useGlobalState from "../../store/store";
 
 const Resolver = () => {
   const { id } = useParams();
+  const authenticatedUser = useGlobalState((state) => state.user);
 
   const navigate = useNavigate();
 
   const toast = useRef<Toast>(null);
 
   const { data: testData } = useQuery({
-    queryFn: () => getTestById({ id: Number(id) }).then((res) => res.data),
-    queryKey: ["tests", id],
+    queryFn: () =>
+      getTestById({
+        id: Number(id),
+        userId: authenticatedUser?.id as number,
+      }).then((res) => res.data),
+    queryKey: ["tests", id, authenticatedUser?.id],
   });
 
   const { data: gradesData, refetch: refetchGrades } = useQuery({
@@ -40,7 +46,7 @@ const Resolver = () => {
 
   const { mutate: submitGrade } = useMutation(gradeService.submit, {
     onSuccess: () => {
-      navigate(ROUTES.TESTS.ME);
+      navigate(ROUTES.TESTS.RESOLVE);
     },
     onError: (error: AxiosError<{ error?: { message?: string } }>) => {
       const message = error.response?.data.error?.message;

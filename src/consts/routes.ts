@@ -227,6 +227,9 @@ const ROUTES = {
       return `${this.ME}/test/${id}`;
     },
   },
+  TRAINING: {
+    ME: "/training",
+  },
 };
 
 export default ROUTES;

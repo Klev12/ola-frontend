@@ -60,6 +60,7 @@ import TestFormPdf from "./pages/pdf/TestFormPdf";
 import TestCreation from "./pages/tests/TestCreation";
 import TestResolution from "./pages/tests/TestResolution";
 import TestChecking from "./pages/tests/TestChecking";
+import Training from "./pages/training/Training";
 
 function App() {
   return (
@@ -182,6 +183,8 @@ function App() {
             <Route path={ROUTES.TESTS.EDIT_FORM} element={<EditForm />}></Route>
             <Route path={ROUTES.TESTS.RESOLVER} element={<Resolver />}></Route>
           </Route>
+
+          <Route path={ROUTES.TRAINING.ME} element={<Training />} />
         </Route>
         <Route path={ROUTES.USER_FORM.ME} element={<WrapperUserForm />}>
           <Route path={ROUTES.USER_FORM.ME} element={<UserForm />} />

@@ -9,6 +9,7 @@ import { Calendar } from "primereact/calendar";
 import { useState } from "react";
 import { Dialog } from "primereact/dialog";
 import ROUTES from "../../consts/routes";
+import useGlobalState from "../../store/store";
 
 const EditForm = () => {
   const { id } = useParams();
@@ -16,10 +17,15 @@ const EditForm = () => {
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(new Date());
   const navigate = useNavigate();
+  const authenticatedUser = useGlobalState((state) => state.user);
 
   const { data: formSchemeData, refetch: refetchFormScheme } = useQuery({
-    queryFn: () => getTestById({ id: Number(id) }).then((res) => res.data),
-    queryKey: ["form-scheme", id],
+    queryFn: () =>
+      getTestById({
+        id: Number(id),
+        userId: authenticatedUser?.id as number,
+      }).then((res) => res.data),
+    queryKey: ["form-scheme", id, authenticatedUser?.id],
   });
 
   const { mutate: markTestAsPublishedMutate } = useMutation(
@@ -28,7 +34,7 @@ const EditForm = () => {
       onSuccess: () => {
         refetchFormScheme();
         showDialog.setFalse();
-        navigate(ROUTES.TESTS.ME);
+        navigate(ROUTES.TESTS.CREATE);
       },
     }
   );

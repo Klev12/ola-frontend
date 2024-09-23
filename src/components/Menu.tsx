@@ -5,61 +5,20 @@ import { useNavigate } from "react-router-dom";
 import ROUTES from "../consts/routes";
 import { Roles, UserArea } from "../models/user";
 import useGlobalState from "../store/store";
-import { useMemo } from "react";
+
 import NotificationsPanel from "./NotificationsPanel";
 import "./styles/global-menu.css";
+import useMenuRestrictions from "../hooks/useMenuRestrictions";
 
-const roleBasedVisibility = {
-  [Roles.admin]: {
-    home: true,
-    dashboard: true,
-    sales: true,
-    blog: true,
-    norms: true,
-    tests: true,
-  },
-  [Roles.secretary]: {
-    home: true,
-    dashboard: true,
-    sales: true,
-    blog: true,
-    norms: true,
-    forms: true,
-    tests: true,
-  },
-  [Roles.groupAdmin]: {
-    home: true,
-    sales: true,
-    blog: true,
-    norms: true,
-    tests: true,
-  },
-  [Roles.sales]: {
-    home: true,
-    dashboard: false,
-    sales: true,
-    blog: true,
-    norms: true,
-    forms: true,
-    tests: true,
-  },
-  [Roles.user]: {
-    home: true,
-    dashboard: false,
-    sales: false,
-    blog: true,
-    norms: true,
-    forms: true,
-    tests: true,
-  },
-  [Roles.generalAdmin]: {
-    home: true,
-    sales: true,
-    blog: true,
-    norms: true,
-    tests: true,
-  },
-};
+export enum ItemIdentifier {
+  home = "home",
+  dashboard = "dashboard",
+  sales = "sales",
+  training = "training",
+  blog = "blog",
+  norms = "norms",
+  tests = "tests",
+}
 
 export default function MenuDemo() {
   const user = useGlobalState((state) => state.user);
@@ -67,84 +26,117 @@ export default function MenuDemo() {
 
   const items: MenuItem[] = [
     {
-      id: "home",
+      id: ItemIdentifier.home,
       label: "Home",
       icon: "pi pi-home",
-      visible: false,
       command: () => {
         navigate(ROUTES.HOME.ME);
       },
     },
     {
-      id: "dashboard",
+      id: ItemIdentifier.dashboard,
       label: "Panel de control",
       icon: "pi pi-sliders-v",
-      visible: false,
       command: () => {
         navigate(ROUTES.DASHBOARD.USERS);
       },
     },
     {
-      id: "sales",
+      id: ItemIdentifier.sales,
       label: "Comercial",
       icon: "pi pi-shopping-bag",
-      visible: false,
       command: () => {
         console.log(ROUTES.SALES.FORMS);
         navigate(ROUTES.SALES.FORMS);
       },
     },
     {
-      id: "blog",
+      id: ItemIdentifier.training,
+      label: "Formación",
+      icon: "pi pi-face-smile",
+      command: () => {
+        navigate(ROUTES.TRAINING.ME);
+      },
+    },
+    {
+      id: ItemIdentifier.blog,
       label: "Blog",
       icon: "pi pi-bookmark",
-      visible: false,
       command: () => {
         navigate(ROUTES.BLOG.ME);
       },
     },
     {
-      id: "norms",
+      id: ItemIdentifier.norms,
       label: "Reglamento Interno",
       icon: "pi pi-book",
-      visible: false,
       command: () => {
         navigate(ROUTES.REGULATION.ME);
       },
     },
     {
-      id: "tests",
+      id: ItemIdentifier.tests,
       label: "Pruebas",
       icon: "pi pi-clipboard",
-      visible: false,
       command: () => {
-        navigate(ROUTES.TESTS.ME);
+        navigate(ROUTES.TESTS.RESOLVE);
       },
     },
   ];
 
-  const roleBasedItems = useMemo(() => {
-    const roleVisibility = roleBasedVisibility[user?.role as Roles];
-
-    return Object.entries(roleVisibility || []).map(([key, value]) => {
-      const indexItem = items.findIndex((item) => item.id === key);
-
-      if (
-        user?.role === Roles.groupAdmin &&
-        user.area === UserArea.commercial
-      ) {
-        return {
-          ...items[indexItem],
-          visible: true,
-        };
-      }
-
-      return {
-        ...items[indexItem],
-        visible: value,
-      };
-    });
-  }, [user]);
+  const roleBasedItems = useMenuRestrictions({
+    items,
+    restrictions: [
+      {
+        roles: [Roles.admin, Roles.secretary],
+        accessTo: Object.values(ItemIdentifier),
+      },
+      {
+        roles: [Roles.groupAdmin, Roles.generalAdmin],
+        areas: [UserArea.commercial],
+        accessTo: [
+          ItemIdentifier.sales,
+          ItemIdentifier.norms,
+          ItemIdentifier.blog,
+          ItemIdentifier.home,
+          ItemIdentifier.tests,
+          ItemIdentifier.training,
+        ],
+      },
+      {
+        roles: [Roles.sales],
+        accessTo: [
+          ItemIdentifier.sales,
+          ItemIdentifier.norms,
+          ItemIdentifier.blog,
+          ItemIdentifier.home,
+          ItemIdentifier.tests,
+        ],
+      },
+      {
+        roles: [Roles.user, Roles.generalAdmin, Roles.groupAdmin],
+        areas: Object.values(UserArea).filter(
+          (area) => area !== UserArea.commercial
+        ),
+        accessTo: [
+          ItemIdentifier.home,
+          ItemIdentifier.norms,
+          ItemIdentifier.tests,
+          ItemIdentifier.blog,
+        ],
+      },
+      {
+        roles: [Roles.user],
+        areas: [UserArea.commercial],
+        accessTo: [
+          ItemIdentifier.home,
+          ItemIdentifier.norms,
+          ItemIdentifier.tests,
+          ItemIdentifier.blog,
+        ],
+      },
+    ],
+  });
 
   return (
     <div className="global-menu">

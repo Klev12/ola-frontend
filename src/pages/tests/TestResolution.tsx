@@ -20,7 +20,7 @@ const TestResolution = () => {
             <NormalModeCard test={test}>
               {test.grades.map((grade) => {
                 return (
-                  <>
+                  <div key={grade.id}>
                     {grade?.score && (
                       <div
                         style={{
@@ -48,7 +48,7 @@ const TestResolution = () => {
                         )}
                       </div>
                     )}
-                  </>
+                  </div>
                 );
               })}
             </NormalModeCard>

@@ -20,6 +20,7 @@ const NotificationsPanel = () => {
         display: "flex",
         alignItems: "center",
         marginRight: "20px",
+        cursor: "pointer",
       }}
       onClick={() => {
         navigate(ROUTES.NOTIFICATIONS.ME);
