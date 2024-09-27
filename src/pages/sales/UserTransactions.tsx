@@ -9,7 +9,7 @@ import { useState } from "react";
 import { Paginator } from "primereact/paginator";
 
 const UserTransactions = () => {
-  const { userId } = useParams();
+  const { userId, id: teamId } = useParams();
 
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -19,8 +19,9 @@ const UserTransactions = () => {
         userId: Number(userId),
         page: currentPage + 1,
         limit: 10,
+        teamId: Number(teamId),
       }).then((res) => res.data),
-    queryKey: ["transactions", userId, currentPage],
+    queryKey: ["transactions", userId, teamId, currentPage],
   });
 
   const transactionStatus: {

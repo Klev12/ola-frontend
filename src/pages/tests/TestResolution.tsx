@@ -5,11 +5,15 @@ import { GradeStatus } from "../../models/grade";
 import { Tag } from "primereact/tag";
 import ROUTES from "../../consts/routes";
 import { Card } from "primereact/card";
+import PaginatorPage from "../../components/PaginatorPage";
+import { useState } from "react";
 
 const TestResolution = () => {
+  const [page, setPage] = useState(1);
+
   const { data: testsData } = useQuery({
-    queryFn: () => getAllTestToResolve({}).then((res) => res.data),
-    queryKey: ["tests-resolve"],
+    queryFn: () => getAllTestToResolve({ page }).then((res) => res.data),
+    queryKey: ["tests-resolve", page],
   });
 
   return (
@@ -55,6 +59,11 @@ const TestResolution = () => {
           </Card>
         );
       })}
+      <PaginatorPage
+        limit={10}
+        total={testsData?.count}
+        onPage={(page) => setPage(page + 1)}
+      />
     </div>
   );
 };

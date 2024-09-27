@@ -11,6 +11,7 @@ import ROUTES from "../../consts/routes";
 const SignatureDraw: React.FC = () => {
   const { data: userData, refetch: refetchUser } = useQuery({
     queryFn: () => authenticate().then((res) => res.data),
+    queryKey: ["signature-data"],
   });
 
   if (userData?.user.multimedias.length === 4) {

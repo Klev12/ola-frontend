@@ -29,14 +29,15 @@ const Signup: React.FC = () => {
         navigate(ROUTES.SIGNUP);
       },
       retry: 1,
+      queryKey: ["collaborator-data", code],
     });
 
   const [selectedArea, setSelectedArea] = useState<{
     name: string;
     value: string;
   }>({
-    name: "admin",
-    value: "admin",
+    name: UserArea.administration,
+    value: UserArea.administration,
   });
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -175,7 +176,9 @@ const Signup: React.FC = () => {
                   };
               }
             })}
-            onChange={(e) => setSelectedArea(e.value)}
+            onChange={(e) => {
+              setSelectedArea(e.value);
+            }}
             optionLabel="label"
             placeholder="Selecciona una área"
             className="w-full md:w-14rem"

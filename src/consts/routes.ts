@@ -63,6 +63,9 @@ const ROUTES = {
     get GLOBAL_REGULATION() {
       return `${this.GLOBAL}/regulation`;
     },
+    get TEAMS() {
+      return `${this.ME}/teams`;
+    },
   },
   NOTIFICATIONS: {
     ME: "/notifications",

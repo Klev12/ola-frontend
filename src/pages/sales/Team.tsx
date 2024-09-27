@@ -4,10 +4,10 @@ import {
   getAllTeams,
   updateTeam,
 } from "../../services/team-service";
-import { Outlet, useNavigate } from "react-router";
+import { Outlet, useNavigate, useParams } from "react-router";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { useMemo, useRef, useState } from "react";
+import { createContext, useEffect, useMemo, useRef, useState } from "react";
 import { TeamGetDto } from "../../models/team";
 import ROUTES from "../../consts/routes";
 import { Button } from "primereact/button";
@@ -21,7 +21,15 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import { Paginator } from "primereact/paginator";
 import { UserArea } from "../../models/user";
 
+interface TeamContextProps {
+  team?: TeamGetDto;
+}
+
+export const TeamContext = createContext<TeamContextProps>({});
+
 const Team = () => {
+  const { id: teamIdParam } = useParams();
+
   const authenticatedUser = useGlobalState((state) => state.user);
 
   const showTeamDialog = useToggle();
@@ -72,13 +80,21 @@ const Team = () => {
   const myTeam = useMemo(
     () =>
       teamsData?.teams?.find((team) => team.userId === authenticatedUser?.id),
-    [teamsData]
+    [teamsData, authenticatedUser]
   );
+
+  const [currentTeam, setCurrentTeam] = useState<TeamGetDto>();
 
   const menuRight = useRef<OverlayPanel>(null);
 
+  useEffect(() => {
+    setCurrentTeam(
+      teamsData?.teams.find((team) => team.id === Number(teamIdParam))
+    );
+  }, [teamsData, teamIdParam]);
+
   return (
-    <>
+    <TeamContext.Provider value={{ team: currentTeam || selectedTeam }}>
       {teamsData?.teams.filter((team) => team.userId === authenticatedUser?.id)
         .length !== 0 && (
         <Button
@@ -168,7 +184,7 @@ const Team = () => {
             selectionMode="single"
             onSelectionChange={(e) => {
               setSelectedTeam(e.value);
-              console.log(e.value);
+
               if (!e.value) {
                 return;
               }
@@ -211,7 +227,7 @@ const Team = () => {
 
         <Outlet />
       </div>
-    </>
+    </TeamContext.Provider>
   );
 };
 

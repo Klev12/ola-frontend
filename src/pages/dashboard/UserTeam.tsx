@@ -19,11 +19,11 @@ import { Tag } from "primereact/tag";
 
 const UserTeam = () => {
   const location = useLocation();
-  const user = location.state as UserGetDto;
+  const user = location.state as Partial<UserGetDto>;
 
   const { data: teamsData, refetch } = useQuery({
     queryFn: () =>
-      getAllTeams({ userId: user.id as number }).then((res) => res.data),
+      getAllTeams({ userId: user?.id as number }).then((res) => res.data),
   });
 
   const { mutate: createTeamMutate, isLoading: isCreatingTeam } = useMutation(
@@ -48,7 +48,7 @@ const UserTeam = () => {
   return (
     <>
       <GoBackButton />
-      <Card title={`Usuario ${user.fullname} ${user.code}`}>
+      <Card title={`Usuario ${user?.fullname} ${user?.code}`}>
         {teamsData?.teams?.length === 0 && (
           <Button
             label="Crear grupo"
@@ -59,7 +59,7 @@ const UserTeam = () => {
           visible={createTeamDialog.value}
           onHide={() => createTeamDialog.setFalse()}
           draggable={false}
-          header={`${user.fullname} ${user.code}`}
+          header={`${user?.fullname} ${user?.code}`}
         >
           <form
             action=""
@@ -71,14 +71,14 @@ const UserTeam = () => {
               );
               createTeamMutate({
                 name: formData["name"].toString(),
-                userId: user.id as number,
+                userId: user?.id as number,
               });
             }}
           >
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               <label htmlFor="">Nombre de grupo: </label>
               <InputText
-                defaultValue={user.fullname}
+                defaultValue={user?.fullname}
                 required
                 placeholder="Grupo uno"
                 name="name"

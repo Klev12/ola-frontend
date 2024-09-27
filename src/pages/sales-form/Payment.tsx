@@ -13,7 +13,7 @@ import Timer from "../../components/Timer";
 const Payment = () => {
   const toast = useRef<Toast>(null);
 
-  const { formInfo, isFormExpire } = useContext(SalesFormContext);
+  const { formInfo, isFormExpire, hashMode } = useContext(SalesFormContext);
 
   const currentPendingTransaction = useMemo(() => {
     return formInfo?.transactions.find(
@@ -82,7 +82,7 @@ const Payment = () => {
               gap: "20px",
             }}
           >
-            {formInfo?.expire_hash_time && (
+            {formInfo?.expire_hash_time && hashMode && (
               <Timer expiryTimestamp={new Date(formInfo.expire_hash_time)} />
             )}
             <ConfirmSale />

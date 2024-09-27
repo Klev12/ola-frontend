@@ -61,6 +61,7 @@ import TestCreation from "./pages/tests/TestCreation";
 import TestResolution from "./pages/tests/TestResolution";
 import TestChecking from "./pages/tests/TestChecking";
 import Training from "./pages/training/Training";
+import AllTeams from "./pages/dashboard/AllTeams";
 
 function App() {
   return (
@@ -104,6 +105,7 @@ function App() {
               path={ROUTES.DASHBOARD.PENDING_USERS}
               element={<PendingUsers />}
             />
+            <Route path={ROUTES.DASHBOARD.TEAMS} element={<AllTeams />} />
             <Route path={ROUTES.DASHBOARD.FORMS} element={<AllForms />}>
               <Route
                 path={ROUTES.DASHBOARD.FORMS}

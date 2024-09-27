@@ -21,14 +21,20 @@ export function getAllTests({
   page = 1,
   limit = 10,
   published = "all",
+  keyword,
 }: {
   published?: "all" | "true" | "false";
   page?: number;
   limit?: number;
+  keyword?: string;
 }) {
-  return axios.get<{ count: number; tests: TestGetDto[] }>(
-    `${ENV.BACKEND_ROUTE}/tests/all?published=${published}&&page=${page}&&limit=${limit}`
-  );
+  let api = `${ENV.BACKEND_ROUTE}/tests/all?published=${published}&&page=${page}&&limit=${limit}`;
+
+  if (keyword) {
+    api += `&&keyword=${keyword}`;
+  }
+
+  return axios.get<{ count: number; tests: TestGetDto[] }>(api);
 }
 
 export function getAllTestToResolve({

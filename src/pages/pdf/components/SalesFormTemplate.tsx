@@ -6,7 +6,6 @@ import useFormDetails from "../../../hooks/useFormDetails";
 import HeaderDate from "./sales/HeaderDate";
 import BoxTableSales from "./sales/BoxTableSales";
 import { ENV, ResourceAssets } from "../../../consts/const";
-import FooterSignaturesStatic from "../../../components/term-and-conditions/FooterSignaturesStatic";
 import formatDateEs from "../../../utils/format-date-es";
 import FooterSignatureSalesStatic from "../../../components/term-and-conditions/FooterSignatureSalesStatic";
 import { useQuery } from "react-query";
@@ -386,9 +385,11 @@ const SalesFormTemplate = ({
             }}
           ></div>
         </SalesFormContractStatic>
-        <FooterSignaturesStatic
+        <FooterSignatureSalesStatic
           formDetails={formDetails}
-          clientSignatureUrl={`${ENV.BACKEND_ROUTE}/multimedia/${formInfo?.signature}`}
+          formInfo={formInfo}
+          sellerDetails={userData?.user}
+          sellerMetadata={userData?.metadata}
         />
       </div>
     </div>

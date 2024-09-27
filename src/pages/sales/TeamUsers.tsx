@@ -4,15 +4,22 @@ import { getUsersFromTeam } from "../../services/team-service";
 
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { UserGetDto } from "../../models/user";
 import ROUTES from "../../consts/routes";
 import { Paginator } from "primereact/paginator";
+import { Button } from "primereact/button";
+import { TeamContext } from "./Team";
+import { Dialog } from "primereact/dialog";
+import useToggle from "../../hooks/useToggle";
+import TeamTransactionSummary from "./components/TeamTransactionSummary";
 
 const TeamUsers = () => {
   const { id } = useParams();
 
   const [currentPage, setCurrentPage] = useState(0);
+  const showTeamDialog = useToggle();
+  const { team } = useContext(TeamContext);
 
   const { data: teamUsersData } = useQuery({
     queryFn: () =>
@@ -66,6 +73,19 @@ const TeamUsers = () => {
           <Column field="user.code" header="Código"></Column>
           <Column field="user.role" header="Rol"></Column>
         </DataTable>
+        <Button
+          label="Ver detalles de grupo"
+          onClick={() => showTeamDialog.setTrue()}
+        />
+        <Dialog
+          style={{ width: "50vw" }}
+          draggable={false}
+          header={`Equipo: ${team?.name}`}
+          visible={showTeamDialog.value}
+          onHide={() => showTeamDialog.setFalse()}
+        >
+          <TeamTransactionSummary />
+        </Dialog>
         <Paginator
           first={currentPage === 0 ? currentPage : currentPage + 10}
           rows={10}

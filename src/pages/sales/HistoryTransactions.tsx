@@ -52,8 +52,9 @@ const HistoryTransactions = () => {
       <DataTable value={transactionData?.transactions}>
         <Column header="Código de formulario" field="formCode" />
         <Column header="Creador" field="userFullname" />
+        <Column header="Grupo" field="teamName" />
         <Column header="Código" field="userCode" />
-        <Column header="Cliente" field="costumerName" />
+        <Column header="Negocio" field="businessName" />
         <Column header="Monto" field="amount" />
         <Column
           header="Estatus"

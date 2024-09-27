@@ -45,12 +45,14 @@ export function confirmTransaction({
 
 export function getAllTransactions({
   userId,
+  teamId,
   page = 1,
   limit = 10,
   month,
   keyword,
 }: {
   userId?: number;
+  teamId?: number;
   page?: number;
   limit?: number;
   month?: number;
@@ -67,6 +69,10 @@ export function getAllTransactions({
 
   if (keyword) {
     api += `&&keyword=${keyword}`;
+  }
+
+  if (teamId) {
+    api += `&&teamId=${teamId}`;
   }
 
   return axios.get<{ count: number; transactions: TransactionGetDto[] }>(api);

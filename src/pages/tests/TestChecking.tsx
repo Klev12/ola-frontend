@@ -10,14 +10,16 @@ import { Button } from "primereact/button";
 import useToggle from "../../hooks/useToggle";
 import { Dialog } from "primereact/dialog";
 import GradeList from "./components/GradeList";
+import SearchInput from "../../components/SearchInput";
 
 const TestChecking = () => {
   const [page, setPage] = useState(1);
+  const [keyword, setKeyword] = useState<string>();
 
   const { data: testsData } = useQuery({
     queryFn: () =>
-      getAllTests({ page, published: "true" }).then((res) => res.data),
-    queryKey: ["tests-checking", page],
+      getAllTests({ page, published: "true", keyword }).then((res) => res.data),
+    queryKey: ["tests-checking", page, keyword],
   });
 
   const [selectedTest, setSelectedTest] = useState<TestGetDto>();
@@ -27,6 +29,12 @@ const TestChecking = () => {
   return (
     <div>
       <div style={{ display: "grid", gap: "20px" }}>
+        <SearchInput
+          placeholder="Título de la prueba, nombre del creador o código de usuario"
+          onSearch={(searchTerm) => {
+            setKeyword(searchTerm);
+          }}
+        />
         {testsData?.tests.map((test) => {
           return (
             <Card key={test.id} title={test.title}>

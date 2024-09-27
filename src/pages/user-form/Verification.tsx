@@ -74,16 +74,6 @@ const Verification = () => {
       }}
     >
       <Toast ref={toast} />
-      <p
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        El administrador debe revisar los datos del formulario, espera un
-        momento...
-      </p>
       <Button
         style={{ backgroundColor: "purple", border: 0, boxShadow: "none" }}
         label="Enviar Formulario"
@@ -94,6 +84,20 @@ const Verification = () => {
           setButtonDisabled(true);
         }}
       />
+      <p
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "40vw",
+        }}
+      >
+        Haz click en enviar el formulario, cuando un usuario administrador o
+        secretaría revise y acepte tus datos, podrás acceder a tu cuenta,
+        automáticamente serás redirigido a tu espacio de trabajo si esperas en
+        esta página. (A tu email se enviará una notificación cuando seas
+        aceptado).
+      </p>
     </div>
   );
 };
