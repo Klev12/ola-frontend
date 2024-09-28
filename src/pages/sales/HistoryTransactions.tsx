@@ -11,6 +11,13 @@ import ROUTES from "../../consts/routes";
 import { useState } from "react";
 import { Calendar } from "primereact/calendar";
 import PaginatorPage from "../../components/PaginatorPage";
+import { getAllTeams } from "../../services/team-service";
+import { UserArea } from "../../models/user";
+import "./styles/history-transactions-styles.css";
+import { TeamGetDto } from "../../models/team";
+import transactionSummaryService from "../../services/transaction-summary-service";
+import TeamTransactionSummary from "./components/TeamTransactionSummary";
+import { PrimeIcons } from "primereact/api";
 
 const HistoryTransactions = () => {
   const [page, setPage] = useState(1);
@@ -24,6 +31,14 @@ const HistoryTransactions = () => {
       }).then((res) => res.data),
     retry: 1,
     queryKey: ["transactions-history", date?.getMonth(), page],
+  });
+
+  const [selectedTeam, setSelectedTeam] = useState<TeamGetDto>();
+
+  const { data: teamsData } = useQuery({
+    queryFn: () =>
+      getAllTeams({ area: UserArea.commercial }).then((res) => res.data),
+    queryKey: ["teams-data"],
   });
 
   const transactionStatus: {
@@ -40,7 +55,7 @@ const HistoryTransactions = () => {
   };
 
   return (
-    <div>
+    <>
       <div>
         <Calendar
           view="month"
@@ -91,8 +106,55 @@ const HistoryTransactions = () => {
         onPage={(page) => {
           setPage(page + 1);
         }}
-      />
-    </div>
+      />{" "}
+    </>
+    // <div className="transaction-container">
+    //   <div className="teams">
+    //     <h2>Equipos</h2>
+    //     {teamsData?.teams.map((team) => {
+    //       return (
+    //         <div
+    //           key={team.id}
+    //           className={"team-item"}
+    //           onClick={() => {
+    //             setSelectedTeam(team);
+    //           }}
+    //         >
+    //           <div>{team.name}</div>
+    //         </div>
+    //       );
+    //     })}
+    //     <PaginatorPage
+    //       simplified
+    //       limit={10}
+    //       total={teamsData?.count}
+    //       onPage={() => {}}
+    //     />
+    //   </div>
+    //   <div className="transaction-summaries">
+    //     {!!selectedTeam && (
+    //       <>
+    //         <h2>Historial</h2>
+    //         <h3>Equipo: {selectedTeam?.name}</h3>
+    //         <TeamTransactionSummary
+    //           team={selectedTeam}
+    //           footer={
+    //             <div
+    //               style={{
+    //                 display: "flex",
+    //                 justifyContent: "end",
+    //                 marginTop: "10px",
+    //               }}
+    //             >
+    //               <Button icon={PrimeIcons.EYE} label="Ver transacciones" />
+    //             </div>
+    //           }
+    //         />
+    //       </>
+    //     )}
+
+    //   </div>
+    // </div>
   );
 };
 

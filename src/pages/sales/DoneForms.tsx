@@ -8,6 +8,7 @@ import { Paginator } from "primereact/paginator";
 import TransactionsList from "./components/TransactionsList";
 import { useState } from "react";
 import { InputText } from "primereact/inputtext";
+import { FormGetDto } from "../../models/forms";
 
 const DoneForms = () => {
   const [keyword, setKeyword] = useState<string | undefined>(undefined);
@@ -71,7 +72,30 @@ const DoneForms = () => {
                 navigate(ROUTES.DASHBOARD.CHECK_FORM_ID(form.id));
               }}
             />
-            <TransactionsList form={form} transactions={form.transactions} />
+            <TransactionsList
+              form={
+                {
+                  block: form.block,
+                  code: form.code,
+                  id: form.id,
+                  user_id: form.user_id,
+                  contract: form.contract,
+                  createdAt: form.createdAt,
+                  done: form.done,
+                  contract_id: form.contract_id,
+                  expire_hash_time: form.expire_hash_time,
+                  signature: form.signature,
+                  fullname: form.fullname,
+                  hash: form.hash,
+                  files: form.files,
+                  label: form.label,
+                  payment: form.payment,
+                  term_and_condition: form.term_and_condition,
+                  term_and_conditions_id: form.term_and_conditions_id,
+                } as FormGetDto
+              }
+              transactions={form.transactions}
+            />
           </Card>
         );
       })}

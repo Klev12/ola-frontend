@@ -84,7 +84,7 @@ const TeamUsers = () => {
           visible={showTeamDialog.value}
           onHide={() => showTeamDialog.setFalse()}
         >
-          <TeamTransactionSummary />
+          <TeamTransactionSummary team={team} />
         </Dialog>
         <Paginator
           first={currentPage === 0 ? currentPage : currentPage + 10}

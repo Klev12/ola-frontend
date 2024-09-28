@@ -1,16 +1,23 @@
-import { useContext, useState } from "react";
-import { TeamContext } from "../Team";
+import { ReactNode, useState } from "react";
+
 import { Tag } from "primereact/tag";
 import { useQuery } from "react-query";
 import transactionSummaryService from "../../../services/transaction-summary-service";
-import { Card } from "primereact/card";
+
 import PaginatorPage from "../../../components/PaginatorPage";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { TeamGetDto } from "../../../models/team";
 
-const TeamTransactionSummary = () => {
-  const { team } = useContext(TeamContext);
+interface TeamTransactionSummaryProps {
+  team?: TeamGetDto;
+  footer?: ReactNode;
+}
 
+const TeamTransactionSummary = ({
+  team,
+  footer,
+}: TeamTransactionSummaryProps) => {
   const [page, setPage] = useState(1);
 
   const { data: transactionSummaryData } = useQuery({
@@ -19,12 +26,13 @@ const TeamTransactionSummary = () => {
         .findAll({ page, teamId: team?.id })
         .then((res) => res.data),
     queryKey: ["transaction-summary", team?.id, page],
+    enabled: !!team,
   });
 
   return (
     <div>
       <div>
-        Creado por: {team?.name} <Tag value={team?.userCode} />
+        Creado por: {team?.userFullname} <Tag value={team?.userCode} />
       </div>
       {transactionSummaryData?.transactionSummaries.length === 0 && (
         <div style={{ margin: "20px" }}>No hay transacciones en este grupo</div>
@@ -46,6 +54,7 @@ const TeamTransactionSummary = () => {
                 />
                 <Column header="Total monto" field="totalPendingAmount" />
               </DataTable>
+              {footer}
             </div>
           );
         }

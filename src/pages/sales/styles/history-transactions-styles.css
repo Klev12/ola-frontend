@@ -1,0 +1,19 @@
+.transaction-container {
+  display: grid;
+  grid-template-columns: [content-start] 1fr [transaction-start] 3fr [content-end];
+
+  width: 100%;
+  min-height: 100px;
+  max-height: fit-content;
+}
+
+.teams {
+}
+
+.team-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.transaction-summaries {
+}
