@@ -28,19 +28,7 @@ const MyForms = () => {
     queryFn: () =>
       saleService.findAll({ page: currentPage + 1 }).then((res) => res.data),
     queryKey: ["forms", currentPage],
-  });
-
-  const { mutate: createFormMutate } = useMutation(createForm, {
-    onSettled: () => {
-      setLoading(false);
-      refetch();
-      toast.current?.show({
-        severity: "success",
-        summary: "Formulario creado",
-        detail: "El nuevo formulario se ha creado correctamente",
-        life: 3000,
-      });
-    },
+    refetchOnWindowFocus: false,
   });
 
   const handleClick = () => {

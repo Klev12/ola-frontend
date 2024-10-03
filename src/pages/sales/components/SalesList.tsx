@@ -30,6 +30,7 @@ import {
 } from "../../../models/transaction";
 import copyText from "../../../utils/copy-text";
 import Timer from "../../../components/Timer";
+import ProofList from "./ProofList";
 
 interface SalesListProps {
   sales: SaleGetDto[];
@@ -49,6 +50,7 @@ const SalesList = ({
   const toast = useRef<Toast>(null);
 
   const showTransactionDialog = useToggle();
+  const showProofDialog = useToggle();
 
   const statusPayment: {
     [key in SalePaymentStatus]: "danger" | "success" | "info" | "warning";
@@ -215,12 +217,13 @@ const SalesList = ({
                   loading={selectedSale?.id === sale.id && isDeletingForm}
                   disabled={
                     (selectedSale?.id === sale.id && isDeletingForm) ||
-                    sale.done
+                    sale.done ||
+                    sale.paymentStatus === SalePaymentStatus.paid
                   }
                   onClick={() => {
                     setSelectedSale(sale);
                     confirmDialog({
-                      header: "Eliminar",
+                      header: `Eliminar formulario ${sale.code}`,
                       message: "¿Desea eliminar el formulario?",
                       acceptLabel: "Sí",
                       accept: () => {
@@ -257,7 +260,14 @@ const SalesList = ({
                   SalePaymentMethod.POS,
                   SalePaymentMethod.transference,
                 ].includes(sale.paymentMethod as SalePaymentMethod) && (
-                  <Button severity="success" label="Comprobante" />
+                  <Button
+                    severity="success"
+                    label="Comprobante"
+                    onClick={() => {
+                      setSelectedSale(sale);
+                      showProofDialog.setTrue();
+                    }}
+                  />
                 )}
                 <Button
                   label="Transacciones"
@@ -324,6 +334,14 @@ const SalesList = ({
           <Column header="Monto" field="amount" />
           <Column header="Creación" field="createdAt" />
         </DataTable>
+      </Dialog>
+      <Dialog
+        header={selectedSale?.code}
+        draggable={false}
+        visible={showProofDialog.value}
+        onHide={() => showProofDialog.setFalse()}
+      >
+        <ProofList formId={selectedSale?.id} />
       </Dialog>
       <ConfirmDialog draggable={false} />
     </div>

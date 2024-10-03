@@ -62,6 +62,7 @@ import TestResolution from "./pages/tests/TestResolution";
 import TestChecking from "./pages/tests/TestChecking";
 import Training from "./pages/training/Training";
 import AllTeams from "./pages/dashboard/AllTeams";
+import GlobalCourses from "./pages/dashboard/global/GlobalCourses";
 
 function App() {
   return (
@@ -132,6 +133,10 @@ function App() {
               <Route
                 path={ROUTES.DASHBOARD.GLOBAL_REGULATION}
                 element={<GlobalRegulation />}
+              />
+              <Route
+                path={ROUTES.DASHBOARD.GLOBAL_COURSES}
+                element={<GlobalCourses />}
               />
             </Route>
           </Route>

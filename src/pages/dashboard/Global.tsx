@@ -74,6 +74,13 @@ const Global = () => {
         navigate(ROUTES.DASHBOARD.GLOBAL_REGULATION);
       },
     },
+    {
+      label: "Capacitaciones",
+      icon: "pi pi-pencil",
+      command: () => {
+        navigate(ROUTES.DASHBOARD.GLOBAL_COURSES);
+      },
+    },
   ];
 
   return (

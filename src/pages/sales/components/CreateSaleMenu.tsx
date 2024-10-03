@@ -8,6 +8,8 @@ import { SalePaymentMethod } from "../../../models/sale";
 import { Button } from "primereact/button";
 import { InputNumber } from "primereact/inputnumber";
 import saleService from "../../../services/sale-service";
+import FileUploader from "../../../components/FileUploader";
+import { ENV } from "../../../consts/const";
 
 interface CreateSaleMenuProps {
   onSuccessCreated?: () => void;
@@ -28,6 +30,7 @@ const CreateSaleMenu = ({ onSuccessCreated }: CreateSaleMenuProps) => {
       const [firstElement] = data.contracts;
       setSelectedContract(firstElement);
     },
+    refetchOnWindowFocus: false,
   });
 
   const { mutate: createSale, isLoading: isCreatingSale } = useMutation(
@@ -136,12 +139,42 @@ const CreateSaleMenu = ({ onSuccessCreated }: CreateSaleMenuProps) => {
           }}
         />
 
-        <Button
-          style={{ marginTop: "20px" }}
-          label="Crear formulario"
-          loading={isCreatingSale}
-          disabled={isCreatingSale}
-        />
+        {[SalePaymentMethod.POS, SalePaymentMethod.transference].includes(
+          selectedPaymentMethod
+        ) && (
+          <>
+            <span style={{ fontWeight: "bold" }}>Comprobante</span>
+            <FileUploader
+              defaultFiles={[]}
+              additionalPayload={{
+                amount,
+                discount: discount / 100,
+                contractId: selectedContract?.id,
+                paymentMethod: selectedPaymentMethod,
+              }}
+              uploadUrl={`${ENV.BACKEND_ROUTE}/forms/sales`}
+              deleteUrl=""
+              name="proof"
+              maxFiles={1}
+              type="image"
+              onAfterUpload={onSuccessCreated}
+              accept=".png, .jpeg"
+              showSpecificDelete={false}
+              showGeneralDelete={true}
+            />
+          </>
+        )}
+
+        {![SalePaymentMethod.POS, SalePaymentMethod.transference].includes(
+          selectedPaymentMethod
+        ) && (
+          <Button
+            style={{ marginTop: "20px" }}
+            label="Crear formulario"
+            loading={isCreatingSale}
+            disabled={isCreatingSale}
+          />
+        )}
       </form>
     </div>
   );
