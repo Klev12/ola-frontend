@@ -26,10 +26,12 @@ interface FileUploaderProps {
   deletePayload?: object;
   inARow?: boolean;
   noIdentifier?: boolean;
+  disabled?: boolean;
 }
 
 const FileUploader = ({
   maxFiles,
+  disabled,
   showGeneralDelete = true,
   showSpecificDelete = true,
   noIdentifier = false,
@@ -148,14 +150,14 @@ const FileUploader = ({
           onClick={() => {
             fileInputRef.current?.click();
           }}
-          disabled={files.length === maxFiles}
+          disabled={files.length === maxFiles || disabled}
         />
       )}
 
       {type !== "canvas-draw" && type !== "camara" && (
         <Button
           label="Subir archivos"
-          disabled={files.length !== maxFiles || allFilesUploaded}
+          disabled={files.length !== maxFiles || allFilesUploaded || disabled}
           onClick={() => {
             if (inARow) {
               for (const file of files) {
@@ -169,6 +171,7 @@ const FileUploader = ({
       )}
       {type === "canvas-draw" && (
         <CanvasDrawUploader
+          disabled={disabled}
           onSubmit={(file) => {
             uploadFiles([file]);
 
@@ -188,6 +191,7 @@ const FileUploader = ({
       )}
       {type === "camara" && (
         <CamaraUploader
+          disabled={disabled}
           onSubmit={(file) => {
             uploadFiles([file]);
 
@@ -223,7 +227,7 @@ const FileUploader = ({
               }
             }}
             style={{ justifySelf: "end" }}
-            disabled={isDeleting || isUploading}
+            disabled={isDeleting || isUploading || disabled}
             loading={isDeleting || isUploading}
           />
         )}
@@ -249,6 +253,7 @@ const FileUploader = ({
                 />
                 {showSpecificDelete && (
                   <Button
+                    disabled={disabled}
                     icon={PrimeIcons.TIMES}
                     rounded
                     onClick={() => {

@@ -9,7 +9,6 @@ import { Card } from "primereact/card";
 import { SalesFormContext } from "./WrapperSalesForm";
 import { ContractGetDto, ContractType } from "../../../models/contract";
 import { ScrollPanel } from "primereact/scrollpanel";
-import SalesFormContractStatic from "../../../components/term-and-conditions/SalesFormContractStatic";
 
 interface SelectContractTypeProps {
   formId: string | number;
@@ -51,8 +50,6 @@ const SelectContractType = ({ formId }: SelectContractTypeProps) => {
 
   return (
     <div>
-      <label htmlFor="">Elige el tipo de contrato:</label>
-
       <Card>
         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
           <Dropdown
@@ -68,6 +65,7 @@ const SelectContractType = ({ formId }: SelectContractTypeProps) => {
               });
               setFalse();
             }}
+            disabled
           />
         </div>
         <h2>
@@ -76,49 +74,13 @@ const SelectContractType = ({ formId }: SelectContractTypeProps) => {
           )?.title || ""}
         </h2>
         <ScrollPanel style={{ height: "250px" }}>
-          <SalesFormContractStatic formDetails={formDetails}>
-            <div>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html:
-                    contractData?.contracts?.find(
-                      (contract) => contract.id === selectedContract
-                    )?.html || "",
-                }}
-              ></div>
-            </div>
-          </SalesFormContractStatic>
+          <div>
+            {contractData?.contracts?.find(
+              (contract) => contract.id === selectedContract
+            )?.description || ""}
+          </div>
         </ScrollPanel>
 
-        {selectedContract && (
-          <Card>
-            <h3>
-              Proyecto{" "}
-              {
-                contractData?.contracts?.find(
-                  (contract) => contract.id === selectedContract
-                )?.project
-              }{" "}
-              + IVA
-            </h3>
-            <h3>
-              Mensualidades 9, de{" "}
-              {
-                contractData?.contracts?.find(
-                  (contract) => contract.id === selectedContract
-                )?.monthly_payment
-              }
-            </h3>
-            <h3>
-              Subscripción{" "}
-              {
-                contractData?.contracts?.find(
-                  (contract) => contract.id === selectedContract
-                )?.suscription
-              }
-            </h3>
-          </Card>
-        )}
         <div style={{ marginTop: "20px" }}>
           <span>
             Yo {`${formDetails?.userNames} ${formDetails?.userLastNames} `}

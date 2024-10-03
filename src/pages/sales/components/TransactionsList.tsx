@@ -9,7 +9,6 @@ import {
 } from "../../../models/transaction";
 import { FormGetDto } from "../../../models/forms";
 import ROUTES from "../../../consts/routes";
-import copyText from "../../../utils/copy-text";
 import { Tag } from "primereact/tag";
 
 interface TransactionsListProps {
@@ -64,18 +63,13 @@ const TransactionsList = ({ transactions, form }: TransactionsListProps) => {
             header="Link"
             field="token"
             body={(value) => (
-              <Button
-                label="Copiar"
-                onClick={() => {
-                  console.log(`${window.location.host}`);
-
-                  copyText(
-                    `${window.location.origin}${ROUTES.PAYPHONE.LINK_TOKEN(
-                      value.token
-                    )}`
-                  );
-                }}
-              />
+              <a
+                href={`${window.location.origin}${ROUTES.PAYPHONE.LINK_TOKEN(
+                  value.token
+                )}`}
+              >
+                Ver link
+              </a>
             )}
           />
           <Column header="Monto" field="amount" />

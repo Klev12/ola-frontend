@@ -89,8 +89,8 @@ const ConfirmSale = () => {
       >
         <p>
           Si aceptas confirmar esta venta no podrás modificar los campos del
-          formulario y los datos del pago más tarde (este paso es necesario para
-          generar un link de pago)
+          formulario más tarde(este paso es necesario para generar un link de
+          pago)
         </p>
       </Dialog>
 

@@ -11,7 +11,6 @@ import FooterSignatureSalesStatic from "../../../components/term-and-conditions/
 import { useQuery } from "react-query";
 import { findUserById } from "../../../services/user-service";
 import replaceKeyWords from "../../../utils/replace-key-words";
-import SalesFormContractStatic from "../../../components/term-and-conditions/SalesFormContractStatic";
 
 interface SalesFormTemplateProps {
   onLoadHtml?: (html: string) => void;
@@ -356,16 +355,16 @@ const SalesFormTemplate = ({
             formDetails,
           })}
         </h2>
-        <SalesFormContractStatic formDetails={formDetails}>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: replaceKeyWords({
-                text: formInfo?.contract.html || "",
-                formDetails,
-              }),
-            }}
-          ></div>
-        </SalesFormContractStatic>
+
+        <div
+          dangerouslySetInnerHTML={{
+            __html: replaceKeyWords({
+              text: formInfo?.contract.html || "",
+              formDetails,
+            }),
+          }}
+        ></div>
+
         <FooterSignatureSalesStatic
           formDetails={formDetails}
           formInfo={formInfo}
@@ -373,25 +372,23 @@ const SalesFormTemplate = ({
           sellerMetadata={userData?.metadata}
         />
       </div>
-      <div style={{ breakInside: "avoid" }}>
+      {/* <div style={{ breakInside: "avoid" }}>
         <h2>{formInfo?.term_and_condition?.title}</h2>
-        <SalesFormContractStatic formDetails={formDetails}>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: replaceKeyWords({
-                text: formInfo?.term_and_condition.html || "",
-                formDetails,
-              }),
-            }}
-          ></div>
-        </SalesFormContractStatic>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: replaceKeyWords({
+              text: formInfo?.term_and_condition.html || "",
+              formDetails,
+            }),
+          }}
+        ></div>
         <FooterSignatureSalesStatic
           formDetails={formDetails}
           formInfo={formInfo}
           sellerDetails={userData?.user}
           sellerMetadata={userData?.metadata}
         />
-      </div>
+      </div> */}
     </div>
   );
 };

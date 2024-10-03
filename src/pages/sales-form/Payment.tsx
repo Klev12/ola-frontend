@@ -1,5 +1,4 @@
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
-import PaymentOptions from "./components/PaymentOptions";
 import { SalesFormContext } from "./components/WrapperSalesForm";
 import { TransactionGetDto, TransactionStatus } from "../../models/transaction";
 import useToggle from "../../hooks/useToggle";
@@ -9,6 +8,7 @@ import { useNavigate } from "react-router";
 import ROUTES from "../../consts/routes";
 import ConfirmSale from "./components/ConfirmSale";
 import Timer from "../../components/Timer";
+import GoBackButton from "../../components/GoBackButton";
 
 const Payment = () => {
   const toast = useRef<Toast>(null);
@@ -71,9 +71,6 @@ const Payment = () => {
       )}
       {!isFormExpire && (
         <>
-          <div>
-            <PaymentOptions />
-          </div>
           <div
             style={{
               display: "flex",
@@ -85,6 +82,7 @@ const Payment = () => {
             {formInfo?.expire_hash_time && hashMode && (
               <Timer expiryTimestamp={new Date(formInfo.expire_hash_time)} />
             )}
+            <GoBackButton />
             <ConfirmSale />
           </div>
         </>

@@ -35,7 +35,10 @@ const FieldType = ({ field, required }: FieldTypeProps) => {
           name={field.id as string}
           disabled={!editionMode}
           onChange={(e) => {
-            const text = e.target.value.toUpperCase();
+            const text =
+              field.identifier === FieldIdentifier.email
+                ? e.target.value.toLowerCase()
+                : e.target.value.toUpperCase();
             setValue(text);
             switch (field.identifier) {
               case FieldIdentifier.cardId:

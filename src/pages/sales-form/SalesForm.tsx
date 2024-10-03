@@ -5,9 +5,10 @@ import SelectContractType from "./components/SelectContractType";
 import FileUploader from "../../components/FileUploader";
 import { ENV } from "../../consts/const";
 import { FileDocument, FileType } from "../../models/file";
-import TermsAndConditionsSales from "./components/TermsAndConditionsSales";
 import { Button } from "primereact/button";
 import Timer from "../../components/Timer";
+import formatDate from "../../utils/format-date";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 
 const SalesForm = () => {
   const {
@@ -67,13 +68,30 @@ const SalesForm = () => {
       )}
       {!isFormExpire && (
         <GlobalPrintForm
+          defaulEditionMode={!formInfo?.done}
           type="sales-form"
           customHeaderTemplate={({ pdfButton, goBackButton }) => (
             <>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                  marginRight: "20px",
+                }}
+              >
+                <span style={{ fontWeight: "bold", fontSize: "16px" }}>
+                  Formulario: {formInfo?.code}
+                </span>
+                <span>Creador en: {formatDate(formInfo?.createdAt || "")}</span>
+              </div>
               {!hashMode && (
                 <>
                   {goBackButton}
-                  <Button label="Siguiente" disabled={!isSignatureUploaded} />
+                  <Button
+                    label="Subir cambios"
+                    disabled={!isSignatureUploaded || formInfo?.done}
+                  />
                   {pdfButton}
                 </>
               )}
@@ -97,16 +115,31 @@ const SalesForm = () => {
           formInfo={formInfo}
           formScheme={formScheme}
           onSubmit={(data) => {
-            if (!hashMode) {
-              submit({ id: formInfo?.id as number, results: data });
-            } else {
-              submitByHash({ id: formInfo?.id as number, results: data, hash });
-            }
+            confirmDialog({
+              header: "Confirmación",
+              acceptLabel: "Sí",
+              message: "¿Desea subir los cambios?",
+              accept: () => {
+                if (!hashMode) {
+                  submit({ id: formInfo?.id as number, results: data });
+                } else {
+                  submitByHash({
+                    id: formInfo?.id as number,
+                    results: data,
+                    hash,
+                  });
+                }
+              },
+            });
+            // if (!hashMode) {
+            //   submit({ id: formInfo?.id as number, results: data });
+            // } else {
+            //   submitByHash({ id: formInfo?.id as number, results: data, hash });
+            // }
           }}
           formFooter={
             <div style={{ width: "100%", maxWidth: "400px" }}>
               <SelectContractType formId={formInfo?.id as number} />
-              <TermsAndConditionsSales />
             </div>
           }
           onChangeDetails={(form) => {
@@ -118,6 +151,7 @@ const SalesForm = () => {
         <div style={{ padding: "40px" }}>
           <h2>Firma</h2>
           <FileUploader
+            disabled={formInfo?.done}
             additionalPayload={{ formId: formInfo?.id }}
             defaultFiles={[
               {
@@ -145,6 +179,7 @@ const SalesForm = () => {
           />
           <h2>Imágenes de cédula</h2>
           <FileUploader
+            disabled={formInfo?.done}
             noIdentifier={true}
             additionalPayload={{
               type: FileType.cardId,
@@ -168,6 +203,7 @@ const SalesForm = () => {
           />
           <h2>Foto del cliente</h2>
           <FileUploader
+            disabled={formInfo?.done}
             noIdentifier={true}
             defaultFiles={photos}
             additionalPayload={{ type: FileType.photo, formId: formInfo?.id }}
@@ -187,6 +223,7 @@ const SalesForm = () => {
           />
         </div>
       )}
+      <ConfirmDialog draggable={false} />
     </div>
   );
 };

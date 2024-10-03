@@ -5,9 +5,14 @@ import { dataURLToBlob } from "../../services/document-service";
 interface CamaraUploaderProps {
   onSubmit?: (file: File) => void;
   loading?: boolean;
+  disabled?: boolean;
 }
 
-const CamaraUploader = ({ onSubmit, loading }: CamaraUploaderProps) => {
+const CamaraUploader = ({
+  onSubmit,
+  loading,
+  disabled,
+}: CamaraUploaderProps) => {
   const [stream, setStream] = useState<MediaStream | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const photoRef = useRef<HTMLCanvasElement>(null);
@@ -58,13 +63,18 @@ const CamaraUploader = ({ onSubmit, loading }: CamaraUploaderProps) => {
   return (
     <div>
       <div style={{ display: "flex", gap: "10px" }}>
-        <Button type="button" label="Encender cámara" onClick={StartCamera} />
+        <Button
+          type="button"
+          label="Encender cámara"
+          onClick={StartCamera}
+          disabled={disabled}
+        />
         {isCameraOn && (
           <Button
             type="button"
             label="Tomar foto"
             onClick={takePhoto}
-            disabled={!isCameraOn}
+            disabled={!isCameraOn || disabled}
             icon="pi pi-camera"
           />
         )}
@@ -72,7 +82,7 @@ const CamaraUploader = ({ onSubmit, loading }: CamaraUploaderProps) => {
           <Button
             type="button"
             label="Subir foto"
-            disabled={!isCameraOn || loading}
+            disabled={!isCameraOn || loading || disabled}
             loading={loading}
             onClick={() => {
               if (onSubmit) onSubmit(file as File);

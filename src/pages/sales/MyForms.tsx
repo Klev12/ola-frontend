@@ -1,13 +1,24 @@
 import { useMutation, useQuery } from "react-query";
-import { createForm, getMyForms } from "../../services/forms-service";
+import {
+  createForm,
+  deleteFormById,
+  getMyForms,
+} from "../../services/forms-service";
 import { Button } from "primereact/button";
 import { useState } from "react";
 import FormList from "./components/FormList";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import PaginatorPage from "../../components/PaginatorPage";
+import SalesList from "./components/SalesList";
+import saleService from "../../services/sale-service";
+import { Dialog } from "primereact/dialog";
+import useToggle from "../../hooks/useToggle";
+import CreateSaleMenu from "./components/CreateSaleMenu";
 
 const MyForms = () => {
+  const showDialog = useToggle();
+
   const [loading, setLoading] = useState(false);
   const toast = useRef<Toast>(null);
 
@@ -15,12 +26,7 @@ const MyForms = () => {
 
   const { data: formsData, refetch } = useQuery({
     queryFn: () =>
-      getMyForms({ page: currentPage + 1, limit: 10 }).then((res) => {
-        const forms = res.data.forms.filter(
-          (form) => form.form_scheme_id === 1
-        );
-        return { forms, count: res.data.count };
-      }),
+      saleService.findAll({ page: currentPage + 1 }).then((res) => res.data),
     queryKey: ["forms", currentPage],
   });
 
@@ -38,8 +44,7 @@ const MyForms = () => {
   });
 
   const handleClick = () => {
-    setLoading(true);
-    createFormMutate({ form_scheme_id: 1 });
+    showDialog.setTrue();
   };
 
   return (
@@ -66,7 +71,30 @@ const MyForms = () => {
         label="Crear nuevo formulario"
         raised
       />
-      <FormList forms={formsData?.forms || []} refetchForms={refetch} />
+      <Dialog
+        style={{ minWidth: "30vw" }}
+        draggable={false}
+        visible={showDialog.value}
+        onHide={() => showDialog.setFalse()}
+        header="Creación de formulario"
+      >
+        <CreateSaleMenu
+          onSuccessCreated={() => {
+            refetch();
+            showDialog.setFalse();
+          }}
+        />
+      </Dialog>
+      {/* <FormList forms={formsData?.forms || []} refetchForms={refetch} /> */}
+      <SalesList
+        sales={formsData?.forms || []}
+        onAfterDelete={() => {
+          refetch();
+        }}
+        onAferCreatingLink={() => {
+          refetch();
+        }}
+      />
     </div>
   );
 };

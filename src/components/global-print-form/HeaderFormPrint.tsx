@@ -107,17 +107,26 @@ const HeaderFormPrint = ({ customHeaderTemplate }: HeaderFormPrintProps) => {
       <nav
         style={{
           position: "fixed",
-          width: "100%",
+          width: "fit-content",
+          right: 0,
           padding: "30px",
           background: "white",
-          zIndex: "10",
+          zIndex: "2",
           display: "flex",
           justifyContent: "end",
           gap: "30px",
           alignItems: "center",
+          flexWrap: "wrap",
         }}
       >
-        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "10px",
+            alignItems: "center",
+            flexWrap: "wrap",
+          }}
+        >
           {!customHeaderTemplate &&
             Object.values(headerOptions).map((headerOption, index) => {
               return <div key={index}>{headerOption}</div>;

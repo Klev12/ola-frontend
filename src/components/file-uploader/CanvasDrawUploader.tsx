@@ -10,11 +10,12 @@ interface ExtendedCanvasDraw extends CanvasDraw {
 interface CanvasDrawUploaderProps {
   onSubmit?: (file: File) => void;
   loading?: boolean;
+  disabled?: boolean;
 }
 
 const CanvasDrawUploader = ({
   onSubmit,
-
+  disabled,
   loading = false,
 }: CanvasDrawUploaderProps) => {
   const canvas = useRef<ExtendedCanvasDraw>(null);
@@ -56,14 +57,14 @@ const CanvasDrawUploader = ({
           label="Limpiar"
           style={{ width: "100px" }}
           onClick={clean}
-          disabled={loading}
+          disabled={loading || disabled}
           loading={loading}
         />
         <Button
           label="Subir"
           style={{ width: "100px" }}
           onClick={saveImage}
-          disabled={loading}
+          disabled={loading || disabled}
           loading={loading}
         />
       </div>

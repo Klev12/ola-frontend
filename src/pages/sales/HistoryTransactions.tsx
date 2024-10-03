@@ -106,7 +106,7 @@ const HistoryTransactions = () => {
         onPage={(page) => {
           setPage(page + 1);
         }}
-      />{" "}
+      />
     </>
     // <div className="transaction-container">
     //   <div className="teams">
