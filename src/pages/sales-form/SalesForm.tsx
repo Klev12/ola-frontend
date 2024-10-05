@@ -3,12 +3,13 @@ import { SalesFormContext } from "./components/WrapperSalesForm";
 import GlobalPrintForm from "../../components/global-print-form/GlobalPrintForm";
 import SelectContractType from "./components/SelectContractType";
 import FileUploader from "../../components/FileUploader";
-import { ENV } from "../../consts/const";
+import { ContractIds, ENV } from "../../consts/const";
 import { FileDocument, FileType } from "../../models/file";
 import { Button } from "primereact/button";
 import Timer from "../../components/Timer";
 import formatDate from "../../utils/format-date";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import SelectCourse from "./components/SelectCourse";
 
 const SalesForm = () => {
   const {
@@ -139,6 +140,11 @@ const SalesForm = () => {
           }}
           formFooter={
             <div style={{ width: "100%", maxWidth: "400px" }}>
+              <div style={{ margin: "50px 0" }}>
+                {formInfo?.contract_id === ContractIds.projectHub && (
+                  <SelectCourse />
+                )}
+              </div>
               <SelectContractType formId={formInfo?.id as number} />
             </div>
           }
@@ -147,6 +153,7 @@ const SalesForm = () => {
           }}
         />
       )}
+
       {!isFormExpire && (
         <div style={{ padding: "40px" }}>
           <h2>Firma</h2>

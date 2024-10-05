@@ -2,6 +2,12 @@ export enum ResourceAssets {
   logo = "logo.png",
 }
 
+export enum ContractIds {
+  userForm = 1,
+  projectPolitics,
+  projectHub,
+}
+
 export const ENV = {
   BACKEND_ROUTE: `http://localhost:8000/api/v1`,
   ASSETS_ROUTE(resource: ResourceAssets): string {

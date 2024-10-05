@@ -31,6 +31,7 @@ const CreateSaleMenu = ({ onSuccessCreated }: CreateSaleMenuProps) => {
       setSelectedContract(firstElement);
     },
     refetchOnWindowFocus: false,
+    queryKey: ["contracts"],
   });
 
   const { mutate: createSale, isLoading: isCreatingSale } = useMutation(

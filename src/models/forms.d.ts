@@ -1,5 +1,6 @@
 import { ContractGetDto } from "./contract";
 import { FileGetDto } from "./file";
+import { FormCourseGetDto } from "./form-course";
 import { PaymentGetDto } from "./payment";
 import { TermAndConditionsGetDto } from "./term-and-conditions";
 import { TransactionGetDto } from "./transaction";
@@ -46,6 +47,7 @@ export interface FormGetDto {
   block: boolean;
   createdAt: string;
   user?: UserGetDto;
+  form_course: FormCourseGetDto;
 }
 
 export interface GenerateLinkPostDto {

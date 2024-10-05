@@ -32,6 +32,9 @@ const ConfirmSale = () => {
         });
         isFormBlocked.setTrue();
         setPedingTransaction(response.data.transaction);
+        if (hashMode && !response.data.transaction) {
+          window.location.reload();
+        }
       },
       onError: (error: AxiosError<{ error?: { message?: string } }>) => {
         const message = error?.response?.data?.error?.message;

@@ -31,6 +31,7 @@ import {
 import copyText from "../../../utils/copy-text";
 import Timer from "../../../components/Timer";
 import ProofList from "./ProofList";
+import { statusPayment } from "../utils/status-payment";
 
 interface SalesListProps {
   sales: SaleGetDto[];
@@ -51,15 +52,6 @@ const SalesList = ({
 
   const showTransactionDialog = useToggle();
   const showProofDialog = useToggle();
-
-  const statusPayment: {
-    [key in SalePaymentStatus]: "danger" | "success" | "info" | "warning";
-  } = {
-    [SalePaymentStatus.cancelled]: "danger",
-    [SalePaymentStatus.checking]: "warning",
-    [SalePaymentStatus.paid]: "success",
-    [SalePaymentStatus.pending]: "info",
-  };
 
   const transactionStatus: {
     [key: number]: { severity: "success" | "info"; details: string };
@@ -300,6 +292,7 @@ const SalesList = ({
               />
             )}
           />
+          <Column header="Cliente" field="costumerName" />
           <Column header="Negocio" field="businessName" />
           <Column
             header="Link"

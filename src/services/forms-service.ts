@@ -150,3 +150,7 @@ export function getFormByToken({ token }: { token: string }) {
     `${ENV.BACKEND_ROUTE}/forms/token/${token}`
   );
 }
+
+export function setPaymentStatusForm({ formId }: { formId: number }) {
+  return axios.post(`${ENV.BACKEND_ROUTE}/forms/payment-status`, { formId });
+}

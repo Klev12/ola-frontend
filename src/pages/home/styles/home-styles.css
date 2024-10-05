@@ -5,6 +5,13 @@
   z-index: 10;
 }
 
+.global-dialog {
+  display: flex;
+
+  width: fit-content;
+  min-width: 200px;
+}
+
 /* .global-home-grid {
   width: 100vw;
   height: 100vh;
