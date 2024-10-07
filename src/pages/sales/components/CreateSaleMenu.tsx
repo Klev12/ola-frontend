@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { getAllContracts } from "../../../services/contract-service";
 import { ContractGetDto, ContractType } from "../../../models/contract";
@@ -15,11 +15,30 @@ interface CreateSaleMenuProps {
   onSuccessCreated?: () => void;
 }
 
+const translatedPaymentMethodOptions: {
+  [key in SalePaymentMethod]: { label: string; value: string };
+} = {
+  [SalePaymentMethod.transference]: {
+    label: "transferencia",
+    value: SalePaymentMethod.transference,
+  },
+  [SalePaymentMethod.POS]: {
+    label: "POS",
+    value: SalePaymentMethod.POS,
+  },
+  [SalePaymentMethod.app]: {
+    label: "aplicación",
+    value: SalePaymentMethod.app,
+  },
+};
+
 const CreateSaleMenu = ({ onSuccessCreated }: CreateSaleMenuProps) => {
   const [selectedContract, setSelectedContract] = useState<ContractGetDto>();
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<SalePaymentMethod>(SalePaymentMethod.app);
 
+  const [total, setTotal] = useState(0);
+  const [totalToPay, setTotalToPay] = useState(1);
   const [amount, setAmount] = useState(1);
   const [discount, setDiscount] = useState(0);
 
@@ -41,35 +60,33 @@ const CreateSaleMenu = ({ onSuccessCreated }: CreateSaleMenuProps) => {
     }
   );
 
-  const translatedPaymentMethodOptions: {
-    [key in SalePaymentMethod]: { label: string; value: string };
-  } = {
-    [SalePaymentMethod.transference]: {
-      label: "transferencia",
-      value: SalePaymentMethod.transference,
-    },
-    [SalePaymentMethod.POS]: {
-      label: "POS",
-      value: SalePaymentMethod.POS,
-    },
-    [SalePaymentMethod.app]: {
-      label: "aplicación",
-      value: SalePaymentMethod.app,
-    },
-  };
-
   useEffect(() => {
-    if (discount > 100) {
-      setDiscount(100);
+    if (discount > 50) {
+      setDiscount(50);
       return;
     }
   }, [discount]);
 
   useEffect(() => {
-    if (amount <= 0 || !amount) {
-      setAmount(1);
+    if (totalToPay <= 0 || !totalToPay) {
+      setTotalToPay(1);
     }
-  }, [amount]);
+  }, [totalToPay]);
+
+  useEffect(() => {
+    setTotal(totalToPay - totalToPay * (discount / 100));
+  }, [totalToPay, discount]);
+
+  useEffect(() => {
+    if (amount > total) {
+      setAmount(total);
+      return;
+    }
+
+    if (total < amount) {
+      setAmount(total);
+    }
+  }, [amount, total]);
 
   return (
     <div>
@@ -90,7 +107,7 @@ const CreateSaleMenu = ({ onSuccessCreated }: CreateSaleMenuProps) => {
         {contractsData?.contracts.map((contract) => {
           return (
             <div style={{ display: "flex", gap: "10px" }} key={contract.id}>
-              <span>{contract.title}</span>
+              <span>{contract.tag}</span>
               <Checkbox
                 checked={selectedContract?.id === contract.id}
                 onClick={() => {
@@ -113,30 +130,49 @@ const CreateSaleMenu = ({ onSuccessCreated }: CreateSaleMenuProps) => {
           }}
         />
 
-        <span style={{ fontWeight: "bold" }}>Monto</span>
+        <span style={{ fontWeight: "bold" }}>
+          Total a pagar (valor referencial)
+        </span>
         <InputNumber
           mode="decimal"
-          value={amount}
+          value={totalToPay}
           minFractionDigits={2}
-          name="amount"
+          name="totalToPay"
           required
           min={1}
           onChange={(e) => {
-            setAmount(e.value || 1);
+            setTotalToPay(e.value || 1);
           }}
         />
         <span style={{ fontWeight: "bold" }}>Descuento %</span>
-
         <InputNumber
           mode="decimal"
           minFractionDigits={2}
           name="discount"
           required
           min={0}
-          max={100}
+          max={50}
           value={discount}
           onChange={(e) => {
             setDiscount(e.value || 0);
+          }}
+        />
+
+        <span style={{ fontWeight: "bold" }}>Total</span>
+        <div>
+          {totalToPay} - {discount}% ={" "}
+          <span style={{ fontWeight: "bold" }}>{total.toFixed(2)}</span>
+        </div>
+
+        <span style={{ fontWeight: "bold" }}>Monto a pagar</span>
+        <InputNumber
+          mode="decimal"
+          min={0}
+          max={totalToPay}
+          minFractionDigits={2}
+          value={amount}
+          onChange={(e) => {
+            setAmount(e.value || 1);
           }}
         />
 

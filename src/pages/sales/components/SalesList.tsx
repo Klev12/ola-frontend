@@ -103,7 +103,7 @@ const SalesList = ({
               <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
                 <div>
                   <span>Tipo: </span>
-                  <Tag value={sale.contractTitle} />
+                  <Tag value={sale.contractTag} />
                 </div>
                 <div>
                   <span>Formulario completado: </span>

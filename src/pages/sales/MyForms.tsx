@@ -1,12 +1,6 @@
-import { useMutation, useQuery } from "react-query";
-import {
-  createForm,
-  deleteFormById,
-  getMyForms,
-} from "../../services/forms-service";
+import { useQuery } from "react-query";
 import { Button } from "primereact/button";
 import { useState } from "react";
-import FormList from "./components/FormList";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import PaginatorPage from "../../components/PaginatorPage";
@@ -19,7 +13,7 @@ import CreateSaleMenu from "./components/CreateSaleMenu";
 const MyForms = () => {
   const showDialog = useToggle();
 
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   const toast = useRef<Toast>(null);
 
   const [currentPage, setCurrentPage] = useState(0);
@@ -73,7 +67,7 @@ const MyForms = () => {
           }}
         />
       </Dialog>
-      {/* <FormList forms={formsData?.forms || []} refetchForms={refetch} /> */}
+
       <SalesList
         sales={formsData?.forms || []}
         onAfterDelete={() => {

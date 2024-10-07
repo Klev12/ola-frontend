@@ -12,6 +12,7 @@ export interface SaleGetDto {
   label: string;
   fullname: string;
   signature: string;
+  saleTotalToPay?: number | null;
   saleAmount?: number | null;
   saleDiscount?: number | null;
   paymentStatus?: SalePaymentStatus | null;
@@ -19,6 +20,10 @@ export interface SaleGetDto {
   contractId: number | string;
   contractType: ContractType;
   contractTitle: string;
+  contractTag: string;
+  commercialCost?: SaleCommercialCost | null;
+  membership?: SaleMemberShip | null;
+  observations?: string;
 }
 
 export interface SalePostDto {
@@ -39,4 +44,18 @@ export enum SalePaymentMethod {
   transference = "transference",
   POS = "POS",
   app = "app",
+}
+
+export enum SaleCommercialCost {
+  commercial = "commercial",
+  refferedBenefit = "reffered-benefit",
+  institutionalAgreement = "institutional-agreement",
+  promotionalCost = "promotional-cost",
+}
+
+export enum SaleMemberShip {
+  none = "none",
+  month = "month",
+  sixMonth = "6-month",
+  twelveMonth = "12-month",
 }
