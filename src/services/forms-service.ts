@@ -5,6 +5,7 @@ import {
   FormPostDto,
   GenerateLinkPostDto,
   HashExpirationTimePostDto,
+  InvalidateLinkPostDto,
 } from "../models/forms";
 import { UserFormGetDto } from "../models/user-form";
 import { dataURLToBlob } from "./document-service";
@@ -68,10 +69,11 @@ export function getFormById(id: string | number) {
 export function generateLink(form: GenerateLinkPostDto) {
   return axios.post(`${ENV.BACKEND_ROUTE}/forms/generate-link`, {
     formId: form.id,
+    hashAccess: form.hashAccess,
   });
 }
 
-export function invalidateLink(form: GenerateLinkPostDto) {
+export function invalidateLink(form: InvalidateLinkPostDto) {
   return axios.post(`${ENV.BACKEND_ROUTE}/forms/invalidate-link`, {
     formId: form.id,
   });

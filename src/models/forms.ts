@@ -31,6 +31,7 @@ export interface FormGetDto {
   done: boolean;
   code: string;
   hash: null | string;
+  hashAccess: FormHashAccess;
   user_id: string | number;
   form_scheme_id: string | undefined | number;
   expire_hash_time: undefined | Date;
@@ -52,6 +53,11 @@ export interface FormGetDto {
 
 export interface GenerateLinkPostDto {
   id: string | number;
+  hashAccess: FormHashAccess;
+}
+
+export interface InvalidateLinkPostDto {
+  id: number;
 }
 
 export interface HashExpirationTimePostDto {
@@ -63,4 +69,10 @@ export interface FormContractUpdateDto {
   id: string | number;
   contract_id: string | number;
   hash?: string;
+}
+
+export enum FormHashAccess {
+  full = "full",
+  readOnly = "read-only",
+  onlySignature = "only-signature",
 }

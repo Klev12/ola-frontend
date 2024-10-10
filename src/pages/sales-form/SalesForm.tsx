@@ -10,6 +10,7 @@ import Timer from "../../components/Timer";
 import formatDate from "../../utils/format-date";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import SelectCourse from "./components/SelectCourse";
+import { FormHashAccess } from "../../models/forms";
 
 const SalesForm = () => {
   const {
@@ -60,6 +61,20 @@ const SalesForm = () => {
     );
   }, [formInfo]);
 
+  const defaulEditionMode = useMemo(() => {
+    if (formInfo?.done) {
+      return false;
+    } else if (
+      hashMode &&
+      [FormHashAccess.readOnly, FormHashAccess.onlySignature].includes(
+        formInfo?.hashAccess as FormHashAccess
+      )
+    ) {
+      return false;
+    }
+    return true;
+  }, [formInfo, hashMode]);
+
   return (
     <div>
       {isFormExpire && (
@@ -69,7 +84,7 @@ const SalesForm = () => {
       )}
       {!isFormExpire && (
         <GlobalPrintForm
-          defaulEditionMode={!formInfo?.done}
+          defaulEditionMode={defaulEditionMode}
           type="sales-form"
           customHeaderTemplate={({ pdfButton, goBackButton }) => (
             <>

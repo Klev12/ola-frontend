@@ -1,3 +1,8 @@
+import DASHBOARD_ROUTES from "./routes/dashboard-routes";
+import PDF_ROUTES from "./routes/pdf-routes";
+import SALES_ROUTES from "./routes/sales-routes";
+import TESTS_ROUTES from "./routes/tests-routes";
+
 const ROUTES = {
   LOGIN: "/login",
   SIGNUP: "/signup",
@@ -10,126 +15,11 @@ const ROUTES = {
   HOME: {
     ME: "/home",
   },
-  DASHBOARD: {
-    ME: "/dashboard",
-    get USERS() {
-      return `${this.ME}/users`;
-    },
-    get USER_TEAMS() {
-      return `${this.USERS}/:id/teams`;
-    },
-    USER_TEAMS_ID(userId: string | number) {
-      return `${this.USERS}/${userId}/teams`;
-    },
-    get NOTIFICATIONS() {
-      return `${this.ME}/notifications`;
-    },
-    get CHECK_USER_FORM() {
-      return `${this.ME}/check-user-form/:id`;
-    },
-    CHECK_USER_FORM_ID(id: number | string) {
-      return `${this.ME}/check-user-form/${id}`;
-    },
-    get CHECK_FORM() {
-      return `${this.ME}/check-form/:id`;
-    },
-    CHECK_FORM_ID(id: number | string) {
-      return `${this.ME}/check-form/${id}`;
-    },
-    get COLLABORATORS() {
-      return `${this.ME}/collaborators`;
-    },
-    get PENDING_USERS() {
-      return `${this.ME}/pending-users`;
-    },
-    get FORMS() {
-      return `${this.ME}/forms`;
-    },
-    get FORMS_USER() {
-      return `${this.FORMS}/type-user`;
-    },
-    get FORMS_SALES() {
-      return `${this.FORMS}/type-sales`;
-    },
-    get GLOBAL() {
-      return `${this.ME}/global`;
-    },
-    get GLOBAL_CONTRACTS() {
-      return `${this.GLOBAL}/contracts`;
-    },
-    get GLOBAL_TERMS_AND_CONDITIONS() {
-      return `${this.GLOBAL}/terms-and-conditions`;
-    },
-    get GLOBAL_REGULATION() {
-      return `${this.GLOBAL}/regulation`;
-    },
-    get GLOBAL_COURSES() {
-      return `${this.GLOBAL}/courses`;
-    },
-    get TEAMS() {
-      return `${this.ME}/teams`;
-    },
-  },
+  DASHBOARD: DASHBOARD_ROUTES,
   NOTIFICATIONS: {
     ME: "/notifications",
   },
-  SALES: {
-    ME: "/sales",
-    get FORMS() {
-      return `${this.ME}/forms`;
-    },
-    get DONE_FORMS() {
-      return `${this.ME}/done`;
-    },
-    get PDF() {
-      return `${this.ME}/pdf/:id`;
-    },
-    PDF_ID(id: string | number) {
-      return `${this.ME}/pdf/${id}`;
-    },
-    get HISTORY() {
-      return `${this.ME}/history`;
-    },
-    get HISTORY_TRANSACTIONS() {
-      return `${this.HISTORY}/transactions`;
-    },
-    get HISTORY_COMMISSIONS() {
-      return `${this.HISTORY}/commissions`;
-    },
-    get HISTORY_SALES() {
-      return `${this.HISTORY}/sales`;
-    },
-    get TEAM() {
-      return `${this.ME}/team`;
-    },
-    get TEAM_USERS() {
-      return `${this.TEAM}/:id/users`;
-    },
-    TEAM_USERS_ID(id: string) {
-      return `${this.TEAM}/${id}/users`;
-    },
-    get TRANSACTIONS_USER() {
-      return `${this.TEAM_USERS}/:userId/transactions`;
-    },
-    TRANSACTIONS_USER_ID(teamId: number, userId: number) {
-      return `${this.TEAM_USERS_ID(String(teamId))}/${userId}/transactions`;
-    },
-    get FORM_EDITOR() {
-      return `${this.ME}/form-editor/:id`;
-    },
-    FORM_EDITOR_ID(id: number) {
-      return `${this.ME}/form-editor/${id}`;
-    },
-    get PAYMENT() {
-      return `${this.FORM_EDITOR}/payment`;
-    },
-    PAYMENT_FORM_ID(formId: number) {
-      return `${this.FORM_EDITOR_ID(formId)}/payment`;
-    },
-    get COMMISSIONS() {
-      return `${this.ME}/commissions`;
-    },
-  },
+  SALES: SALES_ROUTES,
   BLOG: {
     ME: "/blog",
   },
@@ -176,33 +66,7 @@ const ROUTES = {
       return this.HASH(hash) + "/payment";
     },
   },
-  TESTS: {
-    ME: "/tests",
-    get EDIT_FORM() {
-      return `${this.ME}/edit-form/:id`;
-    },
-    EDIT_FORM_ID(id: string | number) {
-      return `${this.ME}/edit-form/${id}`;
-    },
-    CONTRACT_TYPE() {
-      return `${this.EDIT_FORM_ID}/contract-type`;
-    },
-    get RESOLVER() {
-      return `${this.ME}/resolver/:id`;
-    },
-    RESOLVER_TEST_ID(testId: number) {
-      return `${this.ME}/resolver/${testId}`;
-    },
-    get CREATE() {
-      return `${this.ME}/create`;
-    },
-    get RESOLVE() {
-      return `${this.ME}/resolve`;
-    },
-    get CHECK() {
-      return `${this.ME}/check`;
-    },
-  },
+  TESTS: TESTS_ROUTES,
   PAYPHONE: {
     ME: "/payphone",
     get LINK() {
@@ -212,27 +76,7 @@ const ROUTES = {
       return `${this.ME}/${token}`;
     },
   },
-  PDF: {
-    ME: "/pdf",
-    get ID() {
-      return `${this.ME}/:id`;
-    },
-    PDF_ID(id: number) {
-      return `${this.ME}/${id}`;
-    },
-    get USER() {
-      return `${this.ME}/user-form/:id`;
-    },
-    USER_ID(id: number) {
-      return `${this.ME}/user-form/${id}`;
-    },
-    get TEST() {
-      return `${this.ME}/test/:id`;
-    },
-    TEST_ID(id: number) {
-      return `${this.ME}/test/${id}`;
-    },
-  },
+  PDF: PDF_ROUTES,
   TRAINING: {
     ME: "/training",
   },

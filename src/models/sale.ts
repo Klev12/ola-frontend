@@ -1,6 +1,7 @@
 import { ContractType } from "./contract";
+import { FormGetDto } from "./forms";
 
-export interface SaleGetDto {
+export interface SaleGetDto extends FormGetDto {
   id: number;
   done: boolean;
   block: boolean;

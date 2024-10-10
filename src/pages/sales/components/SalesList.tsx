@@ -32,6 +32,8 @@ import copyText from "../../../utils/copy-text";
 import Timer from "../../../components/Timer";
 import ProofList from "./ProofList";
 import { statusPayment } from "../utils/status-payment";
+import { SplitButton } from "primereact/splitbutton";
+import { FormHashAccess } from "../../../models/forms";
 
 interface SalesListProps {
   sales: SaleGetDto[];
@@ -167,6 +169,7 @@ const SalesList = ({
                       flexWrap: "wrap",
                     }}
                   >
+                    <Tag value={sale.hashAccess} />
                     <Timer
                       expiryTimestamp={new Date(sale.expire_hash_time || "")}
                     />
@@ -233,13 +236,32 @@ const SalesList = ({
                     }}
                   />
                 ) : (
-                  <Button
-                    disabled={sale.done}
-                    label="Generar link"
-                    onClick={() => {
-                      generateLinkMutate({ id: sale.id });
-                    }}
-                  />
+                  <>
+                    <SplitButton
+                      disabled={sale.done}
+                      model={[
+                        {
+                          label: "Link formulario",
+                          command: () => {
+                            generateLinkMutate({
+                              id: sale.id,
+                              hashAccess: FormHashAccess.full,
+                            });
+                          },
+                        },
+                        {
+                          label: "Link solo para firma",
+                          command: () => {
+                            generateLinkMutate({
+                              id: sale.id,
+                              hashAccess: FormHashAccess.onlySignature,
+                            });
+                          },
+                        },
+                      ]}
+                      label="Generar link"
+                    />
+                  </>
                 )}
                 <Button
                   label="Formulario"

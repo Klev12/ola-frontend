@@ -10,7 +10,6 @@ import ROUTES from "../../../consts/routes";
 import { useNavigate } from "react-router";
 import {
   deleteFormById,
-  generateLink,
   invalidateLink,
   setLinkExpirationTime,
 } from "../../../services/forms-service";
@@ -19,7 +18,6 @@ import "primeicons/primeicons.css";
 import TransactionsList from "./TransactionsList";
 import useToggle from "../../../hooks/useToggle";
 import PaymentDataForm from "./PaymentDataForm";
-import { AxiosError } from "axios";
 
 interface FormListProps {
   forms: FormGetDto[];
@@ -46,30 +44,6 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
   const { mutate: setLinkExpirationTimeMutate } = useMutation(
     setLinkExpirationTime
   );
-
-  const { mutate: generateLinkMutate } = useMutation(generateLink, {
-    onSuccess: () => {
-      setLoadingFalse();
-      refetchForms();
-      toast.current?.show({
-        severity: "success",
-        summary: "Link Generado",
-        detail: "El link fue creado correctamente",
-        life: 4000,
-      });
-    },
-    onError: (error) => {
-      setLoadingFalse();
-      const message = (error as AxiosError<{ error: { message: string } }>)
-        ?.response?.data?.error?.message;
-      toast.current?.show({
-        severity: "error",
-        summary: "Error",
-        detail: message,
-        life: 4000,
-      });
-    },
-  });
 
   const { mutate: invalidateLinkMutate } = useMutation(invalidateLink, {
     onSuccess: () => {
@@ -205,7 +179,7 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
                   className="p-button-rounded p-button-danger"
                   onClick={() => {
                     setLoadingTrue();
-                    invalidateLinkMutate({ id: form.id });
+                    invalidateLinkMutate({ id: form.id as number });
                   }}
                   style={{ margin: "10px" }}
                 />
@@ -273,7 +247,6 @@ const FormList: React.FC<FormListProps> = ({ forms, refetchForms }) => {
           formId={selectedForm?.id as number}
           onSuccess={() => {
             setLoadingTrue();
-            generateLinkMutate({ id: selectedForm?.id as number });
             setLinkExpirationTimeMutate({
               id: selectedForm?.id as number,
               expire_hash_time:
