@@ -23,6 +23,7 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { CourseGetDto } from "../../../models/course";
 import { Toast } from "primereact/toast";
 import { AxiosError } from "axios";
+import SelectServiceList from "./SelectServiceList";
 
 interface CreateSaleMenuProps {
   onSuccessCreated?: () => void;
@@ -164,6 +165,13 @@ const CreateSaleMenu = ({ onSuccessCreated }: CreateSaleMenuProps) => {
             <SelectCourseList
               onSelect={(course) => setSelectedCourse(course)}
             />
+          </>
+        )}
+
+        {selectedContract?.id === ContractIds.projectPolitics && (
+          <>
+            <span style={{ fontWeight: "bold" }}>Servicios</span>
+            <SelectServiceList />
           </>
         )}
 

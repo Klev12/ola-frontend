@@ -57,6 +57,12 @@ const DASHBOARD_ROUTES = {
   get GLOBAL_SERVICES() {
     return `${this.GLOBAL}/services`;
   },
+  get GLOBAL_SERVICE_OPTIONS() {
+    return `${this.GLOBAL}/services/:serviceId/options`;
+  },
+  GLOBAL_SERVICE_OPTIONS_ID(serviceId: number) {
+    return `${this.GLOBAL}/services/${serviceId}/options`;
+  },
   get TEAMS() {
     return `${this.ME}/teams`;
   },

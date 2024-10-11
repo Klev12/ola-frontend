@@ -16,6 +16,7 @@ import Dashboard from "../pages/dashboard/Dashboard";
 import Users from "../pages/dashboard/Users";
 import Global from "../pages/dashboard/Global";
 import GlobalServices from "../pages/dashboard/global/GlobalServices";
+import GlobalServiceOptions from "../pages/dashboard/global/GlobalServiceOptions";
 
 const DashBoardRouter = (
   <Route path={ROUTES.DASHBOARD.ME} element={<Dashboard />}>
@@ -53,6 +54,10 @@ const DashBoardRouter = (
       <Route
         path={ROUTES.DASHBOARD.GLOBAL_SERVICES}
         element={<GlobalServices />}
+      />
+      <Route
+        path={ROUTES.DASHBOARD.GLOBAL_SERVICE_OPTIONS}
+        element={<GlobalServiceOptions />}
       />
     </Route>
   </Route>

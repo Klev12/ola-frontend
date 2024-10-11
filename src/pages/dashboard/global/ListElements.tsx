@@ -10,7 +10,7 @@ interface ListElementsProps<T extends object> {
   elements: T[];
   title: (element: T) => ReactNode;
   description: (element: T) => ReactNode;
-  formTemplate: (selectedElement: T) => ReactNode;
+  formTemplate: (selectedElement?: T) => ReactNode;
   onSubmit?: (data: T, selectedItem: T) => void;
   closeMenu?: boolean;
   loading?: boolean;

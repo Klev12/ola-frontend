@@ -81,6 +81,13 @@ const Global = () => {
         navigate(ROUTES.DASHBOARD.GLOBAL_COURSES);
       },
     },
+    {
+      label: "Servicios",
+      icon: "pi pi-plus",
+      command: () => {
+        navigate(ROUTES.DASHBOARD.GLOBAL_SERVICES);
+      },
+    },
   ];
 
   return (
