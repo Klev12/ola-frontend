@@ -132,12 +132,16 @@ const SalesList = ({
               </div>
               <div>
                 <DataTable
-                  style={{ maxWidth: "300px" }}
+                  style={{ maxWidth: "350px" }}
                   value={[
-                    { amount: sale.saleAmount, discount: sale.saleDiscount },
+                    {
+                      amount: sale.saleAmount,
+                      discount: sale.saleDiscount,
+                      totalToPay: sale.saleTotalToPay,
+                    },
                   ]}
                 >
-                  <Column header="Monto" field="amount" />
+                  <Column header="Total a paga" field="totalToPay" />
                   <Column
                     header="Descuento %"
                     body={(data) => {
@@ -150,13 +154,15 @@ const SalesList = ({
                       return (
                         <>
                           {(
-                            parseFloat(data.amount) -
-                            parseFloat(data.amount) * parseFloat(data.discount)
+                            parseFloat(data.totalToPay) -
+                            parseFloat(data.totalToPay) *
+                              parseFloat(data.discount)
                           ).toFixed(2)}
                         </>
                       );
                     }}
                   />
+                  <Column header="Monto" field="amount" />
                 </DataTable>
               </div>
               <div>

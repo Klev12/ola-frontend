@@ -6,6 +6,7 @@ export enum ContractIds {
   userForm = 1,
   projectPolitics,
   projectHub,
+  ola = 2,
 }
 
 export const ENV = {

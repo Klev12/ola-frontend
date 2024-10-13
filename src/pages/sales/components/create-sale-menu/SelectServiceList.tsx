@@ -1,13 +1,15 @@
 import { useQuery } from "react-query";
-import serviceHandler from "../../../services/service-handler";
+import serviceHandler from "../../../../services/service-handler";
 import { Dropdown } from "primereact/dropdown";
-import { useEffect, useMemo, useState } from "react";
-import serviceOptionHandler from "../../../services/service-option-handler";
+import { useContext, useEffect, useMemo, useState } from "react";
+import serviceOptionHandler from "../../../../services/service-option-handler";
 import {
   ServiceGetDto,
   ServiceOptionGetDto,
   ServiceType,
-} from "../../../models/service";
+} from "../../../../models/service";
+import { Button } from "primereact/button";
+import { SaleMenuContext } from "./CreateSaleMenu";
 
 interface SelectedService {
   service?: ServiceGetDto;
@@ -19,8 +21,14 @@ interface SelectServiceListProps {
 }
 
 const SelectServiceList = ({ onSelect }: SelectServiceListProps) => {
-  const [selectedServiceId, setSelectedServiceId] = useState<number>(0);
-  const [selectedOptionId, setSelectedOptionId] = useState(0);
+  const { setSale, stepper, sale } = useContext(SaleMenuContext);
+
+  const [selectedServiceId, setSelectedServiceId] = useState<
+    number | undefined
+  >(sale?.service?.id);
+  const [selectedOptionId, setSelectedOptionId] = useState<number | undefined>(
+    sale?.serviceOption?.id
+  );
 
   const { data: servicesData, isRefetching: isRefetchingServices } = useQuery({
     queryFn: () =>
@@ -28,6 +36,7 @@ const SelectServiceList = ({ onSelect }: SelectServiceListProps) => {
         .findAll({ options: { limit: 20, page: 1 } })
         .then((res) => res.data),
     queryKey: ["services"],
+    refetchOnWindowFocus: false,
   });
 
   const { data: serviceOptionsData, isRefetching: isRefetchingOptions } =
@@ -40,6 +49,7 @@ const SelectServiceList = ({ onSelect }: SelectServiceListProps) => {
           })
           .then((res) => res.data),
       queryKey: ["service-options", selectedServiceId],
+      refetchOnWindowFocus: false,
     });
 
   const selectedService = useMemo(() => {
@@ -61,8 +71,21 @@ const SelectServiceList = ({ onSelect }: SelectServiceListProps) => {
     }
   }, [selectedOption, selectedService, onSelect]);
 
+  const service = useMemo(() => {
+    return servicesData?.services.find(
+      (service) => service.id === selectedServiceId
+    );
+  }, [servicesData, selectedServiceId]);
+
+  const serviceOption = useMemo(() => {
+    return serviceOptionsData?.serviceOptions.find(
+      (serviceOption) => serviceOption.id === selectedOptionId
+    );
+  }, [serviceOptionsData, selectedOptionId]);
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+      <h3>Servicios</h3>
       <Dropdown
         required
         loading={isRefetchingServices || isRefetchingOptions}
@@ -74,6 +97,7 @@ const SelectServiceList = ({ onSelect }: SelectServiceListProps) => {
         }))}
         onChange={(e) => {
           setSelectedServiceId(e.value);
+          setSelectedOptionId(undefined);
         }}
       />
       <div
@@ -90,7 +114,9 @@ const SelectServiceList = ({ onSelect }: SelectServiceListProps) => {
         <Dropdown
           required
           loading={isRefetchingServices || isRefetchingOptions}
-          disabled={isRefetchingServices || isRefetchingOptions}
+          disabled={
+            isRefetchingServices || isRefetchingOptions || !selectedServiceId
+          }
           value={selectedOptionId}
           options={serviceOptionsData?.serviceOptions.map((option) => ({
             value: option.id,
@@ -101,6 +127,15 @@ const SelectServiceList = ({ onSelect }: SelectServiceListProps) => {
           }}
         />
       </div>
+      <Button
+        label="Siguiente"
+        style={{ width: "fit-content" }}
+        disabled={!selectedOptionId || !selectedServiceId}
+        onClick={() => {
+          setSale({ ...sale, service, serviceOption });
+          stepper?.current?.nextCallback();
+        }}
+      />
     </div>
   );
 };

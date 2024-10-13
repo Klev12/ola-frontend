@@ -146,6 +146,7 @@ const FileUploader = ({
       />
       {type !== "canvas-draw" && type !== "camara" && (
         <Button
+          type="button"
           label="Elegir archivos"
           onClick={() => {
             fileInputRef.current?.click();

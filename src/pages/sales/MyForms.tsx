@@ -8,7 +8,7 @@ import SalesList from "./components/SalesList";
 import saleService from "../../services/sale-service";
 import { Dialog } from "primereact/dialog";
 import useToggle from "../../hooks/useToggle";
-import CreateSaleMenu from "./components/CreateSaleMenu";
+import CreateSaleMenu from "./components/create-sale-menu/CreateSaleMenu";
 
 const MyForms = () => {
   const showDialog = useToggle();

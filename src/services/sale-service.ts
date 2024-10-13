@@ -32,6 +32,21 @@ export class SaleService {
   }) {
     return axios.post(`${ENV.BACKEND_ROUTE}/forms/sales/course`, sale);
   }
+
+  createService(sale: {
+    commercialCost: SaleCommercialCost;
+    membership: SaleMemberShip;
+    observations?: string;
+    totalToPay: number;
+    amount: number;
+    discount: number;
+    contractId: number;
+    paymentMethod: SalePaymentMethod;
+    serviceId: number;
+    serviceOptionId: number;
+  }) {
+    return axios.post(`${ENV.BACKEND_ROUTE}/forms/sales/service`, sale);
+  }
 }
 
 const saleService = new SaleService();
