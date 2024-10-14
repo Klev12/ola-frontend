@@ -1,5 +1,6 @@
 import { ContractType } from "./contract";
 import { FormGetDto } from "./forms";
+import { ServiceType } from "./service";
 
 export interface SaleGetDto extends FormGetDto {
   id: number;
@@ -25,6 +26,10 @@ export interface SaleGetDto extends FormGetDto {
   commercialCost?: SaleCommercialCost | null;
   membership?: SaleMemberShip | null;
   observations?: string;
+  courseTitle?: string | null;
+  serviceTitle?: string | null;
+  serviceType?: ServiceType | null;
+  serviceOptionTitle?: string | null;
 }
 
 export interface SalePostDto {

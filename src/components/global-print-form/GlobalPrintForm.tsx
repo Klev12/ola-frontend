@@ -19,7 +19,7 @@ interface GlobalPrintFormProps {
   loading?: boolean;
   editMode?: boolean;
   customHeaderTemplate?: (options: CustomHeaderTemplateProps) => ReactNode;
-  type?: "user-form" | "sales-form";
+  type?: "user-form" | "sales-form" | "hub-form";
   formFooter?: ReactNode;
   footer?: ReactNode;
   showSubmitButton?: boolean;
@@ -32,7 +32,7 @@ interface GlobalFormContext {
   setFormDetails: (formDetails: FormDetails) => void;
   editionMode?: boolean;
   setEditionMode: (mode: boolean) => void;
-  type?: "user-form" | "sales-form";
+  type?: "user-form" | "sales-form" | "hub-form";
   loading: boolean;
 }
 

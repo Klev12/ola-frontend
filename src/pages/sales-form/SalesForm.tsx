@@ -85,7 +85,11 @@ const SalesForm = () => {
       {!isFormExpire && (
         <GlobalPrintForm
           defaulEditionMode={defaulEditionMode}
-          type="sales-form"
+          type={
+            formInfo?.contract_id === ContractIds.projectHub
+              ? "hub-form"
+              : "sales-form"
+          }
           customHeaderTemplate={({ pdfButton, goBackButton }) => (
             <>
               <div

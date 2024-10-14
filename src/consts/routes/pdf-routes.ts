@@ -18,6 +18,12 @@ const PDF_ROUTES = {
   TEST_ID(id: number) {
     return `${this.ME}/test/${id}`;
   },
+  get HUB() {
+    return `${this.ME}/hub/:id`;
+  },
+  HUB_ID(id: number) {
+    return `${this.ME}/hub/${id}`;
+  },
 };
 
 export default PDF_ROUTES;

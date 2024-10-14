@@ -28,6 +28,12 @@ const HeaderFormPrint = ({ customHeaderTemplate }: HeaderFormPrintProps) => {
 
   const toast = useRef<Toast>(null);
 
+  const linkBasedOnType = {
+    ["user-form"]: ROUTES.PDF.USER_ID(formInfo?.user_id as number),
+    ["sales-form"]: ROUTES.PDF.PDF_ID(formInfo?.id as number),
+    ["hub-form"]: ROUTES.PDF.HUB_ID(formInfo?.id as number),
+  };
+
   const { mutate: verifyFormMutate, isLoading: verifyingForm } = useMutation(
     verifyForm,
     {
@@ -89,11 +95,7 @@ const HeaderFormPrint = ({ customHeaderTemplate }: HeaderFormPrintProps) => {
       <a
         style={{ display: "flex", alignItems: "center", gap: "10px" }}
         target="_blank"
-        href={
-          type === "user-form"
-            ? ROUTES.PDF.USER_ID(formInfo?.user_id as number)
-            : ROUTES.PDF.PDF_ID(formInfo?.id as number)
-        }
+        href={linkBasedOnType[type ?? "user-form"]}
       >
         <i className={PrimeIcons.EYE}></i>
         <span>pdf</span>

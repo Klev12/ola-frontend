@@ -6,7 +6,6 @@ const formatDateEs = (date: string) => {
       day: "2-digit",
       month: "long",
       year: "numeric",
-      timeZone: "UTC",
     })
     .replace("de", "del mes de");
 };

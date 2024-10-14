@@ -28,3 +28,15 @@ export function getAllContracts({ type }: { type?: ContractType }) {
 export function patchContract(contract: ContractPatchDto) {
   return axios.patch(`${ENV.BACKEND_ROUTE}/contracts`, contract);
 }
+
+export class ContractService {
+  findById({ contractId }: { contractId: number }) {
+    return axios.get<{ contract: ContractGetDto }>(
+      `${ENV.BACKEND_ROUTE}/contracts/${contractId}`
+    );
+  }
+}
+
+const contractService = new ContractService();
+
+export default contractService;

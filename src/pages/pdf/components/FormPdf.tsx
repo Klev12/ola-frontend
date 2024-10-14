@@ -9,16 +9,39 @@ import { UserGetDto } from "../../../models/user";
 import SalesFormTemplate from "./SalesFormTemplate";
 import { TestGetDto } from "../../../models/test";
 import TestFormTemplate from "./TestFormTemplate";
+import { SaleGetDto } from "../../../models/sale";
+import HubFormTemplate from "./HubFormTemplate";
+import { ContractGetDto } from "../../../models/contract";
+import { CourseGetDto } from "../../../models/course";
+import { ServiceGetDto } from "../../../models/service";
+import { TransactionGetDto } from "../../../models/transaction";
+
+export interface FormMetadata {
+  contract?: ContractGetDto;
+  course?: CourseGetDto;
+  service?: ServiceGetDto;
+  transactions?: TransactionGetDto[];
+}
 
 interface FormPdfProps {
   formInfo?: FormGetDto;
   test?: TestGetDto;
   formScheme?: FormScheme;
   user?: UserGetDto;
-  type: "user-form" | "normal-form" | "sales-form" | "test-form";
+  type: "user-form" | "normal-form" | "sales-form" | "test-form" | "hub-form";
+  sale?: SaleGetDto;
+  metadata?: FormMetadata;
 }
 
-const FormPdf = ({ formInfo, formScheme, user, type, test }: FormPdfProps) => {
+const FormPdf = ({
+  formInfo,
+  formScheme,
+  user,
+  type,
+  test,
+  sale,
+  metadata,
+}: FormPdfProps) => {
   const [pdfUrl, setPdfUrl] = useState<string | undefined>(undefined);
   const [html, setHtml] = useState("");
   const { mutate: createPdf } = useMutation(pdfService.create, {
@@ -58,6 +81,16 @@ const FormPdf = ({ formInfo, formScheme, user, type, test }: FormPdfProps) => {
         {type === "test-form" && (
           <TestFormTemplate
             test={test}
+            formScheme={formScheme}
+            onLoadHtml={(html) => {
+              setHtml(html);
+            }}
+          />
+        )}
+        {type === "hub-form" && (
+          <HubFormTemplate
+            saleInfo={sale}
+            metadata={metadata}
             formScheme={formScheme}
             onLoadHtml={(html) => {
               setHtml(html);
