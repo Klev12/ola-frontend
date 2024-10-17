@@ -7,7 +7,7 @@ import contractService from "../../services/contract-service";
 const HubFormPdf = () => {
   const { id } = useParams();
 
-  const { data: data, isError } = useQuery({
+  const { data: data, isLoading } = useQuery({
     queryFn: () =>
       saleService.findById({ formId: Number(id) }).then(async (res) => {
         const data = res.data;
@@ -30,7 +30,7 @@ const HubFormPdf = () => {
           metadata={{ contract: data?.contract }}
         />
       )}
-      {!isError && <div>Error al cargar el formulario</div>}
+      {!data && !isLoading && <div>Error al cargar el formulario</div>}
     </div>
   );
 };

@@ -14,6 +14,10 @@ import {
 import FileUploader from "../../../../components/FileUploader";
 import { InputTextarea } from "primereact/inputtextarea";
 import BackButton from "./BackButton";
+import {
+  translatedCommercialCost,
+  translatedMembership,
+} from "../../../../consts/translations/sale-translations";
 
 const CreateSaleAndProof = () => {
   const { sale, onQuerySuccess, setSale } = useContext(SaleMenuContext);
@@ -51,7 +55,17 @@ const CreateSaleAndProof = () => {
           </>
         )}
         <h3>Costo comercial</h3>
-        <div>{sale?.commercialCost}</div>
+        <div>
+          {
+            translatedCommercialCost[
+              sale?.commercialCost ?? SaleCommercialCost.commercial
+            ]
+          }
+        </div>
+        <h3>Membresía</h3>
+        <div>
+          {translatedMembership[sale?.membership ?? SaleMemberShip.none]}
+        </div>
         <h3>Método de pago</h3>
         <div>{sale?.paymentMethod}</div>
         <h3>Datos de pago</h3>
@@ -107,10 +121,11 @@ const CreateSaleAndProof = () => {
                 amount: sale.amount as number,
                 commercialCost: sale.commercialCost as SaleCommercialCost,
                 contractId: sale.contract.id as number,
-                membership: SaleMemberShip.month,
+                membership: sale.membership as SaleMemberShip,
                 paymentMethod: sale.paymentMethod as SalePaymentMethod,
                 serviceId: sale.service?.id as number,
                 serviceOptionId: sale.serviceOption?.id as number,
+                observations: sale.observations,
               });
             } else {
               createSaleCourse({
@@ -119,9 +134,10 @@ const CreateSaleAndProof = () => {
                 amount: sale?.amount as number,
                 commercialCost: sale?.commercialCost as SaleCommercialCost,
                 contractId: sale?.contract?.id as number,
-                membership: SaleMemberShip.month,
+                membership: sale?.membership as SaleMemberShip,
                 paymentMethod: sale?.paymentMethod as SalePaymentMethod,
                 courseId: sale?.course?.id as number,
+                observations: sale?.observations,
               });
             }
           }}
@@ -141,7 +157,7 @@ const CreateSaleAndProof = () => {
               amount: sale?.amount as number,
               commercialCost: sale?.commercialCost as SaleCommercialCost,
               contractId: sale?.contract?.id as number,
-              membership: SaleMemberShip.month,
+              membership: sale?.membership,
               paymentMethod: sale?.paymentMethod as SalePaymentMethod,
               courseId: sale?.course?.id as number,
               serviceId: sale?.service?.id as number,

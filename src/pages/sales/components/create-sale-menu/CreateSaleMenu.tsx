@@ -1,5 +1,9 @@
 import { createContext, RefObject, useRef, useState } from "react";
-import { SaleCommercialCost, SalePaymentMethod } from "../../../../models/sale";
+import {
+  SaleCommercialCost,
+  SaleMemberShip,
+  SalePaymentMethod,
+} from "../../../../models/sale";
 
 import { Stepper, StepperRefAttributes } from "primereact/stepper";
 import { StepperPanel } from "primereact/stepperpanel";
@@ -26,6 +30,7 @@ interface SaleData {
   serviceOption?: ServiceOptionGetDto;
   commercialCost: SaleCommercialCost;
   paymentMethod: SalePaymentMethod;
+  membership: SaleMemberShip;
 }
 
 interface SaleMenuContextProps {

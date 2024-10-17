@@ -11,6 +11,7 @@ import formatDate from "../../utils/format-date";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import SelectCourse from "./components/SelectCourse";
 import { FormHashAccess } from "../../models/forms";
+import SelectService from "./components/SelectService";
 
 const SalesForm = () => {
   const {
@@ -163,6 +164,7 @@ const SalesForm = () => {
                 {formInfo?.contract_id === ContractIds.projectHub && (
                   <SelectCourse />
                 )}
+                {formInfo?.contract_id === ContractIds.ola && <SelectService />}
               </div>
               <SelectContractType formId={formInfo?.id as number} />
             </div>

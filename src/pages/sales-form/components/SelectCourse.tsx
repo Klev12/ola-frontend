@@ -15,7 +15,7 @@ const SelectCourse = () => {
 
   const currentCourse = useMemo(() => {
     return coursesData?.courses.find(
-      (course) => course.id === formInfo?.form_course.courseId
+      (course) => course.id === formInfo?.form_course?.courseId
     );
   }, [coursesData, formInfo]);
 

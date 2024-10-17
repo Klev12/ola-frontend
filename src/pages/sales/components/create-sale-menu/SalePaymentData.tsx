@@ -1,10 +1,15 @@
 import { InputNumber } from "primereact/inputnumber";
-import { SaleCommercialCost, SalePaymentMethod } from "../../../../models/sale";
+import {
+  SaleCommercialCost,
+  SaleMemberShip,
+  SalePaymentMethod,
+} from "../../../../models/sale";
 import { Dropdown } from "primereact/dropdown";
 import { useContext, useEffect, useState } from "react";
 import { Button } from "primereact/button";
 import { SaleMenuContext } from "./CreateSaleMenu";
 import BackButton from "./BackButton";
+import { translatedMembership } from "../../../../consts/translations/sale-translations";
 
 const translatedPaymentMethodOptions: {
   [key in SalePaymentMethod]: { label: string; value: string };
@@ -54,6 +59,9 @@ const SalePaymentData = () => {
   const [commercialCost, setCommercialCost] = useState<SaleCommercialCost>(
     sale?.commercialCost ?? SaleCommercialCost.commercial
   );
+  const [membership, setMembership] = useState<SaleMemberShip>(
+    sale?.membership ?? SaleMemberShip.none
+  );
 
   const [totalToPay, setTotalToPay] = useState(sale?.totalToPay ?? 1);
   const [discount, setDiscount] = useState(sale?.discount ?? 0);
@@ -98,6 +106,7 @@ const SalePaymentData = () => {
             commercialCost,
             paymentMethod,
             discount,
+            membership,
           });
           stepper?.current?.nextCallback();
         }}
@@ -111,6 +120,20 @@ const SalePaymentData = () => {
           options={Object.values(translatedPaymentMethodOptions)}
           onChange={(e) => {
             setPaymentMethod(e.value);
+          }}
+        />
+        <label style={{ fontWeight: "bold" }} htmlFor="">
+          Membresía
+        </label>
+        <Dropdown
+          name="paymentMethod"
+          value={membership}
+          options={Object.entries(translatedMembership).map(([key, value]) => ({
+            value: key,
+            label: value,
+          }))}
+          onChange={(e) => {
+            setMembership(e.value);
           }}
         />
         <label style={{ fontWeight: "bold" }} htmlFor="">
