@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef } from "react";
 import { UserGetDto } from "../../../models/user";
 import { FormScheme } from "../../../models/form-scheme";
-import { FormGetDto } from "../../../models/forms";
 import useFormDetails from "../../../hooks/useFormDetails";
 import HeaderDate from "./sales/HeaderDate";
 import BoxTableSales from "./sales/BoxTableSales";
@@ -11,27 +10,40 @@ import FooterSignatureSalesStatic from "../../../components/term-and-conditions/
 import { useQuery } from "react-query";
 import { findUserById } from "../../../services/user-service";
 import replaceKeyWords from "../../../utils/replace-key-words";
+import {
+  SaleCommercialCost,
+  SaleGetDto,
+  SaleMemberShip,
+} from "../../../models/sale";
+import { FormMetadata } from "./FormPdf";
+import { ServiceType } from "../../../models/service";
+import {
+  translatedCommercialCost,
+  translatedMembership,
+} from "../../../consts/translations/sale-translations";
 
 interface SalesFormTemplateProps {
   onLoadHtml?: (html: string) => void;
-  formInfo?: FormGetDto;
+  saleInfo?: SaleGetDto;
   formScheme?: FormScheme;
   authenticatedUser?: UserGetDto;
+  metadata?: FormMetadata;
 }
 
 const SalesFormTemplate = ({
   onLoadHtml,
-  formInfo,
+  saleInfo,
   formScheme,
+  metadata,
 }: SalesFormTemplateProps) => {
   const doc = useRef<HTMLDivElement>(null);
 
-  const formDetails = useFormDetails({ formInfo, formScheme });
+  const formDetails = useFormDetails({ formInfo: saleInfo, formScheme });
 
   const { data: userData } = useQuery({
     queryFn: () =>
-      findUserById(formInfo?.user_id as number).then((res) => res.data),
-    queryKey: ["user-data", formInfo?.user_id],
+      findUserById(saleInfo?.user_id as number).then((res) => res.data),
+    queryKey: ["user-data", saleInfo?.user_id],
   });
 
   useEffect(() => {
@@ -67,20 +79,17 @@ const SalesFormTemplate = ({
           alignItems: "center",
         }}
       >
-        <div>
-          <div
-            style={{
-              position: "relative",
-              left: "250px",
-              padding: "5px 10px",
-              border: "1px solid var(--main-color)",
-            }}
-          >
-            <span style={{ fontWeight: "bold" }}>Contrato No.</span>{" "}
-            <span style={{ color: "red" }}>{formInfo?.code}</span>
-          </div>
+        <div
+          style={{ position: "absolute", left: 0, top: 0, fontWeight: "bold" }}
+        >
+          Anexo 1
         </div>
-        <h2>Información referencial</h2>
+        <h2>Planilla de registro</h2>
+
+        <div>
+          <span style={{ fontWeight: "bold" }}>Consultor:</span>{" "}
+          <span>{saleInfo?.userCode}</span>
+        </div>
         <div
           style={{
             display: "grid",
@@ -138,18 +147,37 @@ const SalesFormTemplate = ({
         </div>
         <div>
           <div style={{ color: "var(--main-color)", fontWeight: "bold" }}>
-            <h4>Inversión {formInfo?.contract?.title} más Iva.</h4>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span>Proyecto</span>
-              <span>${formInfo?.contract?.project} USD</span>
+              <span>Tipo de servicio</span>
+              <span>{saleInfo?.serviceTitle}</span>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span>Mensualidades 9, de</span>
-              <span>${formInfo?.contract?.monthly_payment}</span>
+              <span>
+                {saleInfo?.serviceType === ServiceType.normal
+                  ? "Subservicio"
+                  : "Plan"}
+              </span>
+              <span>{saleInfo?.serviceOptionTitle}</span>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span>Suscripción</span>
-              <span>${formInfo?.contract?.suscription}</span>
+              <span>Membresía</span>
+              <span>
+                {translatedMembership[saleInfo?.membership as SaleMemberShip]}
+              </span>
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <span>Valor normal</span>
+              <span>${saleInfo?.saleTotalToPay}</span>
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <span>Modalidad</span>
+              <span>
+                {
+                  translatedCommercialCost[
+                    saleInfo?.commercialCost as SaleCommercialCost
+                  ]
+                }
+              </span>
             </div>
           </div>
           <div
@@ -170,7 +198,7 @@ const SalesFormTemplate = ({
             fontWeight: "bold",
             backgroundColor: "var(--main-color)",
             display: "grid",
-            gridTemplateColumns: "repeat(5, 1fr)",
+            gridTemplateColumns: "repeat(4, 1fr)",
             color: "white",
             fontSize: "12px",
           }}
@@ -193,7 +221,18 @@ const SalesFormTemplate = ({
               borderCollapse: "collapse",
             }}
           >
-            Valor Suscripción
+            Descuento
+          </div>
+
+          <div
+            style={{
+              textAlign: "center",
+              border: "1px solid black",
+              padding: "5px 0",
+              borderCollapse: "collapse",
+            }}
+          >
+            Total
           </div>
           <div
             style={{
@@ -203,33 +242,13 @@ const SalesFormTemplate = ({
               borderCollapse: "collapse",
             }}
           >
-            N° Cuotas
-          </div>
-          <div
-            style={{
-              textAlign: "center",
-              border: "1px solid black",
-              padding: "5px 0",
-              borderCollapse: "collapse",
-            }}
-          >
-            Valor Mensual
-          </div>
-          <div
-            style={{
-              textAlign: "center",
-              border: "1px solid black",
-              padding: "5px 0",
-              borderCollapse: "collapse",
-            }}
-          >
-            Saldo para pagar
+            Monto
           </div>
         </div>
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(5, 1fr)",
+            gridTemplateColumns: "repeat(4, 1fr)",
 
             fontSize: "12px",
           }}
@@ -242,7 +261,7 @@ const SalesFormTemplate = ({
               borderCollapse: "collapse",
             }}
           >
-            {formInfo?.payment?.total}
+            {saleInfo?.saleTotalToPay}
           </div>
           <div
             style={{
@@ -252,7 +271,7 @@ const SalesFormTemplate = ({
               borderCollapse: "collapse",
             }}
           >
-            {formInfo?.payment?.subscription_value}
+            {saleInfo?.saleDiscount && saleInfo.saleDiscount * 100}%
           </div>
           <div
             style={{
@@ -262,7 +281,10 @@ const SalesFormTemplate = ({
               borderCollapse: "collapse",
             }}
           >
-            {formInfo?.payment?.number_fees}
+            {saleInfo?.saleTotalToPay
+              ? saleInfo.saleTotalToPay -
+                saleInfo.saleTotalToPay * (saleInfo.saleDiscount || 0)
+              : 0}{" "}
           </div>
           <div
             style={{
@@ -272,17 +294,7 @@ const SalesFormTemplate = ({
               borderCollapse: "collapse",
             }}
           >
-            {formInfo?.payment?.month_value}
-          </div>
-          <div
-            style={{
-              textAlign: "center",
-              border: "1px solid black",
-              padding: "5px 0",
-              borderCollapse: "collapse",
-            }}
-          >
-            {formInfo?.payment?.remaining_total}
+            {saleInfo?.saleAmount}
           </div>
         </div>
       </div>
@@ -314,8 +326,8 @@ const SalesFormTemplate = ({
         <BoxTableSales fields={allFields.slice(18, 20)} />
       </div>
       <div style={{ breakInside: "avoid", pageBreakBefore: "always" }}>
-        <h2>Transacción</h2>
-        {formInfo?.transactions.map((transaction) => {
+        <h2>Factura</h2>
+        {metadata?.transactions?.map((transaction) => {
           return (
             <div key={transaction.id} style={{ width: "400px" }}>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -351,7 +363,7 @@ const SalesFormTemplate = ({
       <div style={{ breakInside: "avoid" }}>
         <h2>
           {replaceKeyWords({
-            text: formInfo?.contract?.title || "",
+            text: metadata?.contract?.title || "",
             formDetails,
           })}
         </h2>
@@ -359,7 +371,7 @@ const SalesFormTemplate = ({
         <div
           dangerouslySetInnerHTML={{
             __html: replaceKeyWords({
-              text: formInfo?.contract.html || "",
+              text: metadata?.contract?.html || "",
               formDetails,
             }),
           }}
@@ -367,24 +379,24 @@ const SalesFormTemplate = ({
 
         <FooterSignatureSalesStatic
           formDetails={formDetails}
-          formInfo={formInfo}
+          formInfo={saleInfo}
           sellerDetails={userData?.user}
           sellerMetadata={userData?.metadata}
         />
       </div>
       {/* <div style={{ breakInside: "avoid" }}>
-        <h2>{formInfo?.term_and_condition?.title}</h2>
+        <h2>{saleInfo?.term_and_condition?.title}</h2>
         <div
           dangerouslySetInnerHTML={{
             __html: replaceKeyWords({
-              text: formInfo?.term_and_condition.html || "",
+              text: saleInfo?.term_and_condition.html || "",
               formDetails,
             }),
           }}
         ></div>
         <FooterSignatureSalesStatic
           formDetails={formDetails}
-          formInfo={formInfo}
+          saleInfo={saleInfo}
           sellerDetails={userData?.user}
           sellerMetadata={userData?.metadata}
         />

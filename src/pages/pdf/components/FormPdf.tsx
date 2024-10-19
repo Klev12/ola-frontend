@@ -70,12 +70,13 @@ const FormPdf = ({
         )}
         {type === "sales-form" && (
           <SalesFormTemplate
-            formInfo={formInfo}
+            saleInfo={sale}
             formScheme={formScheme}
             authenticatedUser={user}
             onLoadHtml={(html) => {
               setHtml(html);
             }}
+            metadata={metadata}
           />
         )}
         {type === "test-form" && (

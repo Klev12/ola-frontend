@@ -67,7 +67,11 @@ const HubFormTemplate = ({
           alignItems: "center",
         }}
       >
-        <h2>Información referencial</h2>
+        <h2>Planilla de registro</h2>
+        <div>
+          <span style={{ fontWeight: "bold" }}>Consultor:</span>{" "}
+          <span>{saleInfo?.userCode}</span>
+        </div>
         <div
           style={{
             display: "grid",

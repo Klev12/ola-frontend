@@ -9,6 +9,7 @@ import saleService from "../../services/sale-service";
 import { Dialog } from "primereact/dialog";
 import useToggle from "../../hooks/useToggle";
 import CreateSaleMenu from "./components/create-sale-menu/CreateSaleMenu";
+import { SalePaymentStatus } from "../../models/sale";
 
 const MyForms = () => {
   const showDialog = useToggle();
@@ -20,7 +21,15 @@ const MyForms = () => {
 
   const { data: formsData, refetch } = useQuery({
     queryFn: () =>
-      saleService.findAll({ page: currentPage + 1 }).then((res) => res.data),
+      saleService
+        .findAll({
+          page: currentPage + 1,
+          paymentStatus: [
+            SalePaymentStatus.pending,
+            SalePaymentStatus.checking,
+          ],
+        })
+        .then((res) => res.data),
     queryKey: ["forms", currentPage],
     refetchOnWindowFocus: false,
   });

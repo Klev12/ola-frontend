@@ -22,6 +22,7 @@ interface CreateSaleMenuProps {
 interface SaleData {
   contract?: ContractGetDto;
   totalToPay: number;
+  monthCount: number;
   discount: number;
   amount: number;
   observations?: string;

@@ -6,13 +6,28 @@ import {
   SaleGetDto,
   SaleMemberShip,
   SalePaymentMethod,
+  SalePaymentStatus,
   SalePostDto,
 } from "../models/sale";
+import generateQueryArray from "../utils/query/generate-query-array";
 
 export class SaleService {
-  findAll({ page = 1, limit = 10 }: { page?: number; limit?: number }) {
+  findAll({
+    page = 1,
+    limit = 10,
+    paymentStatus,
+  }: {
+    page?: number;
+    limit?: number;
+    paymentStatus?: SalePaymentStatus[];
+  }) {
+    const paymentStatusQuery = generateQueryArray({
+      name: "paymentStatus",
+      values: paymentStatus || [],
+    });
+
     return axios.get<{ count: number; forms: SaleGetDto[] }>(
-      `${ENV.BACKEND_ROUTE}/forms/sales?page=${page}&&limit=${limit}`
+      `${ENV.BACKEND_ROUTE}/forms/sales?page=${page}&&limit=${limit}&&${paymentStatusQuery}`
     );
   }
 

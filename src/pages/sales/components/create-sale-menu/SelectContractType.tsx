@@ -8,7 +8,7 @@ import { SelectButton } from "primereact/selectbutton";
 import { ScrollPanel } from "primereact/scrollpanel";
 
 const SelectContractType = () => {
-  const { stepper, setSale, sale } = useContext(SaleMenuContext);
+  const { stepper, setSale } = useContext(SaleMenuContext);
 
   const [selectedContractId, setSelectedContractId] = useState(0);
 
@@ -52,7 +52,7 @@ const SelectContractType = () => {
         disabled={!contract}
         label="Siguiente"
         onClick={() => {
-          setSale({ ...sale, contract });
+          setSale({ contract });
           stepper?.current?.nextCallback();
         }}
       />

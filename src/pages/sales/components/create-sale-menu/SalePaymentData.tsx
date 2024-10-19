@@ -5,11 +5,12 @@ import {
   SalePaymentMethod,
 } from "../../../../models/sale";
 import { Dropdown } from "primereact/dropdown";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { Button } from "primereact/button";
 import { SaleMenuContext } from "./CreateSaleMenu";
 import BackButton from "./BackButton";
 import { translatedMembership } from "../../../../consts/translations/sale-translations";
+import { ServiceType } from "../../../../models/service";
 
 const translatedPaymentMethodOptions: {
   [key in SalePaymentMethod]: { label: string; value: string };
@@ -67,6 +68,7 @@ const SalePaymentData = () => {
   const [discount, setDiscount] = useState(sale?.discount ?? 0);
   const [total, setTotal] = useState(sale?.totalToPay ? sale.totalToPay : 1);
   const [amount, setAmount] = useState(sale?.amount ?? 1);
+  const [monthCount, setMonthCount] = useState(sale?.monthCount ?? 0);
 
   useEffect(() => {
     if (discount > 50) {
@@ -90,6 +92,57 @@ const SalePaymentData = () => {
     }
   }, [commercialCost]);
 
+  useEffect(() => {
+    if (sale?.service?.type === ServiceType.plans) {
+      setMembership(SaleMemberShip.month);
+    } else {
+      setMembership(SaleMemberShip.none);
+    }
+  }, [sale]);
+
+  useEffect(() => {
+    if (monthCount > 12 || monthCount < 0) {
+      setMonthCount(12);
+    }
+  }, [monthCount]);
+
+  useEffect(() => {
+    if (membership === SaleMemberShip.none) {
+      setMonthCount(0);
+    }
+  }, [membership]);
+
+  const membershipOptions = useMemo(() => {
+    if (sale?.course) {
+      return Object.entries(translatedMembership)
+        .map(([key, value]) => ({
+          value: key,
+          label: value,
+        }))
+        .filter((option) =>
+          [SaleMemberShip.none, SaleMemberShip.month].includes(
+            option.value as SaleMemberShip
+          )
+        );
+    }
+
+    if (sale?.service?.type === ServiceType.plans) {
+      return Object.entries(translatedMembership)
+        .map(([key, value]) => ({
+          value: key,
+          label: value,
+        }))
+        .filter((option) => option.value !== SaleMemberShip.none);
+    }
+
+    return Object.entries(translatedMembership)
+      .map(([key, value]) => ({
+        value: key,
+        label: value,
+      }))
+      .filter((option) => option.value === SaleMemberShip.none);
+  }, [sale]);
+
   return (
     <div>
       <BackButton />
@@ -107,6 +160,7 @@ const SalePaymentData = () => {
             paymentMethod,
             discount,
             membership,
+            monthCount,
           });
           stepper?.current?.nextCallback();
         }}
@@ -126,16 +180,29 @@ const SalePaymentData = () => {
           Membresía
         </label>
         <Dropdown
-          name="paymentMethod"
+          name="membership"
+          required
+          disabled={sale?.service?.type !== ServiceType.plans && !sale?.course}
           value={membership}
-          options={Object.entries(translatedMembership).map(([key, value]) => ({
-            value: key,
-            label: value,
-          }))}
+          options={membershipOptions}
           onChange={(e) => {
             setMembership(e.value);
           }}
         />
+        {sale?.course && membership === SaleMemberShip.month && (
+          <>
+            <label style={{ fontWeight: "bold" }}>Número de meses</label>
+            <InputNumber
+              max={12}
+              min={1}
+              value={monthCount}
+              onChange={(e) => {
+                setMonthCount(e.value ?? 0);
+              }}
+            />
+          </>
+        )}
+
         <label style={{ fontWeight: "bold" }} htmlFor="">
           Costo comercial
         </label>

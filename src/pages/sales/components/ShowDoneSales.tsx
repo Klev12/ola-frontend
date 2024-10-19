@@ -1,4 +1,3 @@
-import { Button } from "primereact/button";
 import {
   DoneSaleGetDto,
   DoneSaleSummaryGetDto,
@@ -11,6 +10,8 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Tag } from "primereact/tag";
 import PaginatorPage from "../../../components/PaginatorPage";
+import ROUTES from "../../../consts/routes";
+import { Link } from "react-router-dom";
 
 interface ShowDoneSalesProps {
   doneSaleSummary: DoneSaleSummaryGetDto;
@@ -41,7 +42,14 @@ const ShowDoneSales = ({ doneSaleSummary }: ShowDoneSalesProps) => {
         <Column header="Código" field="code" />
         <Column
           header="Tipo de formulario"
-          body={(sale: DoneSaleGetDto) => <Tag value={sale.contractTag} />}
+          body={(sale: DoneSaleGetDto) => (
+            <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+              <Tag value={sale.contractTag} />
+              <Link to={`${ROUTES.SALES.FORM_EDITOR_ID(sale.id)}`}>
+                revisar
+              </Link>
+            </div>
+          )}
         />
         <Column header="Transacción ID" field="transactionId" />
         <Column header="Monto de transacción" field="transactionAmount" />
@@ -57,7 +65,7 @@ const ShowDoneSales = ({ doneSaleSummary }: ShowDoneSalesProps) => {
               }
               value={
                 sale.transactionValidity === TransactionValidity.valid
-                  ? "válido"
+                  ? "aprobado"
                   : "inválido"
               }
             />
