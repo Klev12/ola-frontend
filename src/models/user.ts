@@ -15,6 +15,8 @@ export interface UserGetDto {
   collaborators: Collaborator[];
   level?: LevelGetDto;
   createdAt: string;
+  ownTeamId?: number | null;
+  teamId?: number | null;
 }
 
 export interface MetadataUser {

@@ -12,6 +12,7 @@ import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import SelectCourse from "./components/SelectCourse";
 import { FormHashAccess } from "../../models/forms";
 import SelectService from "./components/SelectService";
+import GenerateSignatureLinkButton from "./components/GenerateSignatureLinkButton";
 
 const SalesForm = () => {
   const {
@@ -109,10 +110,7 @@ const SalesForm = () => {
               {!hashMode && (
                 <>
                   {goBackButton}
-                  <Button
-                    label="Subir cambios"
-                    disabled={!isSignatureUploaded || formInfo?.done}
-                  />
+                  <Button label="Subir cambios" disabled={formInfo?.done} />
                   {pdfButton}
                 </>
               )}
@@ -152,11 +150,6 @@ const SalesForm = () => {
                 }
               },
             });
-            // if (!hashMode) {
-            //   submit({ id: formInfo?.id as number, results: data });
-            // } else {
-            //   submitByHash({ id: formInfo?.id as number, results: data, hash });
-            // }
           }}
           formFooter={
             <div style={{ width: "100%", maxWidth: "400px" }}>
@@ -177,34 +170,49 @@ const SalesForm = () => {
 
       {!isFormExpire && (
         <div style={{ padding: "40px" }}>
-          <h2>Firma</h2>
-          <FileUploader
-            disabled={formInfo?.done}
-            additionalPayload={{ formId: formInfo?.id }}
-            defaultFiles={[
-              {
-                id: 1,
-                identifier: formInfo?.signature as string,
-                status: "completado",
-                url: `${ENV.BACKEND_ROUTE}/multimedia/${formInfo?.signature}`,
-              },
-            ]}
-            deleteUrl=""
-            uploadUrl={`${ENV.BACKEND_ROUTE}/forms/signature/${
-              hashMode ? hash : ""
-            }`}
-            onAfterUpload={() => {
-              if (!hashMode) {
-                refetchForm();
-              }
-              setIsSignatureUploaded(true);
-            }}
-            name="signature"
-            showGeneralDelete={false}
-            maxFiles={1}
-            type="canvas-draw"
-            showSpecificDelete={false}
-          />
+          {hashMode ? (
+            <>
+              <h2>Firma</h2>
+              <FileUploader
+                disabled={formInfo?.done}
+                additionalPayload={{ formId: formInfo?.id }}
+                defaultFiles={[
+                  {
+                    id: 1,
+                    identifier: formInfo?.signature as string,
+                    status: "completado",
+                    url: `${ENV.BACKEND_ROUTE}/multimedia/${formInfo?.signature}`,
+                  },
+                ]}
+                deleteUrl=""
+                uploadUrl={`${ENV.BACKEND_ROUTE}/forms/signature/${
+                  hashMode ? hash : ""
+                }`}
+                onAfterUpload={() => {
+                  if (!hashMode) {
+                    refetchForm();
+                  }
+                  setIsSignatureUploaded(true);
+                }}
+                name="signature"
+                showGeneralDelete={false}
+                maxFiles={1}
+                type="canvas-draw"
+                showSpecificDelete={false}
+              />
+            </>
+          ) : (
+            <>
+              <GenerateSignatureLinkButton />
+            </>
+          )}
+          {formInfo?.signature && (
+            <img
+              about="signature"
+              width={200}
+              src={`${ENV.BACKEND_ROUTE}/multimedia/${formInfo.signature}`}
+            ></img>
+          )}
           <h2>Imágenes de cédula</h2>
           <FileUploader
             disabled={formInfo?.done}

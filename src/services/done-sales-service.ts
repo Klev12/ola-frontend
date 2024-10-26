@@ -13,7 +13,7 @@ export class DoneSaleService {
     month?: number;
     year?: number;
   }) {
-    let api = `${ENV.BACKEND_ROUTE}/forms/done-sales?page=${options.page}&&limit=${options.limit}`;
+    let api = `${ENV.BACKEND_ROUTE}/done-sales?page=${options.page}&&limit=${options.limit}`;
     if (month) {
       api += `&&month=${month}`;
     }

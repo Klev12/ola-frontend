@@ -247,7 +247,7 @@ const SalePaymentData = () => {
             <label style={{ fontWeight: "bold" }} htmlFor="">
               Total
             </label>
-            <div style={{ marginLeft: "15px" }}>{total.toFixed(2)}</div>
+            <div style={{ marginLeft: "15px" }}>{total.toFixed(2)} + IVA</div>
           </>
         )}
 

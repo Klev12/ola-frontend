@@ -51,6 +51,7 @@ export class SaleService {
     contractId: number;
     paymentMethod: SalePaymentMethod;
     courseId: number;
+    monthCount: number;
   }) {
     return axios.post(`${ENV.BACKEND_ROUTE}/forms/sales/course`, sale);
   }

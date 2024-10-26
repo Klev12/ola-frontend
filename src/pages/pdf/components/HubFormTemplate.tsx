@@ -67,6 +67,11 @@ const HubFormTemplate = ({
           alignItems: "center",
         }}
       >
+        <div
+          style={{ position: "absolute", left: 0, top: 0, fontWeight: "bold" }}
+        >
+          Anexo 1
+        </div>
         <h2>Planilla de registro</h2>
         <div>
           <span style={{ fontWeight: "bold" }}>Consultor:</span>{" "}
@@ -133,22 +138,6 @@ const HubFormTemplate = ({
           <p style={{ fontSize: "10px" }}>{saleInfo?.observations}</p>
         </div>
         <div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginTop: "20px",
-            }}
-          >
-            <span style={{ fontWeight: "bold" }}>Costo comercial</span>
-            <span>
-              {
-                translatedCommercialCost[
-                  saleInfo?.commercialCost as SaleCommercialCost
-                ]
-              }
-            </span>
-          </div>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <span style={{ fontWeight: "bold" }}>Capacitación</span>
             <span>{saleInfo?.courseTitle}</span>
@@ -159,9 +148,13 @@ const HubFormTemplate = ({
               {translatedMembership[saleInfo?.membership as SaleMemberShip]}
             </span>
           </div>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <span>Número de meses</span>
+            <span>{saleInfo?.monthCount}</span>
+          </div>
           <div style={{ color: "var(--main-color)", fontWeight: "bold" }}>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span>Proyecto</span>
+              <span>Valor normal</span>
               <span>${saleInfo?.saleTotalToPay} USD</span>
             </div>
             {saleInfo?.commercialCost !== SaleCommercialCost.commercial && (
@@ -172,13 +165,19 @@ const HubFormTemplate = ({
                 </span>
               </div>
             )}
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span>Total</span>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <span style={{ fontWeight: "bold" }}>Modalidad</span>
               <span>
-                {saleInfo?.saleTotalToPay
-                  ? saleInfo.saleTotalToPay -
-                    saleInfo.saleTotalToPay * (saleInfo.saleDiscount || 0)
-                  : 0}{" "}
+                {
+                  translatedCommercialCost[
+                    saleInfo?.commercialCost as SaleCommercialCost
+                  ]
+                }
               </span>
             </div>
           </div>
@@ -296,8 +295,10 @@ const HubFormTemplate = ({
           if (!result) return;
           return (
             <div key={index}>
-              <div style={{ fontWeight: "bold" }}>{field.label}</div>
-              <div>
+              <div style={{ fontWeight: "bold", margin: "10px 0" }}>
+                {field.label}
+              </div>
+              <div style={{ marginLeft: "10px" }}>
                 {field.results.map((result, index) => (
                   <div key={index}>{result?.response?.value}</div>
                 ))}

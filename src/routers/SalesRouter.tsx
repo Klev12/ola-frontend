@@ -49,7 +49,10 @@ const SalesRouter = (
       <Route path={ROUTES.SALES.FORM_EDITOR} element={<SalesForm />} />
       <Route path={ROUTES.SALES.PAYMENT} element={<Payment />} />
     </Route>
-    <Route path={ROUTES.SALES.COMMISSIONS} element={<Commission />} />
+    <Route
+      path={ROUTES.SALES.COMMISSIONS}
+      element={<Commission lastMonth={true} expandedCommissions />}
+    />
   </Route>
 );
 

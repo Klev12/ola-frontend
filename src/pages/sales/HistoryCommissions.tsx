@@ -1,7 +1,7 @@
 import Commission from "./Commission";
 
 const HistoryCommissions = () => {
-  return <Commission collected={true} />;
+  return <Commission />;
 };
 
 export default HistoryCommissions;

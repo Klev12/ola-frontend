@@ -180,16 +180,6 @@ const SalesFormTemplate = ({
               </span>
             </div>
           </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginTop: "20px",
-            }}
-          >
-            <span style={{ fontWeight: "bold" }}>Costo comercial</span>
-            <span>{formDetails.agreement}</span>
-          </div>
         </div>
       </div>
       <div style={{ marginTop: "10px" }}>
@@ -361,7 +351,7 @@ const SalesFormTemplate = ({
         })}
       </div>
       <div style={{ breakInside: "avoid" }}>
-        <h2>
+        <h2 style={{ textAlign: "center" }}>
           {replaceKeyWords({
             text: metadata?.contract?.title || "",
             formDetails,
