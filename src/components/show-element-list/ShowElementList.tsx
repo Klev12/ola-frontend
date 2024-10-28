@@ -20,7 +20,7 @@ interface ShowElementListProps<T> {
 }
 
 export interface ParamsUrl {
-  ownership: OwnerAccessState;
+  ownership?: OwnerAccessState;
   values?: object;
 }
 

@@ -68,7 +68,6 @@ const SalePaymentData = () => {
   const [discount, setDiscount] = useState(sale?.discount ?? 0);
   const [total, setTotal] = useState(sale?.totalToPay ? sale.totalToPay : 1);
   const [amount, setAmount] = useState(sale?.amount ?? 1);
-  const [monthCount, setMonthCount] = useState(sale?.monthCount ?? 0);
 
   useEffect(() => {
     if (discount > 50) {
@@ -99,18 +98,6 @@ const SalePaymentData = () => {
       setMembership(SaleMemberShip.none);
     }
   }, [sale]);
-
-  useEffect(() => {
-    if (monthCount > 12 || monthCount < 0) {
-      setMonthCount(12);
-    }
-  }, [monthCount]);
-
-  useEffect(() => {
-    if (membership === SaleMemberShip.none) {
-      setMonthCount(0);
-    }
-  }, [membership]);
 
   const membershipOptions = useMemo(() => {
     if (sale?.course) {
@@ -160,7 +147,6 @@ const SalePaymentData = () => {
             paymentMethod,
             discount,
             membership,
-            monthCount,
           });
           stepper?.current?.nextCallback();
         }}
@@ -189,19 +175,6 @@ const SalePaymentData = () => {
             setMembership(e.value);
           }}
         />
-        {sale?.course && membership === SaleMemberShip.month && (
-          <>
-            <label style={{ fontWeight: "bold" }}>Número de meses</label>
-            <InputNumber
-              max={12}
-              min={1}
-              value={monthCount}
-              onChange={(e) => {
-                setMonthCount(e.value ?? 0);
-              }}
-            />
-          </>
-        )}
 
         <label style={{ fontWeight: "bold" }} htmlFor="">
           Costo comercial

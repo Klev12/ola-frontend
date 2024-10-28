@@ -1,4 +1,8 @@
-import { SaleCommercialCost, SaleMemberShip } from "../../models/sale";
+import {
+  SaleCommercialCost,
+  SaleMemberShip,
+  SalePaymentMethod,
+} from "../../models/sale";
 
 export const translatedCommercialCost: { [key in SaleCommercialCost]: string } =
   {
@@ -13,4 +17,10 @@ export const translatedMembership: { [key in SaleMemberShip]: string } = {
   month: "mensual",
   "6-month": "6 meses",
   "12-month": "12 meses",
+};
+
+export const translatedPaymentMethod: { [key in SalePaymentMethod]: string } = {
+  app: "Pago en línea",
+  POS: "POS",
+  transference: "Deposito o transferencia",
 };

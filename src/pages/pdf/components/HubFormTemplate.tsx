@@ -16,6 +16,7 @@ import {
 import { FormMetadata } from "./FormPdf";
 import replaceKeyWords from "../../../utils/replace-key-words";
 import FooterSignatureSalesStatic from "../../../components/term-and-conditions/FooterSignatureSalesStatic";
+import AdditionalDataSale from "./sales/AdditionalDataSale";
 
 interface HubFormTemplateProps {
   saleInfo?: SaleGetDto;
@@ -73,10 +74,6 @@ const HubFormTemplate = ({
           Anexo 1
         </div>
         <h2>Planilla de registro</h2>
-        <div>
-          <span style={{ fontWeight: "bold" }}>Consultor:</span>{" "}
-          <span>{saleInfo?.userCode}</span>
-        </div>
         <div
           style={{
             display: "grid",
@@ -148,23 +145,11 @@ const HubFormTemplate = ({
               {translatedMembership[saleInfo?.membership as SaleMemberShip]}
             </span>
           </div>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <span>Número de meses</span>
-            <span>{saleInfo?.monthCount}</span>
-          </div>
           <div style={{ color: "var(--main-color)", fontWeight: "bold" }}>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <span>Valor normal</span>
               <span>${saleInfo?.saleTotalToPay} USD</span>
             </div>
-            {saleInfo?.commercialCost !== SaleCommercialCost.commercial && (
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <span>Descuento</span>
-                <span>
-                  {saleInfo?.saleDiscount ? saleInfo.saleDiscount * 100 : 0} %
-                </span>
-              </div>
-            )}
             <div
               style={{
                 display: "flex",
@@ -183,6 +168,7 @@ const HubFormTemplate = ({
           </div>
         </div>
       </div>
+      <AdditionalDataSale saleInfo={saleInfo} />
       <div style={{ marginTop: "10px" }}>
         <div
           style={{

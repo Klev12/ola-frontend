@@ -21,6 +21,7 @@ import {
   translatedCommercialCost,
   translatedMembership,
 } from "../../../consts/translations/sale-translations";
+import AdditionalDataSale from "./sales/AdditionalDataSale";
 
 interface SalesFormTemplateProps {
   onLoadHtml?: (html: string) => void;
@@ -85,11 +86,6 @@ const SalesFormTemplate = ({
           Anexo 1
         </div>
         <h2>Planilla de registro</h2>
-
-        <div>
-          <span style={{ fontWeight: "bold" }}>Consultor:</span>{" "}
-          <span>{saleInfo?.userCode}</span>
-        </div>
         <div
           style={{
             display: "grid",
@@ -182,6 +178,7 @@ const SalesFormTemplate = ({
           </div>
         </div>
       </div>
+      <AdditionalDataSale saleInfo={saleInfo} />
       <div style={{ marginTop: "10px" }}>
         <div
           style={{

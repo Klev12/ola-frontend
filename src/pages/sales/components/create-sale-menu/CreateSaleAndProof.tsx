@@ -66,12 +66,7 @@ const CreateSaleAndProof = () => {
         <div>
           {translatedMembership[sale?.membership ?? SaleMemberShip.none]}
         </div>
-        {sale?.course && (
-          <>
-            <h3>Número de meses</h3>
-            <div>{sale?.monthCount}</div>
-          </>
-        )}
+
         <h3>Método de pago</h3>
         <div>{sale?.paymentMethod}</div>
         <h3>Datos de pago</h3>

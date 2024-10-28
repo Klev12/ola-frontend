@@ -1,6 +1,5 @@
 import commissionService from "../../services/commission-service";
 import ShowElementList from "../../components/show-element-list/ShowElementList";
-import { ENV } from "../../consts/const";
 import {
   CommissionGetDto,
   SummaryCommissionGetDto,
@@ -8,6 +7,9 @@ import {
 import { useMemo } from "react";
 import ShowCommissionSummaryTable from "./components/commission/ShowCommissionSummaryTable";
 import ShowCommissionTable from "./components/commission/ShowCommissionTable";
+import useGlobalState from "../../store/store";
+import { Roles } from "../../models/user";
+import { OwnerAccessState } from "../../models/global";
 
 interface CommissionProps {
   lastMonth?: boolean;
@@ -15,6 +17,8 @@ interface CommissionProps {
 }
 
 const Commission = ({ lastMonth, expandedCommissions }: CommissionProps) => {
+  const authenticatedUser = useGlobalState((state) => state.user);
+
   const dateFilter = useMemo(() => {
     if (lastMonth) {
       return {
@@ -25,11 +29,25 @@ const Commission = ({ lastMonth, expandedCommissions }: CommissionProps) => {
     return undefined;
   }, [lastMonth]);
 
+  const ownership: OwnerAccessState | undefined = useMemo(() => {
+    if (
+      [
+        Roles.admin,
+        Roles.secretary,
+        Roles.groupAdmin,
+        Roles.generalAdmin,
+      ].includes(authenticatedUser?.role as Roles)
+    ) {
+      return "all-by-team";
+    }
+    return;
+  }, [authenticatedUser]);
+
   return (
     <div>
       <ShowElementList
         url={`${commissionService.api.summaries}`}
-        params={{ ownership: "mine" }}
+        params={{ ownership }}
         dateFilter={dateFilter}
         limit={10}
         queryKey="commissions"
@@ -39,9 +57,10 @@ const Commission = ({ lastMonth, expandedCommissions }: CommissionProps) => {
             <ShowCommissionSummaryTable commissionSummary={element} />
             <ShowElementList
               style={{ margin: "20px" }}
-              params={{ ownership: "mine" }}
+              params={{ ownership }}
               expanded={expandedCommissions}
-              url={`${ENV.BACKEND_ROUTE}/commissions`}
+              dateFilter={{ month: element.month, year: element.year }}
+              url={commissionService.api.base}
               expandButtonMessage="Ver comisiones"
               allElement={(elements: CommissionGetDto[]) => (
                 <ShowCommissionTable commissions={elements} />
