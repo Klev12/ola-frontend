@@ -13,6 +13,17 @@ export interface TransactionGetDto {
   businessName: string;
 }
 
+export interface TransactionSummaryGetDto {
+  totalAmount: number;
+  total: number;
+  totalPending: number;
+  totalComplete: number;
+  totalPendingAmount: number;
+  totalCompleteAmount: number;
+  month: number;
+  year: number;
+}
+
 export interface TransactionPostDto {
   phoneNumber: string;
   countryCode: number;

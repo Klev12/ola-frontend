@@ -83,3 +83,14 @@ export function getAllTransactions({
 
   return axios.get<{ count: number; transactions: TransactionGetDto[] }>(api);
 }
+
+export class TransactionService {
+  readonly api = {
+    base: `${ENV.BACKEND_ROUTE}/transactions`,
+    summaries: `${ENV.BACKEND_ROUTE}/transactions/summaries`,
+  };
+}
+
+const transactionService = new TransactionService();
+
+export default transactionService;

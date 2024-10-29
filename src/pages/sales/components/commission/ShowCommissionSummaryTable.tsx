@@ -22,7 +22,7 @@ const ShowCommissionSummaryTable = ({
       <DataTable value={[commissionSummary]}>
         <Column
           header="Monto Total De Comisiones"
-          field="userTotalCommission"
+          field="totalUserCommission"
         />
         {[
           Roles.admin,
@@ -32,7 +32,7 @@ const ShowCommissionSummaryTable = ({
         ].includes(authenticatedUser?.role as Roles) && (
           <Column
             header="Monto Total De Jefe de grupo"
-            field="groupAdminTotalCommission"
+            field="totalGroupAdminCommission"
           />
         )}
         {[Roles.admin, Roles.secretary, Roles.generalAdmin].includes(
@@ -40,7 +40,7 @@ const ShowCommissionSummaryTable = ({
         ) && (
           <Column
             header="Monto Total De Comisiones De Jefe General"
-            field="generalAdminTotalCommission"
+            field="generalAdminCommission"
           />
         )}
       </DataTable>

@@ -17,6 +17,7 @@ import BackButton from "./BackButton";
 import {
   translatedCommercialCost,
   translatedMembership,
+  translatedPaymentMethod,
 } from "../../../../consts/translations/sale-translations";
 
 const CreateSaleAndProof = () => {
@@ -54,7 +55,7 @@ const CreateSaleAndProof = () => {
             <div>{sale.course?.title}</div>
           </>
         )}
-        <h3>Costo comercial</h3>
+        <h3>Modalidad</h3>
         <div>
           {
             translatedCommercialCost[
@@ -67,8 +68,14 @@ const CreateSaleAndProof = () => {
           {translatedMembership[sale?.membership ?? SaleMemberShip.none]}
         </div>
 
-        <h3>Método de pago</h3>
-        <div>{sale?.paymentMethod}</div>
+        <h3>Tipo de pago</h3>
+        <div>
+          {
+            translatedPaymentMethod[
+              sale?.paymentMethod ?? SalePaymentMethod.app
+            ]
+          }
+        </div>
         <h3>Datos de pago</h3>
         <DataTable
           value={[
@@ -79,7 +86,7 @@ const CreateSaleAndProof = () => {
             },
           ]}
         >
-          <Column header="Total a pagar" field="totalToPay" />
+          <Column header="Valor normal" field="totalToPay" />
           <Column header="Descuento %" field="discount" />
           <Column
             header="Total"

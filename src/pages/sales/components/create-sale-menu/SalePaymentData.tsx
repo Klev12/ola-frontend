@@ -177,7 +177,7 @@ const SalePaymentData = () => {
         />
 
         <label style={{ fontWeight: "bold" }} htmlFor="">
-          Costo comercial
+          Modalidad
         </label>
         <Dropdown
           name="commercialCost"
@@ -189,7 +189,7 @@ const SalePaymentData = () => {
         />
 
         <label style={{ fontWeight: "bold" }} htmlFor="">
-          Total a pagar
+          Valor normal
         </label>
         <InputNumber
           required
