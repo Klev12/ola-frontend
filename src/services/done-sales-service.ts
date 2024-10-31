@@ -4,6 +4,11 @@ import axios from "../interceptors/axios-interceptor";
 import { DoneSaleGetDto, DoneSaleSummaryGetDto } from "../models/done-sale";
 
 export class DoneSaleService {
+  readonly api = {
+    base: `${ENV.BACKEND_ROUTE}/done-sales`,
+    summaries: `${ENV.BACKEND_ROUTE}/done-sales/summaries`,
+  };
+
   findAll({
     options = { page: 1, limit: 10 },
     month,
