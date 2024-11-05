@@ -1,3 +1,4 @@
+import { lazy } from "react";
 import { Navigate, Route } from "react-router";
 import GlobalCourses from "../pages/dashboard/global/GlobalCourses";
 import GlobalRegulation from "../pages/dashboard/global/GlobalRegulation";
@@ -6,17 +7,18 @@ import ROUTES from "../consts/routes";
 import GlobalContracts from "../pages/dashboard/global/GlobalContracts";
 import AllSalesForms from "../pages/dashboard/AllSalesForms";
 import { AllUserForms } from "../pages/dashboard/AllUserForms";
-import AllForms from "../pages/dashboard/AllForms";
-import AllTeams from "../pages/dashboard/AllTeams";
-import PendingUsers from "../pages/dashboard/PendingUsers";
-import Collaborators from "../pages/dashboard/Collaborators";
-import Notifications from "../pages/dashboard/Notifications";
-import UserTeam from "../pages/dashboard/UserTeam";
-import Dashboard from "../pages/dashboard/Dashboard";
-import Users from "../pages/dashboard/Users";
 import Global from "../pages/dashboard/Global";
 import GlobalServices from "../pages/dashboard/global/GlobalServices";
 import GlobalServiceOptions from "../pages/dashboard/global/GlobalServiceOptions";
+
+const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
+const UserTeam = lazy(() => import("../pages/dashboard/UserTeam"));
+const Notifications = lazy(() => import("../pages/dashboard/Notifications"));
+const Users = lazy(() => import("../pages/dashboard/Users"));
+const Collaborators = lazy(() => import("../pages/dashboard/Collaborators"));
+const PendingUsers = lazy(() => import("../pages/dashboard/PendingUsers"));
+const AllTeams = lazy(() => import("../pages/dashboard/AllTeams"));
+const AllForms = lazy(() => import("../pages/dashboard/AllForms"));
 
 const DashBoardRouter = (
   <Route path={ROUTES.DASHBOARD.ME} element={<Dashboard />}>

@@ -28,72 +28,82 @@ import SalesRouter from "./routers/SalesRouter";
 import TestsRouter from "./routers/TestsRouter";
 import PdfRouter from "./routers/PdfRouter";
 import UserFormRouter from "./routers/UserFormRouter";
+import { Suspense } from "react";
+4;
+import GlobalLoading from "./core/components/GlobalLoading";
 
 function App() {
   return (
     <>
-      <Routes>
-        <Route path="" element={<Navigate to={ROUTES.HOME.ME} />} />
-        <Route
-          path={ROUTES.PAYPHONE.ME}
-          element={<PaymentTransaction />}
-        ></Route>
-        <Route path={ROUTES.PAYPHONE.LINK} element={<Payphonelink />}></Route>
-        <Route
-          path=""
-          element={
-            <AuthAppGuard errorRedirectTo={ROUTES.LOGIN}>
-              <AuthUserFormGuard noVerificationRedirectTo={ROUTES.USER_FORM.ME}>
-                <Application />
-              </AuthUserFormGuard>
-            </AuthAppGuard>
-          }
-        >
-          <Route path={ROUTES.HOME.ME} element={<Home />} />
+      <Suspense fallback={<GlobalLoading />}>
+        <Routes>
+          <Route path="" element={<Navigate to={ROUTES.HOME.ME} />} />
           <Route
-            path={ROUTES.DASHBOARD.CHECK_USER_FORM}
-            element={<CheckUserForm />}
-          />
-          <Route path={ROUTES.NOTIFICATIONS.ME} element={<Notifications />} />
-
-          {DashBoardRouter}
-
-          <Route path={ROUTES.BLOG.ME} element={<Blog />} />
-          <Route path={ROUTES.REGULATION.ME} element={<Regulation />} />
-
-          {SalesRouter}
-
-          {TestsRouter}
-
-          <Route path={ROUTES.TRAINING.ME} element={<Training />} />
-        </Route>
-
-        {UserFormRouter}
-
-        <Route path={ROUTES.LOGIN} element={<Login />}></Route>
-        <Route path={ROUTES.SIGNUP} element={<Signup />}></Route>
-        <Route path={ROUTES.SIGNUP_CODE} element={<Signup />}></Route>
-
-        <Route path={ROUTES.SALES.PDF} element={<SalesFormPDF />} />
-        <Route path={ROUTES.FORM_PDF.ME} element={<FormPDF />} />
-
-        <Route
-          path={ROUTES.GENERATE_SALES_FORM.ME}
-          element={<WrapperSalesForm />}
-        >
-          <Route path={ROUTES.GENERATE_SALES_FORM.ME} element={<SalesForm />} />
+            path={ROUTES.PAYPHONE.ME}
+            element={<PaymentTransaction />}
+          ></Route>
+          <Route path={ROUTES.PAYPHONE.LINK} element={<Payphonelink />}></Route>
           <Route
-            path={ROUTES.GENERATE_SALES_FORM.PAYMENT}
-            element={<Payment />}
-          />
-        </Route>
+            path=""
+            element={
+              <AuthAppGuard errorRedirectTo={ROUTES.LOGIN}>
+                <AuthUserFormGuard
+                  noVerificationRedirectTo={ROUTES.USER_FORM.ME}
+                >
+                  <Application />
+                </AuthUserFormGuard>
+              </AuthAppGuard>
+            }
+          >
+            <Route path={ROUTES.HOME.ME} element={<Home />} />
+            <Route
+              path={ROUTES.DASHBOARD.CHECK_USER_FORM}
+              element={<CheckUserForm />}
+            />
+            <Route path={ROUTES.NOTIFICATIONS.ME} element={<Notifications />} />
 
-        <Route path={ROUTES.DASHBOARD.CHECK_FORM} element={<CheckForm />} />
+            {DashBoardRouter}
 
-        {PdfRouter}
+            <Route path={ROUTES.BLOG.ME} element={<Blog />} />
+            <Route path={ROUTES.REGULATION.ME} element={<Regulation />} />
 
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
+            {SalesRouter}
+
+            {TestsRouter}
+
+            <Route path={ROUTES.TRAINING.ME} element={<Training />} />
+          </Route>
+
+          {UserFormRouter}
+
+          <Route path={ROUTES.LOGIN} element={<Login />}></Route>
+          <Route path={ROUTES.SIGNUP} element={<Signup />}></Route>
+          <Route path={ROUTES.SIGNUP_CODE} element={<Signup />}></Route>
+
+          <Route path={ROUTES.SALES.PDF} element={<SalesFormPDF />} />
+          <Route path={ROUTES.FORM_PDF.ME} element={<FormPDF />} />
+
+          <Route
+            path={ROUTES.GENERATE_SALES_FORM.ME}
+            element={<WrapperSalesForm />}
+          >
+            <Route
+              path={ROUTES.GENERATE_SALES_FORM.ME}
+              element={<SalesForm />}
+            />
+            <Route
+              path={ROUTES.GENERATE_SALES_FORM.PAYMENT}
+              element={<Payment />}
+            />
+          </Route>
+
+          <Route path={ROUTES.DASHBOARD.CHECK_FORM} element={<CheckForm />} />
+
+          {PdfRouter}
+
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </Suspense>
     </>
   );
 }

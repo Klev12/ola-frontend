@@ -3,10 +3,6 @@ import HistorySales from "../pages/sales/HistorySales";
 import ROUTES from "../consts/routes";
 import HistoryCommissions from "../pages/sales/HistoryCommissions";
 import HistoryTransactions from "../pages/sales/HistoryTransactions";
-import MyForms from "../pages/sales/MyForms";
-import Sales from "../pages/sales/Sales";
-import DoneForms from "../pages/sales/DoneForms";
-import History from "../pages/sales/History";
 import WrapperSalesForm from "../pages/sales-form/components/WrapperSalesForm";
 import Payment from "../pages/sales-form/Payment";
 import SalesForm from "../pages/sales-form/SalesForm";
@@ -14,6 +10,12 @@ import Commission from "../pages/sales/Commission";
 import UserTransactions from "../pages/sales/UserTransactions";
 import TeamUsers from "../pages/sales/TeamUsers";
 import Team from "../pages/sales/Team";
+import { lazy } from "react";
+
+const Sales = lazy(() => import("../pages/sales/Sales"));
+const MyForms = lazy(() => import("../pages/sales/MyForms"));
+const DoneForms = lazy(() => import("../pages/sales/DoneForms"));
+const History = lazy(() => import("../pages/sales/History"));
 
 const SalesRouter = (
   <Route path={ROUTES.SALES.ME} element={<Sales />}>
