@@ -154,7 +154,6 @@ const PaymentDataForm = ({
           name="total"
           required
           onChange={(value) => {
-            console.log(value);
             setTotal(value.value || 0);
           }}
           min={0}

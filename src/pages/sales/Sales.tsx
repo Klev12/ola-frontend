@@ -74,9 +74,11 @@ const Sales = () => {
       },
       {
         roles: [Roles.sales],
-        accessTo: Object.values(ItemsIdentifier).filter(
-          (item) => item !== ItemsIdentifier.team
-        ),
+        accessTo: [
+          ItemsIdentifier.generateSales,
+          ItemsIdentifier.mySales,
+          ItemsIdentifier.history,
+        ],
       },
     ],
   });

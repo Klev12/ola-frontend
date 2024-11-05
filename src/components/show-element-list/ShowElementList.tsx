@@ -9,14 +9,15 @@ import { OwnerAccessState } from "../../models/global";
 interface ShowElementListProps<T> {
   url: string;
   expanded?: boolean;
-  allElement?: (elements: T[]) => ReactNode;
-  eachElement?: (element: T) => ReactNode;
+  allElement?: (elements: T[], metadata: Metadata) => ReactNode;
+  eachElement?: (element: T, metadata: Metadata) => ReactNode;
   limit?: number;
   dateFilter?: DateFilter;
   queryKey?: string;
   expandButtonMessage?: string;
   style?: CSSProperties;
   params?: ParamsUrl;
+  emptyElementsMessage?: string;
 }
 
 export interface ParamsUrl {
@@ -27,6 +28,10 @@ export interface ParamsUrl {
 interface DateFilter {
   month: number;
   year: number;
+}
+
+interface Metadata {
+  count: number;
 }
 
 export default function ShowElementList<T>({
@@ -40,6 +45,7 @@ export default function ShowElementList<T>({
   expandButtonMessage,
   style,
   params,
+  emptyElementsMessage,
 }: ShowElementListProps<T>) {
   const [isExpanded, setIsExpanded] = useState(expanded);
   const [page, setPage] = useState(1);
@@ -87,14 +93,22 @@ export default function ShowElementList<T>({
   return (
     <div style={style}>
       <div>
+        {elementList.count === 0 && !isDataLoading && (
+          <small>{emptyElementsMessage}</small>
+        )}
         {isExpanded && (
           <>
             {isDataLoading && <ProgressSpinner />}
             {eachElement &&
               elementList.list.map((element, index) => {
-                return <div key={index}>{eachElement(element)}</div>;
+                return (
+                  <div key={index}>
+                    {eachElement(element, { count: elementList.count })}
+                  </div>
+                );
               })}
-            {allElement && allElement(elementList.list)}
+            {allElement &&
+              allElement(elementList.list, { count: elementList.count })}
           </>
         )}
         {!isExpanded && (
@@ -105,7 +119,7 @@ export default function ShowElementList<T>({
             }}
           />
         )}
-        {isExpanded && (
+        {isExpanded && elementList.count > 1 && (
           <PaginatorPage
             limit={limit}
             total={elementList.count}

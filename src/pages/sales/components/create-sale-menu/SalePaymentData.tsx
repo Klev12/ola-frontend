@@ -16,11 +16,11 @@ const translatedPaymentMethodOptions: {
   [key in SalePaymentMethod]: { label: string; value: string };
 } = {
   [SalePaymentMethod.app]: {
-    label: "aplicación",
+    label: "Pago en Línea",
     value: SalePaymentMethod.app,
   },
   [SalePaymentMethod.transference]: {
-    label: "transferencia",
+    label: "Deposito o Transferencia",
     value: SalePaymentMethod.transference,
   },
   [SalePaymentMethod.POS]: {

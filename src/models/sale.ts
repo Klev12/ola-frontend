@@ -64,6 +64,7 @@ export enum SaleCommercialCost {
 export enum SaleMemberShip {
   none = "none",
   month = "month",
+  threeMonth = "3-month",
   sixMonth = "6-month",
   twelveMonth = "12-month",
 }

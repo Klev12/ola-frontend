@@ -1,40 +1,19 @@
 import { TabPanel, TabView } from "primereact/tabview";
-import { Outlet } from "react-router";
-import ROUTES from "../../consts/routes";
-import useNavigateTo from "../../hooks/useNavigateTo";
+import DoneForms from "./DoneForms";
 
 const History = () => {
-  const navigateTo = useNavigateTo();
-
   return (
     <div className="card">
-      <TabView
-        onBeforeTabChange={(tab) => {
-          navigateTo({
-            index: tab.index,
-            tabIndex: 0,
-            route: ROUTES.SALES.HISTORY_TRANSACTIONS,
-          });
-
-          navigateTo({
-            index: tab.index,
-            tabIndex: 1,
-            route: ROUTES.SALES.HISTORY_COMMISSIONS,
-          });
-
-          navigateTo({
-            index: tab.index,
-            tabIndex: 2,
-            route: ROUTES.SALES.HISTORY_SALES,
-          });
-        }}
-      >
-        <TabPanel header="Transacciones">
+      <TabView>
+        <TabPanel header="Mis ventas">
+          <DoneForms lastMonth={true} />
+        </TabPanel>
+        {/* <TabPanel header="Transacciones">
           <Outlet />
         </TabPanel>
         <TabPanel header="Comisiones">
           <Outlet />
-        </TabPanel>
+        </TabPanel> */}
       </TabView>
     </div>
   );
