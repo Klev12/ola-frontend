@@ -10,7 +10,7 @@ import NotificationsPanel from "./NotificationsPanel";
 import "./styles/global-menu.css";
 import useMenuRestrictions from "../hooks/useMenuRestrictions";
 
-export enum ItemIdentifier {
+enum ItemIdentifier {
   home = "home",
   dashboard = "dashboard",
   sales = "sales",
@@ -104,13 +104,14 @@ export default function MenuDemo() {
         ],
       },
       {
-        roles: [Roles.sales],
+        roles: [Roles.sales, Roles.collaborator],
         accessTo: [
           ItemIdentifier.sales,
           ItemIdentifier.norms,
           ItemIdentifier.blog,
           ItemIdentifier.home,
           ItemIdentifier.tests,
+          ItemIdentifier.training,
         ],
       },
       {

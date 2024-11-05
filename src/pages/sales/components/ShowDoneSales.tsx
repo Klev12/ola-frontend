@@ -5,12 +5,16 @@ import { Tag } from "primereact/tag";
 import ROUTES from "../../../consts/routes";
 import { Link } from "react-router-dom";
 import { SaleGetDto } from "../../../models/sale";
+import useGlobalState from "../../../store/store";
+import { Roles } from "../../../models/user";
 
 interface ShowDoneSalesProps {
   sales: SaleGetDto[];
 }
 
 const ShowDoneSales = ({ sales }: ShowDoneSalesProps) => {
+  const authenticatedUser = useGlobalState((state) => state.user);
+
   return (
     <div>
       <DataTable
@@ -32,7 +36,9 @@ const ShowDoneSales = ({ sales }: ShowDoneSalesProps) => {
         />
         <Column header="Transacción ID" field="transactionId" />
         <Column header="Monto de transacción" field="transactionAmount" />
-        <Column header="Monto de comisión" field="userCommission" />
+        {authenticatedUser?.role !== Roles.collaborator && (
+          <Column header="Monto de comisión" field="userCommission" />
+        )}
         <Column
           header="Validez"
           body={(sale: DoneSaleGetDto) => (

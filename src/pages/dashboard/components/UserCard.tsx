@@ -20,6 +20,8 @@ import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import SelectUserArea from "../../../components/SelectUserArea";
 
+import translatedRoles from "../../../consts/translations/roles-translation";
+
 interface UserCardProps {
   user: UserGetDto;
   notificationMode?: boolean;
@@ -147,43 +149,16 @@ const UserCard: React.FC<UserCardProps> = ({
             }}
           >
             <span>role: {user.role}</span>
-            <select name="role" defaultValue={user.role} style={{}}>
-              {Object.values(Roles)
-                .filter((role) => role !== Roles.admin)
-                .map((role, index) => {
-                  switch (role) {
-                    case Roles.groupAdmin:
-                      return (
-                        <option key={index} value={role}>
-                          Jefe de grupo
-                        </option>
-                      );
-                    case Roles.sales:
-                      return (
-                        <option key={index} value={role}>
-                          Ventas
-                        </option>
-                      );
-                    case Roles.secretary:
-                      return (
-                        <option key={index} value={role}>
-                          Sub admin
-                        </option>
-                      );
-                    case Roles.user:
-                      return (
-                        <option key={index} value={role}>
-                          Usuario
-                        </option>
-                      );
-                    case Roles.generalAdmin:
-                      return (
-                        <option key={index} value={role}>
-                          Admin general
-                        </option>
-                      );
-                  }
-                })}
+            <select name="role" defaultValue={user.role}>
+              {Object.entries(Roles)
+                .filter(([, role]) => role !== Roles.admin)
+                .map(([, value]) => (
+                  <option
+                    id={value}
+                    value={value}
+                    label={translatedRoles[value]}
+                  />
+                ))}
             </select>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <Button

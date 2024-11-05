@@ -54,7 +54,7 @@ const Tests = () => {
         accessTo: Object.values(ItemsIdentifier),
       },
       {
-        roles: [Roles.user, Roles.sales],
+        roles: [Roles.user, Roles.sales, Roles.collaborator],
         accessTo: [ItemsIdentifier.resolve],
       },
     ],

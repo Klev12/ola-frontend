@@ -17,6 +17,7 @@ export interface DoneSaleGetDto {
 }
 
 export interface DoneSaleSummaryGetDto {
+  transactionTotal: number;
   transactionTotalAmount: number;
   userTotalCommission: number;
   userId: number;
