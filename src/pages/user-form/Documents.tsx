@@ -2,13 +2,14 @@ import React, { useRef, useState } from "react";
 import { ENV } from "../../consts/const";
 import { Button } from "primereact/button";
 import { useQuery } from "react-query";
-import { authenticate } from "../../services/auth-service";
 import { Navigate, useNavigate } from "react-router";
 import { Divider } from "primereact/divider";
 import { Toast } from "primereact/toast";
 import ROUTES from "../../consts/routes";
 import FileUploader from "../../components/FileUploader";
 import { FileDocument } from "../../models/file";
+import userService from "../../services/user-service";
+import { authenticate } from "../../services/auth-service";
 
 const Documents: React.FC = () => {
   const navigate = useNavigate();
@@ -17,17 +18,26 @@ const Documents: React.FC = () => {
   const [imagesUploaded, setImagesUploaded] = useState(false);
   const [videoUploaded] = useState(false);
 
-  const { data: userData, refetch: refetchUser } = useQuery({
+  const { data: userData } = useQuery({
     queryFn: () => authenticate().then((res) => res.data),
     queryKey: ["user-data"],
     refetchOnWindowFocus: false,
   });
 
-  if (userData?.user?.multimedias?.length === 3) {
+  const { data: multimediaData, refetch: refetchUser } = useQuery({
+    queryFn: () =>
+      userService
+        .getMultimedia({ userId: userData?.user.id as number })
+        .then((res) => res.data),
+    queryKey: ["multimedia"],
+    refetchOnWindowFocus: false,
+  });
+
+  if (multimediaData?.multimedia?.length === 3) {
     return <Navigate to={ROUTES.USER_FORM.SIGNATURE} />;
   }
 
-  if (userData?.user?.multimedias?.length === 4) {
+  if (multimediaData?.multimedia?.length === 4) {
     return <Navigate to={ROUTES.USER_FORM.VERIFICATION} />;
   }
 
@@ -45,7 +55,7 @@ const Documents: React.FC = () => {
         maxFiles={2}
         showSpecificDelete={false}
         defaultFiles={
-          userData?.user?.multimedias
+          multimediaData?.multimedia
             ?.filter((file) => file.type === "card_id")
             .map(
               (file) =>
@@ -79,7 +89,7 @@ const Documents: React.FC = () => {
         maxFiles={1}
         showSpecificDelete={false}
         defaultFiles={
-          userData?.user?.multimedias
+          multimediaData?.multimedia
             ?.filter((file) => file.type === "video")
             .map(
               (file) =>

@@ -12,7 +12,7 @@ export function signup(user: SignupDto) {
 }
 
 export function signupCollaborator(user: SignupCollaboratorDto) {
-  return axios.post(`${ENV.BACKEND_ROUTE}/auth/signup/collaborator`, user);
+  return axios.post(`${ENV.BACKEND_ROUTE}/auth/signup/member`, user);
 }
 
 export function authenticate() {

@@ -1,7 +1,13 @@
 import { ENV } from "../consts/const";
 import axios from "../interceptors/axios-interceptor";
 import { NotificationGetDto } from "../models/notification";
-import { MetadataUser, Roles, UserArea, UserGetDto } from "../models/user";
+import {
+  MetadataUser,
+  Roles,
+  UserArea,
+  UserGetDto,
+  UserMultimedia,
+} from "../models/user";
 
 export function getAllUsers({
   access = true,
@@ -81,3 +87,19 @@ export function patchUser({
 }) {
   return axios.patch(`${ENV.BACKEND_ROUTE}/users`, user);
 }
+
+export class UserService {
+  readonly api = {
+    base: `${ENV.BACKEND_ROUTE}/users`,
+  };
+
+  getMultimedia({ userId }: { userId: number }) {
+    return axios.get<{ count: number; multimedia: UserMultimedia[] }>(
+      `${this.api.base}/${userId}/multimedia`
+    );
+  }
+}
+
+const userService = new UserService();
+
+export default userService;

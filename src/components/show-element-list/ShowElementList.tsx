@@ -1,4 +1,13 @@
-import { CSSProperties, ReactNode, useEffect, useMemo, useState } from "react";
+import {
+  CSSProperties,
+  ForwardedRef,
+  forwardRef,
+  ReactNode,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useState,
+} from "react";
 import { useQuery } from "react-query";
 import genericListService from "./service/generic-list-service";
 import PaginatorPage from "../PaginatorPage";
@@ -20,6 +29,10 @@ interface ShowElementListProps<T> {
   emptyElementsMessage?: string;
 }
 
+export interface ShowElementListRef {
+  refetch: () => void;
+}
+
 export interface ParamsUrl {
   ownership?: OwnerAccessState;
   values?: object;
@@ -34,19 +47,25 @@ interface Metadata {
   count: number;
 }
 
-export default function ShowElementList<T>({
-  url,
-  limit = 10,
-  dateFilter,
-  queryKey,
-  expanded,
-  eachElement,
-  allElement,
-  expandButtonMessage,
-  style,
-  params,
-  emptyElementsMessage,
-}: ShowElementListProps<T>) {
+const ShowElementList = forwardRef<
+  ShowElementListRef,
+  ShowElementListProps<never>
+>(function <T>(
+  {
+    url,
+    limit = 10,
+    dateFilter,
+    queryKey,
+    expanded,
+    eachElement,
+    allElement,
+    expandButtonMessage,
+    style,
+    params,
+    emptyElementsMessage,
+  }: ShowElementListProps<T>,
+  ref: ForwardedRef<ShowElementListRef>
+) {
   const [isExpanded, setIsExpanded] = useState(expanded);
   const [page, setPage] = useState(1);
 
@@ -54,7 +73,11 @@ export default function ShowElementList<T>({
     setIsExpanded(expanded);
   }, [expanded]);
 
-  const { data: dataList, isLoading: isDataLoading } = useQuery({
+  const {
+    data: dataList,
+    isLoading: isDataLoading,
+    refetch,
+  } = useQuery({
     queryFn: () =>
       genericListService
         .findAll({
@@ -89,6 +112,10 @@ export default function ShowElementList<T>({
 
     return { count, list: listElement };
   }, [dataList]);
+
+  useImperativeHandle(ref, () => ({
+    refetch,
+  }));
 
   return (
     <div style={style}>
@@ -129,4 +156,6 @@ export default function ShowElementList<T>({
       </div>
     </div>
   );
-}
+});
+
+export default ShowElementList;

@@ -1,6 +1,6 @@
 const GlobalLoading = () => {
   return (
-    <div style={{ backgroundColor: "purple" }}>
+    <div>
       <div
         style={{
           display: "flex",

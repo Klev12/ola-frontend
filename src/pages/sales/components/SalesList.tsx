@@ -323,7 +323,7 @@ const SalesList = ({
           <Column header="Cliente" field="costumerName" />
           <Column header="Negocio" field="businessName" />
           <Column
-            header="Link"
+            header="Link de Pago"
             body={(transaction: TransactionGetDto) => (
               <div
                 style={{ display: "flex", alignItems: "center", gap: "20px" }}
@@ -332,7 +332,7 @@ const SalesList = ({
                   icon={PrimeIcons.COPY}
                   onClick={() => {
                     copyText(
-                      `${window.location.origin}${ROUTES.PAYPHONE.LINK_TOKEN(
+                      `${window.location.origin}/${ROUTES.PAYMENT.TOKEN(
                         transaction.token
                       )}`
                     );
@@ -343,7 +343,7 @@ const SalesList = ({
                   }}
                 />
                 <a
-                  href={`${window.location.origin}${ROUTES.PAYPHONE.LINK_TOKEN(
+                  href={`${window.location.origin}/${ROUTES.PAYMENT.TOKEN(
                     transaction.token
                   )}`}
                 >

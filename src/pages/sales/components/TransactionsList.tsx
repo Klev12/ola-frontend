@@ -60,11 +60,11 @@ const TransactionsList = ({ transactions, form }: TransactionsListProps) => {
             }}
           />
           <Column
-            header="Link"
+            header="Link de Pago"
             field="token"
             body={(value) => (
               <a
-                href={`${window.location.origin}${ROUTES.PAYPHONE.LINK_TOKEN(
+                href={`${window.location.origin}/${ROUTES.PAYMENT.TOKEN(
                   value.token
                 )}`}
               >
