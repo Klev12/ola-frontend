@@ -21,7 +21,14 @@ const FooterSignatureSalesStatic = ({
   }, [formInfo]);
 
   return (
-    <div style={{ ...style, display: "flex", justifyContent: "space-around" }}>
+    <div
+      style={{
+        ...style,
+        display: "flex",
+        justifyContent: "space-around",
+        marginTop: "80px",
+      }}
+    >
       <div
         style={{
           display: "grid",
@@ -32,7 +39,7 @@ const FooterSignatureSalesStatic = ({
         }}
       >
         <img src={""} height={130} />
-        <h5>Empresa</h5>
+        <h5 style={{ fontSize: "17px" }}>Empresa</h5>
         <p>OLA business</p>
         <div>C.C: 010586281-7</div>
       </div>
@@ -47,7 +54,7 @@ const FooterSignatureSalesStatic = ({
       >
         <img src={clientSignatureUrl} height={130} />
 
-        <h5>Cliente</h5>
+        <h5 style={{ fontSize: "17px" }}>Cliente</h5>
         <p>{`${formDetails?.userNames} ${formDetails?.userLastNames}`}</p>
         <div>
           C.C:{" "}

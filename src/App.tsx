@@ -8,14 +8,12 @@ import Blog from "./pages/blog/Blog";
 import Notifications from "./pages/dashboard/Notifications";
 import Application from "./layout/Application";
 import Regulation from "./pages/regulation/Regulation";
-import FormPDF from "./pages/form-pdf/FormPDF";
 import AuthAppGuard from "./guard/AuthAppGuard";
 import PageNotFound from "./pages/page-not-found/PageNotFound";
 import AuthUserFormGuard from "./guard/AuthUserFormGuard";
 import CheckUserForm from "./pages/dashboard/CheckUserForm";
 import SalesForm from "./pages/sales-form/SalesForm";
 import CheckForm from "./pages/check-form/CheckForm";
-import SalesFormPDF from "./pages/form-pdf/SalesFormPDF";
 
 import Payment from "./pages/sales-form/Payment";
 import WrapperSalesForm from "./pages/sales-form/components/WrapperSalesForm";
@@ -79,9 +77,6 @@ function App() {
           <Route path={ROUTES.LOGIN} element={<Login />}></Route>
           <Route path={ROUTES.SIGNUP} element={<Signup />}></Route>
           <Route path={ROUTES.SIGNUP_CODE} element={<Signup />}></Route>
-
-          <Route path={ROUTES.SALES.PDF} element={<SalesFormPDF />} />
-          <Route path={ROUTES.FORM_PDF.ME} element={<FormPDF />} />
 
           <Route
             path={ROUTES.GENERATE_SALES_FORM.ME}

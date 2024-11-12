@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@react-pdf/renderer": "^3.4.4",
     "@types/react-canvas-draw": "^1.2.3",
     "@types/uuid": "^10.0.0",
     "axios": "^1.6.8",
@@ -23,7 +22,7 @@
     "react-query": "^3.39.3",
     "react-router": "^6.23.1",
     "react-router-dom": "^6.23.1",
-    "react-timer-hook": "^3.0.7",
+    "react-timer-hook": "^3.0.8",
     "uuid": "^10.0.0",
     "zustand": "4.5.2"
   },
