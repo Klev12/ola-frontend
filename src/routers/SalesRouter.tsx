@@ -1,21 +1,27 @@
 import { Navigate, Route } from "react-router";
-import HistorySales from "../pages/sales/HistorySales";
 import ROUTES from "../consts/routes";
-import HistoryCommissions from "../pages/sales/HistoryCommissions";
-import HistoryTransactions from "../pages/sales/HistoryTransactions";
-import WrapperSalesForm from "../pages/sales-form/components/WrapperSalesForm";
-import Payment from "../pages/sales-form/Payment";
-import SalesForm from "../pages/sales-form/SalesForm";
-import Commission from "../pages/sales/Commission";
-import UserTransactions from "../pages/sales/UserTransactions";
-import TeamUsers from "../pages/sales/TeamUsers";
-import Team from "../pages/sales/Team";
 import { lazy } from "react";
 
 const Sales = lazy(() => import("../pages/sales/Sales"));
 const MyForms = lazy(() => import("../pages/sales/MyForms"));
 const DoneForms = lazy(() => import("../pages/sales/DoneForms"));
 const History = lazy(() => import("../pages/sales/History"));
+const HistorySales = lazy(() => import("../pages/sales/HistorySales"));
+const HistoryCommissions = lazy(
+  () => import("../pages/sales/HistoryCommissions")
+);
+const HistoryTransactions = lazy(
+  () => import("../pages/sales/HistoryTransactions")
+);
+const WrapperSalesForm = lazy(
+  () => import("../pages/sales-form/components/WrapperSalesForm")
+);
+const Payment = lazy(() => import("../pages/sales-form/Payment"));
+const SalesForm = lazy(() => import("../pages/sales-form/SalesForm"));
+const Commission = lazy(() => import("../pages/sales/Commission"));
+const UserTransactions = lazy(() => import("../pages/sales/UserTransactions"));
+const TeamUsers = lazy(() => import("../pages/sales/TeamUsers"));
+const Team = lazy(() => import("../pages/sales/Team"));
 
 const SalesRouter = (
   <Route path={ROUTES.SALES.ME} element={<Sales />}>

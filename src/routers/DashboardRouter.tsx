@@ -1,17 +1,9 @@
 import { lazy } from "react";
 import { Navigate, Route } from "react-router";
-import GlobalCourses from "../pages/dashboard/global/GlobalCourses";
-import GlobalRegulation from "../pages/dashboard/global/GlobalRegulation";
-import GlobalTermsAndConditions from "../pages/dashboard/global/GlobalTermsAndConditions";
 import ROUTES from "../consts/routes";
-import GlobalContracts from "../pages/dashboard/global/GlobalContracts";
-import AllSalesForms from "../pages/dashboard/AllSalesForms";
-import { AllUserForms } from "../pages/dashboard/AllUserForms";
-import Global from "../pages/dashboard/Global";
-import GlobalServices from "../pages/dashboard/global/GlobalServices";
-import GlobalServiceOptions from "../pages/dashboard/global/GlobalServiceOptions";
 
 const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
+const AllUserForms = lazy(() => import("../pages/dashboard/AllUserForms"));
 const UserTeam = lazy(() => import("../pages/dashboard/UserTeam"));
 const Notifications = lazy(() => import("../pages/dashboard/Notifications"));
 const Users = lazy(() => import("../pages/dashboard/Users"));
@@ -19,6 +11,27 @@ const Collaborators = lazy(() => import("../pages/dashboard/Collaborators"));
 const PendingUsers = lazy(() => import("../pages/dashboard/PendingUsers"));
 const AllTeams = lazy(() => import("../pages/dashboard/AllTeams"));
 const AllForms = lazy(() => import("../pages/dashboard/AllForms"));
+const AllSalesForms = lazy(() => import("../pages/dashboard/AllSalesForms"));
+const Global = lazy(() => import("../pages/dashboard/Global"));
+const GlobalContracts = lazy(
+  () => import("../pages/dashboard/global/GlobalContracts")
+);
+const GlobalTermsAndConditions = lazy(
+  () => import("../pages/dashboard/global/GlobalTermsAndConditions")
+);
+const GlobalRegulation = lazy(
+  () => import("../pages/dashboard/global/GlobalRegulation")
+);
+
+const GlobalCourses = lazy(
+  () => import("../pages/dashboard/global/GlobalCourses")
+);
+const GlobalServices = lazy(
+  () => import("../pages/dashboard/global/GlobalServices")
+);
+const GlobalServiceOptions = lazy(
+  () => import("../pages/dashboard/global/GlobalServiceOptions")
+);
 
 const DashBoardRouter = (
   <Route path={ROUTES.DASHBOARD.ME} element={<Dashboard />}>

@@ -1,8 +1,5 @@
 import { Route } from "react-router";
 import ROUTES from "../consts/routes";
-import Verification from "../pages/user-form/Verification";
-import SignatureDraw from "../pages/signature/Signature";
-import TermsAndConditions from "../pages/user-form/TermsAndConditions";
 import { lazy } from "react";
 
 const WrapperUserForm = lazy(
@@ -10,6 +7,11 @@ const WrapperUserForm = lazy(
 );
 const UserForm = lazy(() => import("../pages/user-form/UserForm"));
 const Documents = lazy(() => import("../pages/user-form/Documents"));
+const Verification = lazy(() => import("../pages/user-form/Verification"));
+const SignatureDraw = lazy(() => import("../pages/signature/Signature"));
+const TermsAndConditions = lazy(
+  () => import("../pages/user-form/TermsAndConditions")
+);
 
 const UserFormRouter = (
   <Route path={ROUTES.USER_FORM.ME} element={<WrapperUserForm />}>

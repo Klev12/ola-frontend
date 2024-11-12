@@ -3,39 +3,46 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import ROUTES from "./consts/routes";
-import Home from "./pages/home/Home";
-import Blog from "./pages/blog/Blog";
-import Notifications from "./pages/dashboard/Notifications";
-import Application from "./layout/Application";
-import Regulation from "./pages/regulation/Regulation";
-import AuthAppGuard from "./guard/AuthAppGuard";
-import PageNotFound from "./pages/page-not-found/PageNotFound";
+
 import AuthUserFormGuard from "./guard/AuthUserFormGuard";
-import CheckUserForm from "./pages/dashboard/CheckUserForm";
-import SalesForm from "./pages/sales-form/SalesForm";
-import CheckForm from "./pages/check-form/CheckForm";
+import AuthAppGuard from "./guard/AuthAppGuard";
 
-import Payment from "./pages/sales-form/Payment";
-import WrapperSalesForm from "./pages/sales-form/components/WrapperSalesForm";
-import Payphonelink from "./pages/sales-form/Payphonelink";
-import PaymentTransaction from "./pages/sales-form/PaymentTransaction";
-
-import Training from "./pages/training/Training";
 import DashBoardRouter from "./routers/DashboardRouter";
 import SalesRouter from "./routers/SalesRouter";
 import TestsRouter from "./routers/TestsRouter";
 import PdfRouter from "./routers/PdfRouter";
 import UserFormRouter from "./routers/UserFormRouter";
-import { Suspense } from "react";
+
+import { lazy, Suspense } from "react";
 4;
 import GlobalLoading from "./core/components/GlobalLoading";
 import GlobalPayment from "./pages/payment/GlobalPayment";
 import PaypalCapture from "./pages/payment/PaypalCapture";
 
+const Application = lazy(() => import("./layout/Application"));
+const Payment = lazy(() => import("./pages/sales-form/Payment"));
+const WrapperSalesForm = lazy(
+  () => import("./pages/sales-form/components/WrapperSalesForm")
+);
+const Payphonelink = lazy(() => import("./pages/sales-form/Payphonelink"));
+const PaymentTransaction = lazy(
+  () => import("./pages/sales-form/PaymentTransaction")
+);
+
+const Training = lazy(() => import("./pages/training/Training"));
+const Regulation = lazy(() => import("./pages/regulation/Regulation"));
+const PageNotFound = lazy(() => import("./pages/page-not-found/PageNotFound"));
+const CheckUserForm = lazy(() => import("./pages/dashboard/CheckUserForm"));
+const SalesForm = lazy(() => import("./pages/sales-form/SalesForm"));
+const CheckForm = lazy(() => import("./pages/check-form/CheckForm"));
+const Home = lazy(() => import("./pages/home/Home"));
+const Blog = lazy(() => import("./pages/blog/Blog"));
+const Notifications = lazy(() => import("./pages/dashboard/Notifications"));
+
 function App() {
   return (
     <>
-      <Suspense fallback={<GlobalLoading />}>
+      <>
         <Routes>
           <Route path="" element={<Navigate to={ROUTES.HOME.ME} />} />
           <Route path={ROUTES.PAYMENT.ME} element={<GlobalPayment />} />
@@ -52,7 +59,9 @@ function App() {
                 <AuthUserFormGuard
                   noVerificationRedirectTo={ROUTES.USER_FORM.ME}
                 >
-                  <Application />
+                  <Suspense fallback={<GlobalLoading />}>
+                    <Application />
+                  </Suspense>
                 </AuthUserFormGuard>
               </AuthAppGuard>
             }
@@ -102,7 +111,7 @@ function App() {
 
           <Route path="*" element={<PageNotFound />} />
         </Routes>
-      </Suspense>
+      </>
     </>
   );
 }

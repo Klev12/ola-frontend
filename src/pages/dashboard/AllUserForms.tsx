@@ -13,7 +13,7 @@ import ROUTES from "../../consts/routes";
 import PaginatorPage from "../../components/PaginatorPage";
 import formatDate from "../../utils/format-date";
 
-export const AllUserForms = () => {
+const AllUserForms = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [keyword, setKeyword] = useState<string | undefined>(undefined);
   const navigate = useNavigate();
@@ -92,3 +92,5 @@ export const AllUserForms = () => {
     </div>
   );
 };
+
+export default AllUserForms;

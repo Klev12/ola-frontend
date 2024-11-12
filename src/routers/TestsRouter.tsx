@@ -1,11 +1,13 @@
 import { Route } from "react-router";
 import ROUTES from "../consts/routes";
-import Tests from "../pages/tests/Tests";
-import TestCreation from "../pages/tests/TestCreation";
-import TestResolution from "../pages/tests/TestResolution";
-import TestChecking from "../pages/tests/TestChecking";
-import EditForm from "../pages/tests/EditForm";
-import Resolver from "../pages/tests/Resolver";
+import { lazy } from "react";
+
+const Tests = lazy(() => import("../pages/tests/Tests"));
+const TestCreation = lazy(() => import("../pages/tests/TestCreation"));
+const TestResolution = lazy(() => import("../pages/tests/TestResolution"));
+const TestChecking = lazy(() => import("../pages/tests/TestChecking"));
+const EditForm = lazy(() => import("../pages/tests/EditForm"));
+const Resolver = lazy(() => import("../pages/tests/Resolver"));
 
 const TestsRouter = (
   <Route path={ROUTES.TESTS.ME}>
