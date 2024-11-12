@@ -13,6 +13,7 @@ import { Message } from "primereact/message";
 import "./styles/signup-styles.css";
 import { UserArea } from "../../models/user";
 import collaboratorLinkService from "../../services/collaborator-link-service";
+import { MemberLinkType } from "../../models/collaborator-link";
 
 const Signup: React.FC = () => {
   const { code } = useParams();
@@ -118,7 +119,14 @@ const Signup: React.FC = () => {
             Registro{" "}
             {code &&
               !isLoadingCollaboratorData &&
-              `colaborador de ${collaboratorData?.user?.code} en el grupo "${collaboratorData?.team.name}"`}
+              `${
+                collaboratorData?.decodedToken.type ===
+                MemberLinkType.collaborator
+                  ? "colaborador"
+                  : "socio"
+              } de ${collaboratorData?.decodedToken.ownerCode} en el grupo "${
+                collaboratorData?.decodedToken.teamName
+              }"`}
           </h2>
           {errorMessage && <Message severity="error" text={errorMessage} />}
           <label htmlFor="email">Correo electrónico: </label>
@@ -140,7 +148,7 @@ const Signup: React.FC = () => {
           <Dropdown
             disabled={!!code}
             id="area"
-            value={collaboratorData?.user.area || selectedArea}
+            value={code ? UserArea.commercial : selectedArea}
             name="area"
             options={Object.values(UserArea).map((area) => {
               switch (area) {

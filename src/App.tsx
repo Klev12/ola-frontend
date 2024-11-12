@@ -29,6 +29,8 @@ import UserFormRouter from "./routers/UserFormRouter";
 import { Suspense } from "react";
 4;
 import GlobalLoading from "./core/components/GlobalLoading";
+import GlobalPayment from "./pages/payment/GlobalPayment";
+import PaypalCapture from "./pages/payment/PaypalCapture";
 
 function App() {
   return (
@@ -36,6 +38,8 @@ function App() {
       <Suspense fallback={<GlobalLoading />}>
         <Routes>
           <Route path="" element={<Navigate to={ROUTES.HOME.ME} />} />
+          <Route path={ROUTES.PAYMENT.ME} element={<GlobalPayment />} />
+          <Route path={ROUTES.PAYPAL.CAPTURE} element={<PaypalCapture />} />
           <Route
             path={ROUTES.PAYPHONE.ME}
             element={<PaymentTransaction />}

@@ -7,14 +7,25 @@ import { authenticate } from "../../services/auth-service";
 import { FileDocument } from "../../models/file";
 import { Navigate } from "react-router";
 import ROUTES from "../../consts/routes";
+import userService from "../../services/user-service";
 
 const SignatureDraw: React.FC = () => {
-  const { data: userData, refetch: refetchUser } = useQuery({
+  const { data: userData } = useQuery({
     queryFn: () => authenticate().then((res) => res.data),
-    queryKey: ["signature-data"],
+    queryKey: ["user-data"],
+    refetchOnWindowFocus: false,
   });
 
-  if (userData?.user.multimedias.length === 4) {
+  const { data: multimediaData, refetch: refetchUser } = useQuery({
+    queryFn: () =>
+      userService
+        .getMultimedia({ userId: userData?.user.id as number })
+        .then((res) => res.data),
+    queryKey: ["signature-data"],
+    refetchOnWindowFocus: false,
+  });
+
+  if (multimediaData?.multimedia?.length === 4) {
     return <Navigate to={ROUTES.USER_FORM.VERIFICATION} />;
   }
 
@@ -36,7 +47,7 @@ const SignatureDraw: React.FC = () => {
         uploadUrl={`${ENV.BACKEND_ROUTE}/multimedia/signature`}
         deleteUrl={`${ENV.BACKEND_ROUTE}/multimedia/`}
         defaultFiles={
-          userData?.user?.multimedias
+          multimediaData?.multimedia
             ?.filter((file) => file.type === "signature")
             .map(
               (file) =>

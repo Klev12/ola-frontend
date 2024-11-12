@@ -30,7 +30,7 @@ export class GenericListService {
     }
 
     for (const [key, value] of Object.entries(params?.values ?? {})) {
-      api += `${key}=${value}`;
+      api += `&&${key}=${value}`;
     }
 
     return axios.get(api);

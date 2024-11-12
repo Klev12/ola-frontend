@@ -36,8 +36,6 @@ const Payphonelink = () => {
     );
   }
 
-  console.log(formData);
-
   return (
     <div
       style={{

@@ -73,7 +73,7 @@ const Sales = () => {
         accessTo: Object.values(ItemsIdentifier),
       },
       {
-        roles: [Roles.sales],
+        roles: [Roles.sales, Roles.collaborator],
         accessTo: [
           ItemsIdentifier.generateSales,
           ItemsIdentifier.mySales,

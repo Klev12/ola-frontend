@@ -1,30 +1,33 @@
 import { ENV } from "../consts/const";
 import axios from "../interceptors/axios-interceptor";
 import {
-  CollaboratorLinkDataGetDto,
   CollaboratorLinkGetDto,
+  DecodedLinkToken,
+  MemberLinkType,
 } from "../models/collaborator-link";
 
 class CollaboratorLinkService {
+  readonly api = {
+    base: `${ENV.BACKEND_ROUTE}/member-links`,
+  };
+
   findAll() {
-    return axios.get<{ collaboratorLinks: CollaboratorLinkGetDto[] }>(
-      `${ENV.BACKEND_ROUTE}/collaborator-links`
+    return axios.get<{ memberLinks: CollaboratorLinkGetDto[] }>(
+      `${ENV.BACKEND_ROUTE}/member-links`
     );
   }
 
-  create() {
-    return axios.post(`${ENV.BACKEND_ROUTE}/collaborator-links`);
+  create({ type }: { type: MemberLinkType }) {
+    return axios.post(`${ENV.BACKEND_ROUTE}/member-links`, { type });
   }
 
   invalidateLink(id: number) {
-    return axios.delete(
-      `${ENV.BACKEND_ROUTE}/collaborator-links/invalidate/${id}`
-    );
+    return axios.delete(`${ENV.BACKEND_ROUTE}/member-links/invalidate/${id}`);
   }
 
   retrieveData(token: string) {
-    return axios.get<CollaboratorLinkDataGetDto>(
-      `${ENV.BACKEND_ROUTE}/collaborator-links/data/${token}`
+    return axios.get<{ decodedToken: DecodedLinkToken }>(
+      `${ENV.BACKEND_ROUTE}/member-links/data/${token}`
     );
   }
 }

@@ -1,4 +1,5 @@
 import DASHBOARD_ROUTES from "./routes/dashboard-routes";
+import PAYMENT_ROUTES from "./routes/payment-routes";
 import PDF_ROUTES from "./routes/pdf-routes";
 import SALES_ROUTES from "./routes/sales-routes";
 import TESTS_ROUTES from "./routes/tests-routes";
@@ -80,6 +81,13 @@ const ROUTES = {
   TRAINING: {
     ME: "/training",
   },
+  PAYPAL: {
+    ME: "/paypal",
+    get CAPTURE() {
+      return `${this.ME}/capture`;
+    },
+  },
+  PAYMENT: PAYMENT_ROUTES,
 };
 
 export default ROUTES;

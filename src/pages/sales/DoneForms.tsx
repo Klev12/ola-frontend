@@ -7,12 +7,16 @@ import ShowElementList from "../../components/show-element-list/ShowElementList"
 import { DoneSaleSummaryGetDto } from "../../models/done-sale";
 import { SaleGetDto } from "../../models/sale";
 import { useMemo } from "react";
+import useGlobalState from "../../store/store";
+import { Roles } from "../../models/user";
 
 interface DoneFormsProps {
   lastMonth?: boolean;
 }
 
 const DoneForms = ({ lastMonth = false }: DoneFormsProps) => {
+  const authenticatedUser = useGlobalState((state) => state.user);
+
   const dateFilter = useMemo(() => {
     if (lastMonth) {
       return {
@@ -48,13 +52,19 @@ const DoneForms = ({ lastMonth = false }: DoneFormsProps) => {
                 emptyMessage="No hay ventas en el mes actual"
               >
                 <Column
+                  header="Total de Transacciones"
+                  field="transactionTotal"
+                />
+                <Column
                   header="Monto total de transacciones"
                   field="transactionTotalAmount"
                 />
-                <Column
-                  header="Monto total de comisiones"
-                  field="userTotalCommission"
-                />
+                {authenticatedUser?.role !== Roles.collaborator && (
+                  <Column
+                    header="Monto total de comisiones"
+                    field="userTotalCommission"
+                  />
+                )}
               </DataTable>
               <div style={{ margin: "20px" }}>
                 <ShowElementList
