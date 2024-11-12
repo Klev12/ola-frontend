@@ -1,4 +1,5 @@
 import "./App.css";
+import "./pages/home/styles/home-styles.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
