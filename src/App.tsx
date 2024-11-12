@@ -16,8 +16,6 @@ import UserFormRouter from "./routers/UserFormRouter";
 import { lazy, Suspense } from "react";
 4;
 import GlobalLoading from "./core/components/GlobalLoading";
-import GlobalPayment from "./pages/payment/GlobalPayment";
-import PaypalCapture from "./pages/payment/PaypalCapture";
 
 const Application = lazy(() => import("./layout/Application"));
 const Payment = lazy(() => import("./pages/sales-form/Payment"));
@@ -28,6 +26,8 @@ const Payphonelink = lazy(() => import("./pages/sales-form/Payphonelink"));
 const PaymentTransaction = lazy(
   () => import("./pages/sales-form/PaymentTransaction")
 );
+const GlobalPayment = lazy(() => import("./pages/payment/GlobalPayment"));
+const PaypalCapture = lazy(() => import("./pages/payment/PaypalCapture"));
 
 const Training = lazy(() => import("./pages/training/Training"));
 const Regulation = lazy(() => import("./pages/regulation/Regulation"));
