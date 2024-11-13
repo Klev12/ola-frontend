@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import saleService from "../../services/sale-service";
 import FormPdf from "./components/FormPdf";
 import contractService from "../../services/contract-service";
+import { getAllTransactions } from "../../services/transaction-service";
 
 const HubFormPdf = () => {
   const { id } = useParams();
@@ -14,8 +15,11 @@ const HubFormPdf = () => {
         const contract = await contractService
           .findById({ contractId: data.form.contractId as number })
           .then((res) => res.data.contract);
+        const transactions = await getAllTransactions({
+          formId: Number(id),
+        }).then((res) => res.data.transactions);
 
-        return { sale: data, contract };
+        return { sale: data, contract, transactions };
       }),
     queryKey: ["sale", id],
   });
@@ -27,7 +31,10 @@ const HubFormPdf = () => {
           type="hub-form"
           sale={data?.sale?.form}
           formScheme={data?.sale?.formScheme}
-          metadata={{ contract: data?.contract }}
+          metadata={{
+            contract: data?.contract,
+            transactions: data.transactions,
+          }}
         />
       )}
       {!data && !isLoading && <div>Error al cargar el formulario</div>}

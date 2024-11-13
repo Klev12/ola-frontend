@@ -17,6 +17,7 @@ import { FormMetadata } from "./FormPdf";
 import replaceKeyWords from "../../../utils/replace-key-words";
 import FooterSignatureSalesStatic from "../../../components/term-and-conditions/FooterSignatureSalesStatic";
 import AdditionalDataSale from "./sales/AdditionalDataSale";
+import TransactionCardPdf from "./transaction/TransactionCardPdf";
 
 interface HubFormTemplateProps {
   saleInfo?: SaleGetDto;
@@ -293,6 +294,7 @@ const HubFormTemplate = ({
           );
         })}
       </div>
+      <TransactionCardPdf metadata={metadata} />
       <div style={{ breakInside: "avoid" }}>
         <h2 style={{ textAlign: "center" }}>
           {replaceKeyWords({

@@ -5,7 +5,6 @@ import useFormDetails from "../../../hooks/useFormDetails";
 import HeaderDate from "./sales/HeaderDate";
 import BoxTableSales from "./sales/BoxTableSales";
 import { ENV, ResourceAssets } from "../../../consts/const";
-import formatDateEs from "../../../utils/format-date-es";
 import FooterSignatureSalesStatic from "../../../components/term-and-conditions/FooterSignatureSalesStatic";
 import { useQuery } from "react-query";
 import { findUserById } from "../../../services/user-service";
@@ -22,6 +21,7 @@ import {
   translatedMembership,
 } from "../../../consts/translations/sale-translations";
 import AdditionalDataSale from "./sales/AdditionalDataSale";
+import TransactionCardPdf from "./transaction/TransactionCardPdf";
 
 interface SalesFormTemplateProps {
   onLoadHtml?: (html: string) => void;
@@ -312,92 +312,7 @@ const SalesFormTemplate = ({
         <BoxTableSales fields={allFields.slice(16, 18)} />
         <BoxTableSales fields={allFields.slice(18, 20)} />
       </div>
-      <div style={{ breakInside: "avoid", pageBreakBefore: "always" }}>
-        <h2
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          Factura
-        </h2>
-        {metadata?.transactions?.map((transaction) => {
-          return (
-            <div
-              key={transaction.id}
-              style={{
-                width: "500px",
-                marginTop: "80px",
-                marginLeft: "50px",
-              }}
-            >
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <span style={{ fontWeight: "bold" }}>Fecha:</span>
-                <span style={{ paddingLeft: "120px" }}>
-                  {" "}
-                  {formatDateEs(transaction.createdAt)}
-                </span>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  paddingTop: "20px",
-                }}
-              >
-                <span style={{ fontWeight: "bold" }}>Nombre de negocio:</span>
-                <span style={{ paddingRight: "195px" }}>
-                  {transaction.businessName}
-                </span>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  paddingTop: "20px",
-                }}
-              >
-                <span style={{ fontWeight: "bold" }}>Cliente:</span>
-                <span style={{ paddingRight: "180px" }}>
-                  {" "}
-                  {transaction.costumerName}
-                </span>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  paddingTop: "20px",
-                }}
-              >
-                <span style={{ fontWeight: "bold" }}>
-                  Identificador de transacción:
-                </span>
-                <span>{transaction.clientTransactionId}</span>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  paddingTop: "20px",
-                }}
-              >
-                <span style={{ fontWeight: "bold" }}>Tienda:</span>
-                <span> {transaction.storeName}</span>
-              </div>
-              <hr />
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <span style={{ fontWeight: "bold" }}>Monto:</span>
-                <span style={{ fontWeight: "bold" }}>
-                  {" "}
-                  ${transaction.amount}
-                </span>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      <TransactionCardPdf metadata={metadata} />
       <div style={{ breakInside: "avoid" }}>
         <h2 style={{ textAlign: "center" }}>
           {replaceKeyWords({
