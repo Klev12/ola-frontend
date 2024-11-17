@@ -56,7 +56,7 @@ export enum SalePaymentMethod {
 
 export enum SaleCommercialCost {
   commercial = "commercial",
-  refferedBenefit = "reffered-benefit",
+  refferedBenefit = "referred-benefit",
   institutionalAgreement = "institutional-agreement",
   promotionalCost = "promotional-cost",
 }

@@ -4,8 +4,7 @@ import { getFormById } from "../../services/forms-service";
 import { useParams } from "react-router";
 import { submitForm } from "../../services/result-service";
 import { ENV } from "../../consts/const";
-import PaymentDataForm from "../sales/components/PaymentDataForm";
-import useGlobalState from "../../store/store";
+
 import { Toast } from "primereact/toast";
 import { useMemo, useRef } from "react";
 import GlobalPrintForm from "../../components/global-print-form/GlobalPrintForm";
@@ -18,7 +17,7 @@ const CheckForm = () => {
   const toast = useRef<Toast>(null);
   const { data: formData, refetch: refetchForm } = useQuery({
     queryFn: () => getFormById(id as string).then((res) => res.data),
-    queryKey: ["form-user", id],
+    queryKey: ["form-sale", id],
     retry: 1,
   });
 
@@ -54,8 +53,6 @@ const CheckForm = () => {
         }) || []
     );
   }, [formData]);
-
-  const isFormEditable = useGlobalState((state) => state.isFormEditable);
 
   return (
     <div className="user-form">
@@ -128,13 +125,6 @@ const CheckForm = () => {
             width={200}
             src={`${ENV.BACKEND_ROUTE}/multimedia/${formData?.form?.signature}`}
           ></img>
-          <div>
-            <PaymentDataForm
-              payment={formData?.form?.payment}
-              formId={formData?.form?.id as number}
-              disabled={isFormEditable}
-            />
-          </div>
         </div>
       </div>
     </div>

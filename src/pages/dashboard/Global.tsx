@@ -43,7 +43,7 @@ const Global = () => {
       ],
     },
     {
-      label: "Términos y condiciones",
+      label: "Términos y Condiciones",
       icon: "pi pi-box",
       items: [
         {
@@ -75,14 +75,14 @@ const Global = () => {
       },
     },
     {
-      label: "Capacitaciones",
+      label: "HUB Capacitaciones",
       icon: "pi pi-pencil",
       command: () => {
         navigate(ROUTES.DASHBOARD.GLOBAL_COURSES);
       },
     },
     {
-      label: "Servicios",
+      label: "OLA Servicios",
       icon: "pi pi-plus",
       command: () => {
         navigate(ROUTES.DASHBOARD.GLOBAL_SERVICES);
