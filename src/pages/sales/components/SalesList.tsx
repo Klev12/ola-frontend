@@ -306,6 +306,7 @@ const SalesList = ({
         draggable={false}
         visible={showTransactionDialog.value}
         onHide={() => showTransactionDialog.setFalse()}
+        style={{ width: "90vw", minWidth: "200px", maxWidth: "500px" }}
       >
         <DataTable
           value={transactionsData?.transactions}

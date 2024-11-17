@@ -14,6 +14,9 @@ export interface DoneSaleGetDto {
   paymentMethod: SalePaymentMethod;
   commercialCost: SaleCommercialCost;
   membership: SaleMemberShip;
+  serviceTitle?: string | null;
+  serviceOptionTitle?: string | null;
+  courseTitle?: string | null;
 }
 
 export interface DoneSaleSummaryGetDto {
