@@ -44,8 +44,8 @@ const translatedCommercialCostOptions: {
     value: SaleCommercialCost.promotionalCost,
     label: "Costo promocional",
   },
-  [SaleCommercialCost.refferedBenefit]: {
-    value: SaleCommercialCost.refferedBenefit,
+  [SaleCommercialCost.referredBenefit]: {
+    value: SaleCommercialCost.referredBenefit,
     label: "Beneficio referido",
   },
 };
