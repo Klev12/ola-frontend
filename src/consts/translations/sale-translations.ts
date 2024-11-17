@@ -8,7 +8,7 @@ export const translatedCommercialCost: { [key in SaleCommercialCost]: string } =
   {
     "institutional-agreement": "Convenio institucional",
     "promotional-cost": "Costo promocional",
-    "reffered-benefit": "Beneficio referido",
+    "referred-benefit": "Beneficio referido",
     commercial: "Costo comercial",
   };
 
