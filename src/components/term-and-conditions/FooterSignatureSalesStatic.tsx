@@ -1,6 +1,7 @@
 import { CSSProperties } from "react";
 import { FormDetails, FormGetDto } from "../../models/forms";
 import { MetadataUser, UserGetDto } from "../../models/user";
+import { ENV } from "../../consts/const";
 
 interface FooterSignatureSalesStaticProps {
   formInfo?: FormGetDto;
@@ -47,7 +48,10 @@ const FooterSignatureSalesStatic = ({
           alignItems: "center",
         }}
       >
-        <img src={`/api/v1/multimedia/${formInfo?.signature}`} height={130} />
+        <img
+          src={`${ENV.BACKEND_ROUTE}/multimedia/${formInfo?.signature}`}
+          height={130}
+        />
 
         <h5 style={{ fontSize: "17px" }}>Cliente</h5>
         <p>{`${formDetails?.userNames} ${formDetails?.userLastNames}`}</p>
