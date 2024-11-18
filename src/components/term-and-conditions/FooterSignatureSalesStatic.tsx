@@ -49,7 +49,7 @@ const FooterSignatureSalesStatic = ({
         }}
       >
         <img
-          src={`${ENV.BACKEND_ROUTE}/multimedia/${formInfo?.signature}`}
+          src={`${window.location.origin}/api/v1/multimedia/${formInfo?.signature}`}
           height={130}
         />
 
