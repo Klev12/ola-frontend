@@ -10,7 +10,7 @@ export enum ContractIds {
 }
 
 export const ENV = {
-  BACKEND_ROUTE: `http://localhost:8000/api/v1`,
+  BACKEND_ROUTE: import.meta.env.VITE_BACKEND_HOST,
   ASSETS_ROUTE(resource: ResourceAssets): string {
     return `${this.BACKEND_ROUTE}/assets/${resource}`;
   },
