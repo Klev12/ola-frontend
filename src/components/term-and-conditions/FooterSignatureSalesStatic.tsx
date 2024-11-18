@@ -1,4 +1,4 @@
-import { CSSProperties, useMemo } from "react";
+import { CSSProperties } from "react";
 import { FormDetails, FormGetDto } from "../../models/forms";
 import { MetadataUser, UserGetDto } from "../../models/user";
 import { ENV } from "../../consts/const";
@@ -16,10 +16,6 @@ const FooterSignatureSalesStatic = ({
   formDetails,
   style,
 }: FooterSignatureSalesStaticProps) => {
-  const clientSignatureUrl = useMemo(() => {
-    return `${ENV.BACKEND_ROUTE}/multimedia/${formInfo?.signature}`;
-  }, [formInfo]);
-
   return (
     <div
       style={{
@@ -52,7 +48,10 @@ const FooterSignatureSalesStatic = ({
           alignItems: "center",
         }}
       >
-        <img src={clientSignatureUrl} height={130} />
+        <img
+          src={`${ENV.BACKEND_ROUTE}/multimedia/${formInfo?.signature}`}
+          height={130}
+        />
 
         <h5 style={{ fontSize: "17px" }}>Cliente</h5>
         <p>{`${formDetails?.userNames} ${formDetails?.userLastNames}`}</p>
