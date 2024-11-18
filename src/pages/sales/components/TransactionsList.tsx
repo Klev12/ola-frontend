@@ -67,6 +67,7 @@ const TransactionsList = ({ transactions, form }: TransactionsListProps) => {
                 href={`${window.location.origin}/${ROUTES.PAYMENT.TOKEN(
                   value.token
                 )}`}
+                target="_blank"
               >
                 Ver link
               </a>
