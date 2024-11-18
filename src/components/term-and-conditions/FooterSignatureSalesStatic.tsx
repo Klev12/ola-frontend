@@ -1,7 +1,6 @@
 import { CSSProperties } from "react";
 import { FormDetails, FormGetDto } from "../../models/forms";
 import { MetadataUser, UserGetDto } from "../../models/user";
-import { ENV } from "../../consts/const";
 
 interface FooterSignatureSalesStaticProps {
   formInfo?: FormGetDto;
