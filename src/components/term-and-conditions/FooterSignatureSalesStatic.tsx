@@ -47,7 +47,7 @@ const FooterSignatureSalesStatic = ({
           alignItems: "center",
         }}
       >
-        <img src={`./api/v1/multimedia/${formInfo?.signature}`} height={130} />
+        <img src={`/api/v1/multimedia/${formInfo?.signature}`} height={130} />
 
         <h5 style={{ fontSize: "17px" }}>Cliente</h5>
         <p>{`${formDetails?.userNames} ${formDetails?.userLastNames}`}</p>
