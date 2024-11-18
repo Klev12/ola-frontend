@@ -92,11 +92,8 @@ const Verification = () => {
           width: "40vw",
         }}
       >
-        Haz click en enviar el formulario, cuando un usuario administrador o
-        secretaría revise y acepte tus datos, podrás acceder a tu cuenta,
-        automáticamente serás redirigido a tu espacio de trabajo si esperas en
-        esta página. (A tu email se enviará una notificación cuando seas
-        aceptado).
+        Haz click en enviar el formulario, tu cuenta será aceptada por
+        administración.
       </p>
     </div>
   );

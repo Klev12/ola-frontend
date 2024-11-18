@@ -45,10 +45,18 @@ export enum FieldIdentifier {
   contractDuration = "contract-duration",
 }
 
+export type MetadataTypes =
+  | "string"
+  | "number"
+  | "date"
+  | "boolean"
+  | "string/number";
+
 export interface Metadata {
-  type: string;
+  type: MetadataTypes;
   options?: OptionMetadata[];
   dependsOn?: string[];
+  max?: number;
 }
 
 export interface OptionMetadata {

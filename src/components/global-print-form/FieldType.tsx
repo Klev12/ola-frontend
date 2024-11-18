@@ -6,6 +6,8 @@ import { GlobalFormContext } from "./GlobalPrintForm";
 import { Calendar } from "primereact/calendar";
 import CheckBoxType from "./CheckBoxType";
 import { InputTextarea } from "primereact/inputtextarea";
+import { InputNumber } from "primereact/inputnumber";
+import FieldStringNumber from "./fields/FieldStringNumber";
 
 interface FieldTypeProps {
   field: Field;
@@ -28,7 +30,20 @@ const FieldType = ({ field, required }: FieldTypeProps) => {
 
   return (
     <>
-      {field.component === "input" && field?.metadata?.type !== "date" && (
+      {field.component === "input" && field.metadata.type === "number" && (
+        <InputNumber
+          inputMode="numeric"
+          value={Number(value) || 0}
+          required={required || field.required}
+          name={field.id as string}
+          disabled={!editionMode}
+        />
+      )}
+      {field.component === "input" &&
+        field.metadata.type === "string/number" && (
+          <FieldStringNumber field={field} required={required} />
+        )}
+      {field.component === "input" && field?.metadata?.type === "string" && (
         <InputText
           value={value}
           required={required || field.required}
