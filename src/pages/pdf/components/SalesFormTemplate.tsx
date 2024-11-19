@@ -95,7 +95,12 @@ const SalesFormTemplate = ({
         >
           <div></div>
           <HeaderDate formDetails={formDetails} />
-          <div style={{ display: "flex", justifyContent: "end" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "end",
+            }}
+          >
             <img
               src={ENV.ASSETS_ROUTE(ResourceAssets.logo)}
               style={{ width: "120px" }}

@@ -35,6 +35,7 @@ const ConfirmSale = () => {
         if (hashMode && !response.data.transaction) {
           window.location.reload();
         }
+        dialog.setFalse();
       },
       onError: (error: AxiosError<{ error?: { message?: string } }>) => {
         const message = error?.response?.data?.error?.message;
@@ -70,10 +71,9 @@ const ConfirmSale = () => {
         footer={
           <div>
             <Button
-              style={{ color: "purple" }}
               label="Cancelar"
               onClick={() => dialog.setFalse()}
-              className="p-button-text"
+              className="p-button-danger"
             />
             <Button
               label="Aceptar"
@@ -85,7 +85,6 @@ const ConfirmSale = () => {
                   hash: hashMode ? (formInfo?.hash as string) : undefined,
                 });
               }}
-              className="p-button-danger"
             />
           </div>
         }
