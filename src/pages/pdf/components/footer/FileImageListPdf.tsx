@@ -7,10 +7,25 @@ interface FileImageListPdfProps {
 
 const FileImageListPdf = ({ metadata }: FileImageListPdfProps) => {
   return (
-    <div>
-      {metadata?.files?.map((file) => {
-        return <img src={`${ENV.BACKEND_ROUTE}/multimedia/${file.hash}`}></img>;
-      })}
+    <div style={{ pageBreakBefore: "always" }}>
+      <h2 style={{ textAlign: "center" }}>Documentos</h2>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-around",
+          gap: "20px",
+        }}
+      >
+        {metadata?.files?.map((file) => {
+          return (
+            <img
+              key={file.hash}
+              style={{ width: "200px" }}
+              src={`${ENV.BACKEND_ROUTE}/multimedia/${file.hash}`}
+            ></img>
+          );
+        })}
+      </div>
     </div>
   );
 };

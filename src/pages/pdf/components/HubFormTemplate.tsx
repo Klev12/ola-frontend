@@ -19,6 +19,7 @@ import FooterSignatureSalesStatic from "../../../components/term-and-conditions/
 import AdditionalDataSale from "./sales/AdditionalDataSale";
 import TransactionCardPdf from "./transaction/TransactionCardPdf";
 import { ENV, ResourceAssets } from "../../../consts/const";
+import FileImageListPdf from "./footer/FileImageListPdf";
 
 interface HubFormTemplateProps {
   saleInfo?: SaleGetDto;
@@ -321,6 +322,9 @@ const HubFormTemplate = ({
           formInfo={saleInfo}
           formDetails={formDetails}
         />
+      </div>
+      <div>
+        <FileImageListPdf metadata={metadata} />
       </div>
     </div>
   );
