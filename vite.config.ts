@@ -9,5 +9,6 @@ export default defineConfig({
     rollupOptions: {
       treeshake: true,
     },
+    cssMinify: true,
   },
 });

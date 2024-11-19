@@ -62,17 +62,15 @@
 }
 
 .home-container {
-  background-image: url("../../../../src/assets/home.jpg");
-  background-size: cover;
+  background-image: url("../../../../src/assets/home.png");
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
-  overflow: hidden; /* Asegura que no haya desbordamiento innecesario */
 }
 
 .expand-nav-button {

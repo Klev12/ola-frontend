@@ -1,7 +1,17 @@
 const Home = () => {
   return (
-    <div className="home-container">
-      <h2>Home</h2>
+    <div>
+      <div
+        style={{
+          textAlign: "center",
+          fontWeight: "bold",
+          fontSize: "40px",
+          marginTop: "30px",
+        }}
+      >
+        Home
+      </div>
+      <div className="home-container"></div>
     </div>
   );
 };
