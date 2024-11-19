@@ -1,5 +1,6 @@
 export enum ResourceAssets {
   logo = "logo.png",
+  logoHub = "logo-hub.png",
 }
 
 export enum ContractIds {

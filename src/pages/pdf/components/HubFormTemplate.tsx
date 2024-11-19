@@ -18,6 +18,7 @@ import replaceKeyWords from "../../../utils/replace-key-words";
 import FooterSignatureSalesStatic from "../../../components/term-and-conditions/FooterSignatureSalesStatic";
 import AdditionalDataSale from "./sales/AdditionalDataSale";
 import TransactionCardPdf from "./transaction/TransactionCardPdf";
+import { ENV, ResourceAssets } from "../../../consts/const";
 
 interface HubFormTemplateProps {
   saleInfo?: SaleGetDto;
@@ -74,6 +75,10 @@ const HubFormTemplate = ({
         >
           Anexo 1
         </div>
+        <img
+          src={ENV.ASSETS_ROUTE(ResourceAssets.logoHub)}
+          style={{ width: "220px" }}
+        />
         <h2>Planilla de registro</h2>
         <div
           style={{
