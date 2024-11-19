@@ -92,14 +92,18 @@ const HeaderFormPrint = ({ customHeaderTemplate }: HeaderFormPrintProps) => {
       />
     ),
     pdfButton: (
-      <a
-        style={{ display: "flex", alignItems: "center", gap: "10px" }}
-        target="_blank"
-        href={linkBasedOnType[type ?? "user-form"]}
-      >
-        <i className={PrimeIcons.EYE}></i>
-        <span>pdf</span>
-      </a>
+      <>
+        {formInfo?.done && formInfo.signature && (
+          <a
+            style={{ display: "flex", alignItems: "center", gap: "10px" }}
+            target="_blank"
+            href={linkBasedOnType[type ?? "user-form"]}
+          >
+            <i className={PrimeIcons.EYE}></i>
+            <span>pdf</span>
+          </a>
+        )}
+      </>
     ),
   };
 
