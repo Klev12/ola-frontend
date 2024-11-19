@@ -82,6 +82,7 @@ const ShowDoneSales = ({ sales }: ShowDoneSalesProps) => {
             />
           )}
         />
+        <Column header="Creado en" field="createdAt" />
       </DataTable>
     </div>
   );

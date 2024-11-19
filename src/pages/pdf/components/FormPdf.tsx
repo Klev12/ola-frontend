@@ -15,12 +15,14 @@ import { ContractGetDto } from "../../../models/contract";
 import { CourseGetDto } from "../../../models/course";
 import { ServiceGetDto } from "../../../models/service";
 import { TransactionGetDto } from "../../../models/transaction";
+import { FileGetDto } from "../../../models/file";
 
 export interface FormMetadata {
   contract?: ContractGetDto;
   course?: CourseGetDto;
   service?: ServiceGetDto;
   transactions?: TransactionGetDto[];
+  files?: FileGetDto[];
 }
 
 interface FormPdfProps {
