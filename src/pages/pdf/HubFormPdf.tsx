@@ -4,6 +4,7 @@ import saleService from "../../services/sale-service";
 import FormPdf from "./components/FormPdf";
 import contractService from "../../services/contract-service";
 import { getAllTransactions } from "../../services/transaction-service";
+import fileService from "../../services/file-service";
 
 const HubFormPdf = () => {
   const { id } = useParams();
@@ -18,8 +19,11 @@ const HubFormPdf = () => {
         const transactions = await getAllTransactions({
           formId: Number(id),
         }).then((res) => res.data.transactions);
+        const files = await fileService
+          .findAll({ formId: Number(id) })
+          .then((res) => res.data.files);
 
-        return { sale: data, contract, transactions };
+        return { sale: data, contract, transactions, files };
       }),
     queryKey: ["sale", id],
   });
@@ -34,6 +38,7 @@ const HubFormPdf = () => {
           metadata={{
             contract: data?.contract,
             transactions: data.transactions,
+            files: data.files,
           }}
         />
       )}

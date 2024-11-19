@@ -1,7 +1,7 @@
 import { ENV } from "../consts/const";
 import { dataURLToBlob } from "./document-service";
 import axios from "../interceptors/axios-interceptor";
-import { FileType } from "../models/file";
+import { FileGetDto, FileType } from "../models/file";
 
 export function saveFileImage({
   fileUrl,
@@ -27,3 +27,19 @@ export function saveFileImage({
 
   return axios.post(`${ENV.BACKEND_ROUTE}/files/${hash ? hash : ""}`, formData);
 }
+
+export class FileService {
+  readonly api = {
+    base: `${ENV.BACKEND_ROUTE}/files`,
+  };
+
+  findAll({ formId }: { formId: number }) {
+    return axios.get<{ files: FileGetDto[] }>(
+      `${this.api.base}?formId=${formId}`
+    );
+  }
+}
+
+const fileService = new FileService();
+
+export default fileService;
