@@ -8,6 +8,7 @@ import FieldListType from "./FieldListType";
 import HeaderFormPrint, { CustomHeaderTemplateProps } from "./HeaderFormPrint";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import useFormDetails from "../../hooks/useFormDetails";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 interface GlobalPrintFormProps {
   formScheme?: FormScheme;
@@ -114,44 +115,47 @@ const GlobalPrintForm = ({
           if (onSubmit) onSubmit(results);
         }}
       >
-        {showHeader && (
+        {!formInfo && <ProgressSpinner />}
+        {formInfo && showHeader && (
           <HeaderFormPrint customHeaderTemplate={customHeaderTemplate} />
         )}
-        <div style={{ padding: "30px", paddingTop: "100px" }}>
-          <div>
-            <h1>Formulario {formInfo?.code}</h1>
-            <span>Creado en {formatDate(formInfo?.createdAt || "")}</span>
-          </div>
-          {formScheme?.form_groups.map((formGroup) => {
-            const field = formGroup.fields?.[0];
+        {formInfo && (
+          <div style={{ padding: "30px", paddingTop: "100px" }}>
+            <div>
+              <h1>Formulario {formInfo?.code}</h1>
+              <span>Creado en {formatDate(formInfo?.createdAt || "")}</span>
+            </div>
+            {formScheme?.form_groups.map((formGroup) => {
+              const field = formGroup.fields?.[0];
 
-            if (field?.metadata?.type === "boolean") {
+              if (field?.metadata?.type === "boolean") {
+                return (
+                  <div key={formGroup.id}>
+                    <h2>{formGroup.label}</h2>
+                    <DependentFormGroup formGroup={formGroup} />
+                  </div>
+                );
+              }
+
               return (
                 <div key={formGroup.id}>
                   <h2>{formGroup.label}</h2>
-                  <DependentFormGroup formGroup={formGroup} />
+                  <FieldListType fields={formGroup.fields} />
                 </div>
               );
-            }
-
-            return (
-              <div key={formGroup.id}>
-                <h2>{formGroup.label}</h2>
-                <FieldListType fields={formGroup.fields} />
-              </div>
-            );
-          })}
-          {formFooter}
-          {showSubmitButton && (
-            <Button
-              label="Subir cambios"
-              loading={loading}
-              disabled={loading || !editionMode}
-            />
-          )}
-        </div>
+            })}
+            {formInfo && <>{formFooter}</>}
+            {formInfo && showSubmitButton && (
+              <Button
+                label="Subir cambios"
+                loading={loading}
+                disabled={loading || !editionMode}
+              />
+            )}
+          </div>
+        )}
       </form>
-      {footer}
+      {formInfo && <>{footer}</>}
     </GlobalFormContext.Provider>
   );
 };

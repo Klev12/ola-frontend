@@ -168,7 +168,7 @@ const SalesForm = () => {
         />
       )}
 
-      {!isFormExpire && (
+      {formInfo && !isFormExpire && (
         <div style={{ padding: "40px" }}>
           {hashMode ? (
             <>

@@ -48,15 +48,11 @@ const WrapperSalesForm = ({ hashMode = true }: WrapperSalesFormProps) => {
   const { id } = useParams();
 
   const [isFormExpire, setIsFormExpire] = useState(false);
-  const isFormLoading = useToggle();
+  const isFormLoading = useToggle(true);
 
   const navigate = useNavigate();
 
-  const {
-    data: formData,
-
-    refetch,
-  } = useQuery({
+  const { data: formData, refetch } = useQuery({
     queryFn: () =>
       hashMode
         ? generateFormByHash(hash as string).then((res) => res.data)
