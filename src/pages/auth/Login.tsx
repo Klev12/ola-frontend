@@ -64,9 +64,19 @@ const Login = () => {
             toggleMask
           />
           <Button label="Iniciar sesión" />
-          <p>¿No tienes Cuenta?</p>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              marginTop: "10px",
+            }}
+          >
+            <Link to={ROUTES.RECOVER_ACCOUNT}>¿Olvidaste tu contraseña?</Link>
+          </div>
+
           <div className="signup-link">
-            <Link to={ROUTES.SIGNUP}>Crear Cuenta</Link>
+            <Link to={ROUTES.SIGNUP}>Crear Nueva Cuenta</Link>
           </div>
         </form>
       </div>

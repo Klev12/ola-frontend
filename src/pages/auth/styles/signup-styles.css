@@ -50,7 +50,7 @@
 .signup-form .p-button {
   width: 100%;
   padding: 0.75rem;
-  background-color: purple;
+
   border: none;
   border-radius: 4px;
   color: white;
@@ -60,7 +60,6 @@
 }
 
 .signup-form .p-button:hover {
-  background-color: purple;
 }
 
 .signup-form p {
@@ -76,7 +75,6 @@
 }
 
 .signup-form .login-link a {
-  color: purple;
   text-decoration: none;
   font-weight: bold;
 }

@@ -17,8 +17,12 @@ import UserFormRouter from "./routers/UserFormRouter";
 import { lazy, Suspense } from "react";
 4;
 import GlobalLoading from "./core/components/GlobalLoading";
+import RecoverAccount from "./pages/auth/RecoverAccount";
 
 const Application = lazy(() => import("./layout/Application"));
+
+const ChangePassword = lazy(() => import("./pages/auth/ChangePassword"));
+
 const Payment = lazy(() => import("./pages/sales-form/Payment"));
 const WrapperSalesForm = lazy(
   () => import("./pages/sales-form/components/WrapperSalesForm")
@@ -91,6 +95,8 @@ function App() {
           <Route path={ROUTES.LOGIN} element={<Login />}></Route>
           <Route path={ROUTES.SIGNUP} element={<Signup />}></Route>
           <Route path={ROUTES.SIGNUP_CODE} element={<Signup />}></Route>
+          <Route path={ROUTES.RECOVER_ACCOUNT} element={<RecoverAccount />} />
+          <Route path={ROUTES.CHANGE_PASSWORD} element={<ChangePassword />} />
 
           <Route
             path={ROUTES.GENERATE_SALES_FORM.ME}

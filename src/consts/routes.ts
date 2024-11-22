@@ -13,6 +13,15 @@ const ROUTES = {
   SIGNUP_CODE_STRING(code: string) {
     return `${this.SIGNUP}/${code}`;
   },
+  get RECOVER_ACCOUNT() {
+    return "/recover-account";
+  },
+  get CHANGE_PASSWORD() {
+    return `/change-password/:token`;
+  },
+  CHANGE_PASSWORD_TOKEN(token: string) {
+    return `/change-password/${token}`;
+  },
   HOME: {
     ME: "/home",
   },

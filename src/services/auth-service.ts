@@ -30,3 +30,22 @@ export function logout() {
 export function verifyByUserId(id: string | number) {
   return axios.post(`${ENV.BACKEND_ROUTE}/auth/verify`, { id });
 }
+
+export class AuthService {
+  readonly api = {
+    requestNewPassword: `${ENV.BACKEND_ROUTE}/auth/request-new-password`,
+    changePassword: `${ENV.BACKEND_ROUTE}/auth/change-password`,
+  };
+
+  requestNewPassword({ email }: { email: string }) {
+    return axios.post(`${this.api.requestNewPassword}`, { email });
+  }
+
+  changePassword({ password, token }: { token: string; password: string }) {
+    return axios.post(`${this.api.changePassword}`, { token, password });
+  }
+}
+
+const authService = new AuthService();
+
+export default authService;
