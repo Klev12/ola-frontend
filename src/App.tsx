@@ -22,6 +22,9 @@ import RecoverAccount from "./pages/auth/RecoverAccount";
 const Application = lazy(() => import("./layout/Application"));
 
 const ChangePassword = lazy(() => import("./pages/auth/ChangePassword"));
+const ChangeOwnPassword = lazy(
+  () => import("./pages/change-own-password/ChangeOwnPassword")
+);
 
 const Payment = lazy(() => import("./pages/sales-form/Payment"));
 const WrapperSalesForm = lazy(
@@ -72,6 +75,10 @@ function App() {
             }
           >
             <Route path={ROUTES.HOME.ME} element={<Home />} />
+            <Route
+              path={ROUTES.CHANGE_OWN_PASSWORD.ME}
+              element={<ChangeOwnPassword />}
+            />
             <Route
               path={ROUTES.DASHBOARD.CHECK_USER_FORM}
               element={<CheckUserForm />}

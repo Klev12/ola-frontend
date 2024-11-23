@@ -25,6 +25,9 @@ const ROUTES = {
   HOME: {
     ME: "/home",
   },
+  CHANGE_OWN_PASSWORD: {
+    ME: "/change-own-password",
+  },
   DASHBOARD: DASHBOARD_ROUTES,
   NOTIFICATIONS: {
     ME: "/notifications",

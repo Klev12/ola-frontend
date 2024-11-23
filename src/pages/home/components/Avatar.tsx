@@ -56,7 +56,7 @@ export default function AvatarDemo() {
           />
           <OverlayPanel ref={op} dismissable>
             <Link to="#" onClick={handleViewProfile}>
-              Ver perfiil
+              Ver perfil
             </Link>
             <div className="p-3">
               <Button
@@ -71,10 +71,9 @@ export default function AvatarDemo() {
             draggable={false}
             header="Perfil de usario"
             visible={visible}
-            style={{ width: "50vw" }}
             onHide={() => setVisible(false)}
           >
-            <Profile />
+            <Profile onChangePassword={() => setVisible(false)} />
           </Dialog>
         </div>
       </div>

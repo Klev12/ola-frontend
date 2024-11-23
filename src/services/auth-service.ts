@@ -35,6 +35,7 @@ export class AuthService {
   readonly api = {
     requestNewPassword: `${ENV.BACKEND_ROUTE}/auth/request-new-password`,
     changePassword: `${ENV.BACKEND_ROUTE}/auth/change-password`,
+    changePasswordAuth: `${ENV.BACKEND_ROUTE}/auth/change-password-auth`,
   };
 
   requestNewPassword({ email }: { email: string }) {
@@ -43,6 +44,19 @@ export class AuthService {
 
   changePassword({ password, token }: { token: string; password: string }) {
     return axios.post(`${this.api.changePassword}`, { token, password });
+  }
+
+  changePasswordAuth({
+    password,
+    newPassword,
+  }: {
+    password: string;
+    newPassword: string;
+  }) {
+    return axios.post(`${this.api.changePasswordAuth}`, {
+      password,
+      newPassword,
+    });
   }
 }
 
