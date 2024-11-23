@@ -10,6 +10,7 @@ import {
 import { FormGetDto } from "../../../models/forms";
 import ROUTES from "../../../consts/routes";
 import { Tag } from "primereact/tag";
+import CopyButton from "../../../core/components/CopyButton";
 
 interface TransactionsListProps {
   transactions?: TransactionGetDto[];
@@ -63,14 +64,22 @@ const TransactionsList = ({ transactions, form }: TransactionsListProps) => {
             header="Link de Pago"
             field="token"
             body={(value) => (
-              <a
-                href={`${window.location.origin}/${ROUTES.PAYMENT.TOKEN(
-                  value.token
-                )}`}
-                target="_blank"
-              >
-                Ver link
-              </a>
+              <div style={{ display: "flex", alignItems: "end", gap: "10px" }}>
+                <a
+                  href={`${window.location.origin}/${ROUTES.PAYMENT.TOKEN(
+                    value.token
+                  )}`}
+                  target="_blank"
+                >
+                  Ver link
+                </a>
+                <CopyButton
+                  text={`${window.location.origin}/${ROUTES.PAYMENT.TOKEN(
+                    value.token
+                  )}`}
+                  message="Link copiado"
+                />
+              </div>
             )}
           />
           <Column header="Monto" field="amount" />

@@ -30,12 +30,19 @@ const GenerateSignatureLinkButton = () => {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
       <Toast ref={toast} />
-      <h2>Firma</h2>
+      <div style={{ fontWeight: "bold", fontSize: "24px" }}>Firma</div>
       {formInfo?.hash && (
         <Timer expiryTimestamp={new Date(formInfo?.expire_hash_time || "")} />
       )}
       {formInfo?.hash && (
-        <>
+        <div
+          style={{
+            display: "flex",
+            gap: "10px",
+            flexWrap: "wrap",
+            alignItems: "end",
+          }}
+        >
           <a
             target="_blank"
             href={`${window.location.origin}${ROUTES.GENERATE_SALES_FORM.HASH(
@@ -45,6 +52,7 @@ const GenerateSignatureLinkButton = () => {
             formInfo?.hash as string
           )}`}</a>
           <Button
+            type="button"
             icon={PrimeIcons.COPY}
             onClick={() => {
               copyText(
@@ -58,10 +66,11 @@ const GenerateSignatureLinkButton = () => {
               });
             }}
           />
-        </>
+        </div>
       )}
       {formInfo?.hash ? (
         <Button
+          type="button"
           style={{ width: "fit-content" }}
           severity="danger"
           label="Invalidar link"
@@ -71,6 +80,7 @@ const GenerateSignatureLinkButton = () => {
         />
       ) : (
         <Button
+          type="button"
           style={{ width: "fit-content" }}
           label="Generar link para firma"
           loading={isLoading}

@@ -9,6 +9,7 @@ import { Toast } from "primereact/toast";
 import { TransactionGetDto } from "../../../models/transaction";
 import TransactionsList from "../../sales/components/TransactionsList";
 import { AxiosError } from "axios";
+import GenerateSignatureLinkButton from "./GenerateSignatureLinkButton";
 
 const ConfirmSale = () => {
   const { formInfo, hashMode } = useContext(SalesFormContext);
@@ -52,12 +53,26 @@ const ConfirmSale = () => {
   return (
     <div>
       <Toast ref={toast} />
-
-      <Button
-        disabled={formInfo?.block}
-        label="Confirmar venta"
-        onClick={() => dialog.setTrue()}
-      />
+      <div style={{ display: "grid", gap: "10px" }}>
+        {!hashMode && <GenerateSignatureLinkButton />}
+        <Button
+          disabled={formInfo?.block}
+          label="Confirmar venta"
+          onClick={() => dialog.setTrue()}
+        />
+        {pendingTransaction && formInfo?.transactions.length === 0 && (
+          <TransactionsList
+            form={formInfo}
+            transactions={[pendingTransaction]}
+          />
+        )}
+        {formInfo?.transactions.length !== 0 && (
+          <TransactionsList
+            form={formInfo}
+            transactions={formInfo?.transactions}
+          />
+        )}
+      </div>
 
       <Dialog
         closable={!isLoadingVerification.value}
@@ -95,16 +110,6 @@ const ConfirmSale = () => {
           pago)
         </p>
       </Dialog>
-
-      {pendingTransaction && (
-        <TransactionsList form={formInfo} transactions={[pendingTransaction]} />
-      )}
-      {formInfo?.transactions.length !== 0 && (
-        <TransactionsList
-          form={formInfo}
-          transactions={formInfo?.transactions}
-        />
-      )}
     </div>
   );
 };

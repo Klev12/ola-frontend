@@ -12,7 +12,8 @@ import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import SelectCourse from "./components/SelectCourse";
 import { FormHashAccess } from "../../models/forms";
 import SelectService from "./components/SelectService";
-import GenerateSignatureLinkButton from "./components/GenerateSignatureLinkButton";
+import { Divider } from "primereact/divider";
+import { Card } from "primereact/card";
 
 const SalesForm = () => {
   const {
@@ -110,7 +111,6 @@ const SalesForm = () => {
               {!hashMode && (
                 <>
                   {goBackButton}
-                  <Button label="Subir cambios" disabled={formInfo?.done} />
                   {pdfButton}
                 </>
               )}
@@ -124,7 +124,6 @@ const SalesForm = () => {
                       }}
                     />
                   )}
-                  <Button label="Siguiente" disabled={!isSignatureUploaded} />
                 </>
               )}
             </>
@@ -160,6 +159,125 @@ const SalesForm = () => {
                 {formInfo?.contract_id === ContractIds.ola && <SelectService />}
               </div>
               <SelectContractType formId={formInfo?.id as number} />
+              {formInfo && !isFormExpire && (
+                <div>
+                  {hashMode ? (
+                    <>
+                      <h2>Firma</h2>
+                      <FileUploader
+                        disabled={formInfo?.done}
+                        additionalPayload={{ formId: formInfo?.id }}
+                        defaultFiles={[
+                          {
+                            id: 1,
+                            identifier: formInfo?.signature as string,
+                            status: "completado",
+                            url: `${ENV.BACKEND_ROUTE}/multimedia/${formInfo?.signature}`,
+                          },
+                        ]}
+                        deleteUrl=""
+                        uploadUrl={`${ENV.BACKEND_ROUTE}/forms/signature/${
+                          hashMode ? hash : ""
+                        }`}
+                        onAfterUpload={() => {
+                          if (!hashMode) {
+                            refetchForm();
+                          }
+                          setIsSignatureUploaded(true);
+                        }}
+                        name="signature"
+                        showGeneralDelete={false}
+                        maxFiles={1}
+                        type="canvas-draw"
+                        showSpecificDelete={false}
+                      />
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  {formInfo?.signature && (
+                    <img
+                      about="signature"
+                      width={200}
+                      src={`${ENV.BACKEND_ROUTE}/multimedia/${formInfo.signature}`}
+                    ></img>
+                  )}
+                  <h2>Imágenes de cédula (opcional)</h2>
+                  <FileUploader
+                    disabled={formInfo?.done}
+                    noIdentifier={true}
+                    additionalPayload={{
+                      type: FileType.cardId,
+                      formId: formInfo?.id,
+                    }}
+                    deletePayload={{
+                      formId: formInfo?.id,
+                      type: FileType.cardId,
+                    }}
+                    inARow={true}
+                    accept=".jpeg, .png"
+                    defaultFiles={cardImages}
+                    deleteUrl={`${ENV.BACKEND_ROUTE}/files/${
+                      hashMode ? hash : ""
+                    }`}
+                    maxFiles={2}
+                    type="image"
+                    showSpecificDelete={false}
+                    name="file"
+                    uploadUrl={`${ENV.BACKEND_ROUTE}/files/${
+                      hashMode ? hash : ""
+                    }`}
+                    onAfterUpload={() => {
+                      if (!hashMode) {
+                        refetchForm();
+                      }
+                    }}
+                  />
+                  <h2>Foto del cliente (opcional)</h2>
+                  <FileUploader
+                    disabled={formInfo?.done}
+                    noIdentifier={true}
+                    defaultFiles={photos}
+                    additionalPayload={{
+                      type: FileType.photo,
+                      formId: formInfo?.id,
+                    }}
+                    uploadUrl={`${ENV.BACKEND_ROUTE}/files/${
+                      hashMode ? hash : ""
+                    }`}
+                    deletePayload={{
+                      formId: formInfo?.id,
+                      type: FileType.photo,
+                    }}
+                    deleteUrl={`${ENV.BACKEND_ROUTE}/files/${
+                      hashMode ? hash : ""
+                    }`}
+                    maxFiles={1}
+                    accept=".jpeg, .png"
+                    type="camara"
+                    showSpecificDelete={false}
+                    name="file"
+                    onAfterUpload={() => {
+                      if (!hashMode) {
+                        refetchForm();
+                      }
+                    }}
+                  />
+                </div>
+              )}
+              <Divider color="black"></Divider>
+              <Card title="Finalizar*">
+                {!hashMode && (
+                  <Button
+                    style={{ marginTop: "20px" }}
+                    label="Subir cambios"
+                    disabled={formInfo?.done}
+                  />
+                )}
+                {hashMode && (
+                  <Button label="Siguiente" disabled={!isSignatureUploaded} />
+                )}
+              </Card>
             </div>
           }
           onChangeDetails={(form) => {
@@ -168,97 +286,6 @@ const SalesForm = () => {
         />
       )}
 
-      {formInfo && !isFormExpire && (
-        <div style={{ padding: "40px" }}>
-          {hashMode ? (
-            <>
-              <h2>Firma</h2>
-              <FileUploader
-                disabled={formInfo?.done}
-                additionalPayload={{ formId: formInfo?.id }}
-                defaultFiles={[
-                  {
-                    id: 1,
-                    identifier: formInfo?.signature as string,
-                    status: "completado",
-                    url: `${ENV.BACKEND_ROUTE}/multimedia/${formInfo?.signature}`,
-                  },
-                ]}
-                deleteUrl=""
-                uploadUrl={`${ENV.BACKEND_ROUTE}/forms/signature/${
-                  hashMode ? hash : ""
-                }`}
-                onAfterUpload={() => {
-                  if (!hashMode) {
-                    refetchForm();
-                  }
-                  setIsSignatureUploaded(true);
-                }}
-                name="signature"
-                showGeneralDelete={false}
-                maxFiles={1}
-                type="canvas-draw"
-                showSpecificDelete={false}
-              />
-            </>
-          ) : (
-            <>
-              <GenerateSignatureLinkButton />
-            </>
-          )}
-          {formInfo?.signature && (
-            <img
-              about="signature"
-              width={200}
-              src={`${ENV.BACKEND_ROUTE}/multimedia/${formInfo.signature}`}
-            ></img>
-          )}
-          <h2>Imágenes de cédula</h2>
-          <FileUploader
-            disabled={formInfo?.done}
-            noIdentifier={true}
-            additionalPayload={{
-              type: FileType.cardId,
-              formId: formInfo?.id,
-            }}
-            deletePayload={{ formId: formInfo?.id, type: FileType.cardId }}
-            inARow={true}
-            accept=".jpeg, .png"
-            defaultFiles={cardImages}
-            deleteUrl={`${ENV.BACKEND_ROUTE}/files/${hashMode ? hash : ""}`}
-            maxFiles={2}
-            type="image"
-            showSpecificDelete={false}
-            name="file"
-            uploadUrl={`${ENV.BACKEND_ROUTE}/files/${hashMode ? hash : ""}`}
-            onAfterUpload={() => {
-              if (!hashMode) {
-                refetchForm();
-              }
-            }}
-          />
-          <h2>Foto del cliente</h2>
-          <FileUploader
-            disabled={formInfo?.done}
-            noIdentifier={true}
-            defaultFiles={photos}
-            additionalPayload={{ type: FileType.photo, formId: formInfo?.id }}
-            uploadUrl={`${ENV.BACKEND_ROUTE}/files/${hashMode ? hash : ""}`}
-            deletePayload={{ formId: formInfo?.id, type: FileType.photo }}
-            deleteUrl={`${ENV.BACKEND_ROUTE}/files/${hashMode ? hash : ""}`}
-            maxFiles={1}
-            accept=".jpeg, .png"
-            type="camara"
-            showSpecificDelete={false}
-            name="file"
-            onAfterUpload={() => {
-              if (!hashMode) {
-                refetchForm();
-              }
-            }}
-          />
-        </div>
-      )}
       <ConfirmDialog draggable={false} />
     </div>
   );

@@ -53,6 +53,7 @@ const CanvasDrawUploader = ({
       />
       <div style={{ display: "flex", gap: "20px" }}>
         <Button
+          type="button"
           outlined
           label="Limpiar"
           style={{ width: "100px" }}
@@ -61,6 +62,7 @@ const CanvasDrawUploader = ({
           loading={loading}
         />
         <Button
+          type="button"
           label="Subir"
           style={{ width: "100px" }}
           onClick={saveImage}

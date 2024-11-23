@@ -347,6 +347,7 @@ const SalesList = ({
                   href={`${window.location.origin}/${ROUTES.PAYMENT.TOKEN(
                     transaction.token
                   )}`}
+                  target="_blank"
                 >
                   Ver link
                 </a>

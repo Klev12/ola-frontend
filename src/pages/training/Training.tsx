@@ -87,7 +87,7 @@ const Training = () => {
         <ConfirmDialog draggable={false} />
         <Dialog
           draggable={false}
-          style={{ width: "50vw" }}
+          style={{ width: "90vw", maxWidth: "500px" }}
           visible={showVideoDialog.value}
           header={selectedTraining?.title}
           onHide={() => showVideoDialog.setFalse()}
