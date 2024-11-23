@@ -1,0 +1,22 @@
+.global-loading-overlay {
+  height: 100vh;
+  background-color: white;
+}
+
+.global-loading-overlay h2 {
+  color: #683ab7;
+  font-size: 80px;
+  font-weight: bold;
+  animation: title-animation 0.5s alternate-reverse infinite;
+  font-family: roboto;
+}
+
+@keyframes title-animation {
+  0% {
+    color: #683ab74b;
+  }
+
+  100% {
+    color: #683ab7;
+  }
+}

@@ -1,3 +1,5 @@
+import "./styles/global-loading-styles.css";
+
 const GlobalLoading = () => {
   return (
     <div>
@@ -7,8 +9,9 @@ const GlobalLoading = () => {
           justifyContent: "center",
           alignItems: "center",
         }}
+        className="global-loading-overlay"
       >
-        GlobalLoading....
+        <h2>OLA</h2>
       </div>
     </div>
   );

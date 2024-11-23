@@ -3,6 +3,7 @@ import { Navigate, Route } from "react-router";
 import ROUTES from "../consts/routes";
 
 const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
+
 const AllUserForms = lazy(() => import("../pages/dashboard/AllUserForms"));
 const UserTeam = lazy(() => import("../pages/dashboard/UserTeam"));
 const Notifications = lazy(() => import("../pages/dashboard/Notifications"));
