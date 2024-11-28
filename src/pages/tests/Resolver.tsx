@@ -11,6 +11,7 @@ import { useMemo, useRef } from "react";
 import { Toast } from "primereact/toast";
 import { AxiosError } from "axios";
 import useGlobalState from "../../store/store";
+import { FormGetDto } from "../../models/forms";
 
 const Resolver = () => {
   const { id } = useParams();
@@ -82,6 +83,7 @@ const Resolver = () => {
             )}
           </>
         )}
+        formInfo={{ createdAt: testData?.test.createdAt } as FormGetDto}
         formScheme={testData?.formScheme}
         onSubmit={(data) => {
           confirmDialog({

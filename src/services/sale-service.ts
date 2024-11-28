@@ -12,6 +12,10 @@ import {
 import generateQueryArray from "../utils/query/generate-query-array";
 
 export class SaleService {
+  readonly api = {
+    base: `${ENV.BACKEND_ROUTE}/forms/sales`,
+  };
+
   findAll({
     page = 1,
     limit = 10,

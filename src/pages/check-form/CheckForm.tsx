@@ -17,7 +17,7 @@ const CheckForm = () => {
   const toast = useRef<Toast>(null);
   const { data: formData, refetch: refetchForm } = useQuery({
     queryFn: () => getFormById(id as string).then((res) => res.data),
-    queryKey: ["form-sale", id],
+    queryKey: ["form-sales-data", id],
     retry: 1,
   });
 

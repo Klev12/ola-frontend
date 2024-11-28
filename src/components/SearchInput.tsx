@@ -13,7 +13,6 @@ const SearchInput = ({
   return (
     <form
       className="p-inputgroup flex-1"
-      style={{ width: "30vw" }}
       onSubmit={(e) => {
         e.preventDefault();
         const formData = Object.fromEntries(

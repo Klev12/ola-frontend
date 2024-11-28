@@ -148,7 +148,7 @@ const ShowElementList = forwardRef<
         )}
         {isExpanded && elementList.count > 1 && (
           <PaginatorPage
-            limit={limit}
+            limit={limit || 10}
             total={elementList.count}
             onPage={(page) => setPage(page + 1)}
           />

@@ -18,6 +18,7 @@ import { lazy, Suspense } from "react";
 4;
 import GlobalLoading from "./core/components/GlobalLoading";
 import RecoverAccount from "./pages/auth/RecoverAccount";
+import CheckForm from "./pages/check-form/CheckForm";
 
 const Application = lazy(() => import("./layout/Application"));
 
@@ -42,7 +43,7 @@ const Regulation = lazy(() => import("./pages/regulation/Regulation"));
 const PageNotFound = lazy(() => import("./pages/page-not-found/PageNotFound"));
 const CheckUserForm = lazy(() => import("./pages/dashboard/CheckUserForm"));
 const SalesForm = lazy(() => import("./pages/sales-form/SalesForm"));
-const CheckForm = lazy(() => import("./pages/check-form/CheckForm"));
+
 const Home = lazy(() => import("./pages/home/Home"));
 const Blog = lazy(() => import("./pages/blog/Blog"));
 const Notifications = lazy(() => import("./pages/dashboard/Notifications"));
