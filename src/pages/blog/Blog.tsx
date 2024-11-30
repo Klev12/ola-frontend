@@ -22,15 +22,15 @@ const Blog = () => {
       <div
         style={{
           display: "flex",
-          flexWrap: "wrap", 
-          justifyContent: "center", 
-          gap: "6rem", 
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: "6rem",
         }}
       >
         <Card
           title="Nuestra Historia"
           style={{
-            width: "300px", 
+            width: "300px",
             height: "600px",
             padding: "1.5rem",
             borderRadius: "10px",
@@ -116,51 +116,53 @@ const Blog = () => {
           title="Valores"
           style={{
             width: "300px",
-            height:"600px",
+            height: "600px",
             padding: "1.5rem",
             borderRadius: "10px",
             boxShadow: "0px 10px 15px rgba(0, 0, 0, 0.1)",
             backgroundColor: "#ffffff",
           }}
         >
-          <ScrollPanel style={{width:"110%", height:"450px"}}>
-          <p style={{ lineHeight: "1.6", color: "#555" }}>
-            <p style={{ fontWeight: "bold" }}>Integridad:</p> Actuamos con
-            honestidad y transparencia en todas nuestras interacciones,
-            manteniendo la coherencia entre nuestras palabras y acciones.
-          </p>
-          <p style={{ lineHeight: "1.6", color: "#555" }}>
-            <p style={{ fontWeight: "bold" }}>Colaboración:</p> Valoramos y fomentamos la colaboración intena y
-            extena, reconociendo que el éxito se logra mejor cuando trabajamos
-            juntos de manera efectiva.{" "}
-          </p>
-          <p style={{ lineHeight: "1.6", color: "#555" }}>
-            <p style={{ fontWeight: "bold" }}>Innovación:</p> Abrazamos la creatividad y la búsqueda constante de
-            soluciones innovadoras. Nos esfozamos por ser pioneros en la
-            adopción de nuevas tecnologías y enfoques que beneficien a nuestros
-            clientes.
-          </p>
+          <ScrollPanel style={{ width: "110%", height: "450px" }}>
+            <p style={{ lineHeight: "1.6", color: "#555" }}>
+              <p style={{ fontWeight: "bold" }}>Integridad:</p> Actuamos con
+              honestidad y transparencia en todas nuestras interacciones,
+              manteniendo la coherencia entre nuestras palabras y acciones.
+            </p>
+            <p style={{ lineHeight: "1.6", color: "#555" }}>
+              <p style={{ fontWeight: "bold" }}>Colaboración:</p> Valoramos y
+              fomentamos la colaboración intena y extena, reconociendo que el
+              éxito se logra mejor cuando trabajamos juntos de manera efectiva.{" "}
+            </p>
+            <p style={{ lineHeight: "1.6", color: "#555" }}>
+              <p style={{ fontWeight: "bold" }}>Innovación:</p> Abrazamos la
+              creatividad y la búsqueda constante de soluciones innovadoras. Nos
+              esfozamos por ser pioneros en la adopción de nuevas tecnologías y
+              enfoques que beneficien a nuestros clientes.
+            </p>
 
-          <p style={{ lineHeight: "1.6", color: "#555" }}>
-            {" "}
-            <p style={{ fontWeight: "bold" }}>Orientación al Cliente:</p> Colocamos las necesidades y objetivos de
-            nuestros clientes en el centro de todo lo que hacemos. Nos esfozamos
-            por comprender sus desafíos y ofrecer soluciones adaptadas a sus
-            metas comerciales.{" "}
-          </p>
+            <p style={{ lineHeight: "1.6", color: "#555" }}>
+              {" "}
+              <p style={{ fontWeight: "bold" }}>Orientación al Cliente:</p>{" "}
+              Colocamos las necesidades y objetivos de nuestros clientes en el
+              centro de todo lo que hacemos. Nos esfozamos por comprender sus
+              desafíos y ofrecer soluciones adaptadas a sus metas comerciales.{" "}
+            </p>
 
-          <p style={{ lineHeight: "1.6", color: "#555" }}>
-           <p style={{ fontWeight: "bold" }}>Excelencia:</p> Buscamos la excelencia en todos los aspectos de nuestro
-            trabajo, desde la calidad de nuestros sevicios hasta la atención al
-            cliente. Nos esfozamos por superar las expectativas y alcanzar
-            estándares de alto rendimiento.{" "}
-          </p>
+            <p style={{ lineHeight: "1.6", color: "#555" }}>
+              <p style={{ fontWeight: "bold" }}>Excelencia:</p> Buscamos la
+              excelencia en todos los aspectos de nuestro trabajo, desde la
+              calidad de nuestros sevicios hasta la atención al cliente. Nos
+              esfozamos por superar las expectativas y alcanzar estándares de
+              alto rendimiento.{" "}
+            </p>
 
-          <p style={{ lineHeight: "1.6", color: "#555" }}>
-            <p style={{ fontWeight: "bold" }}>Aprendizaje Continuo:</p> Fomentamos una cultura de aprendizaje
-            constante, donde la mejora continua y la adaptabilidad son
-            fundamentales para nuestro éxito individual y colectivo.
-          </p>
+            <p style={{ lineHeight: "1.6", color: "#555" }}>
+              <p style={{ fontWeight: "bold" }}>Aprendizaje Continuo:</p>{" "}
+              Fomentamos una cultura de aprendizaje constante, donde la mejora
+              continua y la adaptabilidad son fundamentales para nuestro éxito
+              individual y colectivo.
+            </p>
           </ScrollPanel>
         </Card>
 
@@ -206,27 +208,27 @@ const Blog = () => {
           title="¿Por qué se llama Ola?"
           style={{
             width: "300px",
-            height:"600px",
+            height: "600px",
             padding: "1.5rem",
             borderRadius: "10px",
             boxShadow: "0px 10px 15px rgba(0, 0, 0, 0.1)",
             backgroundColor: "#ffffff",
           }}
         >
-          <ScrollPanel style={{width:"110%", height:"450px"}}>
-          <p style={{ lineHeight: "1.6", color: "#555" }}>
-            Ola simboliza la vastedad y misteio del océano, donde solo conocemos
-            una fracción mínima de lo que alberga, siendo el resto un enigma.
-            Este concepto encuentra su paralelo en la vida comercial:
-            comprendemos lo que tenemos en el presente, pero el futuro comercial
-            es desconocido. Así como las olas en el mar, que llegan con
-            distintas intensidades y fomas, Ola representa una estrategia
-            diseñada para cada comercio. Al igual que el agua que foma la ola,
-            nuestras estrategias son personalizadas, adaptándose a las
-            necesidades específicas de cada negocio. Pueden ser tan diversas
-            como pequeñas o grandes olas, ya que reconocemos que cada comercio
-            requiere una aproximación única.
-          </p>
+          <ScrollPanel style={{ width: "110%", height: "450px" }}>
+            <p style={{ lineHeight: "1.6", color: "#555" }}>
+              Ola simboliza la vastedad y misteio del océano, donde solo
+              conocemos una fracción mínima de lo que alberga, siendo el resto
+              un enigma. Este concepto encuentra su paralelo en la vida
+              comercial: comprendemos lo que tenemos en el presente, pero el
+              futuro comercial es desconocido. Así como las olas en el mar, que
+              llegan con distintas intensidades y fomas, Ola representa una
+              estrategia diseñada para cada comercio. Al igual que el agua que
+              foma la ola, nuestras estrategias son personalizadas, adaptándose
+              a las necesidades específicas de cada negocio. Pueden ser tan
+              diversas como pequeñas o grandes olas, ya que reconocemos que cada
+              comercio requiere una aproximación única.
+            </p>
           </ScrollPanel>
         </Card>
         <Card

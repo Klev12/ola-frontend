@@ -40,7 +40,7 @@
 
 .content {
   padding: 10px;
-  overflow-x: scroll;
+  overflow-x: hidden;
 
   grid-column: end-nav / content-end;
 }

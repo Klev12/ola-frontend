@@ -73,6 +73,10 @@ const ShowElementList = forwardRef<
     setIsExpanded(expanded);
   }, [expanded]);
 
+  useEffect(() => {
+    setPage(1);
+  }, [params]);
+
   const {
     data: dataList,
     isLoading: isDataLoading,
@@ -93,6 +97,7 @@ const ShowElementList = forwardRef<
       page,
       dateFilter?.month,
       dateFilter?.year,
+      params?.values,
     ],
     enabled: isExpanded,
   });

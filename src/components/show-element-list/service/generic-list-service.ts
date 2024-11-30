@@ -30,6 +30,15 @@ export class GenericListService {
     }
 
     for (const [key, value] of Object.entries(params?.values ?? {})) {
+      if (value === "") {
+        continue;
+      }
+      if (Array.isArray(value)) {
+        for (const v of value) {
+          api += `&&${key}[]=${v}`;
+        }
+        continue;
+      }
       api += `&&${key}=${value}`;
     }
 
