@@ -8,6 +8,7 @@ import { SelectButton } from "primereact/selectbutton";
 import { Checkbox } from "primereact/checkbox";
 import { useEffect, useState } from "react";
 import DropdownFilter from "./components/DropdownFilter";
+import { PrimeIcons } from "primereact/api";
 
 interface FilterOptions {
   placeholder?: string;
@@ -51,16 +52,15 @@ function FilterElement<T>({
     <div>
       <h3>Filtrar por</h3>
       <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-        <div style={{ width: "200px" }}>
-          {" "}
-          {showKeywordSearch && (
+        {showKeywordSearch && (
+          <div style={{ width: "200px" }}>
             <SearchInput
               onSearch={(value) =>
                 setFilterParams({ ...filterParams, keyword: value })
               }
             />
-          )}
-        </div>
+          </div>
+        )}
         {(Object.keys(filters) as (keyof typeof filters)[]).map(
           (key, index) => {
             return (
@@ -103,11 +103,11 @@ function FilterElement<T>({
           />
         )}
 
-        {/* <Button
-          icon={PrimeIcons.MINUS_CIRCLE}
+        <Button
+          icon={PrimeIcons.PLUS_CIRCLE}
           label="Más filtros"
           onClick={() => showFilters.setTrue()}
-        /> */}
+        />
       </div>
       <Dialog
         draggable={false}

@@ -6,7 +6,10 @@ import ShowElementList, {
 import SalesTable from "./components/SalesTable";
 import { SalesGetDto } from "../../models/sales";
 import { useRef, useState } from "react";
-import { SalePaymentStatus } from "../../models/sale";
+import { SalePaymentStatus, SaleSummaryGetDto } from "../../models/sale";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import { numberMonth } from "../../consts/translations/number-month";
 
 const AllSalesForms = () => {
   const saleList = useRef<ShowElementListRef>(null);
@@ -45,19 +48,54 @@ const AllSalesForms = () => {
         onFilter={(data) => {
           setParams(data);
         }}
+        showOwnershipFilter={false}
+        showKeywordSearch={false}
       />
       <ShowElementList
-        ref={saleList}
-        key={`sales-list-${params}`}
-        url={saleService.api.base}
+        url={saleService.api.summaries}
         expanded={true}
+        queryKey={"sale-summaries"}
         params={{ values: { ...params } }}
-        allElement={(elements: SalesGetDto[]) => (
-          <SalesTable
-            sales={elements}
-            confirmPaymentStatusSuccess={() => saleList.current?.refetch()}
-          />
-        )}
+        eachElement={(
+          summary: SaleSummaryGetDto,
+          { params: summaryParams }
+        ) => {
+          return (
+            <>
+              <h2>
+                {numberMonth[summary.month]} {summary.year}
+              </h2>
+              <DataTable value={[summary]}>
+                <Column header="Ventas totales" field="totalCountSales" />
+                <Column header="Monto total" field="totalAmount" />
+              </DataTable>
+              <div style={{ margin: "20px" }}>
+                <ShowElementList
+                  ref={saleList}
+                  queryKey={`sales-list-${summary.month}-${summary.year}`}
+                  params={{
+                    values: {
+                      ...summaryParams?.values,
+                      month: summary.month,
+                      year: summary.year,
+                    },
+                  }}
+                  url={saleService.api.base}
+                  expanded={false}
+                  expandButtonMessage="Ver ventas"
+                  allElement={(elements: SalesGetDto[]) => (
+                    <SalesTable
+                      sales={elements}
+                      confirmPaymentStatusSuccess={() =>
+                        saleList.current?.refetch()
+                      }
+                    />
+                  )}
+                />
+              </div>
+            </>
+          );
+        }}
       />
     </div>
   );

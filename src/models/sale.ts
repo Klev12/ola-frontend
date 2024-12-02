@@ -68,3 +68,11 @@ export enum SaleMemberShip {
   sixMonth = "6-month",
   twelveMonth = "12-month",
 }
+
+export interface SaleSummaryGetDto {
+  totalCountSales: number;
+  totalToPayAmount: number;
+  totalAmount: number;
+  month: number;
+  year: number;
+}

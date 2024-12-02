@@ -26,7 +26,10 @@ const Team = lazy(() => import("../pages/sales/Team"));
 const SalesRouter = (
   <Route path={ROUTES.SALES.ME} element={<Sales />}>
     <Route path={ROUTES.SALES.FORMS} element={<MyForms />} />
-    <Route path={ROUTES.SALES.DONE_FORMS} element={<DoneForms />} />
+    <Route
+      path={ROUTES.SALES.DONE_FORMS}
+      element={<DoneForms lastMonth={true} />}
+    />
     <Route path={ROUTES.SALES.HISTORY} element={<History />}>
       <Route
         path={ROUTES.SALES.HISTORY}

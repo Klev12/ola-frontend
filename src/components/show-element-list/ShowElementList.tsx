@@ -45,6 +45,7 @@ interface DateFilter {
 
 interface Metadata {
   count: number;
+  params?: ParamsUrl;
 }
 
 const ShowElementList = forwardRef<
@@ -93,7 +94,7 @@ const ShowElementList = forwardRef<
         })
         .then((res) => res.data),
     queryKey: [
-      queryKey ?? "element-list",
+      queryKey || "element-list",
       page,
       dateFilter?.month,
       dateFilter?.year,
@@ -135,12 +136,15 @@ const ShowElementList = forwardRef<
               elementList.list.map((element, index) => {
                 return (
                   <div key={index}>
-                    {eachElement(element, { count: elementList.count })}
+                    {eachElement(element, { count: elementList.count, params })}
                   </div>
                 );
               })}
             {allElement &&
-              allElement(elementList.list, { count: elementList.count })}
+              allElement(elementList.list, {
+                count: elementList.count,
+                params,
+              })}
           </>
         )}
         {!isExpanded && (

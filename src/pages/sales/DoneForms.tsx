@@ -71,7 +71,7 @@ const DoneForms = ({ lastMonth = false }: DoneFormsProps) => {
                   url={doneSaleService.api.base}
                   dateFilter={{ month: sale.month, year: sale.year }}
                   expandButtonMessage="Ver ventas"
-                  expanded={!lastMonth}
+                  expanded={lastMonth}
                   params={{ ownership: "mine" }}
                   allElement={(sales: SaleGetDto[]) => {
                     return <ShowDoneSales sales={sales} />;

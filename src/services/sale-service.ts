@@ -14,6 +14,7 @@ import generateQueryArray from "../utils/query/generate-query-array";
 export class SaleService {
   readonly api = {
     base: `${ENV.BACKEND_ROUTE}/forms/sales`,
+    summaries: `${ENV.BACKEND_ROUTE}/forms/sales/summaries`,
   };
 
   findAll({

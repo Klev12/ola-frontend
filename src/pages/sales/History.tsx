@@ -6,7 +6,7 @@ const History = () => {
     <div className="card">
       <TabView>
         <TabPanel header="Mis ventas">
-          <DoneForms lastMonth={true} />
+          <DoneForms lastMonth={false} />
         </TabPanel>
         {/* <TabPanel header="Transacciones">
           <Outlet />
