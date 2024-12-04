@@ -11,7 +11,7 @@ const GlobalLoading = () => {
         }}
         className="global-loading-overlay"
       >
-        <h2>OLA</h2>
+        <h2>OLA!</h2>
       </div>
     </div>
   );

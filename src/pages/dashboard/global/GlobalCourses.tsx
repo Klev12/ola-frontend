@@ -92,12 +92,7 @@ const GlobalCourses = () => {
               }}
             />
           </div>
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-          >
-            <label htmlFor="">Precio</label>
-            <InputText placeholder="Precio" name="price" required />
-          </div>
+
           <Button label="Crear capacitación" />
         </form>
       </Dialog>
@@ -139,7 +134,6 @@ const GlobalCourses = () => {
               showHeader={false}
               disabled={true}
             />
-            <div style={{ marginTop: "20px" }}>Precio: {course.price}</div>
           </>
         )}
         formTemplate={(course) => (
@@ -167,16 +161,6 @@ const GlobalCourses = () => {
                   setText(e.textValue);
                   setHtml(e.htmlValue || "");
                 }}
-              />
-            </div>
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-            >
-              <label htmlFor="">Precio</label>
-              <InputText
-                placeholder="Precio"
-                defaultValue={course?.price}
-                name="price"
               />
             </div>
           </>

@@ -12,7 +12,7 @@ import { ContractGetDto, ContractType } from "../../../models/contract";
 import useToggle from "../../../hooks/useToggle";
 import { InputText } from "primereact/inputtext";
 import { Tag } from "primereact/tag";
-import { InputNumber } from "primereact/inputnumber";
+
 import { Editor } from "primereact/editor";
 import { useSearchParams } from "react-router-dom";
 
@@ -71,19 +71,6 @@ const GlobalContracts = () => {
               </div>
             }
             title={contract.title}
-            footer={
-              [
-                ContractType.graphicDesign,
-                ContractType.marketing,
-                ContractType.sales,
-              ].includes(contract.type) && (
-                <Card>
-                  <p>Proyecto {contract.project} + IVA</p>
-                  <p>Mensualidades 9, de {contract.monthly_payment}</p>
-                  <p>Subscripción {contract.suscription}</p>
-                </Card>
-              )
-            }
           >
             <Editor
               showHeader={false}
@@ -179,67 +166,7 @@ const GlobalContracts = () => {
               />
             </div>
           </div>
-          {[
-            ContractType.graphicDesign,
-            ContractType.marketing,
-            ContractType.sales,
-          ].includes(selectedContract?.type as ContractType) && (
-            <>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "10px",
-                }}
-              >
-                <label htmlFor="">Valor del proyecto</label>
-                <InputNumber
-                  minFractionDigits={2}
-                  mode="decimal"
-                  required
-                  value={parseFloat(selectedContract?.project as string)}
-                  name="project"
-                />
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "10px",
-                }}
-              >
-                <label htmlFor="">Valor mensual</label>
-                <InputNumber
-                  minFractionDigits={2}
-                  mode="decimal"
-                  required
-                  value={parseFloat(
-                    selectedContract?.monthly_payment as string
-                  )}
-                  defaultValue={selectedContract?.monthly_payment}
-                  name="monthlyPayment"
-                />
-              </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "10px",
-                }}
-              >
-                <label htmlFor="">Valor de suscripción</label>
-                <InputNumber
-                  minFractionDigits={2}
-                  mode="decimal"
-                  required
-                  value={parseFloat(selectedContract?.suscription as string)}
-                  defaultValue={selectedContract?.suscription}
-                  name="suscription"
-                />
-              </div>
-            </>
-          )}
           <Button
             label="Subir cambios"
             disabled={updatingContract}
