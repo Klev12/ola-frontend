@@ -6,7 +6,7 @@ import useToggle from "../../hooks/useToggle";
 import { Calendar } from "primereact/calendar";
 import { SelectButton } from "primereact/selectbutton";
 import { Checkbox } from "primereact/checkbox";
-import { useEffect, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import DropdownFilter from "./components/DropdownFilter";
 import { PrimeIcons } from "primereact/api";
 
@@ -28,30 +28,86 @@ type Filters<T> = { [key in keyof T]: FilterOptions };
 interface FilterElementProps<T> {
   showKeywordSearch?: boolean;
   showOwnershipFilter?: boolean;
+  showRemoveAllFilters?: boolean;
   filters: Filters<T>;
   onFilter?: (params: {
     [key in keyof T]?: string | number | string[] | number[] | undefined;
   }) => void;
+  children?: ReactNode;
 }
+
+interface FilterContextProps {
+  setParams: (params: object) => void;
+  params: object;
+  removeAllFilter: boolean;
+}
+
+export const FilterContext = createContext<FilterContextProps>({
+  params: {},
+  setParams: () => {},
+  removeAllFilter: false,
+});
 
 function FilterElement<T>({
   showKeywordSearch = true,
   showOwnershipFilter = true,
+  showRemoveAllFilters = true,
   filters,
   onFilter,
+  children,
 }: FilterElementProps<T>) {
   const showFilters = useToggle();
+  const removeAllFilter = useToggle();
   const [filterParams, setFilterParams] = useState<{
-    [key in keyof T]?: string | number | undefined;
+    [key in keyof T]?: string | number | string[] | number[] | undefined;
   }>({});
   useEffect(() => {
     if (onFilter) onFilter(filterParams);
   }, [filterParams]);
 
+  useEffect(() => {
+    if (removeAllFilter.value) {
+      removeAllFilter.setFalse();
+    }
+  }, [removeAllFilter.value]);
+
   return (
-    <div>
-      <h3>Filtrar por</h3>
-      <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+    <FilterContext.Provider
+      value={{
+        params: filterParams,
+        setParams: setFilterParams,
+        removeAllFilter: removeAllFilter.value,
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          gap: "10px",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <h3>Filtrar por</h3>
+        {showRemoveAllFilters && (
+          <Button
+            style={{ height: "fit-content" }}
+            outlined
+            icon={PrimeIcons.TRASH}
+            label="Quitar filtros"
+            onClick={() => {
+              setFilterParams({});
+              removeAllFilter.setTrue();
+            }}
+          />
+        )}
+      </div>
+      <div
+        style={{
+          display: "flex",
+          gap: "10px",
+          flexWrap: "wrap",
+        }}
+      >
         {showKeywordSearch && (
           <div style={{ width: "200px" }}>
             <SearchInput
@@ -68,6 +124,11 @@ function FilterElement<T>({
                 {filters[key].type === "select" && (
                   <DropdownFilter
                     placeholder={filters[key].placeholder}
+                    value={
+                      Array.isArray(filterParams[key])
+                        ? (filterParams[key] as number[])?.[0]
+                        : (filterParams[key] as string)
+                    }
                     options={filters[key].options}
                     onChange={(value) => {
                       if (value === "no-defined")
@@ -86,6 +147,7 @@ function FilterElement<T>({
             );
           }
         )}
+        {children}
         {showOwnershipFilter && (
           <DropdownFilter
             placeholder="Propiedad"
@@ -103,12 +165,13 @@ function FilterElement<T>({
           />
         )}
 
-        <Button
+        {/* <Button
           icon={PrimeIcons.PLUS_CIRCLE}
           label="Más filtros"
           onClick={() => showFilters.setTrue()}
-        />
+        /> */}
       </div>
+
       <Dialog
         draggable={false}
         header="Más filtros"
@@ -125,7 +188,7 @@ function FilterElement<T>({
           <Button label="Aplicar filtros" />
         </div>
       </Dialog>
-    </div>
+    </FilterContext.Provider>
   );
 }
 

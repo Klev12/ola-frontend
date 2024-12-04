@@ -10,6 +10,7 @@ import { SalePaymentStatus, SaleSummaryGetDto } from "../../models/sale";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { numberMonth } from "../../consts/translations/number-month";
+import UserFilter from "../../components/show-element-list/filters/UserFilter";
 
 const AllSalesForms = () => {
   const saleList = useRef<ShowElementListRef>(null);
@@ -50,8 +51,11 @@ const AllSalesForms = () => {
         }}
         showOwnershipFilter={false}
         showKeywordSearch={false}
-      />
+      >
+        <UserFilter />
+      </Filter>
       <ShowElementList
+        emptyElementsMessage="No se encontraron ventas"
         url={saleService.api.summaries}
         expanded={true}
         queryKey={"sale-summaries"}

@@ -37,8 +37,16 @@ const DoneForms = ({ lastMonth = false }: DoneFormsProps) => {
         limit={lastMonth ? 1 : 10}
         params={{ ownership: "mine" }}
         eachElement={(sale: DoneSaleSummaryGetDto, { count }) => {
-          if (count - 1 <= 0 && lastMonth) {
+          if (count - 1 < 0 && lastMonth) {
             return <div>Aun no hay ventas en historial</div>;
+          }
+
+          if (
+            !lastMonth &&
+            sale.month === new Date().getMonth() + 1 &&
+            sale.year === new Date().getFullYear()
+          ) {
+            return;
           }
 
           return (

@@ -1,11 +1,12 @@
 import { Dropdown } from "primereact/dropdown";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface DropdownFilterProps {
   placeholder?: string;
   options?: object[];
   onChange?: (value: string | number) => void;
   defaultValue?: string | number;
+  value?: number | string;
 }
 
 const DropdownFilter = ({
@@ -13,8 +14,15 @@ const DropdownFilter = ({
   options,
   onChange,
   defaultValue,
+  value: valueState,
 }: DropdownFilterProps) => {
-  const [value, setValue] = useState<string | number>(defaultValue || 0);
+  const [value, setValue] = useState<string | number | undefined>(
+    defaultValue || 0
+  );
+
+  useEffect(() => {
+    setValue(valueState);
+  }, [valueState]);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>

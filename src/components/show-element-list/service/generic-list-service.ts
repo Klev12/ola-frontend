@@ -30,6 +30,9 @@ export class GenericListService {
     }
 
     for (const [key, value] of Object.entries(params?.values ?? {})) {
+      if (value === null) {
+        continue;
+      }
       if (value === "") {
         continue;
       }

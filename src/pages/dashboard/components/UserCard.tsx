@@ -21,6 +21,7 @@ import { InputText } from "primereact/inputtext";
 import SelectUserArea from "../../../components/SelectUserArea";
 
 import translatedRoles from "../../../consts/translations/roles-translation";
+import { AxiosError } from "axios";
 
 interface UserCardProps {
   user: UserGetDto;
@@ -67,6 +68,22 @@ const UserCard: React.FC<UserCardProps> = ({
         });
         if (onSuccessEdit) onSuccessEdit();
         showEditMenu.setFalse();
+      },
+    }
+  );
+
+  const { mutate: changeRoleMutate } = useMutation(
+    ({ role, userId }: { role: Roles; userId: number }) =>
+      changeRole(role, userId),
+    {
+      onSuccess: showSuccess,
+      onError: (error: AxiosError<{ error?: { message?: string } }>) => {
+        const message = error.response?.data.error?.message;
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: message,
+        });
       },
     }
   );
@@ -138,40 +155,33 @@ const UserCard: React.FC<UserCardProps> = ({
         </Link>
       </div>
       <div>
-        {user.role !== Roles.admin && !notificationMode && (
+        {!notificationMode && (
           <form
             onSubmit={(e) => {
               e.preventDefault();
               const formData = Object.fromEntries(
                 new FormData(e.target as HTMLFormElement)
               );
-              changeRole(formData["role"] as Roles, user.id);
+
+              changeRoleMutate({
+                role: formData["role"] as Roles,
+                userId: user.id as number,
+              });
             }}
           >
-            <span>role: {user.role}</span>
+            <span>Rol: {user.role}</span>
             <select name="role" defaultValue={user.role}>
-              {Object.entries(Roles)
-                .filter(([, role]) => role !== Roles.admin)
-                .map(([, value]) => (
-                  <option
-                    id={value}
-                    value={value}
-                    label={translatedRoles[value]}
-                  />
-                ))}
+              {Object.entries(Roles).map(([, value]) => (
+                <option
+                  id={value}
+                  value={value}
+                  label={translatedRoles[value]}
+                />
+              ))}
             </select>
+
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <Button
-                label="Cambiar Rol"
-                onClick={showSuccess}
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  backgroundColor: "purple",
-                  border: "0",
-                  height: "10px",
-                }}
-              />
+              <Button label="Cambiar Rol" />
               {authenticatedUser?.role !== Roles.secretary && (
                 <Button
                   style={{
