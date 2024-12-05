@@ -11,7 +11,7 @@ interface FooterSignatureSalesStaticProps {
   style?: CSSProperties;
 }
 
-const FooterSignatureSalesStatic = ({
+const FooterSignatureHubSales = ({
   formInfo,
   formDetails,
   style,
@@ -35,7 +35,7 @@ const FooterSignatureSalesStatic = ({
         }}
       >
         <img src={""} height={130} />
-        <h5 style={{ fontSize: "14px" }}>OLA! MARKETING Y CONSULTORÍA DE NEGOCIOS</h5>
+        <h2 style={{ fontSize: "14px" }}>OLA BUSINESS SCHOOL</h2>
         <p>OLA BUSINESS SAS</p>
         <div> 0190321654</div>
       </div>
@@ -66,4 +66,4 @@ const FooterSignatureSalesStatic = ({
   );
 };
 
-export default FooterSignatureSalesStatic;
+export default FooterSignatureHubSales;

@@ -15,7 +15,7 @@ import {
 
 import { FormMetadata } from "./FormPdf";
 import replaceKeyWords from "../../../utils/replace-key-words";
-import FooterSignatureSalesStatic from "../../../components/term-and-conditions/FooterSignatureSalesStatic";
+import FooterSignatureHubSales from "../../../components/term-and-conditions/FooterSignatureHubSales";
 import AdditionalDataSale from "./sales/AdditionalDataSale";
 import TransactionCardPdf from "./transaction/TransactionCardPdf";
 import { ENV, ResourceAssets } from "../../../consts/const";
@@ -226,7 +226,7 @@ const HubFormTemplate = ({
               borderCollapse: "collapse",
             }}
           >
-            Monto
+            Monto kjjjj
           </div>
         </div>
         <div
@@ -318,7 +318,7 @@ const HubFormTemplate = ({
           }}
         ></div>
 
-        <FooterSignatureSalesStatic
+        <FooterSignatureHubSales
           formInfo={saleInfo}
           formDetails={formDetails}
         />
