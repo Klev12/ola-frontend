@@ -15,16 +15,16 @@ const PageNotFound = () => {
     <div className="page-not-found-container">
       <img src={error} alt="Page Not Found" className="page-not-found-image" />
       <div className="page-not-found-text">
-        <h1 style={{ fontSize: 90, color: "purple" }}>Oppsss!</h1>
-        <h2 style={{ fontSize: 45, color: "purple" }}>
+        <div style={{ fontSize: 90, color: "#673AB7" }}>Oppsss!</div>
+        <div style={{ fontSize: 45, color: "#673AB7" }}>
           No podemos encontrar la página que estás buscando
-        </h2>
+        </div>
         <p style={{ fontSize: 20 }}>
-          La página a la que estas intentando ingresar no se encuentra, verifica
+          La página a la que estás intentando ingresar no se encuentra, verifica
           si la URL está correcta.
         </p>
         <Button
-          style={{ backgroundColor: "purple", border: 0, boxShadow: "none" }}
+          style={{ border: 0, boxShadow: "none" }}
           label="Regresar"
           onClick={handleGoBack}
         />

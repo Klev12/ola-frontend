@@ -1,19 +1,39 @@
 .page-not-found-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh; /* Full height of the viewport */
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+
+  /* Full height of the viewport */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.page-not-found-image {
+  max-width: 30%; /* Adjust as needed */
+  height: auto;
+  margin-right: 20px;
+}
+
+.page-not-found-text {
+  max-width: 50%; /* Adjust as needed */
+}
+
+@media (width < 700px) {
   .page-not-found-image {
-    max-width: 30%; /* Adjust as needed */
-    height: auto;
-    margin-right: 20px;
+    width: 100%;
   }
-  
+  .page-not-found-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .page-not-found-image {
+    margin-top: 100px;
+    max-width: 50%;
+    align-self: center;
+  }
   .page-not-found-text {
-    max-width: 50%; /* Adjust as needed */
+    max-width: 100%; /* Adjust as needed */
   }
-  
+}

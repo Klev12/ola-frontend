@@ -1,6 +1,10 @@
 import "./styles/global-loading-styles.css";
 
-const GlobalLoading = () => {
+interface GlobalLoadingProps {
+  message?: string;
+}
+
+const GlobalLoading = ({ message = "OLA!" }: GlobalLoadingProps) => {
   return (
     <div>
       <div
@@ -11,7 +15,7 @@ const GlobalLoading = () => {
         }}
         className="global-loading-overlay"
       >
-        <h2>OLA!</h2>
+        <h2>{message}</h2>
       </div>
     </div>
   );

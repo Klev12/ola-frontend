@@ -4,6 +4,7 @@ import { authenticate } from "../services/auth-service";
 import useGlobalState from "../store/store";
 import { UserGetDto } from "../models/user";
 import { ReactNode } from "react";
+import GlobalLoading from "../core/components/GlobalLoading";
 
 interface AuthAppGuardProps {
   successRedirectTo?: string;
@@ -36,7 +37,7 @@ const AuthAppGuard = ({
   });
 
   if (isLoading) {
-    return <div>autenticando...</div>;
+    return <GlobalLoading message="Autenticando..." />;
   }
 
   return children;
