@@ -145,25 +145,15 @@ const SalesTable = ({
             </div>
           )}
         />
-        <Column header="Monto" field="saleAmount" />
+
+        <Column header="Total a pagar" field="saleTotalToPay" />
         <Column
           header="Descuento"
           body={(sale: SaleGetDto) => (
             <>{parseFloat(String(sale.saleDiscount)) * 100}%</>
           )}
         />
-        <Column
-          header="Total"
-          body={(sale: SaleGetDto) => (
-            <>
-              {(
-                parseFloat(String(sale.saleAmount)) -
-                parseFloat(String(sale.saleAmount)) *
-                  parseFloat(String(sale.saleDiscount))
-              ).toFixed(2)}
-            </>
-          )}
-        />
+        <Column header="Monto pagado" field="saleAmount" />
         <Column
           header="Revisar"
           body={(value: FormGetDto) => (

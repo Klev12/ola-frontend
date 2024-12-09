@@ -3,12 +3,18 @@ import { getAllUsers } from "../../services/user-service";
 
 import UserCard from "./components/UserCard";
 import { Paginator } from "primereact/paginator";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import copyText from "../../utils/copy-text";
+
+import ROUTES from "../../consts/routes";
+import { Toast } from "primereact/toast";
 
 const Users = () => {
+  const toast = useRef<Toast>(null);
+
   const [keyword, setKeyword] = useState<string | undefined>(undefined);
   const {
     mutate: getAllUsersMutate,
@@ -24,6 +30,7 @@ const Users = () => {
 
   return (
     <div>
+      <Toast ref={toast} />
       <form
         className="p-inputgroup flex-1"
         style={{ width: "30vw" }}
@@ -38,6 +45,14 @@ const Users = () => {
         <InputText placeholder="Nombre, código, email" name="keyword" />
         <Button icon="pi pi-search" />
       </form>
+      <Button
+        style={{ marginTop: "20px" }}
+        label="Copiar link de registro"
+        onClick={() => {
+          copyText(`${window.location.origin}${ROUTES.SIGNUP}`);
+          toast.current?.show({ severity: "success", summary: "Link copiado" });
+        }}
+      />
       {isLoadingUsers && <ProgressSpinner />}
       <div style={{ display: "grid", gap: "20px", marginTop: "20px" }}>
         {userData?.data.users.map((user, index) => {
@@ -54,7 +69,6 @@ const Users = () => {
           );
         })}
       </div>
-
       <Paginator
         first={currentPage}
         rows={10}

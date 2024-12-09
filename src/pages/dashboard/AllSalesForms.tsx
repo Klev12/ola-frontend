@@ -11,6 +11,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { numberMonth } from "../../consts/translations/number-month";
 import UserFilter from "../../components/show-element-list/filters/UserFilter";
+import TeamFilter from "../../components/show-element-list/filters/TeamFilter";
 
 const AllSalesForms = () => {
   const saleList = useRef<ShowElementListRef>(null);
@@ -53,6 +54,7 @@ const AllSalesForms = () => {
         showKeywordSearch={false}
       >
         <UserFilter />
+        <TeamFilter />
       </Filter>
       <ShowElementList
         emptyElementsMessage="No se encontraron ventas"

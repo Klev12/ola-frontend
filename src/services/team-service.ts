@@ -63,3 +63,13 @@ export function removeUserFromTeam(teamUserId: number) {
 export function deleteTeamById({ id }: { id: number }) {
   return axios.delete(`${ENV.BACKEND_ROUTE}/teams/${id}`);
 }
+
+export class TeamService {
+  readonly api = {
+    base: `${ENV.BACKEND_ROUTE}/teams`,
+  };
+}
+
+const teamService = new TeamService();
+
+export default teamService;
