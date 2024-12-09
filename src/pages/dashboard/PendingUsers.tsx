@@ -6,11 +6,15 @@ import {
 } from "../../services/user-service";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Paginator } from "primereact/paginator";
 import { Tag } from "primereact/tag";
 import formatDate from "../../utils/format-date";
+import { Toast } from "primereact/toast";
+
 const PendingUsers = () => {
+  const toast = useRef<Toast>(null);
+
   const { data, refetch } = useQuery({
     queryFn: () => getAllUsers({ access: false }),
     queryKey: ["peding-users"],
@@ -52,6 +56,7 @@ const PendingUsers = () => {
         height: "calc(100vh - 100px)",
       }}
     >
+      <Toast ref={toast} />
       {data?.data.users.length === 0 && (
         <span>No hay usuarios pendientes por ahora.</span>
       )}
@@ -66,6 +71,11 @@ const PendingUsers = () => {
               </>
             }
           >
+            {!user.valid_email && (
+              <div style={{ marginBottom: "20px" }}>
+                El email no ha sido verificado aún.
+              </div>
+            )}
             <div style={{ display: "flex", gap: "0.5rem" }}>
               <Button
                 label="Aceptar"
@@ -75,6 +85,7 @@ const PendingUsers = () => {
                     userId: user.id as number,
                   });
                 }}
+                disabled={!user.valid_email}
               />
               <Button
                 severity="danger"

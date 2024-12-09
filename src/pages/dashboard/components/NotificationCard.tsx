@@ -17,6 +17,7 @@ import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import { Tag } from "primereact/tag";
 import formatDate from "../../../utils/format-date";
+import { AxiosError } from "axios";
 
 interface NotificationCardProps {
   notification: NotificationGetDto;
@@ -40,6 +41,14 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
           life: 4000,
         });
       },
+      onError: (error: AxiosError<{ error?: { message?: string } }>) => {
+        const message = error.response?.data.error?.message;
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: message,
+        });
+      },
     }
   );
 
@@ -60,6 +69,14 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
         summary: "Error",
         detail: "El usuario ha sido denegado.",
         life: 4000,
+      });
+    },
+    onError: (error: AxiosError<{ error?: { message?: string } }>) => {
+      const message = error.response?.data.error?.message;
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: message,
       });
     },
   });
@@ -94,7 +111,7 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
       {notification.type === NotificationType.newUser && (
         <div style={{ display: "flex", gap: "0.8rem" }}>
           <Button
-            style={{ backgroundColor: "purple", border: 0, boxShadow: "none" }}
+            style={{ border: 0, boxShadow: "none" }}
             label="Aceptar"
             onClick={() => {
               toggleAccessUserMutate({
@@ -105,11 +122,11 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
           />
           <Button
             style={{
-              backgroundColor: "purple",
               border: 0,
               boxShadow: "none",
               gap: 5,
             }}
+            severity="danger"
             label="Denegar acceso"
             onClick={() => {
               deleteUserByIdMutate(notification.metadata?.userId as number);

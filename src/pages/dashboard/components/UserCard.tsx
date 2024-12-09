@@ -3,7 +3,7 @@ import { Panel } from "primereact/panel";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 import { Link, useNavigate } from "react-router-dom";
-import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { confirmDialog } from "primereact/confirmdialog";
 import { useMutation, useQuery } from "react-query";
 import ROUTES from "../../../consts/routes";
 import useGlobalState from "../../../store/store";
@@ -76,7 +76,9 @@ const UserCard: React.FC<UserCardProps> = ({
     ({ role, userId }: { role: Roles; userId: number }) =>
       changeRole(role, userId),
     {
-      onSuccess: showSuccess,
+      onSuccess: () => {
+        showSuccess();
+      },
       onError: (error: AxiosError<{ error?: { message?: string } }>) => {
         const message = error.response?.data.error?.message;
         toast.current?.show({
@@ -97,14 +99,6 @@ const UserCard: React.FC<UserCardProps> = ({
       icon: "pi pi-exclamation-triangle",
       draggable: false,
       accept: () => deleteUserByIdMutate(user.id),
-      reject: () => {
-        toast.current?.show({
-          severity: "info",
-          summary: "Cancelado",
-          detail: "La eliminación del usuario ha sido cancelada",
-          life: 3000,
-        });
-      },
     });
   };
 
@@ -139,7 +133,7 @@ const UserCard: React.FC<UserCardProps> = ({
       }
     >
       <Toast ref={toast} />
-      <ConfirmDialog />
+
       {user.role !== Roles.admin &&
         authenticatedUser?.role !== Roles.secretary && <></>}
 
@@ -190,6 +184,7 @@ const UserCard: React.FC<UserCardProps> = ({
                     boxShadow: "none",
                   }}
                   rounded
+                  type="button"
                   label="Eliminar usuario"
                   onClick={confirmDelete}
                 />

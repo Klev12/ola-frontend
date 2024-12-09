@@ -17,6 +17,7 @@ export interface UserGetDto {
   createdAt: string;
   ownTeamId?: number | null;
   teamId?: number | null;
+  valid_email: boolean;
 }
 
 export interface MetadataUser {

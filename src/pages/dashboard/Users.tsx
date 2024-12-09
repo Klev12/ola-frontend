@@ -11,6 +11,7 @@ import copyText from "../../utils/copy-text";
 
 import ROUTES from "../../consts/routes";
 import { Toast } from "primereact/toast";
+import { ConfirmDialog } from "primereact/confirmdialog";
 
 const Users = () => {
   const toast = useRef<Toast>(null);
@@ -69,6 +70,7 @@ const Users = () => {
           );
         })}
       </div>
+      <ConfirmDialog />
       <Paginator
         first={currentPage}
         rows={10}
