@@ -33,6 +33,9 @@ export class GenericListService {
       if (value === null) {
         continue;
       }
+      if (value === undefined) {
+        continue;
+      }
       if (value === "") {
         continue;
       }

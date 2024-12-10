@@ -15,12 +15,21 @@ import TeamFilter from "../../components/show-element-list/filters/TeamFilter";
 
 const AllSalesForms = () => {
   const saleList = useRef<ShowElementListRef>(null);
-  const [params, setParams] = useState({});
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [params, setParams] = useState<any>({});
 
   return (
     <div>
       <Filter
         filters={{
+          groupBy: {
+            placeholder: "Agrupar por",
+            type: "select",
+            options: [
+              { label: "Mes y año", value: "month-and-year" },
+              { label: "Todos", value: "all" },
+            ],
+          },
           done: {
             placeholder: "Estado de formulario",
             type: "select",
@@ -73,7 +82,11 @@ const AllSalesForms = () => {
               </h2>
               <DataTable value={[summary]}>
                 <Column header="Ventas totales" field="totalCountSales" />
-                <Column header="Monto total" field="totalAmount" />
+
+                {params.paymentStatus?.["0"] === SalePaymentStatus.paid &&
+                  params.done !== "false" && (
+                    <Column header="Monto total" field="totalAmount" />
+                  )}
               </DataTable>
               <div style={{ margin: "20px" }}>
                 <ShowElementList
