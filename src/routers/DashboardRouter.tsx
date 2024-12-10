@@ -1,6 +1,7 @@
 import { lazy } from "react";
 import { Navigate, Route } from "react-router";
 import ROUTES from "../consts/routes";
+import DashboardCommercialRouter from "./DashboardCommercialRouter";
 
 const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
 
@@ -42,6 +43,9 @@ const DashBoardRouter = (
     <Route path={ROUTES.DASHBOARD.COLLABORATORS} element={<Collaborators />} />
     <Route path={ROUTES.DASHBOARD.PENDING_USERS} element={<PendingUsers />} />
     <Route path={ROUTES.DASHBOARD.TEAMS} element={<AllTeams />} />
+
+    {DashboardCommercialRouter}
+
     <Route path={ROUTES.DASHBOARD.FORMS} element={<AllForms />}>
       <Route
         path={ROUTES.DASHBOARD.FORMS}

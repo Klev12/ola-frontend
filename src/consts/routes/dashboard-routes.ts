@@ -1,3 +1,5 @@
+import DASHBOARD_COMMERCIAL_ROUTES from "./dashboard/dashboard-commercial-routes";
+
 const DASHBOARD_ROUTES = {
   ME: "/dashboard",
   get USERS() {
@@ -65,6 +67,9 @@ const DASHBOARD_ROUTES = {
   },
   get TEAMS() {
     return `${this.ME}/teams`;
+  },
+  get COMMERCIAL() {
+    return DASHBOARD_COMMERCIAL_ROUTES(this.ME);
   },
 };
 

@@ -12,6 +12,7 @@ enum ItemIdentifier {
   users = "users",
   collaborator = "collaborators",
   forms = "forms",
+  commercial = "commercial",
   pendingUsers = "pendingUsers",
   teams = "teams",
   global = "global",
@@ -51,6 +52,14 @@ const Dashboard = () => {
       label: "Formularios",
       command: () => {
         navigate(ROUTES.DASHBOARD.FORMS);
+      },
+    },
+    {
+      id: ItemIdentifier.commercial,
+      icon: "pi pi-shopping-bag",
+      label: "Comercial",
+      command: () => {
+        navigate(ROUTES.DASHBOARD.COMMERCIAL.SALES);
       },
     },
     {
