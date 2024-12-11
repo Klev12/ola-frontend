@@ -22,14 +22,6 @@ const AllSalesForms = () => {
     <div>
       <Filter
         filters={{
-          groupBy: {
-            placeholder: "Agrupar por",
-            type: "select",
-            options: [
-              { label: "Mes y año", value: "month-and-year" },
-              { label: "Todos", value: "all" },
-            ],
-          },
           done: {
             placeholder: "Estado de formulario",
             type: "select",

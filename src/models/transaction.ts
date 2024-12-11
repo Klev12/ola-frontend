@@ -1,3 +1,5 @@
+import { TransactionValidity } from "./done-sale";
+
 export interface TransactionGetDto {
   id: number;
   code?: string | null;
@@ -11,6 +13,9 @@ export interface TransactionGetDto {
   createdAt: string;
   costumerName: string;
   businessName: string;
+  validity: TransactionValidity;
+  userFullname: string;
+  userCode: string;
 }
 
 export interface TransactionSummaryGetDto {

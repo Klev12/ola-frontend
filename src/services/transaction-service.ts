@@ -5,6 +5,7 @@ import {
 } from "../models/transaction";
 import axios from "../interceptors/axios-interceptor";
 import { ENV } from "../consts/const";
+import { TransactionValidity } from "../models/done-sale";
 
 export function createTransactionPayphone(transaction: TransactionPostDto) {
   return axios.post<{ transaction: TransactionGetDto }>(
@@ -89,6 +90,19 @@ export class TransactionService {
     base: `${ENV.BACKEND_ROUTE}/transactions`,
     summaries: `${ENV.BACKEND_ROUTE}/transactions/summaries`,
   };
+
+  changeValidity({
+    transactionId,
+    validity,
+  }: {
+    transactionId: number;
+    validity: TransactionValidity;
+  }) {
+    return axios.post(`${this.api.base}/change-validity`, {
+      transactionId,
+      validity,
+    });
+  }
 }
 
 const transactionService = new TransactionService();

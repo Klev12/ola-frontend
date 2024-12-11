@@ -9,6 +9,7 @@ import { Checkbox } from "primereact/checkbox";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import DropdownFilter from "./components/DropdownFilter";
 import { PrimeIcons } from "primereact/api";
+import { GroupBySummary } from "../../core/types/summary";
 
 interface FilterOptions {
   placeholder?: string;
@@ -88,6 +89,7 @@ function FilterElement<T>({
         }}
       >
         <h3>Filtrar por</h3>
+
         {showRemoveAllFilters && (
           <Button
             style={{ height: "fit-content" }}
@@ -117,6 +119,18 @@ function FilterElement<T>({
             />
           </div>
         )}
+
+        <DropdownFilter
+          placeholder="Agrupar por"
+          options={[
+            { label: "Todos", value: GroupBySummary.all },
+            { label: "Mes y año", value: GroupBySummary.monthAndYear },
+          ]}
+          onChange={(value) => {
+            setFilterParams({ ...filterParams, groupBy: value });
+          }}
+        />
+
         {(Object.keys(filters) as (keyof typeof filters)[]).map(
           (key, index) => {
             return (
