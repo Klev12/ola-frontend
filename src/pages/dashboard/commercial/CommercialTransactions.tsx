@@ -16,6 +16,7 @@ import TransactionsTable from "./commercial-transaction/TransactionsTable";
 import UserFilter from "../../../components/show-element-list/filters/UserFilter";
 import TeamFilter from "../../../components/show-element-list/filters/TeamFilter";
 import { TransactionValidity } from "../../../models/done-sale";
+import SaleFilter from "../../../components/show-element-list/filters/SaleFilter";
 
 const CommercialTransactions = () => {
   const [params, setParams] = useState({});
@@ -55,6 +56,7 @@ const CommercialTransactions = () => {
       >
         <UserFilter />
         <TeamFilter />
+        <SaleFilter />
       </FilterElement>
       <ShowElementList
         queryKey="transactions-global-data"

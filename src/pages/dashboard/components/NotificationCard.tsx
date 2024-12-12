@@ -148,8 +148,9 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
       {notification.type === NotificationType.newTransaction && (
         <>
           <Link
-            target="_blank"
-            to={ROUTES.PDF.PDF_ID(notification.metadata.formId as number)}
+            to={ROUTES.DASHBOARD.CHECK_FORM_ID(
+              notification.metadata.formId as number
+            )}
           >
             Revisar formulario
           </Link>
@@ -158,10 +159,11 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
       {notification.type === NotificationType.transactionCompleted && (
         <>
           <Link
-            target="_blank"
-            to={ROUTES.PDF.PDF_ID(notification.metadata.formId as number)}
+            to={ROUTES.DASHBOARD.CHECK_FORM_ID(
+              notification.metadata.formId as number
+            )}
           >
-            Revisar pdf
+            Revisar formulario
           </Link>
         </>
       )}
