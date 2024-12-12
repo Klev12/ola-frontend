@@ -67,7 +67,7 @@ const SalesTable = ({
     <>
       <DataTable value={sales} emptyMessage="No hay formularios de ventas">
         <Column header="Código" field="code" />
-        <Column header="Tipo" field="contractTitle" />
+        <Column header="Tipo" field="contractTag" />
         <Column
           header="Completado"
           field="done"

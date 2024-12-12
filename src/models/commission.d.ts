@@ -1,3 +1,5 @@
+import { TransactionValidity } from "./done-sale";
+
 export interface CommissionGetDto {
   id?: number;
   userId?: number;
@@ -14,6 +16,7 @@ export interface CommissionGetDto {
   amount: number;
   groupAdminFullname: string;
   teamName: string;
+  validity: TransactionValidity;
 }
 
 export interface SummaryCommissionGetDto {

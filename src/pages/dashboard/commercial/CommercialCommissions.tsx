@@ -11,6 +11,7 @@ import UserFilter from "../../../components/show-element-list/filters/UserFilter
 import { useState } from "react";
 import { numberMonth } from "../../../consts/translations/number-month";
 import { Tag } from "primereact/tag";
+import { TransactionValidity } from "../../../models/done-sale";
 
 const CommercialCommissions = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -37,7 +38,7 @@ const CommercialCommissions = () => {
               {numberMonth[commissionSummary.month]} {commissionSummary.year}
             </h2>
             <DataTable value={[commissionSummary]}>
-              <Column header="Comisiones totales" field="commissionCount" />
+              <Column header="Comisiones totales" field="commissionTotal" />
               {params.userId && (
                 <Column
                   header="Monto total de comisión de usuario"
@@ -56,7 +57,13 @@ const CommercialCommissions = () => {
                 expandButtonMessage="Ver comisiones"
                 url={commissionService.api.base}
                 queryKey={`commissions-data-global-${commissionSummary.month}-${commissionSummary.year}`}
-                params={{ values: { ...params } }}
+                params={{
+                  values: {
+                    ...params,
+                    month: commissionSummary.month,
+                    year: commissionSummary.year,
+                  },
+                }}
                 allElement={(commissions: CommissionGetDto[]) => (
                   <DataTable value={commissions}>
                     <Column header="Código de formulario" field="formCode" />
@@ -80,7 +87,7 @@ const CommercialCommissions = () => {
                         <>
                           <div>{commission.groupAdminFullname}</div>
                           {commission.teamName && (
-                            <Tag value={commission.teamName} />
+                            <Tag value={`Grupo: ${commission.teamName}`} />
                           )}
                         </>
                       )}
@@ -88,6 +95,23 @@ const CommercialCommissions = () => {
                     <Column
                       header="Comisión de jefe de grupo"
                       field="groupAdminCommission"
+                    />
+                    <Column
+                      header="Validez"
+                      body={(commission: CommissionGetDto) => (
+                        <Tag
+                          severity={
+                            commission.validity === TransactionValidity.invalid
+                              ? "danger"
+                              : "success"
+                          }
+                          value={
+                            commission.validity === TransactionValidity.valid
+                              ? "Válido"
+                              : "Inválido"
+                          }
+                        />
+                      )}
                     />
                     <Column header="Creado en" field="createdAt" />
                   </DataTable>

@@ -45,6 +45,7 @@ const TransactionsTable = ({
 
   return (
     <DataTable value={transactions}>
+      <Column header="Código de formulario" field="formCode" />
       <Column header="Identificador" field="id" />
       <Column
         header="Vendedor"
