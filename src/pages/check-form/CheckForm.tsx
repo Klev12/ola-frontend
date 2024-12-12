@@ -3,7 +3,7 @@ import { getFormById } from "../../services/forms-service";
 
 import { useParams } from "react-router";
 import { submitForm } from "../../services/result-service";
-import { ENV } from "../../consts/const";
+import { ContractIds, ENV } from "../../consts/const";
 
 import { Toast } from "primereact/toast";
 import { useMemo, useRef } from "react";
@@ -59,7 +59,11 @@ const CheckForm = () => {
       <Toast ref={toast} />
       <GlobalPrintForm
         defaulEditionMode={false}
-        type="sales-form"
+        type={
+          formData?.form?.contract_id === ContractIds.projectHub
+            ? "hub-form"
+            : "sales-form"
+        }
         showHeader={true}
         formInfo={formData?.form}
         formScheme={formData?.form_scheme}

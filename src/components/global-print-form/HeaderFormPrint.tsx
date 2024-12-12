@@ -93,7 +93,7 @@ const HeaderFormPrint = ({ customHeaderTemplate }: HeaderFormPrintProps) => {
     ),
     pdfButton: (
       <>
-        {formInfo?.done && formInfo.signature && (
+        {formInfo?.done && (
           <a
             style={{ display: "flex", alignItems: "center", gap: "10px" }}
             target="_blank"
