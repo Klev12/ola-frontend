@@ -27,6 +27,7 @@ interface ShowElementListProps<T> {
   style?: CSSProperties;
   params?: ParamsUrl;
   emptyElementsMessage?: string;
+  paginatorPosition?: "top" | "bottom";
 }
 
 export interface ShowElementListRef {
@@ -64,6 +65,7 @@ const ShowElementList = forwardRef<
     style,
     params,
     emptyElementsMessage,
+    paginatorPosition = "bottom",
   }: ShowElementListProps<T>,
   ref: ForwardedRef<ShowElementListRef>
 ) {
@@ -125,6 +127,13 @@ const ShowElementList = forwardRef<
 
   return (
     <div style={style}>
+      {isExpanded && paginatorPosition === "top" && elementList.count > 1 && (
+        <PaginatorPage
+          limit={limit || 10}
+          total={elementList.count}
+          onPage={(page) => setPage(page + 1)}
+        />
+      )}
       <div>
         {elementList.count === 0 && !isDataLoading && (
           <small>{emptyElementsMessage}</small>
@@ -155,13 +164,15 @@ const ShowElementList = forwardRef<
             }}
           />
         )}
-        {isExpanded && elementList.count > 1 && (
-          <PaginatorPage
-            limit={limit || 10}
-            total={elementList.count}
-            onPage={(page) => setPage(page + 1)}
-          />
-        )}
+        {isExpanded &&
+          paginatorPosition === "bottom" &&
+          elementList.count > 1 && (
+            <PaginatorPage
+              limit={limit || 10}
+              total={elementList.count}
+              onPage={(page) => setPage(page + 1)}
+            />
+          )}
       </div>
     </div>
   );

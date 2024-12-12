@@ -12,6 +12,8 @@ export interface CommissionGetDto {
   groupAdminCommission: number | null;
   generalAdminCommission: number | null;
   amount: number;
+  groupAdminFullname: string;
+  teamName: string;
 }
 
 export interface SummaryCommissionGetDto {

@@ -58,6 +58,7 @@ const AllSalesForms = () => {
         <TeamFilter />
       </Filter>
       <ShowElementList
+      
         emptyElementsMessage="No se encontraron ventas"
         url={saleService.api.summaries}
         expanded={true}

@@ -1,38 +1,23 @@
-import { useQuery } from "react-query";
 import { Button } from "primereact/button";
 import { useState } from "react";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
-import PaginatorPage from "../../components/PaginatorPage";
 import SalesList from "./components/SalesList";
 import saleService from "../../services/sale-service";
 import { Dialog } from "primereact/dialog";
 import useToggle from "../../hooks/useToggle";
 import CreateSaleMenu from "./components/create-sale-menu/CreateSaleMenu";
-import { SalePaymentStatus } from "../../models/sale";
+import { SaleGetDto } from "../../models/sale";
+import ShowElementList, {
+  ShowElementListRef,
+} from "../../components/show-element-list/ShowElementList";
 
 const MyForms = () => {
   const showDialog = useToggle();
+  const saleList = useRef<ShowElementListRef>(null);
 
   const [loading] = useState(false);
   const toast = useRef<Toast>(null);
-
-  const [currentPage, setCurrentPage] = useState(0);
-
-  const { data: formsData, refetch } = useQuery({
-    queryFn: () =>
-      saleService
-        .findAll({
-          page: currentPage + 1,
-          paymentStatus: [
-            SalePaymentStatus.pending,
-            SalePaymentStatus.checking,
-          ],
-        })
-        .then((res) => res.data),
-    queryKey: ["forms", currentPage],
-    refetchOnWindowFocus: false,
-  });
 
   const handleClick = () => {
     showDialog.setTrue();
@@ -41,13 +26,7 @@ const MyForms = () => {
   return (
     <div>
       <Toast ref={toast} />
-      <PaginatorPage
-        limit={10}
-        total={formsData?.count}
-        onPage={(page) => {
-          setCurrentPage(page);
-        }}
-      />
+
       <Button
         icon="pi pi-plus"
         onClick={handleClick}
@@ -65,20 +44,29 @@ const MyForms = () => {
       >
         <CreateSaleMenu
           onSuccessCreated={() => {
-            refetch();
+            saleList.current?.refetch();
             showDialog.setFalse();
           }}
         />
       </Dialog>
-
-      <SalesList
-        sales={formsData?.forms || []}
-        onAfterDelete={() => {
-          refetch();
-        }}
-        onAferCreatingLink={() => {
-          refetch();
-        }}
+      <ShowElementList
+        paginatorPosition="top"
+        ref={saleList}
+        url={saleService.api.base}
+        queryKey="sales-data"
+        expanded={true}
+        params={{ ownership: "mine" }}
+        allElement={(sales: SaleGetDto[]) => (
+          <SalesList
+            sales={sales}
+            onAfterDelete={() => {
+              saleList.current?.refetch();
+            }}
+            onAferCreatingLink={() => {
+              saleList.current?.refetch();
+            }}
+          />
+        )}
       />
     </div>
   );
