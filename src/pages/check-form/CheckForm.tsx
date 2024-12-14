@@ -11,6 +11,10 @@ import GlobalPrintForm from "../../components/global-print-form/GlobalPrintForm"
 import FileUploader from "../../components/FileUploader";
 import { FileDocument, FileType } from "../../models/file";
 import { AxiosError } from "axios";
+import saleService from "../../services/sale-service";
+import ServiceOrCourseData from "./components/ServiceOrCourseData";
+import { Card } from "primereact/card";
+import TransactionListData from "./components/TransactionListData";
 
 const CheckForm = () => {
   const { id } = useParams();
@@ -18,6 +22,13 @@ const CheckForm = () => {
   const { data: formData, refetch: refetchForm } = useQuery({
     queryFn: () => getFormById(id as string).then((res) => res.data),
     queryKey: ["form-sales-data", id],
+    retry: 1,
+  });
+
+  const { data: saleData } = useQuery({
+    queryFn: () =>
+      saleService.findById({ formId: Number(id) }).then((res) => res.data),
+    queryKey: ["sale-data", id],
     retry: 1,
   });
 
@@ -55,7 +66,7 @@ const CheckForm = () => {
   }, [formData]);
 
   return (
-    <div className="user-form">
+    <Card className="user-form">
       <Toast ref={toast} />
       <GlobalPrintForm
         defaulEditionMode={false}
@@ -73,6 +84,8 @@ const CheckForm = () => {
         }}
       />
       <div style={{ padding: "30px" }}>
+        <ServiceOrCourseData form={saleData?.form} />
+        <TransactionListData form={formData?.form} />
         <h2>Firma</h2>
         <FileUploader
           additionalPayload={{ formId: formData?.form?.id }}
@@ -131,7 +144,7 @@ const CheckForm = () => {
           ></img>
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
 

@@ -127,7 +127,7 @@ const ShowElementList = forwardRef<
 
   return (
     <div style={style}>
-      {isExpanded && paginatorPosition === "top" && elementList.count > 1 && (
+      {isExpanded && paginatorPosition === "top" && (
         <PaginatorPage
           limit={limit || 10}
           total={elementList.count}
@@ -164,15 +164,13 @@ const ShowElementList = forwardRef<
             }}
           />
         )}
-        {isExpanded &&
-          paginatorPosition === "bottom" &&
-          elementList.count > 1 && (
-            <PaginatorPage
-              limit={limit || 10}
-              total={elementList.count}
-              onPage={(page) => setPage(page + 1)}
-            />
-          )}
+        {isExpanded && paginatorPosition === "bottom" && (
+          <PaginatorPage
+            limit={limit || 10}
+            total={elementList.count}
+            onPage={(page) => setPage(page + 1)}
+          />
+        )}
       </div>
     </div>
   );

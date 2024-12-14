@@ -134,6 +134,7 @@ const TransactionsTable = ({
           </a>
         )}
       />
+
       <Column header="Creado en" field="createdAt" />
     </DataTable>
   );

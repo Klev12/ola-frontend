@@ -16,6 +16,8 @@ export interface TransactionGetDto {
   validity: TransactionValidity;
   userFullname: string;
   userCode: string;
+  proofId?: number | null;
+  proofHash?: number | null;
 }
 
 export interface TransactionSummaryGetDto {
