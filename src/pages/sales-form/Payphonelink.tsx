@@ -48,9 +48,17 @@ const Payphonelink = () => {
         margin: "20px",
       }}
     >
-      <h2 style={{ fontSize: 50 }}>Ola Transacción</h2>
+      <h2
+        style={{
+          fontSize: 50,
+          fontFamily: "roboto",
+          color: "var(--main-color)",
+        }}
+      >
+        Ola Transacción
+      </h2>
 
-      <div>
+      <div style={{ fontFamily: "roboto" }}>
         Nota: si hay un error al momento de realizar el pago, por favor recargar
         la página.
       </div>
