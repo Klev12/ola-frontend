@@ -23,6 +23,6 @@
 
 @media (width < 600px) {
   .global-loading-overlay h2 {
-    font-size: 24px;
+    font-size: 40px;
   }
 }
