@@ -5,6 +5,7 @@ import { getFormByToken } from "../../services/forms-service";
 
 import { TransactionStatus } from "../../models/transaction";
 import ROUTES from "../../consts/routes";
+import ReloadPageButton from "../../core/components/ReloadPageButton";
 
 const Payphonelink = () => {
   const { token } = useParams();
@@ -12,7 +13,7 @@ const Payphonelink = () => {
   const { data: formData, isError } = useQuery({
     queryFn: () =>
       getFormByToken({ token: token as string }).then((res) => res.data),
-    queryKey: ["form-data", token],
+    queryKey: ["form-data-payment-data", token],
     retry: 1,
     refetchOnWindowFocus: false,
   });
@@ -44,13 +45,16 @@ const Payphonelink = () => {
         justifyContent: "center",
         alignItems: "center",
         gap: "2.5rem",
+        margin: "20px",
       }}
     >
-      <h1 style={{ fontSize: 50 }}>Ola Transacción</h1>
-      <p>
+      <h2 style={{ fontSize: 50 }}>Ola Transacción</h2>
+
+      <div>
         Nota: si hay un error al momento de realizar el pago, por favor recargar
         la página.
-      </p>
+      </div>
+      <ReloadPageButton />
       <div style={{}}>
         <PayphoneButton
           amount={Number(formData.transaction.amount)}

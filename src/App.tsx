@@ -19,6 +19,7 @@ import { lazy, Suspense } from "react";
 import GlobalLoading from "./core/components/GlobalLoading";
 import RecoverAccount from "./pages/auth/RecoverAccount";
 import CheckForm from "./pages/check-form/CheckForm";
+import PaymentRouter from "./routers/PaymentRouter";
 
 const Application = lazy(() => import("./layout/Application"));
 
@@ -35,7 +36,6 @@ const Payphonelink = lazy(() => import("./pages/sales-form/Payphonelink"));
 const PaymentTransaction = lazy(
   () => import("./pages/sales-form/PaymentTransaction")
 );
-const GlobalPayment = lazy(() => import("./pages/payment/GlobalPayment"));
 const PaypalCapture = lazy(() => import("./pages/payment/PaypalCapture"));
 
 const Training = lazy(() => import("./pages/training/Training"));
@@ -54,13 +54,20 @@ function App() {
       <>
         <Routes>
           <Route path="" element={<Navigate to={ROUTES.HOME.ME} />} />
-          <Route path={ROUTES.PAYMENT.ME} element={<GlobalPayment />} />
+          {PaymentRouter}
           <Route path={ROUTES.PAYPAL.CAPTURE} element={<PaypalCapture />} />
           <Route
             path={ROUTES.PAYPHONE.ME}
             element={<PaymentTransaction />}
           ></Route>
-          <Route path={ROUTES.PAYPHONE.LINK} element={<Payphonelink />}></Route>
+          <Route
+            path={ROUTES.PAYPHONE.LINK}
+            element={
+              <Suspense fallback={<GlobalLoading />}>
+                <Payphonelink />
+              </Suspense>
+            }
+          ></Route>
           <Route
             path=""
             element={

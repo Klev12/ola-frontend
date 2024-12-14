@@ -1,17 +1,20 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ENV } from "../../../consts/const";
+import { ProgressSpinner } from "primereact/progressspinner";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const payphone: any;
 
 interface PayphoneButtonProps {
   amount: number;
-  clientTransactionId: string;
+  clientTransactionId?: string;
 }
 
 const PayphoneButton = ({
   amount,
   clientTransactionId,
 }: PayphoneButtonProps) => {
+  const [isLoading, setIsLoading] = useState(true);
   const payphoneRef = useRef(null);
 
   useEffect(() => {
@@ -28,7 +31,7 @@ const PayphoneButton = ({
             //PARÁMETROS DE CONFIGURACIÓN
             btnHorizontal: true,
             btnCard: true,
-
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             createOrder: function (actions: any) {
               //Se ingresan los datos de la transaccion ej. monto, impuestos, etc
 
@@ -41,10 +44,11 @@ const PayphoneButton = ({
                   lang: "es",
                 })
                 .then(function (paramlog: string) {
+                  setIsLoading(false);
                   return paramlog;
                 })
                 .catch(function (paramlog2: string) {
-                  console.log(paramlog2);
+                  setIsLoading(false);
                   return paramlog2;
                 });
             },
@@ -57,7 +61,12 @@ const PayphoneButton = ({
     document.body.appendChild(script);
   }, []);
 
-  return <div id="pp-button" ref={payphoneRef}></div>;
+  return (
+    <>
+      {isLoading && <ProgressSpinner />}
+      <div id="pp-button" ref={payphoneRef}></div>
+    </>
+  );
 };
 
 export default PayphoneButton;

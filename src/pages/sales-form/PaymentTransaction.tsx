@@ -19,7 +19,7 @@ const PaymentTransaction = () => {
       }).then((res) => res.data),
     refetchInterval: 5000,
     enabled: checkStatus.value,
-    queryKey: ["transaction", query.get("clientTransactionId")],
+    queryKey: ["transaction-data-end", query.get("clientTransactionId")],
     onSuccess: (response) => {
       if (
         response.transaction.statusCode === TransactionStatus.accepted ||

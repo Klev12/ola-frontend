@@ -7,6 +7,7 @@ export interface PaypalLinkDto {
 export enum PaypalRel {
   self = "self",
   approve = "approve",
+  payerAction = "payer-action",
   update = "update",
   capture = "capture",
 }

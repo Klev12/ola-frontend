@@ -103,6 +103,12 @@ export class TransactionService {
       validity,
     });
   }
+
+  getStatusByToken({ token }: { token: string }) {
+    return axios.get<{ transaction: TransactionGetDto }>(
+      `${this.api.base}/status/${token}`
+    );
+  }
 }
 
 const transactionService = new TransactionService();
