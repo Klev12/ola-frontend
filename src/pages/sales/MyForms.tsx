@@ -7,7 +7,7 @@ import saleService from "../../services/sale-service";
 import { Dialog } from "primereact/dialog";
 import useToggle from "../../hooks/useToggle";
 import CreateSaleMenu from "./components/create-sale-menu/CreateSaleMenu";
-import { SaleGetDto } from "../../models/sale";
+import { SaleGetDto, SalePaymentStatus } from "../../models/sale";
 import ShowElementList, {
   ShowElementListRef,
 } from "../../components/show-element-list/ShowElementList";
@@ -55,7 +55,15 @@ const MyForms = () => {
         url={saleService.api.base}
         queryKey="sales-data"
         expanded={true}
-        params={{ ownership: "mine" }}
+        params={{
+          ownership: "mine",
+          values: {
+            paymentStatus: [
+              SalePaymentStatus.pending,
+              SalePaymentStatus.checking,
+            ],
+          },
+        }}
         allElement={(sales: SaleGetDto[]) => (
           <SalesList
             sales={sales}
