@@ -20,3 +20,9 @@
     color: #683ab7;
   }
 }
+
+@media (width < 600px) {
+  .global-loading-overlay h2 {
+    font-size: 24px;
+  }
+}
