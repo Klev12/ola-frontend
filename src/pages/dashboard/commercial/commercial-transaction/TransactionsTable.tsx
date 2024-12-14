@@ -9,6 +9,7 @@ import { Tag } from "primereact/tag";
 import { Button } from "primereact/button";
 import { useMutation } from "react-query";
 import transactionService from "../../../../services/transaction-service";
+import ROUTES from "../../../../consts/routes";
 
 interface TransactionsTableProps {
   transactions: TransactionGetDto[];
@@ -120,6 +121,19 @@ const TransactionsTable = ({
       />
 
       <Column header="Monto" field="amount" />
+      <Column
+        header="Link de pago"
+        body={(transaction: TransactionGetDto) => (
+          <a
+            href={`${window.location.origin}/${ROUTES.PAYMENT.TOKEN(
+              transaction.token
+            )}`}
+            target="_blank"
+          >
+            Abrir link de pago
+          </a>
+        )}
+      />
       <Column header="Creado en" field="createdAt" />
     </DataTable>
   );
