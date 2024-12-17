@@ -3,6 +3,10 @@ import axios from "../interceptors/axios-interceptor";
 import { ProofGetDto } from "../models/proof";
 
 export class ProofService {
+  readonly api = {
+    base: `${ENV.BACKEND_ROUTE}/proofs`,
+  };
+
   findAll({
     formId,
     page = 1,

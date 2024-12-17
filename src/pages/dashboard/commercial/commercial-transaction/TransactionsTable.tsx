@@ -11,6 +11,9 @@ import { useMutation } from "react-query";
 import transactionService from "../../../../services/transaction-service";
 import ROUTES from "../../../../consts/routes";
 
+import { Image } from "primereact/image";
+import multimediaService from "../../../../services/multimedia-service";
+
 interface TransactionsTableProps {
   transactions: TransactionGetDto[];
   onSuccessChangeValidity?: () => void;
@@ -45,98 +48,124 @@ const TransactionsTable = ({
   };
 
   return (
-    <DataTable value={transactions}>
-      <Column header="Código de formulario" field="formCode" />
-      <Column header="Identificador" field="id" />
-      <Column
-        header="Vendedor"
-        body={(transaction: TransactionGetDto) => (
-          <div style={{ display: "grid" }}>
-            {transaction.userFullname}
-            <Tag
-              style={{ width: "fit-content" }}
-              value={transaction.userCode}
-            />
-          </div>
-        )}
-      />
-      <Column header="Nombre de cliente" field="costumerName" />
-      <Column header="Nombre de negocio" field="businessName" />
+    <>
+      <DataTable value={transactions}>
+        <Column header="Código de formulario" field="formCode" />
+        <Column header="Identificador" field="id" />
+        <Column
+          header="Vendedor"
+          body={(transaction: TransactionGetDto) => (
+            <div style={{ display: "grid" }}>
+              {transaction.userFullname}
+              <Tag
+                style={{ width: "fit-content" }}
+                value={transaction.userCode}
+              />
+            </div>
+          )}
+        />
+        <Column header="Nombre de cliente" field="costumerName" />
+        <Column header="Nombre de negocio" field="businessName" />
 
-      <Column
-        header="Estatus"
-        field="statusCode"
-        body={(transaction: TransactionGetDto) => (
-          <Tag
-            severity={transactionStatus[transaction.statusCode].severity}
-            value={transactionStatus[transaction.statusCode].details}
-          />
-        )}
-      />
-      <Column
-        header="Validez"
-        body={(transaction: TransactionGetDto) => (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "10px",
-            }}
-          >
+        <Column
+          header="Estatus"
+          field="statusCode"
+          body={(transaction: TransactionGetDto) => (
             <Tag
-              style={{ width: "fit-content" }}
-              severity={
-                transaction.validity == TransactionValidity.valid
-                  ? "success"
-                  : "danger"
-              }
-              value={
-                transaction.validity === TransactionValidity.valid
-                  ? "Válido"
-                  : "Inválido"
-              }
+              severity={transactionStatus[transaction.statusCode].severity}
+              value={transactionStatus[transaction.statusCode].details}
             />
-            <Button
-              disabled={isLoading}
-              loading={isLoading}
-              style={{ width: "fit-content" }}
-              outlined
-              label={
-                transaction.validity === TransactionValidity.valid
-                  ? "Invalidar"
-                  : "Validar"
-              }
-              onClick={() => {
-                changeValidity({
-                  transactionId: transaction.id,
-                  validity:
-                    transaction.validity === TransactionValidity.valid
-                      ? TransactionValidity.invalid
-                      : TransactionValidity.valid,
-                });
+          )}
+        />
+        <Column
+          header="Validez"
+          body={(transaction: TransactionGetDto) => (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "10px",
               }}
-            />
-          </div>
-        )}
-      />
+            >
+              <Tag
+                style={{ width: "fit-content" }}
+                severity={
+                  transaction.validity == TransactionValidity.valid
+                    ? "success"
+                    : "danger"
+                }
+                value={
+                  transaction.validity === TransactionValidity.valid
+                    ? "Válido"
+                    : "Inválido"
+                }
+              />
+              <Button
+                disabled={isLoading}
+                loading={isLoading}
+                style={{ width: "fit-content" }}
+                outlined
+                label={
+                  transaction.validity === TransactionValidity.valid
+                    ? "Invalidar"
+                    : "Validar"
+                }
+                onClick={() => {
+                  changeValidity({
+                    transactionId: transaction.id,
+                    validity:
+                      transaction.validity === TransactionValidity.valid
+                        ? TransactionValidity.invalid
+                        : TransactionValidity.valid,
+                  });
+                }}
+              />
+            </div>
+          )}
+        />
 
-      <Column header="Monto" field="amount" />
-      <Column
-        header="Link de pago"
-        body={(transaction: TransactionGetDto) => (
-          <a
-            href={`${window.location.origin}/${ROUTES.PAYMENT.TOKEN(
-              transaction.token
-            )}`}
-            target="_blank"
-          >
-            Abrir link de pago
-          </a>
-        )}
-      />
+        <Column header="Monto" field="amount" />
+        <Column
+          header="Comprobante"
+          body={(transaction: TransactionGetDto) => (
+            <>
+              {transaction.proofId && (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: "20px",
+                  }}
+                >
+                  <Image
+                    src={`${multimediaService.api.proof}/${transaction.proofHash}`}
+                    height="100"
+                    preview
+                  />
+                  <Button label="Editar" disabled />
+                </div>
+              )}
+            </>
+          )}
+        />
+        <Column
+          header="Link de pago"
+          body={(transaction: TransactionGetDto) => (
+            <a
+              href={`${window.location.origin}/${ROUTES.PAYMENT.TOKEN(
+                transaction.token
+              )}`}
+              target="_blank"
+            >
+              Abrir link de pago
+            </a>
+          )}
+        />
 
-      <Column header="Creado en" field="createdAt" />
-    </DataTable>
+        <Column header="Creado en" field="createdAt" />
+      </DataTable>
+    </>
   );
 };
 
