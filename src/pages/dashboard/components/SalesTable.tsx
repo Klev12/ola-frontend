@@ -14,15 +14,18 @@ import {
 import { statusPayment } from "../../sales/utils/status-payment";
 import { Button } from "primereact/button";
 import { AxiosError } from "axios";
-import { useNavigate } from "react-router";
+
 import { Toast } from "primereact/toast";
 import { useRef, useState } from "react";
 import useToggle from "../../../hooks/useToggle";
 import { useMutation } from "react-query";
 import { setPaymentStatusForm } from "../../../services/forms-service";
-import { PrimeIcons } from "primereact/api";
+
 import ROUTES from "../../../consts/routes";
 import formatDate from "../../../utils/format-date";
+import { Link } from "react-router-dom";
+import { ServiceType } from "../../../models/service";
+import { PrimeIcons } from "primereact/api";
 
 interface SalesTableProps {
   sales: SalesGetDto[];
@@ -34,7 +37,6 @@ const SalesTable = ({
   confirmPaymentStatusSuccess,
 }: SalesTableProps) => {
   const toast = useRef<Toast>(null);
-  const navigate = useNavigate();
 
   const [selectedSale, setSelectedSale] = useState<SaleGetDto>();
   const showProofDialog = useToggle();
@@ -69,12 +71,53 @@ const SalesTable = ({
         <Column header="Código" field="code" />
         <Column header="Tipo" field="contractTag" />
         <Column
-          header="Completado"
+          header="Servicios"
+          body={(sale: SaleGetDto) => (
+            <>
+              {sale.serviceTitle && (
+                <>
+                  <div>
+                    <span style={{ fontWeight: "bold" }}>Servicio:</span>{" "}
+                    {sale.serviceTitle}
+                  </div>
+                  <div>
+                    <span style={{ fontWeight: "bold" }}>
+                      {sale.serviceType === ServiceType.normal
+                        ? "Subservicio: "
+                        : "Plan: "}
+                    </span>
+                    {sale.serviceOptionTitle}
+                  </div>
+                </>
+              )}
+            </>
+          )}
+        />
+        <Column header="Capacitación" field="courseTitle" />
+        <Column
+          header="Cliente"
+          body={(sale: SaleGetDto) => (
+            <>
+              <div>
+                <span className="--bold">Nombre: </span>
+                <small>{sale.customerName}</small>
+              </div>
+              <div>
+                <span className="--bold">Negocio: </span>
+                <small>{sale.businessName}</small>
+              </div>
+            </>
+          )}
+        />
+        <Column
+          header="Hecho"
           field="done"
           body={(value: FormGetDto) => (
-            <Tag
+            <Button
+              size="small"
+              rounded
               severity={value.done ? "success" : "info"}
-              value={value.done ? "Completado" : "No completo"}
+              icon={value.done ? PrimeIcons.CHECK : PrimeIcons.TIMES}
             />
           )}
         />
@@ -157,12 +200,15 @@ const SalesTable = ({
         <Column
           header="Revisar"
           body={(value: FormGetDto) => (
-            <Button
-              outlined
-              icon={PrimeIcons.EYE}
-              label="Revisar"
-              onClick={() => navigate(ROUTES.DASHBOARD.CHECK_FORM_ID(value.id))}
-            />
+            <>
+              <Link
+                to={`${window.location.origin}${ROUTES.DASHBOARD.CHECK_FORM_ID(
+                  value.id
+                )}`}
+              >
+                Revisar
+              </Link>
+            </>
           )}
         />
         <Column

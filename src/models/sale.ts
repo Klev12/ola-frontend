@@ -32,6 +32,8 @@ export interface SaleGetDto extends FormGetDto {
   serviceOptionTitle?: string | null;
   userCode?: string;
   monthCount: number;
+  customerName?: string | null;
+  businessName?: string | null;
 }
 
 export interface SalePostDto {
