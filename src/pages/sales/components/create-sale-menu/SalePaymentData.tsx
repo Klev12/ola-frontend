@@ -12,6 +12,8 @@ import BackButton from "./BackButton";
 import { translatedMembership } from "../../../../consts/translations/sale-translations";
 import { ServiceType } from "../../../../models/service";
 
+const DISCOUNT_VALUE = 80;
+
 const translatedPaymentMethodOptions: {
   [key in SalePaymentMethod]: { label: string; value: string };
 } = {
@@ -70,8 +72,8 @@ const SalePaymentData = () => {
   const [amount, setAmount] = useState(sale?.amount ?? 1);
 
   useEffect(() => {
-    if (discount > 50) {
-      setDiscount(50);
+    if (discount > DISCOUNT_VALUE) {
+      setDiscount(DISCOUNT_VALUE);
     }
   }, [discount]);
 
@@ -129,6 +131,8 @@ const SalePaymentData = () => {
       }))
       .filter((option) => option.value === SaleMemberShip.none);
   }, [sale]);
+
+  console.log(total);
 
   return (
     <div>
