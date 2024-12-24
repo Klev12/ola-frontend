@@ -226,7 +226,7 @@ const HubFormTemplate = ({
               borderCollapse: "collapse",
             }}
           >
-            Monto kjjjj
+            Monto
           </div>
         </div>
         <div
