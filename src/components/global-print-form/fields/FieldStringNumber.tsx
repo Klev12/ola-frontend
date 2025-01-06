@@ -37,7 +37,12 @@ const FieldStringNumber = ({ field, required }: FieldStringNumberProps) => {
         ) {
           setValue(e.target.value);
         } else {
-          setValue(e.target.value.match(/\d/g)?.join("").slice(0, 10) || "");
+          setValue(
+            e.target.value
+              .match(/\d/g)
+              ?.join("")
+              .slice(0, field.metadata.max) || ""
+          );
         }
       }}
     />
