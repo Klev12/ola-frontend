@@ -66,6 +66,7 @@ const WrapperSalesForm = ({ hashMode = true }: WrapperSalesFormProps) => {
     onSuccess: () => {
       isFormLoading.setFalse();
     },
+    refetchOnWindowFocus: !hashMode,
   });
 
   const { mutate: submitFormMutate } = useMutation(submitForm, {
