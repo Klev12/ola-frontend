@@ -5,7 +5,7 @@ import {
   generateFormByHash,
   getFormById,
 } from "../../../services/forms-service";
-import { FormDetails, FormGetDto } from "../../../models/forms";
+import { FormDetails, FormGetDto, FormHashAccess } from "../../../models/forms";
 import { FormScheme } from "../../../models/form-scheme";
 import { submitForm, submitFormByHash } from "../../../services/result-service";
 import { AllResultPutDto } from "../../../models/result";
@@ -85,7 +85,13 @@ const WrapperSalesForm = ({ hashMode = true }: WrapperSalesFormProps) => {
     },
 
     onError: () => {
-      setIsFormExpire(true);
+      if (formData?.form?.hashAccess === FormHashAccess.full) {
+        setIsFormExpire(true);
+      } else {
+        navigate(
+          ROUTES.GENERATE_SALES_FORM.PAYMENT_HASH(formData?.form?.hash || "")
+        );
+      }
     },
   });
 
