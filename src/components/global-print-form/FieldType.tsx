@@ -51,7 +51,8 @@ const FieldType = ({ field, required }: FieldTypeProps) => {
           disabled={!editionMode}
           onChange={(e) => {
             const text =
-              field.identifier === FieldIdentifier.email
+              field.identifier === FieldIdentifier.email ||
+              field.label.match("Correo")
                 ? e.target.value.toLowerCase()
                 : e.target.value.toUpperCase();
             setValue(text);
