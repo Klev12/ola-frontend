@@ -34,10 +34,10 @@ const FooterSignatureHubSales = ({
           alignItems: "center",
         }}
       >
-        <img src={""} height={130} />
-        <h2 style={{ fontSize: "14px" }}>OLA BUSINESS SCHOOL</h2>
-        <p>OLA BUSINESS SAS</p>
-        <div> 0190321654</div>
+        <div style={{ height: "130px" }} />
+        <h2 style={{ fontSize: "17px" }}>Gerente General</h2>
+        <p>Christian Adrian Guapisaca Cabrera</p>
+        <div> 0105862817001</div>
       </div>
       <div
         style={{

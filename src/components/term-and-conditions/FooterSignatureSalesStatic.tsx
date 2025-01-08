@@ -34,10 +34,12 @@ const FooterSignatureSalesStatic = ({
           alignItems: "center",
         }}
       >
-        <img src={""} height={130} />
-        <h5 style={{ fontSize: "14px" }}>OLA! MARKETING Y CONSULTORÍA DE NEGOCIOS</h5>
+        <div style={{ height: "130px" }} />
+        <h5 style={{ fontSize: "14px" }}>
+          OLA! MARKETING Y CONSULTORÍA DE NEGOCIOS
+        </h5>
         <p>OLA BUSINESS SAS</p>
-        <div> 0190321654</div>
+        <div> 0195142890001</div>
       </div>
       <div
         style={{

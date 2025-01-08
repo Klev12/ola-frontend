@@ -66,7 +66,7 @@ const Payment = () => {
       <Toast ref={toast} />
       {isFormExpire && (
         <div>
-          <h2>El formulario expiró</h2>
+          <h2>El formulario ya fue enviado</h2>
         </div>
       )}
       {!isFormExpire && (
