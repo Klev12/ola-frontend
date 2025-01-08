@@ -15,7 +15,7 @@ const TransactionCardPdf = ({ metadata }: TransactionCardPdfProps) => {
           alignItems: "center",
         }}
       >
-        Factura
+        Comprobante de pago
       </h2>
       {metadata?.transactions?.map((transaction) => {
         return (
