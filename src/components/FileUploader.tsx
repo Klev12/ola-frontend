@@ -157,6 +157,7 @@ const FileUploader = ({
 
       {type !== "canvas-draw" && type !== "camara" && (
         <Button
+          type="button"
           label="Subir archivos"
           disabled={files.length !== maxFiles || allFilesUploaded || disabled}
           onClick={() => {
@@ -218,6 +219,7 @@ const FileUploader = ({
       >
         {files.length > 0 && showGeneralDelete && (
           <Button
+            type="button"
             icon={PrimeIcons.TIMES}
             rounded
             onClick={() => {
@@ -254,6 +256,7 @@ const FileUploader = ({
                 />
                 {showSpecificDelete && (
                   <Button
+                    type="button"
                     disabled={disabled}
                     icon={PrimeIcons.TIMES}
                     rounded
