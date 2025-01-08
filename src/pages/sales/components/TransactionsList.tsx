@@ -35,10 +35,7 @@ const TransactionsList = ({ transactions, form }: TransactionsListProps) => {
 
   return (
     <>
-      <Button
-        label="Ver transacciones"
-        onClick={() => transactionDialog.setTrue()}
-      />
+      <Button label="Pagar" onClick={() => transactionDialog.setTrue()} />
       <Dialog
         header={`Formulario ${form?.code}`}
         draggable={false}

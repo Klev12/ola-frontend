@@ -57,7 +57,7 @@ const ConfirmSale = () => {
         {!hashMode && <GenerateSignatureLinkButton />}
         <Button
           disabled={formInfo?.block}
-          label="Confirmar venta"
+          label="Confirmar datos"
           onClick={() => dialog.setTrue()}
         />
         {pendingTransaction && formInfo?.transactions.length === 0 && (
@@ -82,7 +82,7 @@ const ConfirmSale = () => {
         onHide={() => {
           dialog.setFalse();
         }}
-        header="Confirmación de Venta"
+        header="Confirmación de datos"
         footer={
           <div>
             <Button
@@ -105,9 +105,9 @@ const ConfirmSale = () => {
         }
       >
         <p>
-          Si aceptas confirmar esta venta no podrás modificar los campos del
+          Si aceptas confirmar los datos no podrás modificar los campos del
           formulario más tarde(este paso es necesario para generar un link de
-          pago)
+          pago si es necesario)
         </p>
       </Dialog>
     </div>

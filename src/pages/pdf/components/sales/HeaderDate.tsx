@@ -91,7 +91,7 @@ const HeaderDate = ({ formDetails }: HeaderDateProps) => {
             backgroundColor: "white",
           }}
         >
-          {new Date(formDetails?.createdAt || "").getDay()}
+          {new Date(formDetails?.createdAt || "").getDate()}
         </div>
         <div
           style={{
@@ -102,7 +102,7 @@ const HeaderDate = ({ formDetails }: HeaderDateProps) => {
             backgroundColor: "white",
           }}
         >
-          {new Date(formDetails?.createdAt || "").getMonth()}
+          {new Date(formDetails?.createdAt || "").getMonth() + 1}
         </div>
         <div
           style={{

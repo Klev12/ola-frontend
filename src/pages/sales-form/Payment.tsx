@@ -82,7 +82,7 @@ const Payment = () => {
             {formInfo?.expire_hash_time && hashMode && (
               <Timer expiryTimestamp={new Date(formInfo.expire_hash_time)} />
             )}
-            <GoBackButton />
+            {!hashMode && <GoBackButton />}
             <ConfirmSale />
           </div>
         </>
