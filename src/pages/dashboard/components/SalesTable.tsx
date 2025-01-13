@@ -3,7 +3,7 @@ import { SalesGetDto } from "../../../models/sales";
 import { Column } from "primereact/column";
 import ProofList from "../../sales/components/ProofList";
 import { Dialog } from "primereact/dialog";
-import { confirmDialog, ConfirmDialog } from "primereact/confirmdialog";
+import { confirmDialog } from "primereact/confirmdialog";
 import { FormGetDto } from "../../../models/forms";
 import { Tag } from "primereact/tag";
 import {
@@ -26,19 +26,27 @@ import formatDate from "../../../utils/format-date";
 import { Link } from "react-router-dom";
 import { ServiceType } from "../../../models/service";
 import { PrimeIcons } from "primereact/api";
+import useGlobalState from "../../../store/store";
+import { Roles } from "../../../models/user";
+import saleService from "../../../services/sale-service";
 
 interface SalesTableProps {
   sales: SalesGetDto[];
   confirmPaymentStatusSuccess?: () => void;
+  onAfterDelete?: () => void;
 }
 
 const SalesTable = ({
   sales,
   confirmPaymentStatusSuccess,
+  onAfterDelete,
 }: SalesTableProps) => {
+  const authenticatedUser = useGlobalState((state) => state.user);
+
   const toast = useRef<Toast>(null);
 
   const [selectedSale, setSelectedSale] = useState<SaleGetDto>();
+
   const showProofDialog = useToggle();
 
   const { mutate: setPaymentStatusFormMutate } = useMutation(
@@ -65,9 +73,40 @@ const SalesTable = ({
     }
   );
 
+  const { mutate: deleteById, isLoading: isDeleting } = useMutation(
+    saleService.markAsDeleted,
+    {
+      onSuccess: onAfterDelete,
+    }
+  );
+
   return (
     <>
       <DataTable value={sales} emptyMessage="No hay formularios de ventas">
+        {authenticatedUser?.role === Roles.admin && (
+          <Column
+            header=""
+            body={(sale: SaleGetDto) => (
+              <Button
+                severity="danger"
+                loading={isDeleting}
+                disabled={isDeleting}
+                rounded
+                icon={PrimeIcons.TRASH}
+                onClick={() => {
+                  confirmDialog({
+                    header: sale.code,
+                    acceptLabel: "Aceptar",
+                    message: `¿Desea eliminar la venta?`,
+                    accept: () => {
+                      deleteById({ saleId: sale.id });
+                    },
+                  });
+                }}
+              />
+            )}
+          />
+        )}
         <Column header="Código" field="code" />
         <Column header="Tipo" field="contractTag" />
         <Column
@@ -217,7 +256,7 @@ const SalesTable = ({
           body={(value: FormGetDto) => <div>{formatDate(value.createdAt)}</div>}
         />
       </DataTable>
-      <ConfirmDialog style={{ width: "300px" }} draggable={false} />
+
       <Dialog
         header={selectedSale?.code}
         className="global-dialog"

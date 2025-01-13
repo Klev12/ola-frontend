@@ -12,9 +12,11 @@ import { Column } from "primereact/column";
 import { numberMonth } from "../../consts/translations/number-month";
 import UserFilter from "../../components/show-element-list/filters/UserFilter";
 import TeamFilter from "../../components/show-element-list/filters/TeamFilter";
+import { ConfirmDialog } from "primereact/confirmdialog";
 
 const AllSalesForms = () => {
   const saleList = useRef<ShowElementListRef>(null);
+  const saleSummaryList = useRef<ShowElementListRef>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [params, setParams] = useState<any>({});
 
@@ -58,7 +60,7 @@ const AllSalesForms = () => {
         <TeamFilter />
       </Filter>
       <ShowElementList
-      
+        ref={saleSummaryList}
         emptyElementsMessage="No se encontraron ventas"
         url={saleService.api.summaries}
         expanded={true}
@@ -101,6 +103,10 @@ const AllSalesForms = () => {
                       confirmPaymentStatusSuccess={() =>
                         saleList.current?.refetch()
                       }
+                      onAfterDelete={() => {
+                        saleList.current?.refetch();
+                        saleSummaryList.current?.refetch();
+                      }}
                     />
                   )}
                 />
@@ -109,6 +115,7 @@ const AllSalesForms = () => {
           );
         }}
       />
+      <ConfirmDialog style={{ width: "300px" }} draggable={false} />
     </div>
   );
 };

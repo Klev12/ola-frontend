@@ -75,6 +75,12 @@ export class SaleService {
   }) {
     return axios.post(`${ENV.BACKEND_ROUTE}/forms/sales/service`, sale);
   }
+
+  async markAsDeleted({ saleId }: { saleId: number }) {
+    return axios.patch(`${ENV.BACKEND_ROUTE}/forms/sales/mark-as-deleted`, {
+      formId: saleId,
+    });
+  }
 }
 
 const saleService = new SaleService();
