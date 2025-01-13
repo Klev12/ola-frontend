@@ -28,7 +28,7 @@ const ConfirmSale = () => {
       onSuccess: (response) => {
         isLoadingVerification.setFalse();
         toast.current?.show({
-          summary: "La venta ha sido confirmada",
+          summary: "Los datos han sido confirmada",
           severity: "success",
         });
         isFormBlocked.setTrue();

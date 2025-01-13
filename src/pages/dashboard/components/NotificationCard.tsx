@@ -156,17 +156,18 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
           </Link>
         </>
       )}
-      {notification.type === NotificationType.transactionCompleted && (
-        <>
-          <Link
-            to={ROUTES.DASHBOARD.CHECK_FORM_ID(
-              notification.metadata.formId as number
-            )}
-          >
-            Revisar formulario
-          </Link>
-        </>
-      )}
+      {notification.type === NotificationType.transactionCompleted ||
+        (notification.type === NotificationType.formComplete && (
+          <>
+            <Link
+              to={ROUTES.DASHBOARD.CHECK_FORM_ID(
+                notification.metadata.formId as number
+              )}
+            >
+              Revisar formulario
+            </Link>
+          </>
+        ))}
     </Card>
   );
 };

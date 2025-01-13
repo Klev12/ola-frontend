@@ -175,6 +175,8 @@ const CreateSaleAndProof = () => {
             deleteUrl=""
             maxFiles={1}
             type="image"
+            accept=".jpeg, .png"
+            showSpecificDelete={false}
             onAfterUpload={() => {
               if (onQuerySuccess) onQuerySuccess();
             }}

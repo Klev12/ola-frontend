@@ -19,5 +19,6 @@ export enum NotificationType {
   verifyUser = "verify-user",
   newTransaction = "new-transaction",
   transactionCompleted = "transaction-completed",
-  regulationSeen = "regulation-seen"
+  regulationSeen = "regulation-seen",
+  formComplete = "form-complete",
 }
