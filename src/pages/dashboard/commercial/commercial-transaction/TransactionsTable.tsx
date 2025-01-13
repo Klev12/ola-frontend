@@ -143,7 +143,6 @@ const TransactionsTable = ({
                     height="100"
                     preview
                   />
-                  <Button label="Editar" disabled />
                 </div>
               )}
             </>

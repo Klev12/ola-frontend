@@ -2,7 +2,8 @@ import { useQuery } from "react-query";
 import proofService from "../../../services/proof-service";
 import { useState } from "react";
 import PaginatorPage from "../../../components/PaginatorPage";
-import { ENV } from "../../../consts/const";
+
+import ProofElementMenu from "../../../core/components/ProofElementMenu";
 
 interface ProofListProps {
   formId?: number;
@@ -11,20 +12,23 @@ interface ProofListProps {
 const ProofList = ({ formId }: ProofListProps) => {
   const [page, setPage] = useState(1);
 
-  const { data: proofsData } = useQuery({
+  const { data: proofsData, refetch: refetchProofList } = useQuery({
     queryFn: () =>
       proofService.findAll({ formId, page }).then((res) => res.data),
     queryKey: ["proofs", formId, page],
   });
 
   return (
-    <div>
+    <div style={{ width: "300px" }}>
       {proofsData?.proofs.map((proof) => {
         return (
-          <img
-            src={`${ENV.BACKEND_ROUTE}/multimedia/proofs/${proof.hash}`}
-            style={{ width: "300px" }}
-          ></img>
+          <ProofElementMenu
+            key={proof.id}
+            proof={proof}
+            onSuccessUpload={() => {
+              refetchProofList();
+            }}
+          />
         );
       })}
       <PaginatorPage
