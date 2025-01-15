@@ -6,7 +6,7 @@ interface TimerProps {
 }
 
 export default function Timer({ expiryTimestamp, onExpireFn }: TimerProps) {
-  const { seconds, minutes } = useTimer({
+  const { seconds, minutes,hours } = useTimer({
     expiryTimestamp,
   });
 
@@ -21,7 +21,7 @@ export default function Timer({ expiryTimestamp, onExpireFn }: TimerProps) {
       <span>
         Tiempo restante:{" "}
         <span style={{ fontWeight: "bold" }}>
-          {minutes}:{seconds}
+          {hours}:{minutes}:{seconds}
         </span>
       </span>
     </div>
