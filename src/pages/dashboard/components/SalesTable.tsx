@@ -82,6 +82,7 @@ const SalesTable = ({
 
   return (
     <>
+      <Toast ref={toast} />
       <DataTable value={sales} emptyMessage="No hay formularios de ventas">
         {authenticatedUser?.role === Roles.admin && (
           <Column
@@ -212,9 +213,11 @@ const SalesTable = ({
               }}
             >
               <div>{sale.paymentMethod}</div>
-              {[SalePaymentMethod.POS, SalePaymentMethod.transference].includes(
-                sale.paymentMethod as SalePaymentMethod
-              ) && (
+              {[
+                SalePaymentMethod.POS,
+                SalePaymentMethod.transference,
+                SalePaymentMethod.cheque,
+              ].includes(sale.paymentMethod as SalePaymentMethod) && (
                 <Button
                   severity="success"
                   label="Comprobante"

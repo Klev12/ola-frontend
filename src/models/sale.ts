@@ -54,6 +54,7 @@ export enum SalePaymentMethod {
   transference = "transference",
   POS = "POS",
   app = "app",
+  cheque = "cheque",
 }
 
 export enum SaleCommercialCost {

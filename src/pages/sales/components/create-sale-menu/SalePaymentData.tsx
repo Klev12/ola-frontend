@@ -29,6 +29,10 @@ const translatedPaymentMethodOptions: {
     label: "POS",
     value: SalePaymentMethod.POS,
   },
+  [SalePaymentMethod.cheque]: {
+    label: "Cheque",
+    value: SalePaymentMethod.cheque,
+  },
 };
 
 const translatedCommercialCostOptions: {
@@ -131,8 +135,6 @@ const SalePaymentData = () => {
       }))
       .filter((option) => option.value === SaleMemberShip.none);
   }, [sale]);
-
-  console.log(total);
 
   return (
     <div>

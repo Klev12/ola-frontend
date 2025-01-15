@@ -24,4 +24,5 @@ export const translatedPaymentMethod: { [key in SalePaymentMethod]: string } = {
   app: "Pago en línea",
   POS: "POS",
   transference: "Deposito o transferencia",
+  cheque: "Cheque",
 };
