@@ -15,6 +15,10 @@ interface TransactionListDataProps {
 const TransactionListData = ({ form }: TransactionListDataProps) => {
   const transactionList = useRef<ShowElementListRef>(null);
 
+  if (!form) {
+    return null;
+  }
+
   return (
     <div>
       <h2>Transacción</h2>
