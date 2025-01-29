@@ -49,7 +49,7 @@ const CanvasDrawUploader = ({
         canvasHeight={250}
         hideGrid
         brushColor="black"
-        brushRadius={3}
+        brushRadius={2}
       />
       <div style={{ display: "flex", gap: "20px" }}>
         <Button
