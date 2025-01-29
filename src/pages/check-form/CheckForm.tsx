@@ -15,6 +15,7 @@ import saleService from "../../services/sale-service";
 import ServiceOrCourseData from "./components/ServiceOrCourseData";
 import { Card } from "primereact/card";
 import TransactionListData from "./components/TransactionListData";
+import MenuFormEditor from "./components/MenuFormEditor";
 
 const CheckForm = () => {
   const { id } = useParams();
@@ -85,6 +86,7 @@ const CheckForm = () => {
       />
       <div style={{ padding: "30px" }}>
         <ServiceOrCourseData form={saleData?.form} />
+        <MenuFormEditor formInfo={saleData?.form} />
         <TransactionListData form={formData?.form} />
         <h2>Firma</h2>
         <FileUploader

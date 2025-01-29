@@ -12,8 +12,11 @@ export class ServiceScheme {
   }
 
   patch(obj?: unknown) {
-    console.log(this);
     return axios.patch(this.api, obj);
+  }
+
+  put(obj?: unknown) {
+    return axios.put(this.api, obj);
   }
 
   deleteById(id: number) {

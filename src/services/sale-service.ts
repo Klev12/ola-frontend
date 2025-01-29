@@ -15,6 +15,7 @@ export class SaleService {
   readonly api = {
     base: `${ENV.BACKEND_ROUTE}/forms/sales`,
     summaries: `${ENV.BACKEND_ROUTE}/forms/sales/summaries`,
+    partialUpdate: `${ENV.BACKEND_ROUTE}/sales`,
   };
 
   findAll({

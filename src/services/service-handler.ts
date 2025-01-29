@@ -4,6 +4,10 @@ import { PaginationOptions } from "../models/pagination-options";
 import { ServiceGetDto, ServicePostDto } from "../models/service";
 
 export class ServiceHandler {
+  readonly api = {
+    base: `${ENV.BACKEND_ROUTE}/services`,
+  };
+
   findAll({
     options = { limit: 10, page: 1 },
   }: {
