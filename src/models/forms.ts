@@ -3,7 +3,6 @@ import { FileGetDto } from "./file";
 import { FormCourseGetDto } from "./form-course";
 import { FormServiceGetDto } from "./form-service";
 import { PaymentGetDto } from "./payment";
-import { SaleCommercialCost } from "./sale";
 import { TermAndConditionsGetDto } from "./term-and-conditions";
 import { TransactionGetDto } from "./transaction";
 import { UserGetDto } from "./user";
@@ -52,8 +51,6 @@ export interface FormGetDto {
   user?: UserGetDto;
   form_course?: FormCourseGetDto;
   form_service?: FormServiceGetDto;
-  saleId: number;
-  commercialCost: SaleCommercialCost;
 }
 
 export interface GenerateLinkPostDto {
