@@ -32,9 +32,9 @@ const AllForms = () => {
         <TabPanel header="Formularios de Usuarios">
           <Outlet />
         </TabPanel>
-        <TabPanel header="Formularios de Ventas">
+        {/* <TabPanel header="Formularios de Ventas">
           <Outlet />
-        </TabPanel>
+        </TabPanel> */}
       </TabView>
     </>
   );

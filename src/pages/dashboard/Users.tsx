@@ -55,7 +55,7 @@ const Users = () => {
         }}
       />
       {isLoadingUsers && <ProgressSpinner />}
-      <div style={{ display: "grid", gap: "20px", marginTop: "20px" }}>
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-7">
         {userData?.data.users.map((user, index) => {
           return (
             <div key={index}>

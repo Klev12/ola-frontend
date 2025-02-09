@@ -14,6 +14,7 @@ import { Button } from "primereact/button";
 import { AxiosError } from "axios";
 import FileUploader from "../../components/FileUploader";
 import { FileDocument } from "../../models/file";
+import GenerateSignature from "./components/GenerateSignature";
 
 interface CheckUserFormProps {
   normalMode?: boolean;
@@ -219,6 +220,7 @@ const CheckUserForm = ({ normalMode = false }: CheckUserFormProps) => {
             findUserByIdMutate(formData?.user_form?.user_id as number);
           }}
         />
+        <GenerateSignature formInfo={formData?.form || formData?.user_form} />
 
         <div className="images">
           {userData?.data.user.multimedias.map((file) => {

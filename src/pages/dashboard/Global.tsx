@@ -55,15 +55,15 @@ const Global = () => {
             });
           },
         },
-        {
-          label: "Ventas",
-          command: () => {
-            navigate({
-              pathname: ROUTES.DASHBOARD.GLOBAL_TERMS_AND_CONDITIONS,
-              search: `?type=${TermAndConditionsType.salesForm}`,
-            });
-          },
-        },
+        // {
+        //   label: "Ventas",
+        //   command: () => {
+        //     navigate({
+        //       pathname: ROUTES.DASHBOARD.GLOBAL_TERMS_AND_CONDITIONS,
+        //       search: `?type=${TermAndConditionsType.salesForm}`,
+        //     });
+        //   },
+        // },
       ],
     },
     {

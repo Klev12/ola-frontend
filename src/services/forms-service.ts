@@ -67,10 +67,15 @@ export function getFormById(id: string | number) {
 }
 
 export function generateLink(form: GenerateLinkPostDto) {
-  return axios.post(`${ENV.BACKEND_ROUTE}/forms/generate-link`, {
-    formId: form.id,
-    hashAccess: form.hashAccess,
-  });
+  return axios
+    .post<{ form: { id: number; hash: string } }>(
+      `${ENV.BACKEND_ROUTE}/forms/generate-link`,
+      {
+        formId: form.id,
+        hashAccess: form.hashAccess,
+      }
+    )
+    .then((res) => res.data);
 }
 
 export function invalidateLink(form: InvalidateLinkPostDto) {

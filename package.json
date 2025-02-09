@@ -10,9 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.0.5",
     "@types/react-canvas-draw": "^1.2.3",
     "@types/uuid": "^10.0.0",
     "axios": "^1.6.8",
+    "lucide-react": "^0.475.0",
     "primeicons": "^7.0.0",
     "primereact": "^10.6.5",
     "quill": "^2.0.2",
@@ -23,6 +25,7 @@
     "react-router": "^6.23.1",
     "react-router-dom": "^6.23.1",
     "react-timer-hook": "^3.0.8",
+    "tailwindcss": "^4.0.5",
     "uuid": "^10.0.0",
     "zustand": "4.5.2"
   },

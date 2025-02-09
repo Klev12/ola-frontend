@@ -1,22 +1,19 @@
 import { Column } from "primereact/column";
 import { FormGetDto } from "../../models/forms";
-import { PrimeIcons } from "primereact/api";
-import { Button } from "primereact/button";
 import { Tag } from "primereact/tag";
 import { DataTable } from "primereact/datatable";
 import SearchInput from "../../components/SearchInput";
 import { getAllForms } from "../../services/forms-service";
 import { useQuery } from "react-query";
-import { useNavigate } from "react-router";
 import { useState } from "react";
 import ROUTES from "../../consts/routes";
 import PaginatorPage from "../../components/PaginatorPage";
 import formatDate from "../../utils/format-date";
+import { Link } from "react-router-dom";
 
 const AllUserForms = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [keyword, setKeyword] = useState<string | undefined>(undefined);
-  const navigate = useNavigate();
 
   const { data: salesFormData } = useQuery({
     queryFn: () =>
@@ -56,13 +53,9 @@ const AllUserForms = () => {
         <Column
           header="Revisar"
           body={(value: FormGetDto) => (
-            <Button
-              icon={PrimeIcons.EYE}
-              label="Revisar"
-              onClick={() =>
-                navigate(ROUTES.DASHBOARD.CHECK_USER_FORM_ID(value.user_id))
-              }
-            />
+            <Link to={ROUTES.DASHBOARD.CHECK_USER_FORM_ID(value.user_id)}>
+              Revisar
+            </Link>
           )}
         />
         <Column
