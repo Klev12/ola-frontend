@@ -72,7 +72,7 @@ const AllSalesForms = () => {
         ) => {
           return (
             <>
-              <h2>
+              <h2 className="subtitle">
                 {numberMonth[summary.month]} {summary.year}
               </h2>
               <DataTable value={[summary]}>

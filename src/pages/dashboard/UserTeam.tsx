@@ -91,17 +91,14 @@ const UserTeam = () => {
             />
           </form>
         </Dialog>
-        <div className="card xl:flex xl:justify-content-center">
+        <div className="">
           {teamsData?.teams?.map((team) => {
             return (
-              <div
-                key={team.id}
-                className="flex flex-wrap p-2 align-items-center gap-3"
-              >
-                <div className="flex-1 flex flex-column gap-2 xl:mr-8">
+              <div key={team.id} className="">
+                <div className="">
                   <p className="font-bold">{team.name}</p>
                   <Tag value={team.area} />
-                  <div className="flex align-items-center gap-2">
+                  <div className="">
                     <Button
                       label="Añadir usuarios"
                       outlined

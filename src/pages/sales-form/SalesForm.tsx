@@ -163,7 +163,7 @@ const SalesForm = () => {
                 <div>
                   {hashMode ? (
                     <>
-                      <h2>Firma</h2>
+                      <h2 className="subtitle">Firma</h2>
                       <FileUploader
                         disabled={formInfo?.done}
                         additionalPayload={{ formId: formInfo?.id }}
@@ -202,7 +202,7 @@ const SalesForm = () => {
                       src={`${ENV.BACKEND_ROUTE}/multimedia/${formInfo.signature}`}
                     ></img>
                   )}
-                  <h2>Imágenes de cédula (opcional)</h2>
+                  <h2 className="subtitle">Imágenes de cédula (opcional)</h2>
                   <FileUploader
                     disabled={formInfo?.done}
                     noIdentifier={true}
@@ -233,7 +233,7 @@ const SalesForm = () => {
                       }
                     }}
                   />
-                  <h2>Foto del cliente (opcional)</h2>
+                  <h2 className="subtitle">Foto del cliente (opcional)</h2>
                   <FileUploader
                     disabled={formInfo?.done}
                     noIdentifier={true}

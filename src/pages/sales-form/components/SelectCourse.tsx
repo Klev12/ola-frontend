@@ -21,9 +21,9 @@ const SelectCourse = () => {
 
   return (
     <div>
-      <h2>Tipo de capacitación</h2>
+      <h2 className="subtitle">Tipo de capacitación</h2>
       <div>
-        <h2>{currentCourse?.title}</h2>
+        <h2 className="font-bold">{currentCourse?.title}</h2>
         <p>{currentCourse?.description}</p>
       </div>
     </div>

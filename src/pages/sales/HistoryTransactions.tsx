@@ -41,7 +41,7 @@ const HistoryTransactions = () => {
         expanded={true}
         eachElement={(transactionSummary: TransactionSummaryGetDto) => (
           <>
-            <h2>
+            <h2 className="subtitle">
               {numberMonth[transactionSummary.month]} {transactionSummary.year}
             </h2>
             <DataTable value={[transactionSummary]}>

@@ -65,7 +65,7 @@ const CommercialTransactions = () => {
         url={transactionService.api.summaries}
         eachElement={(transactionSummary: TransactionSummaryGetDto) => (
           <>
-            <h2>
+            <h2 className="subtitle mt-6">
               {numberMonth[transactionSummary.month]} {transactionSummary.year}
             </h2>
             <DataTable value={[transactionSummary]}>

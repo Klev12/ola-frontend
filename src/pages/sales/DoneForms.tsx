@@ -51,7 +51,7 @@ const DoneForms = ({ lastMonth = false }: DoneFormsProps) => {
 
           return (
             <>
-              <h2>
+              <h2 className="subtitle">
                 {numberMonth[sale.month]} {sale.year}
               </h2>
               <DataTable

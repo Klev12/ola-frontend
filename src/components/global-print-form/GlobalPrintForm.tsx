@@ -122,7 +122,7 @@ const GlobalPrintForm = ({
         {formInfo && (
           <div style={{ padding: "30px", paddingTop: "100px" }}>
             <div>
-              <h1>Formulario {formInfo?.code}</h1>
+              <h1 className="title">Formulario {formInfo?.code}</h1>
               <span>Creado en {formatDate(formInfo?.createdAt || "")}</span>
             </div>
             {formScheme?.form_groups.map((formGroup) => {
@@ -131,7 +131,7 @@ const GlobalPrintForm = ({
               if (field?.metadata?.type === "boolean") {
                 return (
                   <div key={formGroup.id}>
-                    <h2>{formGroup.label}</h2>
+                    <h2 className="subtitle">{formGroup.label}</h2>
                     <DependentFormGroup formGroup={formGroup} />
                   </div>
                 );
@@ -139,7 +139,7 @@ const GlobalPrintForm = ({
 
               return (
                 <div key={formGroup.id}>
-                  <h2>{formGroup.label}</h2>
+                  <h2 className="subtitle">{formGroup.label}</h2>
                   <FieldListType fields={formGroup.fields} />
                 </div>
               );

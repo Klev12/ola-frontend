@@ -85,7 +85,7 @@ const SelectServiceList = ({ onSelect }: SelectServiceListProps) => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-      <h3>Servicios</h3>
+      <h3 className="font-bold">Servicios</h3>
       <Dropdown
         required
         loading={isRefetchingServices || isRefetchingOptions}

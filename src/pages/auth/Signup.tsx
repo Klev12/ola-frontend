@@ -115,7 +115,7 @@ const Signup: React.FC = () => {
     <div className="signup-wrapper">
       <div className="signup-container">
         <form className="signup-form" onSubmit={handleSubmit}>
-          <h2>
+          <h2 className="subtitle">
             Registro{" "}
             {code &&
               !isLoadingCollaboratorData &&

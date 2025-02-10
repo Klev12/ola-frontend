@@ -58,7 +58,7 @@ const RecoverAccount = () => {
           }}
         >
           <GoBackButton />
-          <h2>Recupera tu cuenta</h2>
+          <h2 className="subtitle">Recupera tu cuenta</h2>
           <label>Coloca tu email:</label>
           <InputText
             placeholder="Email"

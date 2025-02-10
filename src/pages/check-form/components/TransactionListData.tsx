@@ -21,7 +21,7 @@ const TransactionListData = ({ form }: TransactionListDataProps) => {
 
   return (
     <div>
-      <h2>Transacción</h2>
+      <h2 className="subtitle">Transacción</h2>
       <ShowElementList
         ref={transactionList}
         url={transactionService.api.base}

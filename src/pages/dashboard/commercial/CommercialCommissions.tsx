@@ -34,7 +34,7 @@ const CommercialCommissions = () => {
         params={{ values: { ...params } }}
         eachElement={(commissionSummary: SummaryCommissionGetDto) => (
           <>
-            <h2>
+            <h2 className="subtitle mt-5">
               {numberMonth[commissionSummary.month]} {commissionSummary.year}
             </h2>
             <DataTable value={[commissionSummary]}>

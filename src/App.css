@@ -1,7 +1,16 @@
+@import "tailwindcss";
+
 root {
   --globalColor: #9a0e7c;
 }
 
 #root {
   --main-color: #673ab7;
+}
+
+.title {
+  @apply text-3xl font-bold;
+}
+.subtitle {
+  @apply text-2xl font-bold mt-5 mb-5;
 }

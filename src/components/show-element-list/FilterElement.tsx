@@ -88,7 +88,7 @@ function FilterElement<T>({
           justifyContent: "space-between",
         }}
       >
-        <h3>Filtrar por</h3>
+        <h3 className="font-bold">Filtrar por</h3>
 
         {showRemoveAllFilters && (
           <Button

@@ -68,7 +68,7 @@ const SelectContractType = ({ formId }: SelectContractTypeProps) => {
             disabled
           />
         </div>
-        <h2>
+        <h2 className="subtitle">
           {contractData?.contracts?.find(
             (contract) => contract.id === selectedContract
           )?.title || ""}

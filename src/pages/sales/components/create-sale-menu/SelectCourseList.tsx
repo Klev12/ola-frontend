@@ -32,7 +32,7 @@ const SelectCourseList = ({ onSelect }: SelectCourseListProps) => {
 
   return (
     <div>
-      <h3>Capacitaciones</h3>
+      <h3 className="font-bold">Capacitaciones</h3>
       <form
         onSubmit={(e) => {
           e.preventDefault();

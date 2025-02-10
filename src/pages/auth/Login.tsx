@@ -46,7 +46,7 @@ const Login = () => {
   return (
     <div className="login-wrapper">
       <div className="login-container">
-        <h2>Iniciar sesión</h2>
+        <h2 className="subtitle">Iniciar sesión</h2>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <form className="login-form" onSubmit={handleSubmit}>
           <label htmlFor="username">Correo electrónico:</label>

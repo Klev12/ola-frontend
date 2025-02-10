@@ -40,22 +40,22 @@ const CreateSaleAndProof = () => {
     <div>
       <div>
         <BackButton />
-        <h2>{sale?.contract?.tag}</h2>
+        <h2 className="subtitle">{sale?.contract?.tag}</h2>
         {sale?.contract?.id === ContractIds.ola && (
           <>
-            <h3>Servicio</h3>
+            <h3 className="font-bold">Servicio</h3>
             <div>{sale.service?.title}</div>
-            <h4>Subservicio</h4>
+            <h4 className="font-bold">Subservicio</h4>
             <div>{sale.serviceOption?.title}</div>
           </>
         )}
         {sale?.contract?.id === ContractIds.projectHub && (
           <>
-            <h3>Capacitación</h3>
+            <h3 className="font-bold">Capacitación</h3>
             <div>{sale.course?.title}</div>
           </>
         )}
-        <h3>Modalidad</h3>
+        <h3 className="font-bold">Modalidad</h3>
         <div>
           {
             translatedCommercialCost[
@@ -63,12 +63,12 @@ const CreateSaleAndProof = () => {
             ]
           }
         </div>
-        <h3>Membresía</h3>
+        <h3 className="font-bold">Membresía</h3>
         <div>
           {translatedMembership[sale?.membership ?? SaleMemberShip.none]}
         </div>
 
-        <h3>Tipo de pago</h3>
+        <h3 className="font-bold">Tipo de pago</h3>
         <div>
           {
             translatedPaymentMethod[
@@ -76,7 +76,7 @@ const CreateSaleAndProof = () => {
             ]
           }
         </div>
-        <h3>Datos de pago</h3>
+        <h3 className="subtitle">Datos de pago</h3>
         <DataTable
           value={[
             {

@@ -41,9 +41,9 @@ const SelectService = () => {
 
   return (
     <div>
-      <h2>Servicio</h2>
+      <h2 className="subtitle">Servicio</h2>
       <div>{saleService.service?.title}</div>
-      <h3>
+      <h3 className="subtitle">
         {saleService.service?.type === ServiceType.normal ? "Opción" : "Plan"}
       </h3>
       <div>{saleService.option?.title}</div>

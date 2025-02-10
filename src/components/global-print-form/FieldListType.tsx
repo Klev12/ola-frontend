@@ -49,7 +49,9 @@ const FieldListType = ({ fields }: FieldListTypeProps) => {
               marginBottom: "20px",
             }}
           >
-            <label htmlFor="">{field.label}: </label>
+            <label htmlFor="" className="">
+              {field.label}:{" "}
+            </label>
             <small>{field.required && "campo obligatorio*"}</small>
             <FieldType field={field} />
           </div>
