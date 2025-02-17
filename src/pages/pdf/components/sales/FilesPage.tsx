@@ -25,7 +25,7 @@ const FilesPage = ({ metadata }: FilesPageProps) => {
                   <img
                     src={`${ENV.BACKEND_ROUTE}/multimedia/${card.hash}`}
                     alt={card.type}
-                    height={130}
+                    height={200}
                   />
                 </div>
               );
