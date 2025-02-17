@@ -22,6 +22,7 @@ import {
 } from "../../../consts/translations/sale-translations";
 import AdditionalDataSale from "./sales/AdditionalDataSale";
 import TransactionCardPdf from "./transaction/TransactionCardPdf";
+import FilesPage from "./sales/FilesPage";
 
 interface SalesFormTemplateProps {
   onLoadHtml?: (html: string) => void;
@@ -342,6 +343,7 @@ const SalesFormTemplate = ({
           sellerMetadata={userData?.metadata}
         />
       </div>
+      <FilesPage metadata={metadata} />
       {/* <div style={{ breakInside: "avoid" }}>
         <h2>{saleInfo?.term_and_condition?.title}</h2>
         <div

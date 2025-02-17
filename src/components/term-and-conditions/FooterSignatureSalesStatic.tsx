@@ -21,17 +21,20 @@ const FooterSignatureSalesStatic = ({
       style={{
         ...style,
         display: "flex",
-        justifyContent: "space-around",
+        flexDirection: "column-reverse",
+        justifyContent: "space-between",
         marginTop: "80px",
+        pageBreakBefore: "always",
+        height: "100vh",
       }}
     >
       <div
         style={{
-          display: "grid",
-          gridTemplateRows: "130px 50px 50px 50px",
-          textAlign: "center",
-          justifyItems: "center",
+          display: "flex",
+          flexDirection: "column",
           alignItems: "center",
+          position: "relative",
+          bottom: 0,
         }}
       >
         <div style={{ height: "130px" }} />
