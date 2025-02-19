@@ -49,7 +49,7 @@ const CanvasDrawUploader = ({
         canvasHeight={250}
         hideGrid
         brushColor="black"
-        brushRadius={2}
+        brushRadius={0.5}
         lazyRadius={0}
       />
       <div style={{ display: "flex", gap: "20px" }}>

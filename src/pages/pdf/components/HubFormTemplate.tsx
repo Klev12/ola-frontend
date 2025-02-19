@@ -19,7 +19,7 @@ import FooterSignatureHubSales from "../../../components/term-and-conditions/Foo
 import AdditionalDataSale from "./sales/AdditionalDataSale";
 import TransactionCardPdf from "./transaction/TransactionCardPdf";
 import { ENV, ResourceAssets } from "../../../consts/const";
-import FileImageListPdf from "./footer/FileImageListPdf";
+import FilesPage from "./sales/FilesPage";
 
 interface HubFormTemplateProps {
   saleInfo?: SaleGetDto;
@@ -324,7 +324,8 @@ const HubFormTemplate = ({
         />
       </div>
       <div>
-        <FileImageListPdf metadata={metadata} />
+        {/* <FileImageListPdf metadata={metadata} /> */}
+        <FilesPage metadata={metadata} />
       </div>
     </div>
   );

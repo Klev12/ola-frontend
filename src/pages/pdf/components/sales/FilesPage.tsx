@@ -21,7 +21,7 @@ const FilesPage = ({ metadata }: FilesPageProps) => {
           <div style={{ display: "flex", justifyContent: "space-around" }}>
             {cardIdImages?.map((card) => {
               return (
-                <div>
+                <div key={card.id}>
                   <img
                     src={`${ENV.BACKEND_ROUTE}/multimedia/${card.hash}`}
                     alt={card.type}

@@ -23,7 +23,7 @@ const Global = () => {
       style: { background: "red" },
       items: [
         {
-          label: "Usuarios",
+          label: "Colaboradores",
           command: () => {
             navigate({
               pathname: ROUTES.DASHBOARD.GLOBAL_CONTRACTS,
@@ -32,7 +32,7 @@ const Global = () => {
           },
         },
         {
-          label: "Ventas",
+          label: "Clientes",
           command: () => {
             navigate({
               pathname: ROUTES.DASHBOARD.GLOBAL_CONTRACTS,
@@ -47,7 +47,7 @@ const Global = () => {
       icon: "pi pi-box",
       items: [
         {
-          label: "Usuarios",
+          label: "Colaboradores",
           command: () => {
             navigate({
               pathname: ROUTES.DASHBOARD.GLOBAL_TERMS_AND_CONDITIONS,
